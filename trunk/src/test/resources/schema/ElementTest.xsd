@@ -1,0 +1,22 @@
+<s:schema elementFormDefault="qualified" targetNamespace="http://predic8.com"
+  xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns="http://predic8.com">
+  <s:element name="Text" type="s:string" />
+  <s:element name="Farbauswahl" type="FarbType" />
+  <s:element name="compTypeRef" type="compType" />
+  <s:element name="datum" type="s:dateTime" minOccurs="0">
+    <s:annotation>
+      <s:documentation>Docu</s:documentation>
+    </s:annotation>
+  </s:element>
+  <s:simpleType name="FarbType">
+    <s:restriction base="s:string">
+      <s:enumeration value="Rot" />
+      <s:enumeration value="Blau" />
+    </s:restriction>
+  </s:simpleType>
+  <s:complexType name="compType">
+    <s:sequence>
+      <s:element name="City" minOccurs="0" maxOccurs="3" />
+    </s:sequence>
+  </s:complexType>
+</s:schema>

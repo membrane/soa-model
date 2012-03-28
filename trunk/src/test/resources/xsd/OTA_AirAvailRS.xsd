@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirAvailRS">
+		<xs:annotation>
+			<xs:documentation>
+The Availability Response message contains Flight Availability for a city pair on a specific date. A set of OriginDestinationOptions is returned, each of which contains one or more (connecting) flights that serve the city pair. For each flight the following information is returned:
+- Origin and destination airports
+- Departure and arrival date/times
+- Booking Class availability
+- Equipment
+- Meal Information
+- Codeshare information.
+This message contains similar information to a standard airline CRS or GDS availability response message.			
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="OriginDestinationOptions" type="OriginDestinationOptionsType" minOccurs="0"/>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AvailFlightSegmentType">
+		<xs:annotation>
+			<xs:documentation>
+	Flight segment information returned for an availability request.
+	</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="FlightSegmentType">
+				<xs:attribute name="JourneyDuration" type="xs:duration" use="optional">
+					<xs:annotation>
+						<xs:documentation> The duration of the flight from departure location to destination location.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attributeGroup ref="SmokingIndicatorGroup">
+					<xs:annotation>
+						<xs:documentation> Specifies if the flight is smoking or not.</xs:documentation>
+					</xs:annotation>
+				</xs:attributeGroup>
+				<xs:attribute name="OnTimeRate" type="Percentage" use="optional">
+					<xs:annotation>
+						<xs:documentation> Specifies the Dept. of Transport on time rate of the  flight.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Ticket" type="TicketType" default="Paper">
+					<xs:annotation>
+						<xs:documentation> Specifies if the flight is e-ticketable or not.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OriginDestinationOptionsType">
+		<xs:sequence>
+			<xs:element name="OriginDestinationOption" maxOccurs="999">
+				<xs:annotation>
+					<xs:documentation>Holds the collection of flight options for this origin-destination pair.  There maybe limits imposed by individual supplier that are below the maximum occurrences for this element.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FlightSegment" maxOccurs="4">
+							<xs:annotation>
+								<xs:documentation>Details of the flight option for an origin destination pair.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="AvailFlightSegmentType">
+										<xs:sequence>
+											<xs:element name="Comment" type="FreeTextType" minOccurs="0" maxOccurs="10">
+												<xs:annotation>
+													<xs:documentation>Any special comments on the leg. eg. operated by  XX. </xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="MarketingCabin" type="MarketingCabinType" minOccurs="0" maxOccurs="9">
+												<xs:annotation>
+													<xs:documentation>The airline specific branding for cabins.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BookingClassAvail" minOccurs="0" maxOccurs="99">
+												<xs:annotation>
+													<xs:documentation>Booking codes available to be sold for a particular flight segment.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:complexContent>
+														<xs:extension base="BookingClassAvailabilityType">
+															<xs:attribute name="RPH" type="RPH_Type" use="required">
+																<xs:annotation>
+																	<xs:documentation>RPH refers back to Marketing Cabin Type."</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:extension>
+													</xs:complexContent>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

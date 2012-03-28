@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelGetMsgRS">
+		<xs:annotation>
+			<xs:documentation>Returns acknowledgement that the request has been successfully received, or includes Warnings from business processing rules or errors if the request did not succeed. It will additionally include the re-submission of the requested data as it was sent in its original form.  Since the request could be for any original message, the response data is included in MessageContent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningType" minOccurs="0"/>
+					<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0"/>
+					<xs:element name="Messages" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Message" type="MessageType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="MessageType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">">If StartSeqNmbr and EndSeqNmbr are not sent, the request will be assumed to be for the last sequence number.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OriginalPayloadStdAttributes" type="OriginalPayloadStdAttributesType" minOccurs="0"/>
+			<xs:element name="MessageContent" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">">This container is designed to store the response message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="HotelReferenceGroup"/>
+		<xs:attributeGroup ref="DateTimeSpanGroup"/>
+		<xs:attribute name="StartSeqNmbr" type="xs:nonNegativeInteger" use="optional"/>
+		<xs:attribute name="EndSeqNmbr" type="xs:nonNegativeInteger" use="optional"/>
+		<xs:attribute name="MessageType" type="StringLength1to8" use="optional"/>
+		<xs:attribute name="ResponseValue" type="StringLength1to8" use="optional"/>
+		<xs:attribute name="RequestCode" type="xs:string" use="required"/>
+		<xs:attribute name="ReasonForRequest" type="xs:string" use="optional"/>
+		<xs:attribute name="UserName" type="xs:string" use="optional"/>
+		<xs:attribute name="RatePlanCode" type="xs:string" use="optional"/>
+		<xs:attribute name="ConfirmationID" type="xs:string" use="optional"/>
+		<xs:attribute name="ReservationID" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="OriginalPayloadStdAttributesType">
+		<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+	</xs:complexType>
+</xs:schema>

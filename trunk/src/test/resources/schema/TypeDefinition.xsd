@@ -1,0 +1,37 @@
+<schema targetNamespace="http://www.example.com/IPO"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ipo="http://www.example.com/IPO">
+
+  <complexType name="BaseAddress">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="street" type="string"/>
+      <element name="number"   type="int"/>
+    </sequence>
+    <attribute name="BaseAddressAttribute" type="positiveInteger" fixed="1"/>
+  </complexType>
+
+  <complexType name="Address">
+    <complexContent>
+      <extension base="ipo:BaseAddress">
+        <sequence>
+          <element name="city"   type="string"/>
+        </sequence>
+        <attribute name="AddressAttribute" type="positiveInteger" fixed="1"/>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="USAddress">
+    <complexContent>
+      <extension base="ipo:Address">
+        <sequence>
+          <element name="state" type="string"/>
+          <element name="zip"   type="integer"/>
+        </sequence>
+        <attribute name="USAddressAttribute" type="positiveInteger" fixed="1"/>
+      </extension>
+    </complexContent>
+  </complexType>
+
+</schema>

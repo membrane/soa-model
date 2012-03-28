@@ -1,0 +1,62 @@
+<schema targetNamespace="http://www.predic8.com/complextype/"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.predic8.com/complextype/">
+
+  <complexType name="PersonType">
+    <sequence>
+      <element name="firstName" type="string" />
+      <element name="lastName" type="string" />
+      <element name="id" type="int" />
+    </sequence>
+  </complexType>
+
+  <complexType name="EmployeeType">
+    <complexContent>
+      <extension base="tns:PersonType">
+        <sequence>
+          <element name="department">
+            <complexType>
+              <sequence>
+                <element name="name" type="string" />
+                <element name="id" type="int" />
+              </sequence>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+    <attributeGroup ref="tns:EmployeeAttributeGroup" />
+  </complexType>
+
+  <complexType name="AmigoType">
+    <complexContent mixed="true">
+      <restriction base="tns:PersonType">
+        <sequence>
+          <element name="firstName" type="string" />
+        </sequence>
+      </restriction>
+    </complexContent>
+  </complexType>
+
+  <attributeGroup name="PersonAttributeGroup">
+    <attribute name="age" type="int" />
+    <attribute name="gender" type="string" />
+  </attributeGroup>
+
+  <attributeGroup name="EmployeeAttributeGroup">
+    <attribute name="fix" type="boolean" />
+    <attributeGroup ref="tns:PersonAttributeGroup" />
+  </attributeGroup>
+
+  <element name="employee" type="tns:EmployeeType" />
+
+  <element name="employeeList">
+    <complexType>
+      <sequence>
+        <element name="employee" type="tns:EmployeeType"
+          minOccurs="1" maxOccurs="unbounded" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="amigo" type="tns:AmigoType" />
+</schema>

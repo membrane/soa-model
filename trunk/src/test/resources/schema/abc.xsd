@@ -1,0 +1,24 @@
+<schema targetNamespace="http://www.predic8.com/complextype/"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.predic8.com/complextype/">
+  
+  <element name="a">
+    <complexType>
+      <sequence>
+        <element name="emptyButNeccessary" type="string"/>
+        <element name="b">
+          <complexType>
+            <sequence>
+              <element name="id" type="int" />
+              <element name="emptyButNeccessary" type="string"/>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="id" type="int" />
+        <element name="emptyButNeccessary" type="string"/>
+        <element name="optional" type="string" minOccurs="0"/>
+        <element ref="tns:pointed" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="pointed" type="int" />
+</schema>

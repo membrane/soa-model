@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" id="OTA2003A" version="1.000">
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:element name="OTA_PingRS">
+		<xs:annotation>
+			<xs:documentation>The OTA_PingRS message is a response to a client message used for testing
+application connectivity. Specific text sent by the client is to be echoed
+back in this response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="EchoData" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+					The free-text data that is to be echoed back.
+					</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

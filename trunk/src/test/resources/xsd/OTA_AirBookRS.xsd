@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirBookRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+The Book Response message contains the itinerary, passenger and pricing information sent in the request, along with a Booking reference number (PNR Locator) and ticketing information if the booking was successful.
+This message contains similar information to a standard airline CRS or GDS Display PNR message.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="AirReservation">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AirItinerary" type="AirItineraryType">
+									<xs:annotation>
+										<xs:documentation>A collection of all flight segments requested for booking.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="PriceInfo" type="BookingPriceInfoType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Pricing information for the air itinerary to be booked e.g. this data could come from the OTA_AirPriceRS data.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="TravelerInfo" type="TravelerInfoType">
+									<xs:annotation>
+										<xs:documentation>All traveler information relevant to a booking request.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Fulfillment" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>All payment information relevant to a booking request.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PaymentDetails" type="PaymentFormType" minOccurs="0"/>
+											<xs:element name="DeliveryAddress" type="AddressType" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Ticketing" type="TicketingInfoType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Information used to specify the ticketing arrangement.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="BookingReferenceID" type="UniqueID_Type" minOccurs="0" maxOccurs="9">
+									<xs:annotation>
+										<xs:documentation>Optional field available for use by trading partners as determined by their needs.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="BookingReferenceID" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>This is the identifier returned by the booking system, also referred to as a PNR locator, confirmation number or reservation number.						</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attribute name="Cancel" type="xs:boolean" default="false"/>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

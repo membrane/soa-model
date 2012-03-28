@@ -1,0 +1,9 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/">
+  <element name="duration" nillable="tru" type="tns:duration" />
+  <simpleType >
+    <restriction base="duration">
+      <minInclusive value="-P10675199DT2H48M5.4775808S" />
+      <maxInclusive value="P10675199DT2H48M5.4775807S" />
+    </restriction>
+  </simpleType>
+</schema>

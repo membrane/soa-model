@@ -1,0 +1,24 @@
+<s:schema elementFormDefault="qualified" targetNamespace="http://predic8.com" xmlns:tns="http://predic8.com" xmlns:s="http://www.w3.org/2001/XMLSchema">
+  <s:element name="Translate">
+    <s:complexType>
+      <s:sequence>
+        <s:element minOccurs="1" maxOccurs="1" name="LanguageMode" type="tns:Language" />
+        <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+      </s:sequence>
+    </s:complexType>
+  </s:element>
+  <s:simpleType name="Language">
+    <s:annotation>
+      <s:documentation>NewDocu</s:documentation>
+    </s:annotation>
+    <s:restriction base="s:string">
+      <s:enumeration value="EnglishTOChinese" />
+      <s:length value="16"/>
+      <s:enumeration value="EnglishTOFrench" />
+      <s:enumeration value="EnglishTOGerman" />
+      <s:enumeration value="EnglishTOItalian" />
+      <s:enumeration value="EnglishTOJapanese" />
+      <s:enumeration value="EnglishTOSpanish" />
+    </s:restriction>
+  </s:simpleType>
+</s:schema>
