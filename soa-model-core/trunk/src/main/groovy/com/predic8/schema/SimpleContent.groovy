@@ -39,6 +39,10 @@ class SimpleContent extends SchemaComponent {
       restriction.parse(token, params) ; break
     }
   }
+  
+  def getDerivation() {
+    return extension ?: restriction
+  }
 
   protected getElementName(){
     new JQName(Schema.SCHEMA_NS, 'simpleContent')

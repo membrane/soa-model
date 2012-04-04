@@ -31,10 +31,10 @@ class Include extends SchemaComponent {
    protected parseAttributes(token, params){
     schemaLocation = token.getAttributeValue( null , 'schemaLocation')
     if(schema.includes.contains(HTTPUtil.getLocation(schema.baseDir,schemaLocation))) return
-    parseIncludedSchema()
+    parseIncludedSchema(params)
   }
 
-  private parseIncludedSchema(){
+  private parseIncludedSchema(params){
     def resource = schema.resourceResolver.resolve(schemaLocation, schema.baseDir)
   	
     def incToken = XMLInputFactory.newInstance().createXMLStreamReader(resource)
@@ -49,7 +49,7 @@ class Include extends SchemaComponent {
     def origBaseDir = schema.baseDir
     schema.baseDir = HTTPUtil.updateBaseDir(schemaLocation , schema.baseDir)
     log.debug("includedSchema.baseDir ${schema.baseDir} ")
-    schema.parse(incToken, [targetNamespace:schema.targetNamespace])
+    schema.parse(incToken, [targetNamespace:schema.targetNamespace, importedSchemas:params.importedSchemas])
     schema.baseDir = origBaseDir
 
     schema.includes << HTTPUtil.getLocation(schema.baseDir,schemaLocation)

@@ -82,6 +82,9 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   Map createAttributes(Object obj, RequestTemplateCreatorContext ctx){
     def res = [:]
     def attrs = obj.allAttributes
+//    println "obj---------------> " + obj
+//    println "attributes---------------> " + obj.attributes
+//    println "att---------------> " + attrs
     attrs.each{
       def attr = it.ref ? obj.schema.getAttribute(it.ref) : it
       if(attr.fixed) {
