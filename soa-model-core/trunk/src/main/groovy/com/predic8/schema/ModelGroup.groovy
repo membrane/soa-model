@@ -51,6 +51,9 @@ abstract class ModelGroup extends SchemaComponent{
       }
       group.parse(token, params)
       particles << group ; break
+      case 'any' : def any = new Any(schema:schema)
+      any.parse(token, params)
+      particles << any ; break
     }
   }
 

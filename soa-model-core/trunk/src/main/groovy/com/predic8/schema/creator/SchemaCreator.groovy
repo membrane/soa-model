@@ -359,6 +359,16 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     if(appinfo.source) attrs['source'] = appinfo.source
     builder.'xsd:appinfo'(attrs, appinfo.content)
   }
+  
+  void createAny(Any any, SchemaCreatorContext  ctx){
+    def attrs = [:]
+    if(any.namespace) attrs['namespace'] = any.namespace
+    if(any.id) attrs['id'] = any.id
+    if(any.processContents) attrs['processContents'] = any.processContents
+    if(any.minOccurs != (String)1) attrs['minOccurs'] = any.minOccurs
+    if(any.maxOccurs != (String)1) attrs['maxOccurs'] = any.maxOccurs
+    builder.'xsd:any'(attrs, any.content)
+  }
 
   /**
    *TODO refactor method!
