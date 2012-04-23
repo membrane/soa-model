@@ -31,7 +31,7 @@ class AnyTest extends GroovyTestCase{
   }
   
   void testParseAny() {
-    println schema.elements[0]
+    assertTrue(schema.getElement('person').embeddedType.model.particles.elementName.contains('any'))
   }
   
   void testSchemaCreator(){
@@ -41,5 +41,6 @@ class AnyTest extends GroovyTestCase{
     def testSchema = new XmlSlurper().parseText(strWriter.toString())
     assertEquals("com.predic8.any", testSchema.element[0].complexType.sequence.any.@namespace.toString())
     assertEquals("0", testSchema.element[0].complexType.sequence.any.@minOccurs.toString())
+//    println strWriter
   }
 }

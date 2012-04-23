@@ -5,7 +5,7 @@
       <xs:sequence>
         <xs:element name="firstname" type="xs:string"/>
         <xs:element name="lastname" type="xs:string"/>
-        <xs:any minOccurs="0" namespace="com.predic8.any">bla bla bla</xs:any>
+        <xs:any minOccurs="0" namespace="com.predic8.any">AnyContent!</xs:any>
       </xs:sequence>
       <xs:anyAttribute namespace="com.predic8.anyAttribute"/>
     </xs:complexType>

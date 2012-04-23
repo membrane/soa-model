@@ -53,6 +53,6 @@ class Any extends SchemaComponent {
   }
 
   String toString(){
-    "any[content=$content]"
+    "any[namespace=$namespace]"
   }
 }
