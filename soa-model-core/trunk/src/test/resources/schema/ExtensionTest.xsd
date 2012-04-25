@@ -19,8 +19,7 @@
         <sequence>
           <element name="city" type="string" />
         </sequence>
-        <attribute name="AddressAttribute" type="positiveInteger"
-          fixed="1" />
+        <attribute name="AddressAttribute" type="positiveInteger" fixed="1" />
       </extension>
     </complexContent>
   </complexType>
@@ -32,8 +31,8 @@
           <element name="state" type="string" />
           <element name="zip" type="integer" />
         </sequence>
-        <attribute name="USAddressAttribute" type="positiveInteger"
-          fixed="1" />
+        <attribute name="USAddressAttribute" type="positiveInteger" fixed="1" />
+        <anyAttribute namespace="##any"></anyAttribute>
       </extension>
     </complexContent>
   </complexType>
@@ -44,8 +43,7 @@
         <sequence>
           <element name="postcode" type="positiveInteger" />
         </sequence>
-        <attribute name="UKAddressAttribute" type="positiveInteger"
-          fixed="1" />
+        <attribute name="UKAddressAttribute" type="positiveInteger" fixed="1" />
       </extension>
     </complexContent>
   </complexType>

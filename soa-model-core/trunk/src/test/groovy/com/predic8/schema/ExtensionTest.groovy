@@ -61,6 +61,7 @@ class ExtensionTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
     schema.getElement('MyAddress').create(creator, new RequestTemplateCreatorContext())
+    assertTrue(strWriter.toString().contains('<!-- This element can be extended by any attribute from ##any namespace -->'))
     def testXML = new XmlSlurper().parseText(strWriter.toString())
     assertEquals(6, testXML.children().size())
     def elementsNames =[]

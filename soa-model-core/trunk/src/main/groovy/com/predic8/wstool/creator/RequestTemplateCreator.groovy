@@ -158,8 +158,8 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     if(!baseType) throw new Exception("BaseType: $baseType of extension: $extension not found!")
     if(baseType instanceof SimpleType) return
     baseType.model?.create(this, ctx)
+    extension.anyAttribute?.create(this,ctx)
     extension.model?.create(this,ctx)
-//    TODO: extension.allAttributes create?
   }
   
   void createAnnotation(Annotation annotation, RequestTemplateCreatorContext ctx) {
