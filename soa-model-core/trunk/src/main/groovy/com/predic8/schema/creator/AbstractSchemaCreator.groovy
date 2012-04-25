@@ -75,7 +75,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   
   //TODO
   void createUnion(Union union, Context ctx) {
-    union.simpleTyps[0]?.create(this, ctx)
+    union.simpleTypes[0]?.create(this, ctx)
   }
   
   void createSimpleType(SimpleType simpleType, Context ctx){
