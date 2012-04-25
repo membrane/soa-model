@@ -22,6 +22,7 @@ abstract class Derivation extends SchemaComponent{
   List<Attribute> attributes = []
   List<AttributeGroup> attributeGroups = []
   def model
+  AnyAttribute anyAttribute
 
   protected parseAttributes(token, params){
     base = getTypeQName(token.getAttributeValue( null , 'base'))
@@ -56,9 +57,8 @@ abstract class Derivation extends SchemaComponent{
         attributeGroup.parse(token, params)
           attributeGroups << attributeGroup ; break
       case 'anyAttribute' :
-        def anyAttr = new AnyAttribute(schema: schema)
-        anyAttr.parse(token, params)
-          attributes << anyAttr ; break
+        anyAttribute = new AnyAttribute(schema: schema)
+        anyAttribute.parse(token, params) ; break
     }
   }
 

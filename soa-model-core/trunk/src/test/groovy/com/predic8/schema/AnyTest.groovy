@@ -18,6 +18,8 @@ import javax.xml.stream.*
 
 import com.predic8.schema.creator.SchemaCreator
 import com.predic8.schema.creator.SchemaCreatorContext
+import com.predic8.wstool.creator.RequestTemplateCreator
+import com.predic8.wstool.creator.RequestTemplateCreatorContext
 import com.predic8.xml.util.*
 
 import groovy.xml.*
@@ -41,6 +43,13 @@ class AnyTest extends GroovyTestCase{
     def testSchema = new XmlSlurper().parseText(strWriter.toString())
     assertEquals("com.predic8.any", testSchema.element[0].complexType.sequence.any.@namespace.toString())
     assertEquals("0", testSchema.element[0].complexType.sequence.any.@minOccurs.toString())
-//    println strWriter
+  }
+  
+  void testRequestTemplateCreator() {
+    def strWriter = new StringWriter()
+    def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
+    schema.getElement('person').create(creator, new RequestTemplateCreatorContext())
+    assertTrue(strWriter.toString().contains('<!-- This element can be extended by any element from com.predic8.any namespace -->'))
+    assertTrue(strWriter.toString().contains('<!-- This element can be extended by any attribute from com.predic8.anyAttribute namespace -->'))
   }
 }

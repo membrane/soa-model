@@ -30,7 +30,8 @@ class BaseRestriction  extends SchemaComponent {
   def model
   List<Facet> facets = []
   
-	
+  AnyAttribute anyAttribute
+  
   protected parseChildren(token, child, params){
     switch (child ){
       case 'enumeration':
@@ -62,8 +63,12 @@ class BaseRestriction  extends SchemaComponent {
       facets << new TotalDigitsFacet(value : new BigDecimal(token.getAttributeValue( null , 'value'))) ; break
       case 'fractionDigits' :
       facets << new FractionDigits(value : new BigDecimal(token.getAttributeValue( null , 'value'))) ; break
+      case 'anyAttribute' :
+      anyAttribute = new AnyAttribute(schema: schema)
+      anyAttribute.parse(token, params) ; break
     }
   }
+  
   public boolean equals(obj) {
     obj && getClass() == obj.getClass() && base == obj.base && facets == obj.facets
   }

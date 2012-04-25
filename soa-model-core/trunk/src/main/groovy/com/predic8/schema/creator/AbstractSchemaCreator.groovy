@@ -111,6 +111,14 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
     complexContent.derivation?.create(this, ctx)
   }
   
+  void createAny(Any any, Context  ctx){
+    throw new RuntimeException("createAny not implemented yet in ${this.class}")
+  }
+  
+  void createAnyAttribute(AnyAttribute anyAttribute, Context  ctx){
+    throw new RuntimeException("createAnyAttribute not implemented yet in ${this.class}")
+  }
+  
   protected getElementTagName(Element element){
     if(!element.toplevel && element.schema.elementFormDefault=="unqualified")
       return element.name

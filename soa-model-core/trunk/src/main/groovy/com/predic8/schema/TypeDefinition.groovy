@@ -21,6 +21,7 @@ abstract class TypeDefinition extends SchemaComponent {
   QName qname
   List<Attribute> attributes = []
   List<AttributeGroup> attributeGroups = []
+  AnyAttribute anyAttribute
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue( null , 'name')
@@ -42,9 +43,8 @@ abstract class TypeDefinition extends SchemaComponent {
         attributeGroup.parse(token, params)
           attributeGroups << attributeGroup ; break
       case 'anyAttribute' :
-        def anyAttr = new AnyAttribute(schema: schema)
-        anyAttr.parse(token, params)
-          attributes << anyAttr ; break
+        anyAttribute = new AnyAttribute(schema: schema)
+          anyAttribute.parse(token, params) ; break
     }
   }
 

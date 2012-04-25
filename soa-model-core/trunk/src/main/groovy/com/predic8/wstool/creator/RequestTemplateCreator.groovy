@@ -20,7 +20,6 @@ import groovy.xml.*
 
 import com.predic8.soamodel.Consts
 import com.predic8.schema.*
-import com.predic8.schema.Sequence as SchemaSequence
 import com.predic8.schema.creator.*
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
@@ -74,17 +73,16 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def attrs = [:]
     declNSifNeeded('ns1',complexType.schema.targetNamespace,attrs,ctx)
     attrs.putAll(createAttributes(complexType, ctx))
+    new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
     builder."${getElementTagName(ctx.element)}"(attrs){
       complexType.model?.create(this, ctx)
+      complexType.anyAttribute?.create(this, ctx)
     }
   }
   
   Map createAttributes(Object obj, RequestTemplateCreatorContext ctx){
     def res = [:]
     def attrs = obj.allAttributes
-//    println "obj---------------> " + obj
-//    println "attributes---------------> " + obj.attributes
-//    println "att---------------> " + attrs
     attrs.each{
       def attr = it.ref ? obj.schema.getAttribute(it.ref) : it
       if(attr.fixed) {
@@ -151,7 +149,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     yield("MinInclusiveFacet: ${facet.value}")
   }
   
-  void createExtension(Extension extension, SchemaCreatorContext ctx){
+  void createExtension(Extension extension, RequestTemplateCreatorContext ctx){
     if(extension.base.namespaceURI.equals(Consts.SCHEMA_NS)){
       yield("${TemplateUtil.getTemplateValue(extension.base)}")
       return
@@ -161,13 +159,14 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     if(baseType instanceof SimpleType) return
     baseType.model?.create(this, ctx)
     extension.model?.create(this,ctx)
+//    TODO: extension.allAttributes create?
   }
   
-  void createAnnotation(Annotation annotation, SchemaCreatorContext ctx) {
+  void createAnnotation(Annotation annotation, RequestTemplateCreatorContext ctx) {
     annotation.documentations.each{ yield("<!--${it.content}-->") }
   }
   
-  void createPart(part, SchemaCreatorContext ctx){
+  void createPart(part, RequestTemplateCreatorContext ctx){
     def refType = part.definitions.getSchema(part.type.namespaceURI)?.getType(part.type)
     if(refType){
       refType.create(this, ctx)
@@ -179,9 +178,17 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     }
   }
   
-  void createSimpleContent(SimpleContent simpleContent, SchemaCreatorContext ctx){
+  void createSimpleContent(SimpleContent simpleContent, RequestTemplateCreatorContext ctx){
     simpleContent.extension?.create(this, ctx)
     simpleContent.restriction?.create(this, ctx)
+  }
+  
+  void createAny(Any any, RequestTemplateCreatorContext  ctx){
+    yield("\n<!-- This element can be extended by any element from ${any.namespace ?: 'any'} namespace -->")
+  }
+  
+  void createAnyAttribute(AnyAttribute anyAttribute, RequestTemplateCreatorContext  ctx){
+    yield("\n<!-- This element can be extended by any attribute from ${anyAttribute.namespace ?: 'any'} namespace -->")
   }
   
   private yield(s) {
