@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:schema-b="SCHEMA-B" targetNamespace="SCHEMA-B" elementFormDefault="qualified">
+    <xs:import namespace="SCHEMA-A" schemaLocation="schema-a.xsd" />
+    <xs:complexType name="type-b-1">
+        <xs:sequence>
+            <xs:element name="element-b-1" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>    
+    <xs:element name="element-b-1" type="schema-b:type-b-1"/>
+</xs:schema>

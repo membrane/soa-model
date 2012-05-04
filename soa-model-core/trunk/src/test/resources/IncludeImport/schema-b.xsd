@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:schema-b="SCHEMA-B" targetNamespace="SCHEMA-B" elementFormDefault="qualified">
+    <xs:include schemaLocation="schema-b-section-1.xsd"/>
+    <xs:include schemaLocation="schema-b-section-2.xsd"/>
+</xs:schema>
