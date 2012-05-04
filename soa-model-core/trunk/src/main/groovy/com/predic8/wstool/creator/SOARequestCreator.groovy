@@ -73,7 +73,7 @@ class SOARequestCreator extends AbstractCreator{
                 "ns1:$operationName"('xmlns:ns1':definitions.targetNamespace){
                     def ctx = creatorContext
                     ctx.path = "${ctx.path}${operationName}/"
-                    log.info "create body from bodyElement"
+                    log.debug "create body from bodyElement"
                     bodyElement.parts.each{
                         it.create(creator, ctx)
                     }
