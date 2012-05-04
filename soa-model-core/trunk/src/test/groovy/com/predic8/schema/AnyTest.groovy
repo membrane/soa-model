@@ -16,10 +16,8 @@ package com.predic8.schema
 
 import javax.xml.stream.*
 
-import com.predic8.schema.creator.SchemaCreator
-import com.predic8.schema.creator.SchemaCreatorContext
-import com.predic8.wstool.creator.RequestTemplateCreator
-import com.predic8.wstool.creator.RequestTemplateCreatorContext
+import com.predic8.schema.creator.*
+import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
 import groovy.xml.*
@@ -52,4 +50,5 @@ class AnyTest extends GroovyTestCase{
     assertTrue(strWriter.toString().contains('<!-- This element can be extended by any element from com.predic8.any namespace -->'))
     assertTrue(strWriter.toString().contains('<!-- This element can be extended by any attribute from com.predic8.anyAttribute namespace -->'))
   }
+  
 }

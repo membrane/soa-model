@@ -114,7 +114,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   void createPart(Part part, RequestCreatorContext ctx){
     builder."${part.name}"(ctx.formParams["${ctx.path}${part.name}"])
   }
-  
+
   private getFormParamValue(ctx) {
     ctx.formParams["${ctx.path}${ctx.element.name}"]
   }
