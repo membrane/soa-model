@@ -52,9 +52,11 @@ class ComplexContent extends SchemaComponent {
   def create(creator, CreatorContext ctx){
     creator.createComplexContent(this, ctx)
   }
-  
+
   def compare(generator, other){
     generator.compareComplexContent(this, other)
   }
+  
+   
   
 }

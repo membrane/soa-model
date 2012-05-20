@@ -21,28 +21,38 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
   def generator
 
   def compare(){
-    compareDerivation()
-  }
-
-  private compareDerivation(){
     if(a.restriction  && b.extension) {
       return [new Difference(description:"SimpleContent changed from 'restriction' to 'extension'", type: 'simpleContent', breaks:true)]
     }
     if(a.extension && b.restriction) {
       return [new Difference(description:"SimpleContent changed from 'extension' to 'restriction'", type: 'simpleContent', breaks:true)]
     }
-    if(compareModel()){
-      return [new Difference(description:"SimpleContent has changed: " , type: 'simpleContent', diffs: compareModel())]
+    if(compareChild()){
+      return [new Difference(description:"SimpleContent has changed: " , type: 'simpleContent', diffs: compareChild())]
     }
     []
   }
 
-  private compareModel(){
-    def a = a.extension ?: a.restriction
-    def b = b.extension ?: b.restriction
-    if(a.base != b.base){
-      return [new Difference(description:"Extension base has changed from ${a.base} to ${b.base}." , type: 'extension', breaks:true)]
-    } 
+  private compareChild(){
+    if(a.extension?.base != b.extension?.base){
+      return [new Difference(description:"Extension base has changed from ${a.extension.base} to ${b.extension.base}." , type: 'extension', breaks:true)]
+    }
+    
+    if(a.extension && b.extension){
+      if(a.extension.model?.class != b.extension.model?.class){
+        return [new Difference(description:"ModelGroup has changed from ${a.extension.model.class} to ${b.extension.model.class}." , type: 'extension', breaks:true)]
+      } 
+      return a.extension.model?.compare(generator, b.extension.model )[]
+    }
+    
+    if(a.restriction?.base != b.restriction?.base){
+      return [new Difference(description:"Restriction base has changed from ${a.restriction.base} to ${b.restriction.base}." , type: 'restriction', breaks:true)]
+    }
+    
+    if(a.restriction && b.restriction){
+      return a.restriction.compare(generator, b.restriction) ?: []
+    }
+    
   }
 }
 

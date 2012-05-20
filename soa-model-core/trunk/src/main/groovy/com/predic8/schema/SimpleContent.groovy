@@ -17,6 +17,7 @@ import com.predic8.schema.restriction.*
 
 class SimpleContent extends SchemaComponent {
 
+  //Derivation can not be used as a superclass. Because restriction is a simpleRestriction in this case.
   Extension extension
   def restriction
 

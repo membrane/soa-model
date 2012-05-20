@@ -24,6 +24,7 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
 
   List<Difference> compareUnit(){
     def lDiffs = []
+    //compare restriction, union and list
     lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
     lDiffs
   }

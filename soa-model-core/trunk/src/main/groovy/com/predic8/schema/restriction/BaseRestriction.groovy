@@ -27,7 +27,6 @@ class BaseRestriction  extends SchemaComponent {
   SimpleType simpleType
   
   GQName base
-  def model
   List<Facet> facets = []
   
   AnyAttribute anyAttribute
@@ -109,9 +108,9 @@ class BaseRestriction  extends SchemaComponent {
     creator.createSimpleRestriction(this, ctx)
   }
   
-  /*def compare( generator, other ) {
-    generator.compareBaseRestriction(this, other)
-  }*/
+  def compare( generator, other ) {
+    generator.compareSimpleRestriction(this, other)
+  }
 	
   def createXML(builder,element, path, formParams){}
   
