@@ -16,14 +16,18 @@ package com.predic8.schema.restriction.facet;
 
 class LengthFacet extends Facet{
   
-  def values = []
+//  def values = []
   
   def create(creator, ctx){
     creator.createLengthFacet(this, ctx)
   }
+  
+  protected getElementName(){
+    'LengthFacet'
+  }
 
   public boolean equals(obj) {
-    obj && getClass() == obj.getClass() && values == obj.values
+    obj && getClass() == obj.getClass() && value == obj.value
   }
   
 }

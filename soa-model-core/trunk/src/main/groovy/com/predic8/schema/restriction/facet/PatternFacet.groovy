@@ -20,4 +20,8 @@ class PatternFacet extends Facet {
     creator.createPatternFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'PatternFacet'
+  }
+  
 }

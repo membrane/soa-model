@@ -20,4 +20,8 @@ class TotalDigitsFacet extends Facet {
     creator.createTotalDigitsFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'TotalDigitsFacet'
+  }
+  
 }

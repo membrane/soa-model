@@ -20,4 +20,8 @@ class FractionDigits extends Facet {
     creator.createFractionDigits(this, ctx)
   }
   
+  protected getElementName(){
+    'FractionDigits'
+  }
+  
 }

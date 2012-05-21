@@ -45,9 +45,9 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
       return a.extension.model?.compare(generator, b.extension.model )[]
     }
     
-    if(a.restriction?.base != b.restriction?.base){
-      return [new Difference(description:"Restriction base has changed from ${a.restriction.base} to ${b.restriction.base}." , type: 'restriction', breaks:true)]
-    }
+//    if(a.restriction?.base != b.restriction?.base){
+//      return [new Difference(description:"Restriction base has changed from ${a.restriction.base} to ${b.restriction.base}." , type: 'restriction', breaks:true)]
+//    }
     
     if(a.restriction && b.restriction){
       return a.restriction.compare(generator, b.restriction) ?: []

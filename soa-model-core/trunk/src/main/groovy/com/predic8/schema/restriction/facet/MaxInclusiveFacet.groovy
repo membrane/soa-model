@@ -20,4 +20,8 @@ class MaxInclusiveFacet extends Facet {
     creator.createMaxInclusiveFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'MaxInclusiveFacet'
+  }
+  
 }

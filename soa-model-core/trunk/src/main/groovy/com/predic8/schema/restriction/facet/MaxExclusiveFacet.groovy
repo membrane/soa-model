@@ -20,4 +20,8 @@ class MaxExclusiveFacet extends Facet {
     creator.createMaxExclusiveFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'MaxExclusiveFacet'
+  }
+  
 }

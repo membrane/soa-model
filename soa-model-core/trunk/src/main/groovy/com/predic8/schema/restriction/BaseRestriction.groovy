@@ -108,7 +108,7 @@ class BaseRestriction  extends SchemaComponent {
     creator.createSimpleRestriction(this, ctx)
   }
   
-  def compare( generator, other ) {
+  def compare(generator, other ) {
     generator.compareSimpleRestriction(this, other)
   }
 	

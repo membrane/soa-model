@@ -20,4 +20,8 @@ class WhiteSpaceFacet extends Facet{
     creator.createWhiteSpaceFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'WhiteSpaceFacet'
+  }
+  
 }

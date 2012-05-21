@@ -23,4 +23,8 @@ class MaxLengthFacet extends Facet {
     creator.createMaxLengthFacet(this, ctx)
   }
   
+  protected getElementName(){
+    'MaxLengthFacet'
+  }
+  
 }

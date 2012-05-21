@@ -23,10 +23,13 @@ class EnumerationFacet extends Facet {
   def create(creator, ctx){
     creator.createEnumerationFacet(this, ctx)
   }
+  
+  protected getElementName(){
+    'EnumerationFacet'
+  }
 
   public boolean equals(obj) {
     obj && getClass() == obj.getClass() && values == obj.values
   }
-  
   
 }

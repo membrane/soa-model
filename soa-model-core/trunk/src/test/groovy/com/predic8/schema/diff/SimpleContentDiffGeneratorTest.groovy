@@ -14,11 +14,14 @@
 
 package com.predic8.schema.diff
 
+
+import com.predic8.soamodel.Consts;
 import javax.xml.stream.*
 import groovy.xml.*
-
 import com.predic8.xml.util.*
 import com.predic8.schema.*
+import com.predic8.schema.restriction.BaseRestriction
+import com.predic8.schema.restriction.facet.*
 
 class SimpleContentDiffGeneratorTest extends GroovyTestCase{
 
@@ -26,14 +29,18 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
   def b
 
   void setUp() {
-    a = new SimpleContent()
-    b = new SimpleContent()
-
+    a = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
+    b = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
+    a.restriction.facets << new MaxLengthFacet(value : 10)
+    b.restriction.facets << new MinLengthFacet(value : 1)
+    a.restriction.facets << new LengthFacet(value : 3)
+    b.restriction.facets << new LengthFacet(value : 9)
   }
 
   void testEqual(){
-//    def diffGen = new ChoiceDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
-//    def diffs = diffGen.compare()
+    def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
+    def diffs = diffGen.compare()
+//    println diffs
 //    assertEquals(0, diffs.size())
   }
 //
