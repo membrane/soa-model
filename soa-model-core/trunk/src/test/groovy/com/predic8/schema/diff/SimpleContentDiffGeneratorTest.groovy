@@ -32,18 +32,25 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     a = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
     b = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
     a.restriction.facets << new MaxLengthFacet(value : 10)
-    b.restriction.facets << new MinLengthFacet(value : 1)
     a.restriction.facets << new LengthFacet(value : 3)
     b.restriction.facets << new LengthFacet(value : 9)
+    a.restriction.facets << new EnumerationFacet(value : 'red')
+    a.restriction.facets << new EnumerationFacet(value : 'green')
+    b.restriction.facets << new EnumerationFacet(value: 'green')
+    b.restriction.facets << new EnumerationFacet(value: 'blue')
+    b.restriction.facets << new MinLengthFacet(value : 1)
   }
 
   void testEqual(){
     def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-//    println diffs
-//    assertEquals(0, diffs.size())
+    assertTrue(diffs.diffs.description.toString().contains('EnumerartionFacet with value: red removed.'))
+    assertTrue(diffs.diffs.description.toString().contains('EnumerartionFacet with value: blue added.'))
+    assertTrue(diffs.diffs.description.toString().contains('Value of LengthFacet changed from 3 to 9.'))
+    assertTrue(diffs.diffs.description.toString().contains('Facet MaxLengthFacet removed.'))
+    assertTrue(diffs.diffs.description.toString().contains('Facet MinLengthFacet added.'))
   }
-//
+
 //  void testElementremoved(){
 //    def diffGen = new ChoiceDiffGenerator(a: a , b: c, generator : new SchemaDiffGenerator())
 //    def diffs = diffGen.compare()

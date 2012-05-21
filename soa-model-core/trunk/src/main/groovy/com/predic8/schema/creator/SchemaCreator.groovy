@@ -281,9 +281,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createEnumerationFacet(EnumerationFacet facet, SchemaCreatorContext  ctx){
-    facet.values.each{
-      builder.'xsd:enumeration'(value: it)
-    }
+    builder.'xsd:enumeration'(value: facet.value)
   }
 
   void createList(SchemaList list, SchemaCreatorContext  ctx){
@@ -291,9 +289,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createLengthFacet(LengthFacet facet, SchemaCreatorContext  ctx){
-    facet.values.each{
-      builder.'xsd:length'(value: it)
-    }
+    builder.'xsd:length'(value: facet.value)
   }
 
   void createMaxLengthFacet(MaxLengthFacet facet, SchemaCreatorContext  ctx){

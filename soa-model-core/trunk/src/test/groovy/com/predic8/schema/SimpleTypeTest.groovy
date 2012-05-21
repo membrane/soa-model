@@ -46,11 +46,11 @@ class SimpleTypeTest extends GroovyTestCase{
   }
   
   void testFacet() {
-    assertEquals(2 , schemaA.simpleTypes[0].restriction.facets.size())
+    assertEquals(6 , schemaA.simpleTypes[0].restriction.facets.size())
   }
   
   void testEnumerationNumbers() {
-    assertEquals(5 , schemaA.simpleTypes[0].restriction.facets[0].values.size())
+    assertEquals(5 , schemaA.simpleTypes[0].restriction.enumerationFacets.size())
   }
   
   void testLengthFacet() {
@@ -78,6 +78,7 @@ class SimpleTypeTest extends GroovyTestCase{
   void testDiffGenerator(){
     def diffGen = new SchemaDiffGenerator(a: schemaA, b: schemaB)
     def diffs = diffGen.compare()
+//    println diffs
     assertEquals(1, diffs.size())
   }
 }

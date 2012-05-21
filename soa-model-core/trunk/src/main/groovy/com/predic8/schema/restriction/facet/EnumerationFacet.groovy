@@ -18,8 +18,6 @@ import com.predic8.wstool.creator.*
 
 class EnumerationFacet extends Facet {
   
-  List<String> values = []
-  
   def create(creator, ctx){
     creator.createEnumerationFacet(this, ctx)
   }
@@ -29,7 +27,7 @@ class EnumerationFacet extends Facet {
   }
 
   public boolean equals(obj) {
-    obj && getClass() == obj.getClass() && values == obj.values
+    obj && getClass() == obj.getClass() && value == obj.value
   }
   
 }

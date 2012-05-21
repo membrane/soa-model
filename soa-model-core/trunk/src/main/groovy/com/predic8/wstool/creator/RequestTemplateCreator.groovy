@@ -114,7 +114,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createEnumerationFacet(EnumerationFacet facet, RequestTemplateCreatorContext ctx){
-    yield("possible values: ${facet.values.join(',')}")
+    yield("possible value: ${facet.value}")
   }
   
   void createLengthFacet(LengthFacet facet, RequestTemplateCreatorContext ctx){

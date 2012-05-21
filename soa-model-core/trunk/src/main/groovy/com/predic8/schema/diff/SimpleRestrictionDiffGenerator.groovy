@@ -38,21 +38,26 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
   List<Difference> compareFacets(){
     def diffs = []
     if ( a.facets.isEmpty() && b.facets.isEmpty() ) return []
-    def aFacets = a.facets.elementName
-    def bFacets = b.facets.elementName
-    def removed  = aFacets - bFacets
-    def added = bFacets - aFacets 
+    diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"EnumerartionFacet with value: ${it.value} removed.", type: 'facet', breaks: false)}, {new Difference(description:"EnumerartionFacet with value: ${it.value} added.", type: 'facet', breaks: false)})
+    
+    def aNotEnums = a.facets - a.enumerationFacets
+    def bNotEnums = b.facets - b.enumerationFacets
+    diffs << compareNotEnumFacets(aNotEnums.elementName, bNotEnums.elementName)
+  }
+  
+  List<Difference> compareNotEnumFacets(aFs, bFs){
+    def diffs = []
+    def removed  = aFs - bFs
+    def added = bFs - aFs
     removed.each{
       diffs << new Difference(description:"Facet $it removed.", type: 'facet', breaks: false)
     }
     added.each{
       diffs << new Difference(description:"Facet $it added.", type: 'facet', breaks: false)
     }
-    (aFacets).intersect(bFacets).each { fName ->
-      def aF = a.facets.find{it.elementName == fName}
-      def aFV = aF.value 
-      def bF = b.facets.find{it.elementName == fName}
-      def bFV = bF.value 
+    (aFs).intersect(bFs).each { fName ->
+      def aFV = a.facets.find{it.elementName == fName}.value
+      def bFV = b.facets.find{it.elementName == fName}.value
       if(aFV != bFV) diffs << new Difference(description:"Value of $fName changed from ${aFV} to ${bFV}.", type: 'facet', breaks: false)
     }
     

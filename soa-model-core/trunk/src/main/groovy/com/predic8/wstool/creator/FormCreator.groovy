@@ -175,8 +175,15 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
   }
   
   public void createSimpleRestriction(BaseRestriction res, FormCreatorContext  ctx) {
-    if(res.enumerationFacet){
-      res.enumerationFacet.create(this, ctx)
+    if(res.enumerationFacets){
+      builder.b("${ctx.element.name}:")
+      builder.select(name:"${ctx.path}${ctx.element.name}"){
+        res.enumerationFacets.each{ enumeration ->
+          builder.option(enumeration.value)
+        }
+      }
+      builder.br()
+//      res.enumerationFacet.create(this, ctx)
       return
     }
     ctx.attrs = [:]
@@ -228,13 +235,13 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
   }
   
   void createEnumerationFacet(EnumerationFacet facet, SchemaCreatorContext ctx){
-    builder.b("${ctx.element.name}:")
-    builder.select(name:"${ctx.path}${ctx.element.name}"){
-      facet.values.each{ item ->
-        builder.option(item)
-      }
-    }
-    builder.br()
+//    builder.b("${ctx.element.name}:")
+//    builder.select(name:"${ctx.path}${ctx.element.name}"){
+//      facet.values.each{ item ->
+//        builder.option(item)
+//      }
+//    }
+//    builder.br()
   }
   
   void createAnnotation(Annotation annotation, SchemaCreatorContext ctx) {

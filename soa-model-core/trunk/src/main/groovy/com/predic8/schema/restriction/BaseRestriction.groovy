@@ -33,13 +33,15 @@ class BaseRestriction  extends SchemaComponent {
   
   protected parseChildren(token, child, params){
     switch (child ){
+//      case 'enumeration':
+//      def enumeration = facets.grep{it instanceof EnumerationFacet}[0]
+//      if(!enumeration) {
+//        enumeration = new EnumerationFacet()
+//        facets << enumeration
+//      }
+//      enumeration.values << token.getAttributeValue( null , 'value') ; break
       case 'enumeration':
-      def enumeration = facets.grep{it instanceof EnumerationFacet}[0]
-      if(!enumeration) {
-        enumeration = new EnumerationFacet()
-        facets << enumeration
-      }
-      enumeration.values << token.getAttributeValue( null , 'value') ; break
+      facets << new EnumerationFacet(value : token.getAttributeValue( null , 'value')) ; break
       case 'length' :
       facets << new LengthFacet(value : token.getAttributeValue( null , 'value').toInteger()) ; break
       case 'maxLength' :
@@ -80,8 +82,8 @@ class BaseRestriction  extends SchemaComponent {
     facets.find{it instanceof LengthFacet}
   }
   
-  EnumerationFacet getEnumerationFacet() {
-    facets.find{it instanceof EnumerationFacet}
+  List<EnumerationFacet> getEnumerationFacets() {
+    facets.findAll{it instanceof EnumerationFacet}
   }
   
   Boolean hasEnumerationFacet() {

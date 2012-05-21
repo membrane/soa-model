@@ -15,6 +15,8 @@
 package com.predic8.soamodel
 
 import com.predic8.schema.*
+import com.predic8.schema.restriction.facet.*;
+
 import groovy.xml.QName
 
 abstract class AbstractDiffGenerator {
@@ -41,6 +43,8 @@ abstract class AbstractDiffGenerator {
       case Import: return {it.namespace}
       case ComplexType: return {getFQN(it)}
       case SimpleType: return {getFQN(it)}
+      case EnumerationFacet: return {it.value}
+//      case MaxLengthFacet: return {it.elementName}
     }
     return {it.name}
   }
