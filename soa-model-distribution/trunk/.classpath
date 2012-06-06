@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_DSL_SUPPORT"/>
-	<classpathentry kind="lib" path="lib/soa-model-core-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/soa-model-core-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
