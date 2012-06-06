@@ -20,15 +20,18 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
 
   def removed = {new Difference(description:"SimpleType removed.", type: 'simpleType', breaks: true, safe:false)}
   def added = { new Difference(description:"SimpleType added.", type: 'simpleType', breaks: true, safe:false)}
-  def changed = { new Difference(description:"SimpleType has changed.", type: 'simpleType')}
+  def changed = { new Difference(description:"SimpleType has changed.", type: 'simpleType', diffs:compareUnit())}
 
   List<Difference> compareUnit(){
     def lDiffs = []
     lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
-    //compare restriction, union and list
-//    if(a.restriction && b.restriction) {
-//      lDiffs << a.restriction.compare(generator, b.restriction)
-//    }
+    if(a.restriction && b.restriction) {
+      lDiffs.addAll(a.restriction.compare(generator, b.restriction))
+    }
+    if(a.list?.itemType != b.list?.itemType) {
+      lDiffs.add(new Difference(description:"List has changed.", type: 'simpleType', diffs:compareUnit()))
+    }
+    // Union is not handled yet.
     lDiffs
   }
 }

@@ -14,21 +14,26 @@
 
 package com.predic8.schema.diff
 
+import java.util.List;
+
 import com.predic8.soamodel.*
 
-class AnnotationDiffGenerator extends UnitDiffGenerator{
+class AnnotationDiffGenerator extends AbstractDiffGenerator{
 
-  def removed = {new Difference(description:"Annotation removed.", type: 'annotation', safe:true)}
-
-  def added = {new Difference(description:"Annotation added.", type: 'annotation', safe:true)}
-
-  def changed = {new Difference(description:"Annotation has changed.", type: 'annotation', safe:true)}
-
-  List<Difference> compareUnit(){
-    if(!a.equals(b)){
-      return [new Difference(description:"Content of annotation changed.", type: 'annotation', safe:true)]
-    }
+  List<Difference> compare() {
+    def diffs = []
+    if(a && !b) return [new Difference(description:"Annotation removed.", type: 'annotation', breaks: false, safe:false)]
+    if(!a && b) return [new Difference(description:"Annotation added.", type: 'annotation', breaks: false, safe:false)]
+    if(a && b && compareContents()) return [new Difference(description:"Content of annotation has changed.", type: 'annotation', breaks: false, safe:false)]
     []
   }
+  
+  boolean  compareContents() {
+    if(a.documentations.content != b.documentations.content ) return true
+    if(a.appinfos.content != b.appinfos.content ) return true
+    false
+  }
+
+
 }
 

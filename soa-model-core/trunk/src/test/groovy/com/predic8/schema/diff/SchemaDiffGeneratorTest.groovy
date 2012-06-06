@@ -70,7 +70,6 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     def diffs = compare(schema2, schema3)
     assertTrue(diffs[0].breaks())
     //assertEquals(1, diffs.findAll{it.type == 'import'}.size())
-
   }
   
   void testKomplex() {

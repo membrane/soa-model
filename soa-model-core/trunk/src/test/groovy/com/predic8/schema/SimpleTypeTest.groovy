@@ -78,7 +78,6 @@ class SimpleTypeTest extends GroovyTestCase{
   void testDiffGenerator(){
     def diffGen = new SchemaDiffGenerator(a: schemaA, b: schemaB)
     def diffs = diffGen.compare()
-//    println diffs
     assertEquals(1, diffs.size())
   }
 }

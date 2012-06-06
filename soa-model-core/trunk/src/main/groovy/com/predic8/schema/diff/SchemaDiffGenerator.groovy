@@ -43,7 +43,7 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     if ( alreadyImportedNamespaces?.contains(a.targetNamespace)){
       return diffs
     }
-    diffs.addAll(compareAnnotation(a.annotation, b.annotation))
+    diffs.addAll(compareAnnotation(a?.annotation, b?.annotation))
     diffs.addAll(compareComplexTypes())
     diffs.addAll(compareSimpleTypes())
     diffs.addAll(compareElements())

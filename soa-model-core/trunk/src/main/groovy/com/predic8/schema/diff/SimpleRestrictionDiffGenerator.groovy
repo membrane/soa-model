@@ -18,21 +18,19 @@ import com.predic8.schema.*
 
 class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
 
-  def compare(){
+  List<Difference> compare(){
     def diffs = compareBase()
-    diffs.addAll(compareFacets())
+    diffs << compareFacets()
 
-    diffs
+    diffs.flatten()
+   
   }
 
   List<Difference> compareBase(){
-    def lDiffs = []
     if(a.base != b.base) {
-      return [
-        new Difference(description:"Restriction base has changed from ${a.base} to ${b.base}." , type: 'restriction', breaks:false)
-      ]
+      return [new Difference(description:"Restriction base has changed from ${a.base} to ${b.base}." , type: 'restriction', breaks:false)]
     }
-    lDiffs
+    []
   }
 
   List<Difference> compareFacets(){
@@ -43,6 +41,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
     def aNotEnums = a.facets - a.enumerationFacets
     def bNotEnums = b.facets - b.enumerationFacets
     diffs << compareNotEnumFacets(aNotEnums.elementName, bNotEnums.elementName)
+    diffs
   }
   
   List<Difference> compareNotEnumFacets(aFs, bFs){
@@ -60,8 +59,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
       def bFV = b.facets.find{it.elementName == fName}.value
       if(aFV != bFV) diffs << new Difference(description:"Value of $fName changed from ${aFV} to ${bFV}.", type: 'facet', breaks: false)
     }
-    
-    diffs
+    diffs.flatten()
   }
 }
 
