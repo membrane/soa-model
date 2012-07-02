@@ -30,7 +30,7 @@ class Binding extends WSDLElement{
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'binding')
   
   PortType portType
-  List<Operation> operations = []
+  List<BindingOperation> operations = []
   QName type
   AbstractBinding binding
   

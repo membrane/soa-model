@@ -33,6 +33,7 @@ class WSDLImportTest extends GroovyTestCase{
   }
 
   void testGetPortTypeByQName() {
+//    println "imported portTypes: " + wsdl.portTypes
     assertNotNull(wsdl.getPortType(new GQName('http://example.com/stockquote/definitions', 'StockQuotePortType')))
     assertEquals(1, wsdl.getImportedWSDL('http://example.com/stockquote/definitions').portTypes.size())
   }

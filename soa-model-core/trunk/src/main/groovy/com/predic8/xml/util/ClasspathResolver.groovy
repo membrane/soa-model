@@ -26,14 +26,14 @@ class ClasspathResolver extends ResourceResolver {
 
   def resolve(input, baseDir) {
     if ( input instanceof Import ) {
-        input = input.schemaLocation
+      input = input.schemaLocation
     }
     if ( input instanceof Reader ) {
       return input
     }
     
     def resource = this.class.getResourceAsStream(getLocation(input, baseDir))
-    if (!resource) throw new RuntimeException("Could not get resource for ${getLocation(input, baseDir)}")
+    if (!resource) throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
     resource
   }
   
