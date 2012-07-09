@@ -28,7 +28,6 @@ class Schema extends XMLElement{
   
   public final static String SCHEMA_NS ="http://www.w3.org/2001/XMLSchema"
   public final static JQName ELEMENTNAME = new JQName(SCHEMA_NS, 'schema')
-  
   public final static JQName STRING = new JQName(SCHEMA_NS, 'string')
   public final static JQName INT = new JQName(SCHEMA_NS, 'int')
   public final static JQName INTEGER = new JQName(SCHEMA_NS, 'integer')
