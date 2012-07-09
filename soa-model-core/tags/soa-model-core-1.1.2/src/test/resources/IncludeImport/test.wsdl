@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ws="http://www.example.com/webservice"
+    xmlns:schema-a="SCHEMA-A" 
+    xmlns:schema-b="SCHEMA-B" 
+    xmlns:tns="WSDL-SCHEMA"
+    xsi:schemaLocation="http://schemas.xmlsoap.org/wsdl/ http://schemas.xmlsoap.org/wsdl/wsdl.xsd http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+    targetNamespace="WSDL-SCHEMA">
+    <wsdl:types>
+        <xs:schema targetNamespace="WSDL-SCHEMA" attributeFormDefault="unqualified" elementFormDefault="qualified">
+            <xs:import namespace="SCHEMA-A" schemaLocation="schema-a.xsd"/>
+            <xs:import namespace="SCHEMA-B" schemaLocation="schema-b.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="request-message-1">
+        <wsdl:part name="request-part-1" element="schema-a:element-a-1"/>
+    </wsdl:message>
+    <wsdl:message name="response-message-1">
+        <wsdl:part name="response-part-1" element="schema-b:element-b-1"/>
+    </wsdl:message>
+    <wsdl:message name="request-message-2">
+        <wsdl:part name="request-part-2" element="schema-a:element-a-2"/>
+    </wsdl:message>
+    <wsdl:message name="response-message-2">
+        <wsdl:part name="response-part-2" element="schema-b:element-b-2"/>
+    </wsdl:message>
+    <wsdl:portType name="port-type-a">
+        <wsdl:operation name="operation-1">
+            <wsdl:input message="tns:request-message-1" />
+            <wsdl:output message="tns:response-message-1" />
+        </wsdl:operation>
+        <wsdl:operation name="operation-2">
+            <wsdl:input message="tns:request-message-2" />
+            <wsdl:output message="tns:response-message-2" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="binding-a" type="tns:port-type-a">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="operation-1">
+            <soap:operation soapAction="operation-1" style="document"/>
+            <wsdl:input>
+                <soap:body parts="request-part-1" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body parts="response-part-1" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="operation-2">
+            <soap:operation soapAction="operation-2" style="document"/>
+            <wsdl:input>
+                <soap:body parts="request-part-2" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body parts="response-part-2" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="service-a">
+        <wsdl:port name="poty-type-a" binding="tns:binding-a">
+            <soap:address location="http://localhost/service-a"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

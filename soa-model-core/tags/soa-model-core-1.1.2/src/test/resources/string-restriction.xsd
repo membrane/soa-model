@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://predic8.com/string-restriction/" xmlns:tns="http://predic8.com/string-restriction/"
+  elementFormDefault="qualified">
+
+  <xsd:element name="foo">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="bar" type="tns:someNMToken" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="person">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="firstname" type="tns:firstnamesType" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:simpleType name="name">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value='2' />
+      <xsd:maxLength value='10' />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="sex">
+    <xsd:restriction base="tns:name">
+      <xsd:enumeration value="male" />
+      <xsd:enumeration value="female" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="someNMToken">
+    <xsd:restriction base="xsd:NMTOKEN">
+      <xsd:minLength value='2' />
+      <xsd:maxLength value='100' />
+      <xsd:pattern value="XML Schema" />
+      <xsd:whiteSpace value="collapse" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="firstnamesType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="tim" />
+      <xsd:enumeration value="tom" />
+      <xsd:enumeration value="bob" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>

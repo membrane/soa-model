@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="RPCLiteralSample" targetNamespace="http://predic8.com/RPCLiteralSample/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://predic8.com/RPCLiteralSample/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="addPersonRequest">
+        <part name="name" type="xsd:string"/>
+        <part name="lastname" type="xsd:string"/>
+        <part name="age" type="xsd:int"/>
+        <part name="email" type="xsd:string"/>
+        <part name="newPartNotUsedInBody" type="xsd:anyType"/>
+    </message>
+    <message name="addPersonResponse">
+        <part name="part1" type="xsd:string"/>
+        <part name="part2" type="xsd:string"/>
+        <part name="part3" type="xsd:int"/>
+    </message>
+    <portType name="RPCLiteralSamplePT">
+        <operation name="addPerson">
+            <input name="input1" message="tns:addPersonRequest"/>
+            <output name="output1" message="tns:addPersonResponse"/>
+        </operation>
+    </portType>
+    <binding name="RPCLiteralSampleBinding" type="tns:RPCLiteralSamplePT">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="addPerson">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal" parts="name lastname age email" namespace="http://predic8.com/RPCLiteralSample/"/>
+            </input>
+            <output name="output1">
+                <soap:body use="literal" namespace="http://predic8.com/RPCLiteralSample/"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="RPCLiteralSampleService">
+        <port name="RPCLiteralSamplePort" binding="tns:RPCLiteralSampleBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/RPCLiteralSampleService/RPCLiteralSamplePort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="RPCLiteralSample">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes.
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="RPCLiteralSamplePTRole" portType="tns:RPCLiteralSamplePT"/>
+    </plnk:partnerLinkType>
+</definitions>
+
+
+

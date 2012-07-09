@@ -1,0 +1,43 @@
+<schema targetNamespace="http://www.predic8.com/complextype/"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.predic8.com/complextype/">
+
+	<complexType name="PersonType">
+		<sequence>
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="EmployeeType">
+    <complexContent>
+      <extension base="tns:PersonType">
+        <sequence>
+          <element name="department" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+	</complexType>
+
+  <complexType name="AmigoType">
+    <complexContent >
+      <extension base="tns:PersonType">
+        <sequence>
+          <element name="age" type="int"/>
+        </sequence>
+      </extension>
+    </complexContent>
+	</complexType>
+
+  <element name="employee" type="tns:EmployeeType"/>
+
+  <element name="employeeList">
+  	<complexType>
+  		<sequence>
+  			<element name="employee" type="tns:EmployeeType" minOccurs="1" maxOccurs="unbounded"/>
+			</sequence>
+  	</complexType>
+  </element>
+  
+  <element name="amigo" type="tns:AmigoType"/>
+</schema>

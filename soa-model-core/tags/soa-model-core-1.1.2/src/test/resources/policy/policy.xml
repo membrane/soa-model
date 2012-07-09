@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://www.w3.org/ns/ws-policy" >
+  <wsp:ExactlyOne>
+    <wsp:All>
+      <sp:SignedParts>
+        <sp:Body/>
+      </sp:SignedParts>
+    </wsp:All>
+    <wsp:All>
+      <sp:EncryptedParts>
+        <sp:Body/>
+      </sp:EncryptedParts>
+    </wsp:All>
+  </wsp:ExactlyOne>
+</wsp:Policy>

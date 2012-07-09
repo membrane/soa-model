@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A2003A">
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:complexType name="AirSearchPrefsType">
+		<xs:sequence>
+			<xs:element name="VendorPref" type="CompanyNamePrefType" minOccurs="0" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>Specify vendors to include and exclude from the response.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FlightTypePref" type="FlightTypePrefType" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="FareRestrictPref" type="FareRestrictPrefType" minOccurs="0" maxOccurs="4"/>
+			<xs:element name="EquipPref" type="EquipmentTypePref" minOccurs="0" maxOccurs="9"/>
+			<xs:element name="CabinPref" type="CabinPrefType" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="TicketDistribPref" type="TicketDistribPrefType" minOccurs="0" maxOccurs="3"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="SmokingIndicatorGroup">
+			<xs:annotation>
+				<xs:documentation> Request smoking flights in response. Defaults to false - no desire for smoking flights.							</xs:documentation>
+			</xs:annotation>
+		</xs:attributeGroup>
+		<xs:attribute name="OnTimeRate" type="Percentage" use="optional">
+			<xs:annotation>
+				<xs:documentation> Request for flights in response that meet the given Department of Transport on-time rate. This is a number between 0 and 100.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ETicketDesired" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation> Request flights that are e-ticketable in the response.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MaxStopsQuantity" type="Numeric0to4" use="optional">
+			<xs:annotation>
+				<xs:documentation> Request flights that have no more than the requested number of stops. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AirlinePrefType">
+		<xs:annotation>
+			<xs:documentation>Identifies a collection of preferences for airline travel.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LoyaltyPref" type="LoyaltyPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="VendorPref" type="CompanyNamePrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PaymentFormPref" type="PaymentFormPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AirportOriginPref" type="AirportPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AirportRoutePref" type="AirportPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="FareRestrictPref" type="FareRestrictPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="FlightTypePref" type="FlightTypePrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EquipPref" type="EquipmentTypePref" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="CabinPref" type="CabinPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SeatPref" type="SeatPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TicketDistribPref" type="TicketDistribPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="MealPref" type="MealPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SpecRequestPref" type="SpecRequestPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SSR_Pref" type="SSR_PrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+			<xs:element name="MediaEntertainPref" type="MediaEntertainPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PetInfoPref" type="PetInfoPrefType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PrivacyGroup"/>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attributeGroup ref="SmokingIndicatorGroup"/>
+		<xs:attribute name="PassengerTypeCode" type="AlphaLength3" use="optional">
+			<xs:annotation>
+				<xs:documentation>Category of airline passenger, using standard ATPCO codes.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AirTicketType" type="TicketType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Type of airline ticket preferred for this collection.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AirportPrefType">
+		<xs:annotation>
+			<xs:documentation>Departure airport preferences, using IATA airport codes.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="LocationType">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CabinPrefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Indicates preferences for choice of airline cabin for a given travel situation.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attribute name="Cabin" type="CabinType"/>
+	</xs:complexType>
+	<xs:complexType name="EquipmentTypePref">
+		<xs:simpleContent>
+			<xs:extension base="EquipmentType">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="WideBody" type="xs:boolean" use="optional">
+					<xs:annotation>
+						<xs:documentation/>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="FareRestrictPrefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identifies preferences for airfare restrictions acceptable or not acceptable for a given travel situation.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attribute name="FareRestriction" type="OTA_CodeType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="FlightTypePrefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Indicates preferences for certain types of flights, such as connections or stopovers, when used for a specific travel situation.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attribute name="FlightType" type="FlightTypeType" use="optional"/>
+		<xs:attribute name="MaxConnections" type="xs:nonNegativeInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Indicates that if connection is chosen, then this attribute defines the maximum number of connections preferred.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SSR_PrefType">
+		<xs:annotation>
+			<xs:documentation>Identifies preferences for special services required for air travel, using standard industry (SSR-OSI) code list.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attribute name="SSR_Code" type="AlphaLength4">
+			<xs:annotation>
+				<xs:documentation>Code of the special service request to be used for this air travel situation. Refers to standard industry code list.	</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SeatPrefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Indicates preferences for seats or seat types.	</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attributeGroup ref="SeatRequestAttributes"/>
+	</xs:complexType>
+</xs:schema>

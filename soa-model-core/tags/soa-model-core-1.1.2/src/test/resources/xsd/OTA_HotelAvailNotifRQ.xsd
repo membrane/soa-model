@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelAvailNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_AvailNotifRQ is the message that sends the notification of the availability status of a hotel.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>POS provides a mechanism to indicate the source of the message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The unique identifier element allows the trading partners to  uniquely identify each AvailStatusMessageRQ, (i.e. the entire message) for tracing of transactions. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AvailStatusMessages" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Container for the individual AvailStatusMessage(s). An OTA_HotelAvailNotifRQ contains the availability statuses for a single hotel. Hotel identification information are the attributes of this element.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AvailStatusMessage" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">The AvailStatusMessage. It is here that one indicates whether the inventory is opened, closed, closed on request, etc.</xs:documentation>
+									<xs:documentation xml:lang="en">The MinMaxLOSStatusMessage class communicates the set of minimum and maximum length-of-stay availability status changes to be 	synchronized 	with 	another system.</xs:documentation>
+									<xs:documentation xml:lang="en">The RateHurdleStatusMessage class defines the setting for rate hurdle controls to be synchronized with the central reservation system.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="StatusApplicationControl" type="StatusApplicationControlType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Information on what the  AvailStatus Message applies to (i.e. the combination of inventory and rate codes) and the period of application.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LengthsOfStay" type="LengthsOfStayType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Collection of Length of Stay elements. These LOS elements indicate what LOS restrictions are to be added or removed. Some systems include this information directly with the Availability Status as opposed to the booking restriction.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="HurdleRate" type="CurrencyAmountType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Restriction based on the minimum rate to be considered for availability, ex. can sell weekend rate only if charging the hurdle rate or more. </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Delta" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Incremental amount added to the hurdle rate (e.g. Amount= 20 USD and Ceiling=5, the maximum Delta would be 100 USD).  </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="CurrencyAmountType">
+														<xs:attribute name="Ceiling" type="xs:positiveInteger" use="optional">
+															<xs:annotation>
+																<xs:documentation xml:lang="en">Upper limit on the number of Deltas that should be added to the Rate Hurdle for each transient reservation.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="MaxSold" type="xs:positiveInteger" use="optional">
+															<xs:annotation>
+																<xs:documentation xml:lang="en">Upper limit on the number of transient reservations that should be accepted.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>The unique identifier element allows the trading partners to  uniquely identify each AvailStatusMessage, for tracing of transactions. </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="RestrictionStatus" type="RestrictionStatusType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Availability status assigned to the room rate combination.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Override" type="xs:boolean" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Mechanism to allow the user to override settings at the reservation system and to allow the RMS to replace this overridden values: If value = "false", the reservations system may ignore the settings passed and keep values overridden by the user. If value = "true", the reservations system must replace values overridden by the user.		</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="BookingLimitMessageType" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+An enumerated type defining the function of the booking limit message.
+Values: RemoveLimit,  SetLimit, AdjustLimit.
+</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="RemoveLimit"/>
+												<xs:enumeration value="SetLimit"/>
+												<xs:enumeration value="AdjustLimit"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="BookingLimit" type="xs:positiveInteger" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Number of units.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="HotelReferenceGroup"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.	</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

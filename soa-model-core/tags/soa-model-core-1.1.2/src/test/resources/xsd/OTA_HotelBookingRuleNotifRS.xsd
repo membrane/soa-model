@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelBookingRuleNotifRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_BookingRuleNotifRS message returns information to indicate the status of processing the OTA_BookingRuleNotifRQ message.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Success" type="SuccessType"/>
+						<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:element name="Errors" type="ErrorsType"/>
+				</xs:choice>
+				<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

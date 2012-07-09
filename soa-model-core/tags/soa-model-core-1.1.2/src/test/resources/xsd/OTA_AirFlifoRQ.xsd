@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirFlifoRQ">
+		<xs:annotation>
+			<xs:documentation>Retrieve real-time flight departure, arrival and gate information for a particular flight, including actual as well as scheduled departure and arrival times.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Point of sale object. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Airline" type="CompanyNameType">
+					<xs:annotation>
+						<xs:documentation>Specify airline to request FLIFO details.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FlightNumber" type="FlightNumberType">
+					<xs:annotation>
+						<xs:documentation>Specific flight number to request details for. Requires that Airline is also supplied.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DepartureDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Date of departure for flight information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DepartureAirport" type="LocationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specifies the departure location.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ArrivalAirport" type="LocationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specifies the arrival location.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

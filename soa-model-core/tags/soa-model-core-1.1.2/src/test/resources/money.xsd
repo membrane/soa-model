@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:complexType name="MoneyType">
+        <xsd:sequence>
+            <xsd:element name="amount" type="xsd:decimal"></xsd:element>
+            <xsd:element name="currency" type="CurrencyType"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="CurrencyType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EUR"/>
+            <xsd:enumeration value="USD"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

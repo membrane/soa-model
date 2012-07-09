@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_PkgCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_PkgAvailRS">
+		<xs:annotation>
+			<xs:documentation>The message details the availability of a requested package</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>May have either errors or warnings- must have one if there is no success.</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="Package" type="PackageType"/>
+					<xs:element name="TravelChoices" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A collection of TravelItem elements.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="TravelItem" type="TravelItem" maxOccurs="9"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AccommodationChoices" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A collection of available properties.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AvailableProperty" type="AccommodationDetailType" maxOccurs="99"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="FacilityChoices" type="FacilityChoicesType" minOccurs="0"/>
+					<xs:element name="AcceptedPaymtForms" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AcceptedPaymtForm" type="AcceptedPaymtFormType" maxOccurs="9"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AcceptedPaymtFormType">
+		<xs:simpleContent>
+			<xs:extension base="MonetaryRuleType">
+				<xs:attribute name="IssuerCode" type="StringLength1to16" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TravelItem">
+		<xs:annotation>
+			<xs:documentation>Details of a travel component e.g. a set of travel legs making up a travel component or a single item defining a round-trip journey.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element ref="TravelDetail" minOccurs="0" maxOccurs="9"/>
+				<xs:element name="TravelJourney" type="PkgTravelJourney" minOccurs="0"/>
+			</xs:choice>
+			<xs:sequence>
+				<xs:element name="Supplements" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A collection of Supplement elements. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SupplementCharge" type="SupplementChargesType" maxOccurs="2"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CautionInfo" type="PkgCautionType" minOccurs="0" maxOccurs="9"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="AccomOKFlag" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Used to indicate whether or not the accommodation associated with the package is available with this travel journey.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="MealPlanTypes">
+		<xs:annotation>
+			<xs:documentation>A collection of MealPlan elements</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MealPlanType" type="MealPlanType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TravelDetail">
+		<xs:annotation>
+			<xs:documentation>Provides details of travel arrangements</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OutwardTravel" type="PkgTravelSegment" maxOccurs="5"/>
+				<xs:element name="ReturnTravel" type="PkgTravelSegment" maxOccurs="5"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

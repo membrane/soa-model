@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:element name="OTA_VehLocDetailRQ">
+		<xs:annotation>
+			<xs:documentation>Vehicle Location Detail request will allow car rental customers to request information about the car rental location.  These are items that will assist the customer in basic information about the location.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Point of Sale Identification.  Identification number of the vendor that has made the location details request and agency number assigned by IATA, ARC, ESRP or TID.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Location" type="LocationType">
+					<xs:annotation>
+						<xs:documentation>Information on the location whose details are being requested.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Vendor" type="CompanyNameType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Information on the vendor associated with this rental location.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="TPA_Extensions" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="ReqRespVersion"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="VehicleLocDetailRQAdditionalInfoType">
+		<xs:sequence>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehicleLocDetailRQCoreType">
+		<xs:annotation>
+			<xs:documentation>The VehicleLocDetailRequestType complex type defines the information needed to request information about a specific rental facility.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+	</xs:complexType>
+</xs:schema>

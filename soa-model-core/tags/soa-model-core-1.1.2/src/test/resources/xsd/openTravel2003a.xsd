@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.opentravel.org/OTA/2003/05"
+    xmlns:tns="http://www.opentravel.org/OTA/2003/05"
+    elementFormDefault="qualified">
+    <xsd:import schemaLocation="OTA_HotelResNotifRQ.xsd" namespace="http://www.opentravel.org/OTA/2003/05"></xsd:import>
+</xsd:schema>
