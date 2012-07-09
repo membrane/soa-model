@@ -21,7 +21,7 @@ abstract class AbstractSOAPBody extends BindingElement {
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
     if(!token.getAttributeValue(null , 'parts')){
-      parts = message.parts
+      parts = parent.message.parts
     } else {
       token.getAttributeValue(null , 'parts').split().each {
         parts << (getMessagePart(it))
@@ -30,12 +30,12 @@ abstract class AbstractSOAPBody extends BindingElement {
   }
 
   protected Part getMessagePart(String part){
-    message.parts.find{it.name == part}
+    parent.message.parts.find{it.name == part}
   }
 
-  protected Message getMessage(){
-    definitions.getMessage(parent.bindingOperation.binding.portType.getOperation(parent.bindingOperation.name)."$parent.ELEMENTNAME.localPart".message.qname)
-  }
+//  protected Message getMessage(){
+//    definitions.getMessage(parent.bindingOperation.binding.portType.getOperation(parent.bindingOperation.name)."$parent.ELEMENTNAME.localPart".message.qname)
+//  }
   
   def create(creator, ctx) {
     creator.createSOAPBody(this, ctx)

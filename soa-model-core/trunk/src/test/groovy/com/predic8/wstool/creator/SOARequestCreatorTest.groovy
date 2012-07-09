@@ -25,34 +25,27 @@ class SOARequestCreatorTest extends GroovyTestCase{
   
   void testRequestWithEmptyCT(){
     def sw = new StringWriter()
-    new SOARequestCreator(builder : new MarkupBuilder(sw),
-        definitions: getDefinitions("/ArticleService/ArticleService.wsdl"),
-        creator : new RequestCreator(),
-        operationName:'getAll',
-        bindingName:'ArticleServicePTBinding').createRequest 'ArticleServicePT', 'getAll', 'ArticleServicePTBinding'
+    new SOARequestCreator(getDefinitions("/ArticleService/ArticleService.wsdl"), new RequestCreator(),new MarkupBuilder(sw)).createRequest 'ArticleServicePT', 'getAll', 'ArticleServicePTBinding'
     assertEquals(Consts.SOAP11_NS, getRequest(sw).Envelope.lookupNamespace('s11'))
     assertEquals('', getRequest(sw).Body.getAll.text())
   }
   
   void testRequestWithEmptyElement(){
     def sw = new StringWriter()
-    new SOARequestCreator(builder : new MarkupBuilder(sw),
-        definitions: getDefinitions("/ArticleService/ArticleService2.wsdl"),
-        creator : new RequestCreator(),
-        formParams : ['xpath:/getAll':''],
-        operationName:'getAll',
-        bindingName:'ArticleServicePTBinding').createRequest 'ArticleServicePT', 'getAll', 'ArticleServicePTBinding'
+    def creator = new SOARequestCreator(getDefinitions("/ArticleService/ArticleService2.wsdl"), new RequestCreator(), new MarkupBuilder(sw))
+    creator.formParams = ['xpath:/getAll':'']
+    creator.createRequest 'ArticleServicePT', 'getAll', 'ArticleServicePTBinding'
     assertEquals(Consts.SOAP11_NS, getRequest(sw).Envelope.lookupNamespace('s11'))
     assertEquals('', getRequest(sw).Body.getAll.text())
   }
   
   void testRequest(){
     def sw = new StringWriter()
-    new SOARequestCreator(builder : new MarkupBuilder(sw),
-        definitions: getDefinitions("/ArticleService/ArticleService.wsdl"),
-        creator : new RequestTemplateCreator(),
-        operationName:'get',
-        bindingName:'ArticleServicePTBinding', maxRecursionDepth:10).createRequest 'ArticleServicePT', 'get', 'ArticleServicePTBinding'
+    def creator = new SOARequestCreator(getDefinitions("/ArticleService/ArticleService.wsdl"),
+        new RequestTemplateCreator(),
+        new MarkupBuilder(sw))
+    creator.maxRecursionDepth = 10
+    creator.createRequest 'ArticleServicePT', 'get', 'ArticleServicePTBinding'
 //      println getRequest(sw)
       assertEquals('???', getRequest(sw).Body.get.id.text())
   }

@@ -14,9 +14,11 @@
 
 package com.predic8.soamodel
 
+import groovy.xml.MarkupBuilder;
+
 abstract class AbstractCreator {
 
-  def builder
+  MarkupBuilder builder
 
 
   protected getDisplayName(String name, target, error){

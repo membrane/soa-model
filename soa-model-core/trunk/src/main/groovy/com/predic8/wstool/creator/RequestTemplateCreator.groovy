@@ -73,7 +73,6 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def attrs = [:]
     declNSifNeeded('ns1',complexType.schema.targetNamespace,attrs,ctx)
     attrs.putAll(createAttributes(complexType, ctx))
-    new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
     builder."${getElementTagName(ctx.element)}"(attrs){
       complexType.model?.create(this, ctx)
       complexType.anyAttribute?.create(this, ctx)

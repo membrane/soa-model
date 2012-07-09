@@ -25,7 +25,7 @@ class SOARequestCreatorSOAP11Test extends GroovyTestCase{
 
   void testRequestTemplateCreatorWithDocLit(){
     def sw = new StringWriter()
-    def creator = new SOARequestCreator(builder : new MarkupBuilder(sw), definitions: getDefinitions("/header/LibraryServiceService.wsdl"), creator : new RequestTemplateCreator())
+    def creator = new SOARequestCreator(getDefinitions("/header/LibraryServiceService.wsdl"), new RequestTemplateCreator(), new MarkupBuilder(sw))
     creator.createRequest('LibraryService', 'addBook', 'LibraryServicePortBinding')
     request = getRequest(sw)
     assertEquals(Consts.SOAP11_NS, request.Envelope.lookupNamespace('s11'))
@@ -42,7 +42,8 @@ class SOARequestCreatorSOAP11Test extends GroovyTestCase{
     formParams['xpath:/timeout']='200'
     formParams['xpath:/addBook/title']='MyBook'
     formParams['xpath:/addBook/author']='Me'
-    def creator = new SOARequestCreator(builder : new MarkupBuilder(sw), definitions: getDefinitions("/header/LibraryServiceService.wsdl"), creator : new RequestCreator(), formParams : formParams)
+    def creator = new SOARequestCreator(getDefinitions("/header/LibraryServiceService.wsdl"), new RequestCreator(), new MarkupBuilder(sw))
+    creator.formParams = formParams
     creator.createRequest('LibraryService', 'addBook', 'LibraryServicePortBinding')
     request = getRequest(sw)
     assertEquals(Consts.SOAP11_NS, request.Envelope.lookupNamespace('s11'))
@@ -54,7 +55,7 @@ class SOARequestCreatorSOAP11Test extends GroovyTestCase{
 
   void testRequestTemplateCreatorWithRPCLit(){
     def sw = new StringWriter()
-    def creator = new SOARequestCreator(builder : new MarkupBuilder(sw), definitions: getDefinitions("/RPCLiteralSample.wsdl"), creator : new RequestTemplateCreator())
+    def creator = new SOARequestCreator(getDefinitions("/RPCLiteralSample.wsdl"), new RequestTemplateCreator(), new MarkupBuilder(sw))
     creator.createRequest('RPCLiteralSamplePT', 'addPerson', 'RPCLiteralSampleBinding')
     request = getRequest(sw)
     assertEquals(Consts.SOAP11_NS, request.Envelope.lookupNamespace('s11'))
@@ -71,7 +72,8 @@ class SOARequestCreatorSOAP11Test extends GroovyTestCase{
     formParams['xpath:/addPerson/lastname']='keshavarzi'
     formParams['xpath:/addPerson/age']='28'
     formParams['xpath:/addPerson/email']='foo@bar'
-    def creator = new SOARequestCreator(builder : new MarkupBuilder(sw), definitions: getDefinitions("/RPCLiteralSample.wsdl"), creator : new RequestCreator(), formParams : formParams)
+    def creator = new SOARequestCreator(getDefinitions("/RPCLiteralSample.wsdl"), new RequestCreator(), new MarkupBuilder(sw))
+    creator.formParams = formParams
     creator.createRequest('RPCLiteralSamplePT', 'addPerson', 'RPCLiteralSampleBinding')
     request = getRequest(sw)
     assertEquals(Consts.SOAP11_NS, request.Envelope.lookupNamespace('s11'))
@@ -84,12 +86,12 @@ class SOARequestCreatorSOAP11Test extends GroovyTestCase{
 
   void testEnvelopeWrapper(){
     def sw = new StringWriter()
-    new SOARequestCreator(builder : new MarkupBuilder(sw),
-                            definitions: getDefinitions("/RPCLiteralSample.wsdl"),
-                            creator : new RequestTemplateCreator(),
-                            operationName:'addPerson',
-                            bindingName:'RPCLiteralSampleBinding')
-         .wrapEnvelope('<addPerson><name>Shaan</name></addPerson>')
+    def creator = new SOARequestCreator(getDefinitions("/RPCLiteralSample.wsdl"),
+                            new RequestTemplateCreator(),
+                            new MarkupBuilder(sw))
+    creator.bindingName = 'RPCLiteralSampleBinding'
+    creator.operationName = 'addPerson'
+    creator.wrapEnvelope('<addPerson><name>Shaan</name></addPerson>')
     assertEquals(Consts.SOAP11_NS, getRequest(sw).Envelope.lookupNamespace('s11'))
     assertEquals('Shaan', getRequest(sw).Body.addPerson.name.text())
   }

@@ -60,23 +60,39 @@ abstract class BindingMessage extends WSDLElement{
     bindingElements << be
     be
   }
-  
+
+  SOAP11Body newSOAP11Body(List<Part> parts){
+    def be = new SOAP11Body(definitions : definitions, parent : this, parts : parts)
+    bindingElements << be
+    be
+  }
+    
   SOAP11Body newSOAP11Body(){
-    def be = new SOAP11Body(definitions : definitions, parent : this)
+    newSOAP11Body(message.parts)
+  }
+  
+  SOAP11Fault newSOAP11Fault(List<Part> parts){
+    def be = new SOAP11Fault(definitions : definitions, parent : this, parts: parts)
     bindingElements << be
     be
   }
   
   SOAP11Fault newSOAP11Fault(){
-    def be = new SOAP11Fault(definitions : definitions, parent : this)
+    newSOAP11Fault(message.parts)
+  }
+  
+  SOAP12Body newSOAP12Body(List<Part> parts){
+    def be = new SOAP12Body(definitions : definitions, parent : this, parts : parts)
     bindingElements << be
     be
   }
   
   SOAP12Body newSOAP12Body(){
-    def be = new SOAP12Body(definitions : definitions, parent : this)
-    bindingElements << be
-    be
+    newSOAP12Body(message.parts)
+  }
+  
+  protected Message getMessage(){
+    definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
   }
   
   def create(creator, ctx) {
