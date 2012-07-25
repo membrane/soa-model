@@ -96,7 +96,9 @@ class ExternalResolver extends ResourceResolver {
   }
   
   protected resolveViaHttp(url) {
-    new StringReader(resolveAsString(url))
+  	URI uri = new URI(url)
+  	uri.normalize()
+    new StringReader(resolveAsString(uri.toString()))
   }
   
   public resolveAsString(url) {

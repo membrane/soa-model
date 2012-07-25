@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-core</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -101,19 +101,6 @@
 		                <versionRange>[2.3.2,)</versionRange>
 		                <goals>
 		                  <goal>compile</goal>
-		                </goals>
-		              </pluginExecutionFilter>
-		              <action>
-		                <ignore></ignore>
-		              </action>
-		            </pluginExecution>
-		            <pluginExecution>
-		              <pluginExecutionFilter>
-		                <groupId></groupId>
-		                <artifactId></artifactId>
-		                <versionRange>[,)</versionRange>
-		                <goals>
-		                  <goal></goal>
 		                </goals>
 		              </pluginExecutionFilter>
 		              <action>
