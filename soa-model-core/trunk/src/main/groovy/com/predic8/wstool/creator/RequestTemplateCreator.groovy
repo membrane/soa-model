@@ -133,7 +133,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createMaxLengthFacet(MaxLengthFacet facet, RequestTemplateCreatorContext ctx){
-    yield("MaxLenght: ${facet.value}")
+    yield("MaxLength: ${facet.value}")
   }
   
   void createMinLengthFacet(MinLengthFacet facet, RequestTemplateCreatorContext ctx){

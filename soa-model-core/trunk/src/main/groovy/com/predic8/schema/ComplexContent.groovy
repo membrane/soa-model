@@ -33,6 +33,7 @@ class ComplexContent extends SchemaComponent {
       derivation = new Extension(schema: schema) ; break
       case 'restriction' :
       derivation = new Restriction(schema: schema); break
+	  default: throw new RuntimeException("Invalid child element '$child' in complexContent. Possible elements are 'anotation', 'extension' or 'restriction'.")
     }
     derivation.parse(token, params) 
   }
