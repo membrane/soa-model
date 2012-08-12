@@ -42,7 +42,7 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
       if(a.extension.model?.class != b.extension.model?.class){
         return [new Difference(description:"ModelGroup has changed from ${a.extension.model.class} to ${b.extension.model.class}." , type: 'extension', breaks:true)]
       } 
-      return a.extension.model?.compare(generator, b.extension.model )[]
+      return a.extension.model?.compare(generator, b.extension.model )
     }
     
 //    if(a.restriction?.base != b.restriction?.base){

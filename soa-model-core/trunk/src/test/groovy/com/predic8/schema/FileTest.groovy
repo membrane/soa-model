@@ -30,15 +30,7 @@ class FileTest extends GroovyTestCase{
 
 	void testBaseDir() {
 		def diffs = compare(schema1, schema2)
-//		println diffs.size()
-		//    assertEquals('/', schema.importedSchemas.find{it.targetNamespace == 'basedir-b'}.baseDir)
-		//    assertEquals('/x/u/', schema.importedSchemas.find{it.targetNamespace == 'basedir-d'}.baseDir)
-		//    assertEquals('/x/u/v/w/', schema.importedSchemas.find{it.targetNamespace == 'basedir-g'}.baseDir)
-		//    assertEquals('/x/', schema.importedSchemas.find{it.targetNamespace == 'basedir-c'}.baseDir)
-		//    assertEquals('/x/', schema.importedSchemas.find{it.targetNamespace == 'basedir-e'}.baseDir)
-		//    assertEquals('/x/y/', schema.importedSchemas.find{it.targetNamespace == 'basedir-f'}.baseDir)
-		//    assertEquals('/x/y/z/', schema.importedSchemas.find{it.targetNamespace == 'basedir-h'}.baseDir)
-		//    assertEquals('/x/', schema.importedSchemas.find{it.targetNamespace == 'basedir-i'}.baseDir)
+    println diffs.description
 	}
 	
 	private def compare(a, b) {

@@ -9,7 +9,7 @@
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string"></xsd:element>
             <xsd:element name="description" type="xsd:string"></xsd:element>
-            <xsd:element name="price" type="ns0:MoneyType"></xsd:element>
+            <xsd:element name="price" type="ns0:MoneyType" maxOccurs="unbounded"></xsd:element>
             <xsd:element name="id" type="ns0:IdentifierType"></xsd:element>
         </xsd:sequence>
     </xsd:complexType>
