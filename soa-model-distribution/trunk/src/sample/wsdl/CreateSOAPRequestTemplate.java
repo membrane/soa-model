@@ -15,9 +15,7 @@
 package sample.wsdl;
 
 import groovy.xml.MarkupBuilder;
-
 import java.io.StringWriter;
-
 import com.predic8.wsdl.Definitions;
 import com.predic8.wsdl.WSDLParser;
 import com.predic8.wstool.creator.RequestTemplateCreator;

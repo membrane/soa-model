@@ -41,7 +41,7 @@ public class CreateSOAPRequest {
     formParams.put("xpath:/create/article/price/currency", "USD");
     formParams.put("xpath:/create/article/id", "1");
     
-    //SOAPRequestCreator constructor: SOARequestCreator(Definitions, Creator, MarkupBuilder)
+    //SOARequestCreator constructor: SOARequestCreator(Definitions, Creator, MarkupBuilder)
     SOARequestCreator creator = new SOARequestCreator(wsdl, new RequestCreator(), new MarkupBuilder(writer));
     creator.setFormParams(formParams);
     
