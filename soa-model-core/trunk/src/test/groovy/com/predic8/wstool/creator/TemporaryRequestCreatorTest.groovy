@@ -12,6 +12,8 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+   
+// Temporary test. Used for bug fixes. Can be changed or deleted later. 
 package com.predic8.wstool.creator
 
 import com.predic8.schema.*
@@ -20,7 +22,7 @@ import com.predic8.wsdl.WSDLParser
 import com.predic8.xml.util.*
 import groovy.xml.*
 
-class MailingListRequestCreatorTest extends GroovyTestCase{
+class TemporaryRequestCreatorTestTest extends GroovyTestCase{
 
   Definitions wsdl 
 
@@ -43,6 +45,6 @@ class MailingListRequestCreatorTest extends GroovyTestCase{
     creator.formParams = formParams
     
     creator.createRequest('ArticleServicePT', 'create', 'ArticleServicePTBinding')
-    println strWriter
+//    println strWriter
   }
 }

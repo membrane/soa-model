@@ -28,7 +28,7 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
   def a
   def b
 
-  void setUp() {
+  void testRestrictionDiff(){
     a = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
     b = new SimpleContent(restriction: new BaseRestriction(base: new QName(Consts.SCHEMA_NS,'string')))
     a.restriction.facets << new MaxLengthFacet(value : 10)
@@ -39,9 +39,6 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     b.restriction.facets << new EnumerationFacet(value: 'green')
     b.restriction.facets << new EnumerationFacet(value: 'blue')
     b.restriction.facets << new MinLengthFacet(value : 1)
-  }
-
-  void testEqual(){
     def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
     assertTrue(diffs.diffs.description.toString().contains('EnumerartionFacet with value: red removed.'))
@@ -51,36 +48,12 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     assertTrue(diffs.diffs.description.toString().contains('Facet MinLengthFacet added.'))
   }
 
-//  void testElementremoved(){
-//    def diffGen = new ChoiceDiffGenerator(a: a , b: c, generator : new SchemaDiffGenerator())
-//    def diffs = diffGen.compare()
-//    assertEquals(1, diffs.size())
-//    assertEquals(1, diffs[0].diffs.size())
-//    assertTrue(diffs.diffs.description.toString().contains('removed'))
-//  }
-//
-//  void testElementAdded(){
-//    def diffGen = new ChoiceDiffGenerator(a: a , b: d, generator : new SchemaDiffGenerator())
-//    def diffs = diffGen.compare()
-//    assertEquals(1, diffs.size())
-//    assertEquals(1, diffs[0].diffs.size())
-//    assertTrue(diffs.diffs.description.toString().contains('added'))
-//  }
-//
-//  void testSequenceAdded(){
-//    def diffGen = new ChoiceDiffGenerator(a: a , b: e, generator : new SchemaDiffGenerator())
-//    def diffs = diffGen.compare()
-//    assertEquals(1, diffs.size())
-//    assertEquals(1, diffs[0].diffs.size())
-//    assertTrue(diffs.diffs.description.toString().contains('added'))
-//  }
-//
-//  void testSequenceRemoved(){
-//    def diffGen = new ChoiceDiffGenerator(a: e , b: a, generator : new SchemaDiffGenerator())
-//    def diffs = diffGen.compare()
-//    assertEquals(1, diffs.size())
-//    assertEquals(1, diffs[0].diffs.size())
-//    assertTrue(diffs.diffs.description.toString().contains('removed'))
-//  }
+  void testExtensionDiff(){
+    a = new SimpleContent(extension: new Extension(base: new QName(Consts.SCHEMA_NS,'string')))
+    b = new SimpleContent(extension: new Extension(base: new QName(Consts.SCHEMA_NS,'int')))
+    def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
+    def diffs = diffGen.compare()
+    assertTrue(diffs.diffs.description.toString().contains('Extension base has changed from {http://www.w3.org/2001/XMLSchema}string to {http://www.w3.org/2001/XMLSchema}int.'))
+  }
 
 }
