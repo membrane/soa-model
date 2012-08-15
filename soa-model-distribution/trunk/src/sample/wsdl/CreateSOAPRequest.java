@@ -15,11 +15,14 @@
 package sample.wsdl;
 
 import groovy.xml.MarkupBuilder;
+
 import java.io.StringWriter;
 import java.util.HashMap;
 
-import com.predic8.wsdl.*;
-import com.predic8.wstool.creator.*;
+import com.predic8.wsdl.Definitions;
+import com.predic8.wsdl.WSDLParser;
+import com.predic8.wstool.creator.RequestCreator;
+import com.predic8.wstool.creator.SOARequestCreator;
 
 public class CreateSOAPRequest {
 
@@ -38,11 +41,9 @@ public class CreateSOAPRequest {
     formParams.put("xpath:/create/article/price/currency", "USD");
     formParams.put("xpath:/create/article/id", "1");
     
-    SOARequestCreator creator = new SOARequestCreator();
-    creator.setBuilder(new MarkupBuilder(writer));
-    creator.setDefinitions(wsdl);
+    //SOAPRequestCreator constructor: SOARequestCreator(Definitions, Creator, MarkupBuilder)
+    SOARequestCreator creator = new SOARequestCreator(wsdl, new RequestCreator(), new MarkupBuilder(writer));
     creator.setFormParams(formParams);
-    creator.setCreator(new RequestCreator());
     
     //creator.createRequest(PortType name, Operation name, Binding name);
     creator.createRequest("ArticleServicePT", "create", "ArticleServicePTBinding");
