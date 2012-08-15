@@ -1,0 +1,44 @@
+<schema targetNamespace="http://predic8.com/car" xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:car="http://predic8.com/car"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+  <!-- wsdl:arrayType is used for test purposes -->
+  <element name="MyCar" type="car:SmallCarType" wsdl:arrayType="xsd:integer[]"/>
+
+  <element name="MyNewCar" type="car:NewSmallCarType" />
+
+  <complexType name="CarType">
+    <sequence>
+      <element name="motor" type="string" />
+    </sequence>
+    <!-- wsdl:arrayType is used for test purposes -->
+    <attribute name="id" type="string"  wsdl:arrayType="xsd:integer[]"/>
+    <attribute name="speed" type="int" />
+  </complexType>
+
+  <complexType name="SmallCarType">
+    <complexContent>
+      <extension base="car:CarType">
+        <attribute name="door" type="integer" fixed="2" use="required" />
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="NewSmallCarType">
+    <complexContent>
+      <extension base="car:CarType">
+        <attribute ref="car:door" />
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <attribute name="door" use="required">
+    <simpleType>
+      <restriction base="int">
+        <enumeration value="2" />
+        <enumeration value="4" />
+      </restriction>
+    </simpleType>
+  </attribute>
+
+</schema>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://predic8.com/choice/contact/"
+        xmlns:tns="http://predic8.com/choice/contact/"
+        elementFormDefault="unqualified">
+  <!-- original -->
+  <complexType name="contactA">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="fax" type="int"/>
+      <element name="email" type="string"/>
+      <element name="icq" type="string"/>
+    </choice>
+  </complexType>
+
+  <!-- no changes -->
+  <complexType name="contactB">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="email" type="string"/>
+      <element name="fax" type="int"/>
+      <element name="icq" type="string"/>
+    </choice>
+  </complexType>
+
+  <!-- element removed -->
+  <complexType name="contactC">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="fax" type="int"/>
+      <element name="email" type="string"/>
+    </choice>
+  </complexType>
+
+  <!-- element added -->
+  <complexType name="contactD">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="fax" type="int"/>
+      <element name="email" type="string"/>
+      <element name="msn" type="string"/>
+      <element name="icq" type="string"/>
+    </choice>
+  </complexType>
+
+  <!-- additional sequence -->
+  <complexType name="contactE">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="fax" type="int"/>
+      <sequence>
+        <element name="msn" type="string"/>
+      </sequence>
+      <element name="email" type="string"/>
+      <element name="icq" type="string"/>
+    </choice>
+  </complexType>
+
+  <!-- original -->
+  <complexType name="contactF">
+    <choice>
+      <element name="tel" type="int"/>
+      <element name="fax" type="int"/>
+      <element name="email" type="string"/>
+      <element name="icq" type="string"/>
+    </choice>
+  </complexType>
+</schema>

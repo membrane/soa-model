@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="unqualified" xmlns:tns="unqualified" elementFormDefault="unqualified">
+  <xsd:element name="address">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="name" type="xsd:string"></xsd:element>
+        <xsd:element name="location" type="tns:locationType"></xsd:element>
+        <xsd:element name="phone">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="numbers" minOccures="0" maxOccures="unbounded" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="locationType">
+    <xsd:sequence>
+      <xsd:element name="city" type="xsd:string"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A2003A">
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:complexType name="AddressPrefType">
+		<xs:annotation>
+			<xs:documentation>Address(es) to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address" type="AddressInfoType"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PrivacyGroup"/>
+	</xs:complexType>
+	<xs:complexType name="CommonPrefType">
+		<xs:annotation>
+			<xs:documentation>Travel needs associated with a collection but independent of specific travel services.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NamePref" type="NamePrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PhonePref" type="PhonePrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AddressPref" type="AddressPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PaymentFormPref" type="PaymentFormPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="InterestPref" type="InterestPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="InsurancePref" type="InsurancePrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SeatingPref" type="SeatingPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TicketDistribPref" type="TicketDistribPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="MediaEntertainPref" type="MediaEntertainPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PetInfoPref" type="PetInfoPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="MealPref" type="MealPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LoyaltyPref" type="LoyaltyPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SpecRequestPref" type="SpecRequestPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="RelatedTravelerPref" type="RelatedTravelerPrefType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PrivacyGroup"/>
+		<xs:attributeGroup ref="SmokingIndicatorGroup"/>
+		<xs:attributeGroup ref="PrimaryLangID_Group"/>
+		<xs:attributeGroup ref="AltLangID_Group"/>
+	</xs:complexType>
+	<xs:complexType name="CompanyNamePrefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identifies a preferred company by name.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="CompanyNameType">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="InsurancePrefType">
+		<xs:annotation>
+			<xs:documentation>Identifies travel insurance policies to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="RPH" type="RPH_Type">
+					<xs:annotation>
+						<xs:documentation>Index number to be used for reference the insurance policy to be used in this travel collection.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="InterestPrefType">
+		<xs:annotation>
+			<xs:documentation>Traveler interests to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="LoyaltyPrefType">
+		<xs:annotation>
+			<xs:documentation>Loyalty programs to be used with this collection.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="RPH" type="RPH_Type">
+					<xs:annotation>
+						<xs:documentation>Identification of loyalty program by reference number or index.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="MealPrefType">
+		<xs:annotation>
+			<xs:documentation>Food and beverage preferences to be used with this collection.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="MealType" type="MealType">
+					<xs:annotation>
+						<xs:documentation>Type of meal required (e.g.,vegetarian, Kosher, low fat, etc.)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FavoriteFood" type="StringLength1to64">
+					<xs:annotation>
+						<xs:documentation>Dining preferences used with this collection.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Beverage" type="StringLength1to64">
+					<xs:annotation>
+						<xs:documentation>Type of drink(s) preferred.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="MediaEntertainPrefType">
+		<xs:annotation>
+			<xs:documentation>Media and entertainment information preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="NamePrefType">
+		<xs:annotation>
+			<xs:documentation>PersonName to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="UniqueID" type="UniqueID_Type"/>
+			<xs:element name="PersonName" type="PersonNameType"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+	</xs:complexType>
+	<xs:complexType name="OtherSrvcPrefType">
+		<xs:annotation>
+			<xs:documentation>Other travel service preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OtherSrvcName" type="StringLength1to32">
+				<xs:annotation>
+					<xs:documentation>Name of other travel services identified in this collection of preferences.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VendorPref" type="CompanyNamePrefType" minOccurs="0" maxOccurs="5"/>
+			<xs:element name="LoyaltyPref" type="LoyaltyPrefType" minOccurs="0" maxOccurs="5"/>
+			<xs:element name="PaymentFormPref" type="PaymentFormPrefType" minOccurs="0" maxOccurs="5"/>
+			<xs:element name="SpecRequestPref" type="SpecRequestPrefType" minOccurs="0" maxOccurs="5"/>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+		<xs:attributeGroup ref="PrivacyGroup"/>
+		<xs:attribute name="TravelPurpose" type="OTA_CodeType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="PaymentFormPrefType">
+		<xs:annotation>
+			<xs:documentation>Form(s) of payment to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="RPH" type="RPH_Type"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PetInfoPrefType">
+		<xs:annotation>
+			<xs:documentation>Indicates the preferences for information about pets that accompany the customer in a given travel situation.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PhonePrefType">
+		<xs:annotation>
+			<xs:documentation>Telephone number(s) to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Telephone" type="TelephoneInfoType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RelatedTravelerPrefType">
+		<xs:annotation>
+			<xs:documentation>Name(s) of related travelers to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="UniqueID" type="UniqueID_Type"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="PreferLevelGroup"/>
+	</xs:complexType>
+	<xs:complexType name="SeatingPrefType">
+		<xs:annotation>
+			<xs:documentation>Seating preferences to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="SeatDirection" type="StringLength1to16" use="optional">
+					<xs:annotation>
+						<xs:documentation>Direction seat faces during travel, when conveyance allows.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SeatLocation" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Location of seat in cabin of conveyance.  Suggested values include: Forward, Middle, Aft, ExitRow, Bulkhead, Right or Left Side, etc.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SeatPosition" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Preferred position of seat in a row, such as Aisle, Middle, Center, Window, etc.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SeatRow" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Preferred row for seating, indicates specific row number and/or seat identifier.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="SpecRequestPrefType">
+		<xs:annotation>
+			<xs:documentation>Special request to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TicketDistribPrefType">
+		<xs:annotation>
+			<xs:documentation>Type of ticket distribution to be used with this collection of preferences.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to64">
+				<xs:attributeGroup ref="PreferLevelGroup"/>
+				<xs:attribute name="DistribType" type="OTA_CodeType">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Ticket distribution method; such as Fax, Email, Courier, Mail, Airport_Pickup, City_Office, Hotel_Desk,
+							 WillCall, etc.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="TicketTime" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Ticket turnaround time desired, amount of time requested to deliver tickets.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirBookRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The Book Request message requests the system to book a specific itinerary for one or more identified passengers. The message contains 	optional pricing information, allowing the booking class availability and pricing to be rechecked as part of the booking process.	Optional request information can include:- Seat and Meal Requests- SSR, OSI, and Remarks.	</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">This identifes the party making the booking request. Trading partners are open to define their own UniqueID.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirItinerary" type="AirItineraryType">
+					<xs:annotation>
+						<xs:documentation>A collection of all flight segments requested for booking.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PriceInfo" type="BookingPriceInfoType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Pricing information for the air itinerary to be booked e.g. this data could come from the OTA_AirPriceRS data.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TravelerInfo" type="TravelerInfoType">
+					<xs:annotation>
+						<xs:documentation>All traveler information relevant to a booking request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Fulfillment" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>All payment information relevant to a booking request.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PaymentDetails" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PaymentDetail" type="PaymentDetailType" maxOccurs="99">
+											<xs:annotation>
+												<xs:documentation>Form of payment details for the requested booking. It is possible to use multiple forms of payment for one transaction, therefore this element may be used more than once.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DeliveryAddress" type="AddressType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Ticket delivery information for the booking request.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Name" type="PersonNameType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Purchaser name details</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Receipt" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="DistribType" type="OTA_CodeType"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Ticketing" type="TicketingInfoType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Information used to specify the ticketing arrangement.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Queue" minOccurs="0" maxOccurs="10">
+					<xs:annotation>
+						<xs:documentation>Specifies information necessary to place this booking on a particular host system queue.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="PseudoCityCode" type="StringLength1to16" use="optional">
+							<xs:annotation>
+								<xs:documentation>A 3 character ATA/IATA airport/city code of the system that delivers the
+message.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="QueueNumber" type="AlphaNumericStringLength1to8"/>
+						<xs:attribute name="QueueCategory" type="AlphaNumericStringLength1to8"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BookingReferenceID" type="UniqueID_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is used for PNR record locator.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

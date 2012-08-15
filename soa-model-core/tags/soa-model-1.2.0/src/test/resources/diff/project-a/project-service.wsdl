@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="project-service" targetNamespace="http://predic8.com/ProjectService/2/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://predic8.com/ProjectService/2/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ct="http://predic8.com/common-types/"
+  xmlns:hr="http://predic8.com/human-resources/" xmlns:pr="http://predic8.com/projects/">
+  <types>
+    <xsd:schema targetNamespace="http://predic8.com/ProjectService/1/">
+      <xsd:import namespace="http://predic8.com/projects/"
+        schemaLocation="projects.xsd" />
+
+      <xsd:complexType name="CreateType">
+        <xsd:sequence>
+          <xsd:element name="project" type="pr:ProjectType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="create" type="tns:CreateType" />
+    </xsd:schema>
+  </types>
+  <message name="createRequest">
+    <part name="parameters" element="tns:create" />
+  </message>
+  <portType name="ProjectServicePT">
+    <operation name="create">
+      <input name="input1" message="tns:createRequest" />
+    </operation>
+  </portType>
+  <binding name="ProjectServiceBinding" type="tns:ProjectServicePT">
+    <soap:binding style="document"
+      transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="create">
+      <soap:operation />
+      <input name="input1">
+        <soap:body use="literal" namespace="http://predic8.com/ProjectService/1/" />
+      </input>
+    </operation>
+  </binding>
+  <service name="ProjectService">
+    <port name="ProjectServicePort" binding="tns:ProjectServiceBinding">
+      <soap:address
+        location="http://localhost:${HttpDefaultPort}/ProjectService/ProjectServicePort" />
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelRatePlanNotifRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_HotelRatePlanNotifRS message returns an integer to indicate the status of processing the OTA_HotelRatePlanNotifRQ message.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="RatePlanCrossRefs" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Container for Rate Plan Cross Reference elements.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="RatePlanCrossRef" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Cross Reference between sending system and responding system Rate Plan Codes.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="RequestRatePlanCode" type="StringLength1to64" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Identification of the sending system Rate Plan Code. </xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="RequestRatePlanGroupingCode" type="StringLength1to64" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Identification of the sendings system Rate Plan Grouping Code.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="ResponseRatePlanCode" type="StringLength1to64" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Indentification of responing system Rate Plan Code.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="ResponseRatePlanGroupingCode" type="StringLength1to64" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Identification of the responing system Rate Plan Grouping Code.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

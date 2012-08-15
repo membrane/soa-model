@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://xml.netbeans.org/schema/annotation"
+    xmlns:tns="http://xml.netbeans.org/schema/annotation"
+    elementFormDefault="qualified">
+
+  <xsd:annotation>
+    <xsd:appinfo>Notiz</xsd:appinfo>
+    <xsd:documentation id="ID" xml:lang="de">Dieses Schema ist nur zum Testen erstellt worden!</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="employeeList" type="tns:EmployeeListType" >
+    <xsd:annotation id="2">
+      <xsd:appinfo source="kaveh">Notiz 1</xsd:appinfo>
+      <xsd:appinfo>Notiz 2</xsd:appinfo>
+      <xsd:documentation source="source 1" xml:lang="de">Dies ist eine Docu auf Elementebene!</xsd:documentation>
+      <xsd:documentation id="ID2" xml:lang="de">Das ist die zweite Documentation für dieses Element!</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="EmployeeListType">
+    <xsd:sequence>
+      <xsd:element name="employee" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://predic8.com/human-resources/" xmlns:tns="http://predic8.com/human-resources/"
+  elementFormDefault="unqualified" xmlns:ct="http://predic8.com/common-types/">
+
+  <xsd:import schemaLocation="common-types.xsd"
+    namespace="http://predic8.com/common-types/" />
+
+  <xsd:element name="element1" type="xsd:string" />
+
+  <xsd:simpleType name="dataType">
+    <xsd:element name="id" type="xsd:string" />
+  </xsd:simpleType>
+
+  <xsd:simpleType name="dateType">
+    <xsd:element name="id" type="xsd:date" />
+  </xsd:simpleType>
+
+  <xsd:simpleType name="integerType">
+    <xsd:element name="id" type="xsd:int" />
+  </xsd:simpleType>
+
+  <xsd:complexType name="PersonType">
+    <xsd:sequence name="1">
+      <xsd:element name="id" type="ct:IdentifierType" />
+      <xsd:element name="firstName" type="xsd:string" />
+      <xsd:element name="lastName" type="xsd:string" />
+      <xsd:element name="address" type="tns:AddressType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AddressType">
+    <xsd:sequence name="2">
+      <xsd:element name="street" type="xsd:string" />
+      <xsd:element name="city" type="xsd:string" />
+      <xsd:element name="postCode" type="xsd:string" />
+      <xsd:element name="country" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="EmployeeType">
+    <xsd:complexContent>
+      <xsd:extension base="tns:PersonType">
+        <xsd:sequence name="3">
+          <xsd:element name="department" type="xsd:string" />
+          <xsd:choice>
+            <xsd:sequence name="4">
+              <xsd:element name="mobile" type="xsd:string" />
+              <xsd:element name="pager" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EmployeeListType">
+    <xsd:sequence name="5">
+      <xsd:element name="employee" type="ct:IdentifierType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="contact">
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element name="street" type="xsd:string" />
+        <xsd:element name="city" type="xsd:string" />
+        <xsd:element name="zip" type="xsd:integer" />
+      </xsd:sequence>
+      <xsd:element name="email" type="xsd:string" />
+      <xsd:element name="fax" type="xsd:string" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="seq">
+    <xsd:sequence name="outerSchema1">
+      <xsd:sequence name="inner1Schema1">
+        <xsd:sequence name="7">
+          <xsd:element name="a" type="xsd:string" />
+          <xsd:element name="b" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:sequence>
+      <xsd:element name="testElement" type="xsd:string" />
+      <xsd:sequence name="inner2Schema1">
+        <xsd:element name="c" type="xsd:string" />
+      </xsd:sequence>
+      <xsd:element name="testElement2" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

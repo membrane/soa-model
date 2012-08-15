@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelAvailRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Returns information about hotel properties that meet the requested criteria, indicating whether the requested service, rate, room stay, etc. is available within the date(s) specified. The response message may include Warnings from business processing rules, or Errors if the request did not succeed.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0"/>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Success" type="SuccessType"/>
+						<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+						<xs:element name="Profiles" type="ProfilesType" minOccurs="0"/>
+						<xs:element name="RoomStays" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="RoomStay" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Details on the Room Stay including Guest Counts, Time Span of this Room Stay, and financial information related to the Room Stay, including Guarantee, Deposit and Payment and Cancellation Penalties.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="RoomStayType">
+													<xs:sequence>
+														<xs:element name="AlternateInfo"/>
+													</xs:sequence>
+													<xs:attribute name="IsAlternate" type="xs:boolean" use="optional" default="false">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">Indicates that that the RoomStay is an alternate offer. Default=false.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="MoreIndicator" type="StringLength1to32">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">A text field used to indicate that there are additional rates that could not be fit within the availability response.  The text returned should be meaningful in identifying where to begin the next block of data and sent in the availability request.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Areas" type="AreasType" minOccurs="0"/>
+						<xs:element name="Criteria" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Criterion" type="HotelSearchCriterionType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:element name="Errors" type="ErrorsType"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

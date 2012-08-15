@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://predic8.com/attr/contact/"
+        xmlns:tns="http://predic8.com/attr/contact/"
+        elementFormDefault="unqualified">
+  <!-- original -->
+  <complexType name="contactA">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string"/>
+    <attribute name="address" type="string"/>
+    <attribute name="email" type="string"/>
+    <attribute name="fax" type="string"/>
+  </complexType>
+
+  <!-- no changes -->
+  <complexType name="contactB">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string"/>
+    <attribute name="address" type="string"/>
+    <attribute name="email" type="string"/>
+    <attribute name="fax" type="string"/>
+  </complexType>
+
+  <!-- attr type changed -->
+  <complexType name="contactC">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string"/>
+    <attribute name="address" type="string"/>
+    <attribute name="email" type="NMTOKEN"/>
+    <attribute name="fax" type="string"/>
+  </complexType>
+
+  <!-- attr fixed & use changed -->
+  <complexType name="contactD">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string" use="required"/>
+    <attribute name="address" type="string" fixed="Germany"/>
+    <attribute name="email" type="string" />
+    <attribute name="fax" type="string"/>
+  </complexType>
+
+  <!-- attr added -->
+  <complexType name="contactE">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string"/>
+    <attribute name="address" type="string"/>
+    <attribute name="email" type="string"/>
+    <attribute name="fax" type="string"/>
+    <attribute name="icq" type="string"/>
+  </complexType>
+
+  <!-- attr removed -->
+  <complexType name="contactF">
+    <attribute name="name" type="string"/>
+    <attribute name="tel" type="string"/>
+    <attribute name="address" type="string"/>
+    <attribute name="email" type="string"/>
+  </complexType>
+
+  <!-- att with ref -->
+  <complexType name="contactG">
+    <attribute ref="attr1"/>
+  </complexType>
+
+  <attribute name="attr1">
+    <simpleType>
+      <restriction base="string">
+        <maxLength value="20"/>
+      </restriction>
+    </simpleType>
+  </attribute>
+
+</schema>

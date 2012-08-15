@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="hotel1" targetNamespace="http://predic8.com/hotel/1"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ota="http://www.opentravel.org/OTA/2003/05" xmlns:tns="http://predic8.com/hotel/1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://www.opentravel.org/OTA/2003/05" xmlns:ns2="http://www.opentravel.org/OTA/2003/05" xmlns:ns3="http://www.opentravel.org/OTA/2003/05" xmlns:ns4="http://www.opentravel.org/OTA/2003/05" xmlns:ns5="http://www.opentravel.org/OTA/2003/05" xmlns:ns6="http://www.opentravel.org/OTA/2003/05" xmlns:ns7="http://www.opentravel.org/OTA/2003/05" xmlns:ns8="http://www.opentravel.org/OTA/2003/05" xmlns:ns9="http://www.opentravel.org/OTA/2003/05" xmlns:ns10="http://www.opentravel.org/OTA/2003/05" xmlns:ns11="http://www.opentravel.org/OTA/2003/05" xmlns:ns12="http://www.opentravel.org/OTA/2003/05" xmlns:ns13="http://www.opentravel.org/OTA/2003/05" xmlns:ns14="http://www.opentravel.org/OTA/2003/05" xmlns:ns15="http://www.opentravel.org/OTA/2003/05" xmlns:ns16="http://www.opentravel.org/OTA/2003/05" xmlns:ns17="http://www.opentravel.org/OTA/2003/05" xmlns:ns18="http://www.opentravel.org/OTA/2003/05" xmlns:ns19="http://www.opentravel.org/OTA/2003/05" xmlns:ns20="http://www.opentravel.org/OTA/2003/05" xmlns:ns21="http://www.opentravel.org/OTA/2003/05" xmlns:ns22="http://www.opentravel.org/OTA/2003/05" xmlns:ns23="http://www.opentravel.org/OTA/2003/05" xmlns:ns24="http://www.opentravel.org/OTA/2003/05" xmlns:ns25="http://www.opentravel.org/OTA/2003/05" xmlns:ns26="http://www.opentravel.org/OTA/2003/05" xmlns:ns27="http://www.opentravel.org/OTA/2003/05" xmlns:ns28="http://www.opentravel.org/OTA/2003/05" xmlns:ns29="http://www.opentravel.org/OTA/2003/05" xmlns:ns30="http://www.opentravel.org/OTA/2003/05" xmlns:ns31="http://www.opentravel.org/OTA/2003/05" xmlns:ns32="http://www.opentravel.org/OTA/2003/05" xmlns:ns33="http://www.opentravel.org/OTA/2003/05" xmlns:ns34="http://www.opentravel.org/OTA/2003/05" xmlns:ns35="http://www.opentravel.org/OTA/2003/05" xmlns:ns36="http://www.opentravel.org/OTA/2003/05" xmlns:ns37="http://www.opentravel.org/OTA/2003/05" xmlns:ns38="http://www.opentravel.org/OTA/2003/05" xmlns:ns39="http://www.opentravel.org/OTA/2003/05" xmlns:ns40="http://www.opentravel.org/OTA/2003/05" xmlns:ns41="http://www.opentravel.org/OTA/2003/05" xmlns:ns42="http://www.opentravel.org/OTA/2003/05" xmlns:ns43="http://www.opentravel.org/OTA/2003/05" xmlns:ns44="http://www.opentravel.org/OTA/2003/05" xmlns:ns45="http://www.opentravel.org/OTA/2003/05" xmlns:ns46="http://www.opentravel.org/OTA/2003/05" xmlns:ns47="http://www.opentravel.org/OTA/2003/05" xmlns:ns48="http://www.opentravel.org/OTA/2003/05" xmlns:ns49="http://www.opentravel.org/OTA/2003/05" xmlns:ns50="http://www.opentravel.org/OTA/2003/05" xmlns:ns51="http://www.opentravel.org/OTA/2003/05" xmlns:ns52="http://www.opentravel.org/OTA/2003/05" xmlns:ns53="http://www.opentravel.org/OTA/2003/05" xmlns:ns54="http://www.opentravel.org/OTA/2003/05" xmlns:ns55="http://www.opentravel.org/OTA/2003/05" xmlns:ns56="http://www.opentravel.org/OTA/2003/05" xmlns:ns57="http://www.opentravel.org/OTA/2003/05" xmlns:ns58="http://www.opentravel.org/OTA/2003/05" xmlns:ns59="http://www.opentravel.org/OTA/2003/05" xmlns:ns60="http://www.opentravel.org/OTA/2003/05" xmlns:ns61="http://www.opentravel.org/OTA/2003/05" xmlns:ns62="http://www.opentravel.org/OTA/2003/05" xmlns:ns63="http://www.opentravel.org/OTA/2003/05" xmlns:ns64="http://www.opentravel.org/OTA/2003/05" xmlns:ns65="http://www.opentravel.org/OTA/2003/05" xmlns:ns66="http://www.opentravel.org/OTA/2003/05" xmlns:ns67="http://www.opentravel.org/OTA/2003/05" xmlns:ns68="http://www.opentravel.org/OTA/2003/05" xmlns:ns69="http://www.opentravel.org/OTA/2003/05" xmlns:ns70="http://www.opentravel.org/OTA/2003/05" xmlns:ns71="http://www.opentravel.org/OTA/2003/05" xmlns:ns72="http://www.opentravel.org/OTA/2003/05" xmlns:ns73="http://www.opentravel.org/OTA/2003/05" xmlns:ns74="http://www.opentravel.org/OTA/2003/05" xmlns:ns75="http://www.opentravel.org/OTA/2003/05" xmlns:ns76="http://www.opentravel.org/OTA/2003/05" xmlns:ns77="http://www.opentravel.org/OTA/2003/05" xmlns:ns78="http://www.opentravel.org/OTA/2003/05" xmlns:ns79="http://www.opentravel.org/OTA/2003/05" xmlns:ns80="http://www.opentravel.org/OTA/2003/05" xmlns:ns81="http://www.opentravel.org/OTA/2003/05" xmlns:ns82="http://www.opentravel.org/OTA/2003/05" xmlns:ns83="http://www.opentravel.org/OTA/2003/05" xmlns:ns84="http://www.opentravel.org/OTA/2003/05" xmlns:ns85="http://www.opentravel.org/OTA/2003/05" xmlns:ns86="http://www.opentravel.org/OTA/2003/05" xmlns:ns87="http://www.opentravel.org/OTA/2003/05" xmlns:ns88="http://www.opentravel.org/OTA/2003/05" xmlns:ns89="http://www.opentravel.org/OTA/2003/05" xmlns:ns90="http://www.opentravel.org/OTA/2003/05" xmlns:ns91="http://www.opentravel.org/OTA/2003/05" xmlns:ns92="http://www.opentravel.org/OTA/2003/05" xmlns:ns93="http://www.opentravel.org/OTA/2003/05" xmlns:ns94="http://www.opentravel.org/OTA/2003/05" xmlns:ns95="http://www.opentravel.org/OTA/2003/05" xmlns:ns96="http://www.opentravel.org/OTA/2003/05" xmlns:ns97="http://www.opentravel.org/OTA/2003/05" xmlns:ns98="http://www.opentravel.org/OTA/2003/05" xmlns:ns99="http://www.opentravel.org/OTA/2003/05" xmlns:ns100="http://www.opentravel.org/OTA/2003/05" xmlns:ns101="http://www.opentravel.org/OTA/2003/05" xmlns:ns102="http://www.opentravel.org/OTA/2003/05" xmlns:ns103="http://www.opentravel.org/OTA/2003/05" xmlns:ns104="http://www.opentravel.org/OTA/2003/05" xmlns:ns105="http://www.opentravel.org/OTA/2003/05" xmlns:ns106="http://www.opentravel.org/OTA/2003/05" xmlns:ns107="http://www.opentravel.org/OTA/2003/05" xmlns:ns108="http://www.opentravel.org/OTA/2003/05" xmlns:ns109="http://www.opentravel.org/OTA/2003/05" xmlns:ns110="http://www.opentravel.org/OTA/2003/05" xmlns:ns111="http://www.opentravel.org/OTA/2003/05" xmlns:ns112="http://www.opentravel.org/OTA/2003/05" xmlns:ns113="http://www.opentravel.org/OTA/2003/05" xmlns:ns114="http://www.opentravel.org/OTA/2003/05" xmlns:ns115="http://www.opentravel.org/OTA/2003/05" xmlns:ns116="http://www.opentravel.org/OTA/2003/05" xmlns:ns117="http://www.opentravel.org/OTA/2003/05" xmlns:ns118="http://www.opentravel.org/OTA/2003/05" xmlns:ns119="http://www.opentravel.org/OTA/2003/05" xmlns:ns120="http://www.opentravel.org/OTA/2003/05" xmlns:ns121="http://www.opentravel.org/OTA/2003/05" xmlns:ns122="http://www.opentravel.org/OTA/2003/05" xmlns:ns123="http://www.opentravel.org/OTA/2003/05" xmlns:ns124="http://www.opentravel.org/OTA/2003/05" xmlns:ns125="http://www.opentravel.org/OTA/2003/05">
+    <types>
+        <xsd:schema targetNamespace="http://www.opentravel.org/OTA/2003/05">
+            <xsd:include schemaLocation="xsd/OTA_HotelResNotifRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelResNotifRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelInvCountNotifRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelInvCountNotifRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelRateAmountNotifRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelRateAmountNotifRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelAvailNotifRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelAvailNotifRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelBookingRuleNotifRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_HotelBookingRuleNotifRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_CancelRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_CancelRS.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_PingRQ.xsd"/>
+            <xsd:include schemaLocation="xsd/OTA_PingRS.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="otaHotelResNotifRequest">
+        <part name="parameters" element="ota:OTA_HotelResNotifRQ"/>
+    </message>
+    <message name="otaHotelResNotifResponse">
+        <part name="parameters" element="ota:OTA_HotelResNotifRS"/>
+    </message>
+    <message name="otaHotelInvCountNotifRequest">
+        <part name="parameters" element="ota:OTA_HotelInvCountNotifRQ"/>
+    </message>
+    <message name="otaHotelInvCountNotifResponse">
+        <part name="parameters" element="ota:OTA_HotelInvCountNotifRS"/>
+    </message>
+    <message name="otaHotelRateAmountNotifRequest">
+        <part name="parameters" element="ota:OTA_HotelRateAmountNotifRQ"/>
+    </message>
+    <message name="otaHotelRateAmountNotifResponse">
+        <part name="parameters" element="ota:OTA_HotelRateAmountNotifRS"/>
+    </message>
+    <message name="otaHotelAvailNotifRequest">
+        <part name="parameters" element="ota:OTA_HotelAvailNotifRQ"/>
+    </message>
+    <message name="otaHotelAvailNotifResponse">
+        <part name="parameters" element="ota:OTA_HotelAvailNotifRS"/>
+    </message>
+    <message name="otaHotelBookingRuleNotifRequest">
+        <part name="parameters" element="ota:OTA_HotelBookingRuleNotifRQ"/>
+    </message>
+    <message name="otaHotelBookingRuleNotifResponse">
+        <part name="parameters" element="ota:OTA_HotelBookingRuleNotifRS"/>
+    </message>
+    <message name="otaCancelRequest">
+        <part name="parameters" element="ota:OTA_CancelRQ"/>
+    </message>
+    <message name="otaCancelResponse">
+        <part name="parameters" element="ota:OTA_CancelRS"/>
+    </message>
+    <message name="otaPingRequest">
+        <part name="parameters" element="ota:OTA_PingRQ"/>
+    </message>
+    <message name="otaPingResponse">
+        <part name="parameters" element="ota:OTA_PingRS"/>
+    </message>
+    <portType name="hotelPortType">
+        <operation name="otaHotelResNotif">
+            <input name="input1" message="tns:otaHotelResNotifRequest"/>
+            <output name="output1" message="tns:otaHotelResNotifResponse"/>
+        </operation>
+        <operation name="otaHotelInvCountNotif">
+            <input name="input2" message="tns:otaHotelInvCountNotifRequest"/>
+            <output name="output2" message="tns:otaHotelInvCountNotifResponse"/>
+        </operation>
+        <operation name="otaHotelRateAmountNotif">
+            <input name="input3" message="tns:otaHotelRateAmountNotifRequest"/>
+            <output name="output3" message="tns:otaHotelRateAmountNotifResponse"/>
+        </operation>
+        <operation name="otaHotelAvailNotif">
+            <input name="input4" message="tns:otaHotelAvailNotifRequest"/>
+            <output name="output4" message="tns:otaHotelAvailNotifResponse"/>
+        </operation>
+        <operation name="otaHotelBookingRuleNotif">
+            <input name="input5" message="tns:otaHotelBookingRuleNotifRequest"/>
+            <output name="output5" message="tns:otaHotelBookingRuleNotifResponse"/>
+        </operation>
+        <operation name="otaCancel">
+            <input name="input6" message="tns:otaCancelRequest"/>
+            <output name="output6" message="tns:otaCancelResponse"/>
+        </operation>
+        <operation name="otaPing">
+            <input name="input7" message="tns:otaPingRequest"/>
+            <output name="output7" message="tns:otaPingResponse"/>
+        </operation>
+    </portType>
+    <binding name="hotelBinding" type="tns:hotelPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="otaHotelResNotif">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output1">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaHotelInvCountNotif">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output2">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaHotelRateAmountNotif">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output3">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaHotelAvailNotif">
+            <soap:operation/>
+            <input name="input4">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output4">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaHotelBookingRuleNotif">
+            <soap:operation/>
+            <input name="input5">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output5">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaCancel">
+            <soap:operation/>
+            <input name="input6">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output6">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="otaPing">
+            <soap:operation/>
+            <input name="input7">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output7">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="HotelService">
+        <port name="hotelPort" binding="tns:hotelBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/hotel/HotelService"/>
+        </port>
+    </service>
+</definitions>

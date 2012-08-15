@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_GolfCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_GolfCourseSearchRQ">
+		<xs:annotation>
+			<xs:documentation>Sends a request for course information to another system. All the elements and attributes are optional, unless otherwise stated as required.  The requesting system may request a detailed or summary response.	</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Criteria">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Criterion" type="CriteriaType" maxOccurs="99"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="ID_Group"/>
+			<xs:attributeGroup ref="DetailResponseGroup">
+				<xs:annotation>
+					<xs:documentation>If the requestor desires a response that includes all the traits associated with the golf course(s) in the response, this boolean is set to "true".  In that case, all the traits 	of the course will be returned.  Where the DetailResponse is set to "false", the response will be required to send only the traits that match the criteria being sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

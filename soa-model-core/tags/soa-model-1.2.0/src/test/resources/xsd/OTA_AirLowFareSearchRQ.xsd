@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirLowFareSearchRQ">
+		<xs:annotation>
+			<xs:documentation>
+	The Low Fare Search Request message requests priced itinerary options for flights between specific city pairs on specific dates for specific 	numbers and types of passengers. Optional request information can include:
+	- Time / Time Window
+	- Connecting cities.
+	- Client Preferences (airlines, cabin, flight types etc.)
+	The Low Fare Search request contains similar information to a Low Fare Search entry on an airline CRS or GDS.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Point of sale object. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OriginDestinationInformation" maxOccurs="10">
+					<xs:annotation>
+						<xs:documentation>Origin and Destination location, and time information for the Air Low Fare Search request. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="OriginDestinationInformationType">
+								<xs:sequence>
+									<xs:element ref="TPA_Extensions" minOccurs="0"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SpecificFlightInfo" type="SpecificFlightInfoType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specify actual airline, flight number, or booking class to qualify the low fare search</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TravelPreferences" type="AirSearchPrefsType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Air Low Fare Search Request preference information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TravelerInfoSummary" type="TravelerInfoSummaryType">
+					<xs:annotation>
+						<xs:documentation>Specify the number of passengers and types for Air Low Fare Search</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="MaxResponsesGroup"/>
+			<xs:attribute name="DirectFlightsOnly" type="xs:boolean" use="optional" default="false">
+				<xs:annotation>
+					<xs:documentation> Request direct flights on between the given locations.This defaults to false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="AvailableFlightsOnly" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Include only flights with available booking codes (when True or when attribute not present).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

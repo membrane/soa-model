@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://predic8.com/projects/" xmlns:tns="http://predic8.com/projects/"
+  elementFormDefault="unqualified" xmlns:ct="http://predic8.com/common-types/"
+  xmlns:hr="http://predic8.com/human-resources/">
+  <xsd:annotation>
+    <xsd:documentation>Types used in the project management application.
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:import schemaLocation="common-types.xsd"
+    namespace="http://predic8.com/common-types/" />
+  <xsd:import schemaLocation="human-resources.xsd"
+    namespace="http://predic8.com/human-resources/" />
+
+  <xsd:complexType name="ProjectType">
+    <xsd:annotation>
+      <xsd:documentation>Describes a project.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="id" type="ct:IdentifierType"></xsd:element>
+      <xsd:element name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the project.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="priority" type="xsd:unsignedByte"></xsd:element>
+      <xsd:element name="begin" type="xsd:date"></xsd:element>
+      <xsd:element name="employees" type="hr:EmployeeListType"
+        minOccurs="2">
+        <xsd:annotation>
+          <xsd:documentation>Employees associated to the project team.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="type" type="xsd:string " />
+  </xsd:complexType>
+</xsd:schema>

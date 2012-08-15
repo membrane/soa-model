@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirFlifoRS">
+		<xs:annotation>
+			<xs:documentation>Details of flight departure, arrival and gate information for a particular flight, including actual as well as scheduled departure and arrival times.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="FlightInfoDetails">
+						<xs:annotation>
+							<xs:documentation>Collection of flight leg information.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FlightLegInfo" maxOccurs="10">
+									<xs:annotation>
+										<xs:documentation>Information regarding each leg of the flight. A flight leg is one departure and one arrival (non-stop sector). </xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="DepartureAirport">
+												<xs:complexType>
+													<xs:complexContent>
+														<xs:extension base="AirportLocationType">
+															<xs:sequence>
+																<xs:element name="Comment" minOccurs="0" maxOccurs="unbounded">
+																	<xs:annotation>
+																		<xs:documentation>Any special comments about the departure airport.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="FreeTextType"/>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:extension>
+													</xs:complexContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="ArrivalAirport" maxOccurs="2">
+												<xs:annotation>
+													<xs:documentation>Arrival point of flight segment. Second occurrence indicates diversion airport.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:complexContent>
+														<xs:extension base="AirportLocationType">
+															<xs:sequence>
+																<xs:element name="Comment" minOccurs="0" maxOccurs="unbounded">
+																	<xs:annotation>
+																		<xs:documentation>Any special comments about the arrival airport.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="FreeTextType"/>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="Diversion" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation xml:lang="en">Indicates the flight has diverted to this airport.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="BaggageClaim" type="StringLength1to8" use="optional">
+																<xs:annotation>
+																	<xs:documentation>Specifies the location or carousel number for baggage from the arriving flight.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:extension>
+													</xs:complexContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="MarketingAirline" type="CompanyNameType">
+												<xs:annotation>
+													<xs:documentation>The marketing airline.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="OperatingAirline" type="OperatingAirlineType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>The operating airline of the flight if it is a codeshare  flight.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="Equipment" type="EquipmentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation> The type of equipment  used for the  flight..</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="Comment" minOccurs="0" maxOccurs="5">
+												<xs:annotation>
+													<xs:documentation>Any special comments on the leg such as travel advisory messages, passenger advisory messages, etc.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="FreeTextType"/>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="DepartureDateTime">
+												<xs:annotation>
+													<xs:documentation>Specifies scheduled and other  date time information.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:attribute name="Scheduled" type="TimeOrDateTimeType"/>
+													<xs:attribute name="Estimated" type="TimeOrDateTimeType"/>
+													<xs:attribute name="Actual" type="TimeOrDateTimeType"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="ArrivalDateTime">
+												<xs:annotation>
+													<xs:documentation>Specifies scheduled and other date time information.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:attribute name="Scheduled" type="TimeOrDateTimeType"/>
+													<xs:attribute name="Estimated" type="TimeOrDateTimeType"/>
+													<xs:attribute name="Actual" type="TimeOrDateTimeType"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="OperationTimes" minOccurs="0">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="OperationTime" maxOccurs="99">
+															<xs:annotation>
+																<xs:documentation>Provides information on operational events for this flight leg e.g. off-ground.</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="ReasonCode" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>The reason attributed to a delay or cancellation.  </xs:documentation>
+																		</xs:annotation>
+																		<xs:complexType>
+																			<xs:attributeGroup ref="CodeListGroup"/>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:sequence>
+																<xs:attribute name="Time" type="TimeOrDateTimeType" use="required"/>
+																<xs:attribute name="OperationType" type="OTA_CodeType" use="required"/>
+																<xs:attribute name="TimeType" use="required">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:NMTOKEN">
+																			<xs:enumeration value="Actual"/>
+																			<xs:enumeration value="Scheduled"/>
+																			<xs:enumeration value="Estimated"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+										<xs:attributeGroup ref="FlifoLegAttributes"/>
+										<xs:attribute name="FlightStatus" type="StringLength1to32" use="optional">
+											<xs:annotation>
+												<xs:documentation>Status of the current flight operation. </xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Comment" type="FreeTextType" minOccurs="0" maxOccurs="5">
+									<xs:annotation>
+										<xs:documentation>Any special comments on the flight.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="MessageStatus" type="StringLength1to32" use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Indicates various status information about the flight such as real-time, scheduled or flight cancelled.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attributeGroup ref="AirDetailsRSAttributes"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="FlifoLegAttributes">
+		<xs:annotation>
+			<xs:documentation> The attributes for the flight leg details object </xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="FlightNumber" type="FlightNumberType" use="required">
+			<xs:annotation>
+				<xs:documentation> The flight number of the flight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="JourneyDuration" type="xs:duration" use="optional">
+			<xs:annotation>
+				<xs:documentation> The duration of the flight from departure location to destination  location.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="GroundDuration" type="xs:duration" use="optional">
+			<xs:annotation>
+				<xs:documentation> The duration of a ground stop.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AccumulatedDuration" type="xs:duration" use="optional"/>
+		<xs:attribute name="LegDistance" type="xs:nonNegativeInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+		Miles aquired per flight segments, usually used for earning of frequent flyer miles.
+		</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="FLIFO_DateTimeType">
+		<xs:sequence>
+			<xs:element name="OtherTime" minOccurs="0" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>Indicates the various times related to a departure and/or arrival.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReasonCode" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>List of reasons that can be attributed for a delay or cancellation.  </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="CodeListGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="QualDateTime" type="xs:dateTime" use="required"/>
+					<xs:attribute name="Type" type="OTA_CodeType" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ScheduledTime" type="xs:dateTime" use="optional"/>
+	</xs:complexType>
+</xs:schema>

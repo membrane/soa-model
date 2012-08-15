@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://library/"
+  xmlns:tns="http://library/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="addBook" type="tns:addBook" />
+
+  <xs:element name="addBookResponse" type="tns:addBookResponse" />
+
+  <xs:element name="timeout" type="xs:int" />
+
+  <xs:element name="username" nillable="true" type="xs:string" />
+
+  <xs:complexType name="addBook">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string" minOccurs="1" />
+      <xs:element name="author" type="xs:string" minOccurs="1"
+        maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addBookResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
