@@ -16,12 +16,12 @@ package com.predic8.wstool.creator
 
 import org.apache.commons.logging.*
 
-import com.predic8.soamodel.Consts
 import com.predic8.schema.creator.*
 import com.predic8.schema.*
 import com.predic8.wsdl.Part
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
+import groovy.xml.MarkupBuilderHelper
 
 class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   
@@ -51,12 +51,21 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   private createBuildInElement(Element element, RequestCreatorContext ctx) {
     def attrs = [:]
     declNSifNeeded('ns1',element.schema.targetNamespace, attrs, ctx)
-    def entries = ctx.formParams.findAll{it.key.startsWith("${ctx.path}${element.name}")}
-    if(element.type?.localPart=='boolean' && !entries) entries["${ctx.path}${element.name}"] = 'false'
+	//This makes problems if the element name is also used in upper levels.
+//    def entries = ctx.formParams.findAll{it.key.startsWith("${ctx.path}${element.name}")}
+    def entries = ctx.formParams.findAll{it.key == "${ctx.path}${element.name}"}
+
+		//The next line causes unnecessary elements be created without xpath expression!
+//    if(element.type?.localPart=='boolean' && !entries) entries["${ctx.path}${element.name}"] = 'false'
+	//This could be a fix:
+	if(!entries && element.minOccurs == '0') return
+
     entries.keySet().sort{it}.each {
       builder."${getElementTagName(element)}"(entries[it],attrs)
     }
     if (!entries) {
+	  //This is the case, where the element is required and has not be declared in the xpath expression!
+	  yield("\n<!-- This element is required and should be filled. -->")
       builder."${getElementTagName(element)}"(null,attrs)
     }
   }
@@ -68,7 +77,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
       createElementFromCT(type, newCtx)
     }
     if(!getElementXpaths(ctx)) {
-      if(ctx.element.minOccurs == 0) {
+      if(ctx.element.minOccurs == '0') {
         return
       }
       def newCtx = ctx.clone()
@@ -117,5 +126,9 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
 
   private getFormParamValue(ctx) {
     ctx.formParams["${ctx.path}${ctx.element.name}"]
+  }
+  
+  private yield(s) {
+	new MarkupBuilderHelper(builder).yieldUnescaped(s)
   }
 }

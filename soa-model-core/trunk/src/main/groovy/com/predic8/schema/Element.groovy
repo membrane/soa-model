@@ -33,8 +33,8 @@ class Element extends Declaration {
   boolean toplevel = false
   Annotation annotation
   QName ref
-  String minOccurs = 1
-  String maxOccurs = 1
+  String minOccurs 
+  String maxOccurs 
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)

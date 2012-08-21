@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns="http://xmlns.telco.com/ServiceCatalog/Business/Device/SendSubscriberDeviceSettings/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://xmlns.telco.com/ServiceCatalog/Business/Device/SendSubscriberDeviceSettings/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MSISDN" type="xs:string" />
+				<xs:element name="MSISDNOnly" type="xs:boolean"
+					minOccurs="0" />
+				<xs:element name="Service" type="xs:int" minOccurs="0" />
+				<xs:element name="ServiceList" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Service" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Id" type="xs:int" />
+										<xs:element name="Param" type="xs:boolean"
+											minOccurs="0" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
