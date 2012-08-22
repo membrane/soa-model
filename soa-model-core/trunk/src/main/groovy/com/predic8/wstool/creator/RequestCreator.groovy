@@ -52,13 +52,12 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
     def attrs = [:]
     declNSifNeeded('ns1',element.schema.targetNamespace, attrs, ctx)
 	//This makes problems if the element name is also used in upper levels.
-//    def entries = ctx.formParams.findAll{it.key.startsWith("${ctx.path}${element.name}")}
-    def entries = ctx.formParams.findAll{it.key == "${ctx.path}${element.name}"}
+    def entries = ctx.formParams.findAll{(it.key.split('/')[0..-2] + (it.key.split('/')[-1]  - ~/\[\d\]/)).join('/') == "${ctx.path}${element.name}"}
 
-		//The next line causes unnecessary elements be created without xpath expression!
-//    if(element.type?.localPart=='boolean' && !entries) entries["${ctx.path}${element.name}"] = 'false'
-	//This could be a fix:
-	if(!entries && element.minOccurs == '0') return
+		/*The next line causes unnecessary elements be created without xpath expression!
+    if(element.type?.localPart=='boolean' && !entries) entries["${ctx.path}${element.name}"] = 'false'
+	  This could be a fix:*/
+	  if(!entries && element.minOccurs == '0') return
 
     entries.keySet().sort{it}.each {
       builder."${getElementTagName(element)}"(entries[it],attrs)
@@ -129,6 +128,6 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   }
   
   private yield(s) {
-	new MarkupBuilderHelper(builder).yieldUnescaped(s)
+	  new MarkupBuilderHelper(builder).yieldUnescaped(s)
   }
 }

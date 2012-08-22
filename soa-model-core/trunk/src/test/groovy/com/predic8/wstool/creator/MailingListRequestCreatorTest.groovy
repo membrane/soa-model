@@ -39,13 +39,13 @@ class MailingListRequestCreatorTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
     def formParams = [:]
-    formParams['xpath:/Request/MSISDN']='13723'
-    formParams['xpath:/Request/ServiceList/Service/Id']='3223232'
+    formParams['xpath:/Request/ServiceList/Service[1]/accountId']='3223232'
+    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[1]']='Suspended'
+    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[2]']='Active'
+    formParams['xpath:/Request/ServiceList/Service[2]/accountId']='2'
+    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[1]']='foo'
+    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[2]']='bar'
     schema.getElement('Request').create(creator, new RequestCreatorContext(formParams:formParams))
-//    def request = new XmlSlurper().parseText(strWriter.toString())
-//    assertEquals('1', request.employee.id.text())
-//    assertEquals('123', request.employee.department.id.text())
-//    assertEquals('30', request.employee.@age.toString())
-    println strWriter
+//    println strWriter
   }
 }
