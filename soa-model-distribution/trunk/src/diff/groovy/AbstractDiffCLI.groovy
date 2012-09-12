@@ -49,7 +49,7 @@ abstract class AbstractDiffCLI {
         println "Can not parse the document from: ${url2}"
         System.exit(1)
       }
-      output = options.o ?: ''
+      output = options.o ?: 'output'
       format = options.f ?: 'xml'
     }
     else {

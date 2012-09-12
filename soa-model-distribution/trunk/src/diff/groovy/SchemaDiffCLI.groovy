@@ -1,17 +1,12 @@
 package diff.groovy
 
-
-import groovy.xml.MarkupBuilder
 import javax.xml.transform.*
-//import javax.xml.transform.Result
-//import javax.xml.transform.Source
-//import javax.xml.transform.Transformer
-//import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
+import groovy.xml.MarkupBuilder
+import com.predic8.soamodel.Difference;
 import com.predic8.schema.SchemaParser;
 import com.predic8.schema.diff.SchemaDiffGenerator;
-import com.predic8.soamodel.Difference;
 
 class SchemaDiffCLI extends AbstractDiffCLI{
 
@@ -20,17 +15,8 @@ class SchemaDiffCLI extends AbstractDiffCLI{
   }
 
   void Diff2Xml(List<Difference> diffs){
-    new File("output").mkdir();
-//    def writer = new FileWriter("output/raw.xml")
     def writer = new ByteArrayOutputStream()
     builder = new MarkupBuilder(new PrintWriter(writer))
-//    if(output){
-//      new File(output).mkdir();
-//      builder = new MarkupBuilder(new FileWriter("$output/schemaDiff.xml"))
-//    }
-//    else{
-//      builder = new MarkupBuilder()
-//    }
     builder.SchemaDiff{
       "Schema-a"{
         URL(url1)
@@ -61,11 +47,12 @@ class SchemaDiffCLI extends AbstractDiffCLI{
   public transform(input){
     try {
       TransformerFactory xformFactory = TransformerFactory.newInstance()
-      Source xsl = new StreamSource("style/copy.xslt")
+      Source xsl = new StreamSource("src/style/schema/2html.xslt")
       Transformer stylesheet = xformFactory.newTransformer(xsl)
-    
       Source request  = new StreamSource(input)
-      Result response = new StreamResult(new FileWriter("output/result.xml"))
+
+      new File(output).mkdir()
+      Result response = new StreamResult(new FileWriter("$output/schemaDiff-result.html"))
       stylesheet.transform(request, response)
     }
     catch (TransformerException e) {
