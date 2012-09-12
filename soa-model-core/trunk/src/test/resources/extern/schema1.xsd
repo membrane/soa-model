@@ -7,10 +7,25 @@
   <xs:element name="Request">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="MSISDN" type="xs:string" />
-        <xs:element name="MSISDNOnly" type="xs:boolean"
-          minOccurs="0" />
-        <xs:element name="Service" type="xs:int" minOccurs="0" />
+        <!-- xs:element name="MSISDN" type="xs:string" /-->
+        <xs:element name="MSISDN" >
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:restriction base="xs:string">
+                <xs:maxLength value="4"/>
+              </xs:restriction>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MSISDNOnly" type="xs:boolean" minOccurs="0" />
+        <!-- xs:element name="Service" type="xs:int" minOccurs="0" /-->
+        <xs:element name="Service">
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:length value="1"></xs:length>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
         <xs:element name="ServiceList" minOccurs="0">
           <xs:complexType>
             <xs:sequence>

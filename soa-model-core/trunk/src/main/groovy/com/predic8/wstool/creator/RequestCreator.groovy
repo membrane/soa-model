@@ -81,6 +81,9 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
       }
       def newCtx = ctx.clone()
       newCtx.path = ctx.path + ctx.element.name + '/'
+      println "2"
+      println ctx.element.name
+      println type
       createElementFromCT(type, newCtx)
     }
   }
@@ -107,6 +110,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   }
   
   void createSimpleRestriction(BaseRestriction rest, RequestCreatorContext ctx) {
+    println "!!!!!!!!!!!!!!!!!"
     buildElement(ctx,text:getFormParamValue(ctx))
   }
   

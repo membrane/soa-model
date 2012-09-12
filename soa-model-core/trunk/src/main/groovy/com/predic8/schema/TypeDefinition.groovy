@@ -57,6 +57,8 @@ abstract class TypeDefinition extends SchemaComponent {
     if(!metaClass.hasProperty(this, 'model') || !model) return attrs //simpleType do not have a model
     if(model.metaClass.hasProperty(model, 'derivation')){
       if(model.derivation){
+        println "model: " + model
+        println "model.derivation: " + model.derivation
         attrs.addAll(model.derivation.allAttributes)
         attrs.addAll(schema.getType(model.derivation.base)?.getAllAttributes()?:[])
       }

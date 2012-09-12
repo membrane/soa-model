@@ -14,6 +14,7 @@ package com.predic8.schema
 import com.predic8.soamodel.CreatorContext
 import javax.xml.namespace.QName as JQName
 import com.predic8.schema.restriction.*
+import java.util.List;
 
 class SimpleContent extends SchemaComponent {
 
