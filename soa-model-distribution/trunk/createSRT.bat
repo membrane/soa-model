@@ -11,13 +11,13 @@ echo and put it in the your path environment variable.
 goto end
 
 :homeOk
-set "CLASSPATH=%CLASSPATH%;./lib/soa-model-core-1.2.0.jar"
-set "CLASSPATH=%CLASSPATH%;./lib/commons-codec-1.3.jar"
-set "CLASSPATH=%CLASSPATH%;./lib/commons-httpclient-3.1.jar"
-set "CLASSPATH=%CLASSPATH%;./lib/commons-logging-1.1.1.jar"
-set "CLASSPATH=%CLASSPATH%;./lib/groovy-all-1.8.6.jar"
-set "CLASSPATH=%CLASSPATH%;./lib/commons-cli-1.2.jar"
-set "CLASSPATH=%CLASSPATH%;./bin"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/soa-model-core-1.2.0.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/commons-codec-1.3.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/commons-httpclient-3.1.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/commons-logging-1.1.1.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/groovy-all-1.8.6.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/commons-cli-1.2.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/bin"
 java  -classpath "%CLASSPATH%" org.membrane_soa.soa_model.creator.CreateSOAPRequestTemplate %1 %2 %3 %4 %5 %6
 
 :end
