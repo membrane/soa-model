@@ -28,26 +28,26 @@ class MailingListRequestCreatorTest extends GroovyTestCase{
   }
   
   void testCreatRequestTemplate() {
-    def strWriter = new StringWriter()
-    def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
-    def formParams = [:]
-    schema.getElement('Request').create(creator, new RequestTemplateCreatorContext())
-	println strWriter
+//    def strWriter = new StringWriter()
+//    def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
+//    def formParams = [:]
+//    schema.getElement('Request').create(creator, new RequestTemplateCreatorContext())
+//	println strWriter
   }
   
-  void testCreatRequest() {
-    def strWriter = new StringWriter()
-    def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
-    def formParams = [:]
-//    formParams['xpath:/Request/Service']='3'
-    formParams['xpath:/Request/MSISDN']='sala'
-    formParams['xpath:/Request/ServiceList/Service[1]/accountId']='3223232'
-    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[1]']='Suspended'
-    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[2]']='Active'
-    formParams['xpath:/Request/ServiceList/Service[2]/accountId']='2'
-    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[1]']='foo'
-    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[2]']='bar'
-    schema.getElement('Request').create(creator, new RequestCreatorContext(formParams:formParams))
-    println strWriter
-  }
+//  void testCreatRequest() {
+//    def strWriter = new StringWriter()
+//    def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
+//    def formParams = [:]
+////    formParams['xpath:/Request/Service']='3'
+//    formParams['xpath:/Request/MSISDN']='sala'
+//    formParams['xpath:/Request/ServiceList/Service[1]/accountId']='3223232'
+//    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[1]']='Suspended'
+//    formParams['xpath:/Request/ServiceList/Service[1]/assetStatus[2]']='Active'
+//    formParams['xpath:/Request/ServiceList/Service[2]/accountId']='2'
+//    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[1]']='foo'
+//    formParams['xpath:/Request/ServiceList/Service[2]/assetStatus[2]']='bar'
+//    schema.getElement('Request').create(creator, new RequestCreatorContext(formParams:formParams))
+//    println strWriter
+//  }
 }
