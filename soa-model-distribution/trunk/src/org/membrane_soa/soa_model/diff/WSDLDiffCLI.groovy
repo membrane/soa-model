@@ -71,7 +71,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
   }
   
   public getStylesheet() {
-    "style/wsdl/2html.xslt"
+    "${System.getenv('SOA_MODEL_HOME')}/style/wsdl/2html.xslt"
   }
 
   public getDiffGenerator(doc1, doc2) {

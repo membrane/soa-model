@@ -77,7 +77,7 @@ abstract class AbstractDiffCLI {
       stylesheet.transform(request, response)
       
       new File("$output/static").mkdir()
-      copy('static',"$output/static")
+      copy("${System.getenv('SOA_MODEL_HOME')}/static","$output/static")
     }
     catch (TransformerException e) {
       System.err.println(e);
