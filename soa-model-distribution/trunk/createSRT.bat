@@ -17,6 +17,6 @@ set "CLASSPATH=%CLASSPATH%;./lib/commons-logging-1.1.1.jar"
 set "CLASSPATH=%CLASSPATH%;./lib/groovy-all-1.8.6.jar"
 set "CLASSPATH=%CLASSPATH%;./lib/commons-cli-1.2.jar"
 set "CLASSPATH=%CLASSPATH%;./bin"
-java  -classpath "%CLASSPATH%" org.membrane_soa.soa_model.diff.WSDLDiffCLI %1 %2 %3 %4 %5 %6
+java  -classpath "%CLASSPATH%" org.membrane_soa.soa_model.creator.CreateSOAPRequestTemplate %1 %2 %3 %4 %5 %6
 
 :end
