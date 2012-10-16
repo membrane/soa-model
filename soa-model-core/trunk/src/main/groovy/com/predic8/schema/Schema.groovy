@@ -129,11 +129,11 @@ class Schema extends XMLElement{
     strWriter.toString()
   }
 
-  def getAllElements() {
+  List<Element> getAllElements() {
     (elements + importedSchemas.elements).flatten()
   }
   
-  def getElement(QName qname){
+  Element getElement(QName qname){
     allSchemas.elements.flatten().find {
       it.name == qname.localPart && it.schema.targetNamespace == qname.namespaceURI
     }
@@ -183,25 +183,25 @@ class Schema extends XMLElement{
     getType(new QName(targetNamespace,typeName))
   }
 
-  def getGroup(QName qname){
+  Group getGroup(QName qname){
     (allSchemas.groups).flatten().find{
       it.qname == qname
     }
   }
   
-  def getAllSchemas(){
+  List<Schema> getAllSchemas(){
     [this] + importedSchemas
   }
   
-  def getImportedSchemas(){
+  List<Schema> getImportedSchemas(){
     getImportedSchemas([])
   }
 
-  def getImportedSchema(targetNamespace) {
+  Schema getImportedSchema(targetNamespace) {
     importedSchemas.find { it.targetNamespace==targetNamespace }
   }
 
-  private getImportedSchemas(importedSchemas){
+  List<Schema> getImportedSchemas(importedSchemas){
     log.debug "imported Schemas: ${importedSchemas.targetNamespace}"
     def schemas = []
     imports.each { imp ->
