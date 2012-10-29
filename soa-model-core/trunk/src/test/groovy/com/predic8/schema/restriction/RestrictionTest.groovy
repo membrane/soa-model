@@ -59,4 +59,8 @@ class RestrictionTest extends GroovyTestCase{
     assertEquals('xsd:string', testSchema.element.simpleType.restriction.@base.toString())
   }
   
+  void testGetBuildInType() {
+  	def fee = schema.getElement("fee")
+	assertEquals("decimal", fee.getBuildInTypeNameLocal())
+  }  
 }

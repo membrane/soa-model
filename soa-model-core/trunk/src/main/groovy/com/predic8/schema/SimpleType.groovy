@@ -61,7 +61,7 @@ class SimpleType extends TypeDefinition {
   
   String getBuildInTypeName(){
     if(list) return list.buildInType
-    if(restriction) return restriction.buildInType
+    if(restriction) return restriction.buildInTypeName
   }
   
   def create(creator, CreatorContext ctx){

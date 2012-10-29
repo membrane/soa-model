@@ -15,9 +15,6 @@
 package com.predic8.schema.restriction;
 
 class BooleanRestriction extends BaseRestriction{
-  
-  String getBuildInType(){
-    'boolean'
-  }
+ 
   
 }

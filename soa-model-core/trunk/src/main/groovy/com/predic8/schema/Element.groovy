@@ -85,7 +85,10 @@ class Element extends Declaration {
   }
   
   String getBuildInTypeNameLocal(){
-    embeddedType.buildInTypeName
+	  if (embeddedType)
+	  	return embeddedType.buildInTypeName
+		  
+  	  // @TODO same for ref simpleTypes
   }
   
   ComplexType newComplexType(){
