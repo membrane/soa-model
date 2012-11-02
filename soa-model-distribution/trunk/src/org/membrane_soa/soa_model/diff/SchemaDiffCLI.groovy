@@ -40,12 +40,13 @@ class SchemaDiffCLI extends AbstractDiffCLI{
         diffs.each{ diff -> dump(diff) }
       }
     }
+    println writer
     def input = new ByteArrayInputStream(writer.toByteArray())
     transform(input)
   }
 
   public String getCliUsage() {
-    'SchemaDiff -a <first document> -b <second document>'
+    'schemadiff <first-schema> <second-schema> [report directory]'
   }
 
   public getParser() {

@@ -58,20 +58,26 @@ class WSDLDiffCLI extends AbstractDiffCLI{
         diffs.each{ diff -> dump(diff) }
       }
     }
-    def input = new ByteArrayInputStream(writer.toByteArray())
-    transform(input)
+    
+    new File(reportFolder).mkdir()
+    File xml = new File("$reportFolder/diff-report.xml")
+    OutputStream outputStream = new FileOutputStream (xml);
+    writer.writeTo(outputStream);
+    
+    transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
+    transform(new ByteArrayInputStream(writer.toByteArray()), 'txt')
   }
 
   public String getCliUsage() {
-    'WSDLDiff -a <first document> -b <second document>'
+    'wsdldiff <first-wsdl> <second-wsdl> [report directory]'
   }
 
   public getParser() {
     new WSDLParser()
   }
   
-  public getStylesheet() {
-    "${System.getenv('SOA_MODEL_HOME')}/style/wsdl/2html.xslt"
+  public getStylesheet(format) {
+    "${System.getenv('SOA_MODEL_HOME')}/style/wsdl/2"+format+".xslt"
   }
 
   public getDiffGenerator(doc1, doc2) {

@@ -16,33 +16,24 @@ abstract class AbstractDiffCLI {
   def doc2
   String url1
   String url2
-  String output
-  String format
+  String reportFolder
   def builder
 
   public start(args){
     setUp(args)
     List<Difference> lst = getDiffGenerator(doc1, doc2).compare()
     Diff2Xml(lst)
-    if(format) {
-//      transform(new File('output/raw.xml'))
-    }
   }
   
   public void setUp(args){
     def cli = new CliBuilder()
     cli.usage = getCliUsage()
-    cli.h('Show help')
-    cli.a('The first document to compare' , args:1)
-    cli.b('The second document to compare' , args:1)
-    cli.o('Directory where the report is written. If not set, the result will apear here.', args: 1)
-    cli.f('Format of the output(xml, html, txt)', args:1)
 
     def options = cli.parse(args)
     
-    if(options.a && options.b) {
-      url1 = options.a
-      url2 = options.b
+    if(options.getArgs().size() >= 2){
+      url1= options.getArgs()[0]
+      url2= options.getArgs()[1]
       def parser = getParser()
       try {
         doc1 = parser.parse(url1)
@@ -56,8 +47,8 @@ abstract class AbstractDiffCLI {
         println "Can not parse the document from: ${url2}"
         System.exit(1)
       }
-      output = options.o ?: 'report'
-      format = options.f ?: 'xml'
+      if(options.getArgs().size() > 2) reportFolder = options.getArgs()[2]
+      else reportFolder = 'report'
     }
     else {
       cli.usage()
@@ -65,19 +56,18 @@ abstract class AbstractDiffCLI {
     }
   }
   
-  public transform(input){
+  public transform(ByteArrayInputStream input, String format){
     try {
       TransformerFactory xformFactory = TransformerFactory.newInstance()
-      Source xsl = new StreamSource(stylesheet)
+      Source xsl = new StreamSource(getStylesheet(format))
       Transformer stylesheet = xformFactory.newTransformer(xsl)
       Source request  = new StreamSource(input)
 
-      new File(output).mkdir()
-      Result response = new StreamResult(new FileWriter("$output/index.htm"))
+      Result response = new StreamResult(new FileWriter("$reportFolder/diff-report.$format"))
       stylesheet.transform(request, response)
       
-      new File("$output/static").mkdir()
-      copy("${System.getenv('SOA_MODEL_HOME')}/static","$output/static")
+      new File("$reportFolder/static").mkdir()
+      copy("${System.getenv('SOA_MODEL_HOME')}/static","$reportFolder/static")
     }
     catch (TransformerException e) {
       System.err.println(e);
