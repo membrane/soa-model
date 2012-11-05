@@ -58,6 +58,6 @@ class Message extends WSDLElement {
   }
   
   String toString() {
-    "message[name:$name]"
+    "message[qname:${getQname()}]"
   }
 }

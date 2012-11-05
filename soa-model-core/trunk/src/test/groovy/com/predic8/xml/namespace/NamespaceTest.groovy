@@ -18,7 +18,7 @@ import junit.framework.TestCase
 import javax.xml.stream.*
 import com.predic8.soamodel.*
 
-private class A extends XMLElement {
+class A extends XMLElement {
   def b
   def c
   
@@ -41,13 +41,13 @@ private class A extends XMLElement {
   }
 }
 
-private class B extends XMLElement {
+class B extends XMLElement {
   def getElementName() {
     'b'
   }
 }
 
-private class C extends XMLElement {
+class C extends XMLElement {
   def d
   def e
   
@@ -68,13 +68,13 @@ private class C extends XMLElement {
   }
 }
 
-private class D extends XMLElement {
+class D extends XMLElement {
   def getElementName() {
     'd'
   }
 }
 
-private class E extends XMLElement {
+class E extends XMLElement {
   def getElementName() {
     'e'
   }

@@ -24,7 +24,7 @@ class Import extends WSDLElement {
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'import')
   String namespace
   String location
-  def importedWSDL
+  Definitions importedWSDL
 
   protected parseAttributes(token, params){
     namespace = token.getAttributeValue(null , 'namespace')

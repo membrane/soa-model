@@ -14,6 +14,8 @@
 
 package com.predic8.wsdl
 
+import groovy.xml.QName
+
 import com.predic8.xml.util.*
 
 abstract class AbstractPortTypeMessage extends WSDLElement {
@@ -22,7 +24,12 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue(null , 'name')
-    message = definitions.getMessage(new PrefixedName(token.getAttributeValue(null , 'message')).localName)
+    def messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
+    if(definitions.getNamespace(messagePrefixedName.prefix)==definitions.targetNamespace){
+      message = definitions.getMessage(messagePrefixedName.localName)
+      return
+    }
+    message = definitions.getMessage(new QName(definitions.getNamespace(messagePrefixedName.prefix),messagePrefixedName.localName))
   }
   
   def create(creator, ctx) {

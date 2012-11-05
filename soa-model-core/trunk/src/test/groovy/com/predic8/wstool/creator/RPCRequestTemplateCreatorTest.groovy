@@ -28,6 +28,9 @@ class RPCRequestTemplateCreatorTest extends AbstractWSDLTest {
                            <part name="password" type="xsd:string"/>
                            <part name="query" type="xsd:string"/>
                          </message>
+
+                         <message name="doNewsSearchResponse">
+                         </message>
                          
                          <portType name="NewsSearchPort">
                            <operation name="doNewsSearch">

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-core</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>1.8.5</version>
+			<version>2.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -73,14 +73,14 @@
 					<dependency>
 						<groupId>org.codehaus.groovy</groupId>
 						<artifactId>groovy-eclipse-compiler</artifactId>
-						<version>2.6.0-01</version>
+						<version>2.7.0-01</version>
 					</dependency>
 				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-eclipse-compiler</artifactId>
-				<version>2.6.0-01</version>
+				<version>2.7.0-01</version>
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
@@ -101,6 +101,20 @@
 		                <versionRange>[2.3.2,)</versionRange>
 		                <goals>
 		                  <goal>compile</goal>
+		                  <goal>testCompile</goal>
+		                </goals>
+		              </pluginExecutionFilter>
+		              <action>
+		                <ignore></ignore>
+		              </action>
+		            </pluginExecution>
+		            <pluginExecution>
+		              <pluginExecutionFilter>
+		                <groupId>org.codehaus.groovy</groupId>
+		                <artifactId>groovy-eclipse-compiler</artifactId>
+		                <versionRange>[2.6.0-01,)</versionRange>
+		                <goals>
+		                  <goal>add-groovy-build-paths</goal>
 		                </goals>
 		              </pluginExecutionFilter>
 		              <action>
@@ -118,11 +132,11 @@
 	<distributionManagement>
 		<repository>
 			<id>predic8-releases</id>
-			<url>http://maven.predic8.com/content/repositories/releases</url>
+			 <url>http://repository.membrane-soa.org/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>predic8-snapshots</id>
-			<url>http://maven.predic8.com/content/repositories/snapshots</url>
+			 <url>http://repository.membrane-soa.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 

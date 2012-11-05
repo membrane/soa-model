@@ -1,16 +1,13 @@
 /* Copyright 2012 predic8 GmbH, www.predic8.com
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License. */
 
 package com.predic8.wsdl
 
@@ -18,11 +15,11 @@ import junit.framework.TestCase
 import javax.xml.stream.*
 
 class PortTypeTest extends GroovyTestCase{
-  
+
   def definitions
   def portType
   def token
-  
+
   def static wsdl = '''<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
                                          xmlns="http://schemas.xmlsoap.org/wsdl/" 
                                          xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
@@ -47,13 +44,16 @@ class PortTypeTest extends GroovyTestCase{
       </wsdl:operation>
     </wsdl:portType>
   </wsdl:definitions>'''
-  
+
   void setUp() {
-    def input = new Message(name : 'getBank')
-    def output = new Message(name : 'getBankResponse')
     definitions = new Definitions()
-    definitions.messages << input << output
-    
+    def input1 = new Message(name : 'getBank', definitions : definitions)
+    def output1 = new Message(name : 'getBankResponse', definitions : definitions)
+    def input2 = new Message(name : 'getBankDetails', definitions : definitions)
+    def output2 = new Message(name : 'getBankDetailsResponse', definitions : definitions)
+    definitions.messages << input1 << output1
+    definitions.messages << input2 << output2
+
     token = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(wsdl))
     while (token.hasNext()) {
       if(token.startElement) {
@@ -66,21 +66,21 @@ class PortTypeTest extends GroovyTestCase{
       if(token.hasNext()) token.next()
     }
   }
-  
+
   void testOperations() {
     assertEquals(2 , portType.operations.size())
   }
-  
+
   void testMessages() {
     assertNotNull(portType.operations[0].input)
     assertNotNull(portType.operations[0].output)
   }
-  
+
   void testPortTypeDocumentation() {
-      assertEquals('PortType Docu', portType.documentation.toString())
-    }
-    
-    void testOperationDocumentation() {
+    assertEquals('PortType Docu', portType.documentation.toString())
+  }
+
+  void testOperationDocumentation() {
     assertEquals('Operation Docu', definitions.getOperation('getBank','BLZServicePortType').documentation.toString())
-    }
+  }
 }

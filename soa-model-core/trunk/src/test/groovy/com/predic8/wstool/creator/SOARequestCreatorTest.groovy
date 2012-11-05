@@ -21,7 +21,7 @@ import com.predic8.soamodel.Consts
 
 class SOARequestCreatorTest extends GroovyTestCase{
   
-  def request
+  def req
   
   void testRequestWithEmptyCT(){
     def sw = new StringWriter()
@@ -46,7 +46,6 @@ class SOARequestCreatorTest extends GroovyTestCase{
         new MarkupBuilder(sw))
     creator.maxRecursionDepth = 10
     creator.createRequest 'ArticleServicePT', 'get', 'ArticleServicePTBinding'
-//      println getRequest(sw)
       assertEquals('???', getRequest(sw).Body.get.id.text())
   }
   

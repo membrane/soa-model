@@ -189,22 +189,22 @@ class Definitions extends WSDLElement{
     creator.createDefinitions(this, ctx)
   }
   
-  def getAllWSDLs(){
+  List<Definitions> getAllWSDLs(){
     [this] + importedWSDLs
   }
   
-  def getImportedWSDLs(){
-    getImportedWSDLs([])
+  List<Definitions> getImportedWSDLs(){
+    getImportedWSDLsInternal([])
   }
   
-  protected getImportedWSDLs(wsdls){
+  protected List<Definitions> getImportedWSDLsInternal(wsdls){
     //log.debug "imported WSDLs: ${wsdls.targetNamespace}"
     def res = []
     imports.each { imp ->
-      def wsdl = imp.importedWSDL
+      Definitions wsdl = imp.importedWSDL
       if(wsdl && !(wsdls.contains(wsdl))) {
         res << wsdl
-        res.addAll(wsdl.getImportedWSDLs(res + wsdls))
+        res.addAll(wsdl.getImportedWSDLsInternal(res + wsdls))
       }
     }
     res
