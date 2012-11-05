@@ -197,7 +197,7 @@ class Definitions extends WSDLElement{
     getImportedWSDLs([])
   }
   
-  private getImportedWSDLs(wsdls){
+  protected getImportedWSDLs(wsdls){
     //log.debug "imported WSDLs: ${wsdls.targetNamespace}"
     def res = []
     imports.each { imp ->

@@ -22,7 +22,7 @@ class FileTest extends GroovyTestCase {
 
   void setUp(){
     def parser = new WSDLParser()
-//    wsdl = parser.parse(new WSDLParserContext(input:"C:/Users/Kaveh/Desktop/WSDLSample.wsdl"))
+//    wsdl = parser.parse(new WSDLParserContext(input:"C:/temp/WSDLSample.wsdl"))
   }
   
   void testOutput(){
