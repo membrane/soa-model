@@ -2,20 +2,15 @@
 <definitions name="StockQuote"
   targetNamespace="http://example.com/stockquote/definitions" xmlns:tns="http://example.com/stockquote/definitions"
   xmlns:xsd1="http://example.com/stockquote/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns="http://schemas.xmlsoap.org/wsdl/">
-
-  <message name="GetLastTradePriceInput">
-    <part name="body" element="xsd1:TradePriceRequest" />
-  </message>
-
-  <message name="GetLastTradePriceOutput">
-    <part name="body" element="xsd1:TradePrice" />
-  </message>
+  xmlns:msg="http://example.com/stockquote/messages" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <import namespace="http://example.com/stockquote/messages"
+    location="stockquotemessages.wsdl" />
 
   <portType name="StockQuotePortType">
     <operation name="GetLastTradePrice">
-      <input message="tns:GetLastTradePriceInput" />
-      <output message="tns:GetLastTradePriceOutput" />
+      <input message="msg:GetLastTradePriceInput" />
+      <output message="msg:GetLastTradePriceOutput" />
     </operation>
   </portType>
 </definitions>

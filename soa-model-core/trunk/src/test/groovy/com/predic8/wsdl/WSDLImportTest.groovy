@@ -39,8 +39,8 @@ class WSDLImportTest extends GroovyTestCase{
   }
 
   void testGetMessageByQName() {
-    assertNotNull(wsdl.getMessage(new GQName('http://example.com/stockquote/definitions', 'GetLastTradePriceInput')))
-    assertEquals(2, wsdl.getImportedWSDL('http://example.com/stockquote/definitions').messages.size())
+    assertNotNull(wsdl.getMessage(new GQName('http://example.com/stockquote/messages', 'GetLastTradePriceInput')))
+    assertEquals(2, wsdl.getImportedWSDL('http://example.com/stockquote/messages').messages.size())
   }
 
   void testBindingByQName() {

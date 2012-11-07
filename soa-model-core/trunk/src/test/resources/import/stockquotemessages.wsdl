@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions name="StockQuote"
+  targetNamespace="http://example.com/stockquote/messages" xmlns:tns="http://example.com/stockquote/messages"
+  xmlns:xsd1="http://example.com/stockquote/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <message name="GetLastTradePriceInput">
+    <part name="body" element="xsd1:TradePriceRequest" />
+  </message>
+
+  <message name="GetLastTradePriceOutput">
+    <part name="body" element="xsd1:TradePrice" />
+  </message>
+
+</definitions>
