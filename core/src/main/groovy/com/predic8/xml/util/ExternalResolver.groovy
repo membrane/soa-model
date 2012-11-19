@@ -16,11 +16,19 @@ package com.predic8.xml.util
 
 import java.net.ConnectException;
 import groovyjarjarantlr.RecognitionException;
-import org.apache.commons.httpclient.params.*
-import org.apache.commons.httpclient.methods.*
-import org.apache.commons.httpclient.*
 import org.apache.commons.logging.*
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
+
 import com.predic8.schema.*
+import com.predic8.soamodel.Consts;
 import com.predic8.io.*
 
 class ExternalResolver extends ResourceResolver {
@@ -75,24 +83,25 @@ class ExternalResolver extends ResourceResolver {
   }
 
   private request(url) {
-    HttpClient client = new HttpClient();
+    HttpClient client = new DefaultHttpClient();
     if ( proxyHost ) {
-      client.getHostConfiguration().setProxy(proxyHost, proxyPort)
+	  HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+	  client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
     }
-    client.getHttpConnectionManager().getParams().setConnectionTimeout(10000);
-      
+	HttpParams params = client.getParams();
+	HttpConnectionParams.setConnectionTimeout(params, 10000);
     
-    HttpMethod method = new GetMethod(url);
-    method.params.setParameter(HttpMethodParams.USER_AGENT,"SOA Model (see http://membrane-soa.org)")
-    int status = client.executeMethod(method);
-    if(status != 200) {
+    HttpGet method = new HttpGet(url);
+    method.setHeader("User-Agent", "SOA Model (see http://membrane-soa.org)")
+	HttpResponse response = client.execute(method)
+    if(response.statusLine.statusCode != 200) {
       def rde = new ResourceDownloadException("could not get resource $url by HTTP")
       rde.status = status
       rde.url = url
       method.releaseConnection()
       throw rde
     }
-    method
+    response
   }
   
   protected resolveViaHttp(url) {
@@ -103,15 +112,13 @@ class ExternalResolver extends ResourceResolver {
   
   public resolveAsString(url) {
     try{
-      def con = request(url)
-      def res = con.getResponseBodyAsString()
-      con.releaseConnection()
-      res 
+      HttpResponse con = request(url)
+      EntityUtils.toString(con.entity)
     } catch (ResourceDownloadException e) {
       throw e
     } catch (Exception e) {
       throw new ResourceDownloadException(rootCause : e, url : url)
     }
   }
-  
+
 }

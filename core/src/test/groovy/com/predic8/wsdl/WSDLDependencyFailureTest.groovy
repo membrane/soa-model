@@ -14,8 +14,6 @@
 
 package com.predic8.wsdl
 
-//import java.net.ConnectException;
-import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.junit.internal.runners.statements.Fail;
 import com.predic8.xml.util.ExternalResolver;
 import com.predic8.xml.util.*

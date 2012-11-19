@@ -19,6 +19,11 @@ import org.apache.commons.httpclient.methods.*
 import org.apache.commons.httpclient.*
 import org.apache.commons.httpclient.auth.*
 import org.apache.commons.logging.*
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.predic8.schema.*
 import com.predic8.io.*
@@ -71,7 +76,7 @@ class BasicAuthenticationResolver extends ResourceResolver {
   }
 	
   private request(url) {
-    HttpClient client = new HttpClient();
+    HttpClient client = new DefaultHttpClient();
     if ( username ) {
       client.params.authenticationPreemptive=true
       Credentials defaultcreds = new UsernamePasswordCredentials(username, password)
@@ -80,7 +85,7 @@ class BasicAuthenticationResolver extends ResourceResolver {
     if ( proxyHost )
       client.getHostConfiguration().setProxy(proxyHost, proxyPort)
     
-    HttpMethod method = new GetMethod(url);
+    HttpGet method = new HttpGet(url);
     method.params.setParameter(HttpMethodParams.USER_AGENT,"SOA Model (see http://membrane-soa.org)")
     int status = client.executeMethod(method);
     if(status != 200) {
