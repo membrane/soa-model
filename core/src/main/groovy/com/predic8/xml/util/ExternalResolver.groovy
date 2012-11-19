@@ -15,7 +15,6 @@
 package com.predic8.xml.util
 
 import java.net.ConnectException;
-import groovyjarjarantlr.RecognitionException;
 import org.apache.commons.logging.*
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
