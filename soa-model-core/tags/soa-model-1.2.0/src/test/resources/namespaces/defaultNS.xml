@@ -1,7 +1,0 @@
-<a xmlns:ns1="uri:e">
-  <b />
-  <c xmlns="uri:c">
-    <d xmlns="" />
-    <ns1:e />
-  </c>
-</a>
