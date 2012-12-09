@@ -26,7 +26,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def added = { new Difference(description:"Sequence added.", type: 'sequence', breaks: true, safe:false)}
 
   def changed = { diffs ->
-    new Difference(description:"Sequence has changed:" , type: 'sequence' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"Sequence has changed:" , type: 'sequence' ,  diffs : diffs, a: a, b:b, breaks: false, safe: true)
   }
 
   List<Difference> compareUnit(){
@@ -61,8 +61,8 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
       bPs << getElementB(aP)
       return new Difference(description:"Position of element ${aP.name} changed." , type: 'sequence')
     }
-    if(aP instanceof Element) return new Difference(description:"Element ${aP.name} removed." , type: 'sequence')
-    new Difference(description:"${aP.elementName} removed." , type: 'sequence')
+    if(aP instanceof Element) return new Difference(description:"Element ${aP.name} removed." , type: 'sequence', safe: false, breaks: true)
+    new Difference(description:"${aP.elementName} removed." , type: 'sequence', safe: false, breaks: true)
   }
 
   def compareUnprocessedBPs(bPs){
