@@ -23,6 +23,9 @@ import org.apache.commons.logging.*
 class AnyDiffGenerator extends ElementDiffGenerator {
     // extends ElementDiffGenerator to inherit max/min and annotation processing
 
+    // Very helpful for understanding this element and its attributes:
+    // http://msdn.microsoft.com/en-us/library/ms256043.aspx
+
     private Log log = LogFactory.getLog(this.class)
 
     // removing an 'any' is a breaking change
@@ -56,11 +59,36 @@ class AnyDiffGenerator extends ElementDiffGenerator {
     }
 
     List<Difference> compareNamespace() {
-        if (a.namespace && !b.namespace) return [new Difference(description:"namespace attribute removed", type: 'any', breaks: false, safe: true)]
-        if (!a.namespace && b.namespace) return [new Difference(description:"namespace attribute added", type: 'any', breaks: true, safe: false)]
-        if (a.namespace && b.namespace) {
-            if (a.namespace != b.namespace) return [new Difference(description:"namespace attribute changed", type: 'any', breaks: true, safe: false)]
+
+        // ##any is the default
+        String aNamespace = (a.namespace ?: '##any').trim()
+        String bNamespace = (b.namespace ?: '##any').trim()
+
+        Set aNamespaces = new HashSet<String>(Arrays.asList(aNamespace.split("\\s+")))
+        Set bNamespaces = new HashSet<String>(Arrays.asList(bNamespace.split("\\s+")))
+
+        // ASSUMPTIONS:
+        // 1) if the new namespace is ##any, the change is safe
+        // 2) if the the new namespace is ##other and the old namespace isnt ##any and
+        //      doesn't contain ##targetNamespace, we're safe
+        // 3) if b has a set of namespace options, they must be a superset of a's namespaces to be safe
+
+        def isDiffSafe = false
+        def isDiffBreaks = true
+
+        if (
+                bNamespace == '##any' ||  // #1
+                ( bNamespace == '##other' && (aNamespace == "##any" || !aNamespaces.contains("##targetNamespace")) ) || // #2
+                bNamespaces.containsAll(aNamespaces)  // #3
+        ) {
+            isDiffSafe = true
+            isDiffBreaks = false
         }
+
+        if (!aNamespaces.equals(bNamespaces)) {
+            return [new Difference(description:"namespace attribute changed to '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe)]
+        }
+
         []
     }
 

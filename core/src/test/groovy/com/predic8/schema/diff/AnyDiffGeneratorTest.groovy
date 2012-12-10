@@ -29,6 +29,9 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
     def seqF
     def seqG
     def seqH
+    def seqI
+    def seqJ
+    def seqK
 
     void setUp() {
         def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -41,6 +44,9 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         seqF = schema.getType('NameTagF').model
         seqG = schema.getType('NameTagG').model
         seqH = schema.getType('NameTagH').model
+        seqI = schema.getType('NameTagI').model
+        seqJ = schema.getType('NameTagJ').model
+        seqK = schema.getType('NameTagK').model
     }
 
     void testEqual() {
@@ -58,6 +64,30 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
         // removing an 'any' breaks compatibility, old messages with content there will be rejected
         assertTrue(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    void testElementAddedRequired() {
+        def diffGen = new SequenceDiffGenerator(a: seqC , b: seqD, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=1")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs.diffs.description.toString().contains('any added'))
+
+        // adding an 'any' with minOccurs > 0 breaks compatibility, old messages without content there will be rejected
+        assertTrue(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    void testElementAddedNotRequired() {
+        def diffGen = new SequenceDiffGenerator(a: seqC , b: seqA, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=0")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs.diffs.description.toString().contains('any added'))
+
+        // adding an 'any' with minOccurs == 0 is safe, old messages without content there will be accepted
+        assertFalse(diffs[0].breaks())
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
 
@@ -122,13 +152,14 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
     }
 
     void testNamespaceRemoved() {
+        // this is equivalent to changing the namespace to any
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqG, generator : new SchemaDiffGenerator())
         def diffs = dumpDiffs(diffGen.compare(), "namespace removed")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute removed'))
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
 
-        // removing the namespace doesn't break compatibility as it relaxes the requirement on the content
+        // removing the namespace doesn't break compatibility as the default of ##any relaxes the requirement on the content
         assertFalse(diffs[0].breaks())
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
@@ -138,9 +169,65 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         def diffs = dumpDiffs(diffGen.compare(), "namespace added")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute added'))
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
 
-        // adding the namespace breaks compatibility as old messages may have content outside that namespace
+        // adding a namespace (something other than ##any) breaks compatibility as old messages
+        // may have content outside that namespace
+        assertTrue(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    // 1) if the new namespace is ##any, the change is safe
+    // 2) if the the new namespace is ##other and the old namespace isn't ##any and
+    //      doesn't contain ##targetNamespace, we're safe
+    // 3) if b has a set of namespace options, they must be a superset of a's namespaces to be safe
+
+    void testNamespaceChangedToOtherSafely() {
+        def diffGen = new SequenceDiffGenerator(a: seqA , b: seqI, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other safely")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+
+        // changing the namespace to ##other when the previous value was not ##targetNamespace or ##any
+        // may have content outside that namespace
+        assertFalse(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    void testNamespaceChangedToOtherBreaks() {
+        def diffGen = new SequenceDiffGenerator(a: seqK , b: seqI, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other breaks")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+
+        // changing the namespace to ##other when the previous value was not ##targetNamespace or ##any
+        // may have content outside that namespace
+        assertTrue(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    void testNamespaceChangedToSuperset() {
+        def diffGen = new SequenceDiffGenerator(a: seqA , b: seqK, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to superset")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+
+        // changing the namespace to a superset of what it was is safe
+        assertFalse(diffs[0].breaks())
+        assertTrue(diffs[0].breaks() != diffs[0].safe())
+    }
+
+    void testNamespaceChangedToSubset() {
+        def diffGen = new SequenceDiffGenerator(a: seqK , b: seqA, generator : new SchemaDiffGenerator())
+        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to subset")
+        assertEquals(1, diffs.size())
+        assertEquals(1, diffs[0].diffs.size())
+        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+
+        // changing the namespace to a subset of what it was breaks
         assertTrue(diffs[0].breaks())
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
