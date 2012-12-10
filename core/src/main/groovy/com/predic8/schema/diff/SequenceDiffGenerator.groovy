@@ -26,7 +26,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def added = { new Difference(description:"Sequence added.", type: 'sequence', breaks: true, safe:false)}
 
   def changed = { diffs ->
-    new Difference(description:"Sequence has changed:" , type: 'sequence' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"Sequence has changed:" , type: 'sequence' ,  diffs : diffs, a: a, b:b, breaks: false, safe: true)
   }
 
   List<Difference> compareUnit(){
@@ -59,20 +59,23 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   private elementChangedOrRemoved(bPs, aP){
     if(getElementB(aP)) {
       bPs << getElementB(aP)
-      return new Difference(description:"Position of element ${aP.name} changed." , type: 'sequence')
+      return new Difference(description:"Position of element ${aP.name} changed." , type: 'sequence', safe: false, breaks: true)
     }
-    if(aP instanceof Element) return new Difference(description:"Element ${aP.name} removed." , type: 'sequence')
-    new Difference(description:"${aP.elementName} removed." , type: 'sequence')
+    if(aP instanceof Element) return new Difference(description:"Element ${aP.name} removed." , type: 'sequence', safe: false, breaks: true)
+    new Difference(description:"${aP.elementName} removed." , type: 'sequence', safe: false, breaks: true)
   }
 
   def compareUnprocessedBPs(bPs){
     def diffs = []
     (b.particles-bPs).eachWithIndex() { bP, i ->
-      if(a.elements.find{it.name == bP.name}) {
-        diffs << new Difference(description:"Position of element ${bP.name} changed." , type: 'sequence')
-      } else{
-        if(bP instanceof Element) diffs << new Difference(description:"Element ${bP.name} added." , type: 'sequence')
-        else diffs << new Difference(description:"${bP.elementName} added." , type: 'sequence')
+        def minOccurs = 1;
+        if (bP.hasProperty('minOccurs')) { minOccurs = Integer.valueOf(bP.minOccurs); }
+
+        if(a.elements.find{it.name == bP.name}) {
+        diffs << new Difference(description:"Position of element ${bP.name} changed." , type: 'sequence', breaks: true, safe: false)
+      } else {
+        if(bP instanceof Element) diffs << new Difference(description:"Element ${bP.name} added minOccurs=\${minOccurs}." , type: 'sequence', breaks: minOccurs > 0, safe: minOccurs == 0 )
+        else diffs << new Difference(description:"${bP.elementName} added with minOccurs=${minOccurs}." , type: 'sequence', breaks: minOccurs > 0, safe: minOccurs == 0)
       }
     }
     diffs

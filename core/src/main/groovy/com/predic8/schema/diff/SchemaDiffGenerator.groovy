@@ -112,6 +112,10 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   def compareAnnotation(a, b){
     new AnnotationDiffGenerator(a: a, b: b, generator: this).compare()
   }
+
+  def compareAny(a, b) {
+    new AnyDiffGenerator(a: a, b: b, generator: this).compare()
+  }
   
   def compareComplexContent(a, b){
     new ComplexContentDiffGenerator(a: a, b: b, generator: this).compare()
