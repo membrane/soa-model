@@ -36,6 +36,8 @@ class AnnotationTest extends GroovyTestCase {
     assertEquals('de', schema2.getElement('employeeList').annotation.getDocumentation('ID2').lang)
     assertEquals('Note in CT', schema1.getType('EmployeeListType').annotation.appinfos[0].content)
     assertEquals('Documentation for ComplexType!', schema1.getType('EmployeeListType').annotation.documentations[0].content)
+	assertEquals(2, schema1.getElement('annotationInST').embeddedType.restriction.facets*.annotation.contents.content.size())
+	
   }
 
   void testCompareSchema12() {

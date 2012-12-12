@@ -41,11 +41,11 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     b.restriction.facets << new MinLengthFacet(value : 1)
     def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.diffs.description.toString().contains('EnumerartionFacet with value: red removed.'))
-    assertTrue(diffs.diffs.description.toString().contains('EnumerartionFacet with value: blue added.'))
-    assertTrue(diffs.diffs.description.toString().contains('Value of LengthFacet changed from 3 to 9.'))
-    assertTrue(diffs.diffs.description.toString().contains('Facet MaxLengthFacet removed.'))
-    assertTrue(diffs.diffs.description.toString().contains('Facet MinLengthFacet added.'))
+    assertTrue(diffs.diffs.description.toString().contains('Enumerartion with value: red removed.'))
+    assertTrue(diffs.diffs.description.toString().contains('Enumerartion with value: blue added.'))
+    assertTrue(diffs.diffs.description.toString().contains('Value of length changed from 3 to 9.'))
+    assertTrue(diffs.diffs.description.toString().contains('Facet maxLength removed.'))
+    assertTrue(diffs.diffs.description.toString().contains('Facet minLength added.'))
   }
 
   void testExtensionDiff(){

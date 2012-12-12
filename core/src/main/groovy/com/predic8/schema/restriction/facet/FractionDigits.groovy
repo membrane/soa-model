@@ -14,14 +14,19 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext
+
 class FractionDigits extends Facet {
   
-  def create(creator, ctx){
+  protected parseAttributes(token, params){
+	value = token.getAttributeValue( null, 'value') as BigDecimal
+  }
+  def create(creator, CreatorContext ctx){
     creator.createFractionDigits(this, ctx)
   }
   
   protected getElementName(){
-    'FractionDigits'
+    'fractionDigits'
   }
   
 }

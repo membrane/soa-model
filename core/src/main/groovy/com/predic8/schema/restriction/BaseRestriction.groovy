@@ -32,41 +32,59 @@ class BaseRestriction  extends SchemaComponent {
   AnyAttribute anyAttribute
   
   protected parseChildren(token, child, params){
+    super.parseAttributes(token, params)
     switch (child ){
-//      case 'enumeration':
-//      def enumeration = facets.grep{it instanceof EnumerationFacet}[0]
-//      if(!enumeration) {
-//        enumeration = new EnumerationFacet()
-//        facets << enumeration
-//      }
-//      enumeration.values << token.getAttributeValue( null , 'value') ; break
       case 'enumeration':
-      facets << new EnumerationFacet(value : token.getAttributeValue( null , 'value')) ; break
+		  def facet = new EnumerationFacet(schema: schema)
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'length' :
-      facets << new LengthFacet(value : token.getAttributeValue( null , 'value').toInteger()) ; break
+		  def facet = new LengthFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'maxLength' :
-      facets << new MaxLengthFacet(value : token.getAttributeValue( null , 'value').toInteger()) ; break
+		  def facet = new MaxLengthFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'minLength' :
-      facets << new MinLengthFacet(value : token.getAttributeValue( null , 'value').toInteger()) ; break
+		  def facet = new MinLengthFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'pattern' :
-      facets << new PatternFacet(value :token.getAttributeValue( null , 'value')) ; break
+		  def facet = new PatternFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'whiteSpace' :
-      facets << new WhiteSpaceFacet(value :token.getAttributeValue( null , 'value')) ; break
+		  def facet = new WhiteSpaceFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'maxInclusive' :
-      facets << new MaxInclusiveFacet(value : token.getAttributeValue( null , 'value')) ; break
+		  def facet = new MaxInclusiveFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'maxExclusive' :
-      facets << new MaxExclusiveFacet(value : token.getAttributeValue( null , 'value')) ; break
+		  def facet = new MaxExclusiveFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'minInclusive' :
-      facets << new MinInclusiveFacet(value : token.getAttributeValue( null , 'value')) ; break
+		  def facet = new MinInclusiveFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'minExclusive' :
-      facets << new MinExclusiveFacet(value : token.getAttributeValue( null , 'value')) ; break
+		  def facet = new MinExclusiveFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'totalDigits' :
-      facets << new TotalDigitsFacet(value : new BigDecimal(token.getAttributeValue( null , 'value'))) ; break
+		  def facet = new TotalDigitsFacet()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'fractionDigits' :
-      facets << new FractionDigits(value : new BigDecimal(token.getAttributeValue( null , 'value'))) ; break
+		  def facet = new FractionDigits()
+		  facet.parse(token, params)
+		  facets << facet ; break
       case 'anyAttribute' :
-      anyAttribute = new AnyAttribute(schema: schema)
-      anyAttribute.parse(token, params) ; break
+	      anyAttribute = new AnyAttribute(schema: schema)
+	      anyAttribute.parse(token, params) ; break
     }
   }
   

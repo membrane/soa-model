@@ -14,14 +14,16 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext
+
 class MinExclusiveFacet extends Facet {
   
-  def create(creator, ctx){
+  def create(creator, CreatorContext ctx){
     creator.createMinExclusiveFacet(this, ctx)
   }
   
   protected getElementName(){
-    'MinExclusiveFacet'
+    'minExclusive'
   }
   
 }

@@ -200,10 +200,9 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
   }
   
   public void createStringRestriction(StringRestriction res, SchemaCreatorContext ctx) {
-    if(res.enumerationFacet){
-      res.enumerationFacet.create(this, ctx)
-      return
-    }
+	res.enumerationFacets.each{
+		it.create(this, ctx)
+	}
     ctx.attrs = [:]
     if(res.minLengthFacet && res.maxLengthFacet) {
       ctx.attrs['label'] = "Should be between ${res.minLengthFacet.value} and ${res.maxLengthFacet.value} characters."

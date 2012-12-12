@@ -21,12 +21,15 @@ class FileTest extends GroovyTestCase {
   def wsdl
 
   void setUp(){
-    def parser = new WSDLParser()
-//    wsdl = parser.parse(new WSDLParserContext(input:"C:/temp/WSDLSample.wsdl"))
+	def parser = new WSDLParser()
+//    wsdl = parser.parse(new WSDLParserContext(input:"C:/temp/test.wsdl"))
+//    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+//    wsdl = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
+//    wsdl = parser.parse(new WSDLParserContext(input:"/hotel.wsdl"))
   }
   
   void testOutput(){
-//	  println wsdl
+//	  println wsdl.getAsString()
   }
 }
 

@@ -14,17 +14,21 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext
 import com.predic8.wstool.creator.*
 
 class MaxLengthFacet extends Facet {
   
-  
-  def create(creator, ctx){
+  protected parseAttributes(token, params){
+	value = token.getAttributeValue( null, 'value').toInteger()
+  }
+	
+  def create(creator, CreatorContext ctx){
     creator.createMaxLengthFacet(this, ctx)
   }
   
   protected getElementName(){
-    'MaxLengthFacet'
+    'maxLength'
   }
   
 }
