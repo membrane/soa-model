@@ -69,7 +69,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     def diffs = []
     (b.particles-bPs).eachWithIndex() { bP, i ->
         def minOccurs = 1;
-        if (bP.hasProperty('minOccurs')) { minOccurs = Integer.valueOf(bP.minOccurs); }
+        if (bP.hasProperty('minOccurs') && bP.minOccurs) { minOccurs = Integer.valueOf(bP.minOccurs); }
 
         if(a.elements.find{it.name == bP.name}) {
         diffs << new Difference(description:"Position of element ${bP.name} changed." , type: 'sequence', breaks: true, safe: false)
