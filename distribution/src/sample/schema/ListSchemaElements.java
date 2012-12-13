@@ -33,7 +33,8 @@ public class ListSchemaElements {
 
   private void dump() {
     SchemaParser parser = new SchemaParser();
-    schema = parser.parse("resources/human-resources.xsd");
+    schema = parser.parse("resources/diff/1/common.xsd");
+//    schema = parser.parse("resources/human-resources.xsd");
     System.out.println(schema.getTargetNamespace());
     for(Element element : schema.getElements()){
       dump(element);

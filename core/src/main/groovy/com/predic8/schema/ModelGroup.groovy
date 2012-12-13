@@ -22,12 +22,12 @@ import javax.xml.namespace.QName as JQName
 abstract class ModelGroup extends SchemaComponent{
   
   List<SchemaComponent> particles = []
-  def minOccurs
-  def maxOccurs
+  def minOccurs = 1
+  def maxOccurs = 1
 
   protected parseAttributes(token, params){
-    minOccurs = token.getAttributeValue( null , 'minOccurs')
-    maxOccurs = token.getAttributeValue( null , 'maxOccurs')
+    minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
+    maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1
   }
 
   protected parseChildren(token, child, params) {

@@ -39,12 +39,14 @@ abstract class AbstractDiffCLI {
         doc1 = parser.parse(url1)
       } catch (IOException e) {
         println "Can not parse the document from: ${url1}"
+		cli.usage()
         System.exit(1)
       }
       try {
         doc2 = parser.parse(url2)
       } catch (IOException e) {
-        println "Can not parse the document from: ${url2}"
+		println "Can not parse the document from: ${url2}\n"
+		cli.usage()
         System.exit(1)
       }
       if(options.getArgs().size() > 2) reportFolder = options.getArgs()[2]

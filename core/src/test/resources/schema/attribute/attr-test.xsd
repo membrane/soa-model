@@ -33,6 +33,9 @@
   </complexType>
 
   <attribute name="door" use="required">
+    <annotation>
+      <documentation>This is a documentation for Attribute.</documentation>
+    </annotation>
     <simpleType>
       <restriction base="int">
         <enumeration value="2" />

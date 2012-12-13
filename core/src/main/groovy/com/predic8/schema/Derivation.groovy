@@ -51,7 +51,7 @@ abstract class Derivation extends SchemaComponent{
       case 'attribute' :
         def attr = new Attribute(schema: schema)
         attr.parse(token, params)
-          attributes << attr ; break
+        attributes << attr ; break
       case 'attributeGroup' :
         def attributeGroup = new AttributeGroup(schema: schema)
         attributeGroup.parse(token, params)

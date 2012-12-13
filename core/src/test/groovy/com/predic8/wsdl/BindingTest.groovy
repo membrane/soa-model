@@ -117,60 +117,6 @@ class BindingTest extends AbstractWSDLTest {
   </wsdl:service>
 </wsdl:definitions>
 '''
-//  '''<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
-//                                         xmlns="http://schemas.xmlsoap.org/wsdl/" 
-//                                         xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
-//                                         xmlns:tns="http://thomas-bayer.com/blz/" 
-//                                         xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
-//                                         xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-//                                         xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
-//                                         xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-//                                         xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
-//                                         name="BLZService" 
-//                                         targetNamespace="http://thomas-bayer.com/blz/">
-//    <wsdl:portType name="BLZServicePortType">
-//    </wsdl:portType>
-//    <wsdl:binding name="BLZServiceSOAP11Binding" type="tns:BLZServicePortType">
-//
-//        <wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://www.w3.org/ns/ws-policy" >
-//          <wsp:ExactlyOne>
-//            <wsp:All>
-//              <sp:SignedParts>
-//                <sp:Body/>
-//              </sp:SignedParts>
-//            </wsp:All>
-//            <wsp:All>
-//              <sp:EncryptedParts>
-//                <sp:Body/>
-//              </sp:EncryptedParts>
-//            </wsp:All>
-//          </wsp:ExactlyOne>
-//        </wsp:Policy>
-//
-//        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-//        <wsdl:operation name="getBank">
-//            <soap:operation soapAction="" style="document"/>
-//            <wsdl:input>
-//                <soap:body use="literal"/>
-//            </wsdl:input>
-//            <wsdl:output>
-//                <soap:body use="literal"/>
-//            </wsdl:output>
-//        </wsdl:operation>
-//    </wsdl:binding>
-//    <wsdl:binding name="BLZServiceSOAP12Binding" type="tns:BLZServicePortType">
-//        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-//        <wsdl:operation name="getBank">
-//            <soap12:operation soapAction="" style="document"/>
-//            <wsdl:input>
-//                <soap12:body use="literal"/>
-//            </wsdl:input>
-//            <wsdl:output>
-//                <soap12:body use="literal"/>
-//            </wsdl:output>
-//        </wsdl:operation>
-//    </wsdl:binding>
-//  </wsdl:definitions>'''
   
   void testNumberOfBindings() {
     assertEquals(3, definitions.bindings.size())

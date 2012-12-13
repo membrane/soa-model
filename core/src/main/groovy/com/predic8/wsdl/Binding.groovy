@@ -52,22 +52,22 @@ class Binding extends WSDLElement{
     super.parseChildren(token, child, params)
     switch (token.name ){
       case Policy.ELEMENTNAME :
-      def policy = new Policy()
-      policy.parse(token, params) ; break
+        def policy = new Policy()
+        policy.parse(token, params) ; break
       case SOAP11Binding.ELEMENTNAME :
-      log.debug "is soap11"
-      binding = new SOAP11Binding(definitions: definitions)
-      binding.parse(token, params) ;   break
+        log.debug "is soap11"
+        binding = new SOAP11Binding(definitions: definitions)
+        binding.parse(token, params) ;   break
       case SOAP12Binding.ELEMENTNAME :
-      binding = new SOAP12Binding(definitions: definitions)
-      binding.parse(token, params) ; break
+        binding = new SOAP12Binding(definitions: definitions)
+        binding.parse(token, params) ; break
       case Operation.ELEMENTNAME:
-      def operation = new BindingOperation(definitions : definitions, binding: this)
-      operation.parse(token, params)
-      operations << operation ; break
+        def operation = new BindingOperation(definitions : definitions, binding: this)
+        operation.parse(token, params)
+        operations << operation ; break
       case HTTPBinding.ELEMENTNAME :
-      binding = new HTTPBinding(definitions : definitions)
-      binding.parse(token, params) ; break
+        binding = new HTTPBinding(definitions : definitions)
+        binding.parse(token, params) ; break
     }
   }
 

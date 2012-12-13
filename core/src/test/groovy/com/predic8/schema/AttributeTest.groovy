@@ -38,6 +38,7 @@ class AttributeTest extends GroovyTestCase{
     assertEquals('id', schema.getType('CarType').getAttribute('id').name)
     assertEquals('speed', schema.getType('CarType').getAttribute('speed').name)
     assertEquals('door',schema.getType('SmallCarType').model.derivation.attributes[0].name)
+//	println schema.getType('SmallCarType').model.derivation.attributes[0].annotation.contents.content
   }
   
   void testSchemaCreator() {

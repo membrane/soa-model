@@ -51,6 +51,7 @@ class Attribute extends Declaration {
   }
 
   protected parseChildren(token, child, params){
+//	super.parseAttributes(token, params)
     switch (child ){
       case 'simpleType' :
       simpleType = new SimpleType(schema:schema)

@@ -68,14 +68,10 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def compareUnprocessedBPs(bPs){
     def diffs = []
     (b.particles-bPs).eachWithIndex() { bP, i ->
-        def minOccurs = 1;
-        if (bP.hasProperty('minOccurs')) { minOccurs = Integer.valueOf(bP.minOccurs); }
-
         if(a.elements.find{it.name == bP.name}) {
         diffs << new Difference(description:"Position of element ${bP.name} changed." , type: 'sequence', breaks: true, safe: false)
       } else {
-        if(bP instanceof Element) diffs << new Difference(description:"Element ${bP.name} added minOccurs=\${minOccurs}." , type: 'sequence', breaks: minOccurs > 0, safe: minOccurs == 0 )
-        else diffs << new Difference(description:"${bP.elementName} added with minOccurs=${minOccurs}." , type: 'sequence', breaks: minOccurs > 0, safe: minOccurs == 0)
+				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}added with minOccurs=${bP.minOccurs}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
       }
     }
     diffs
