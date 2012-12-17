@@ -54,8 +54,8 @@ class AttributeDiffGenerator  extends AbstractDiffGenerator {
   }
 
   private compareFixed(){
-    if(a.fixed != b.fixed) {
-      return [new Difference(description:"The attribute fixed changed from ${a.fixed} to ${b.fixed}.", type: 'attribute')]
+    if(a.fixedValue != b.fixedValue) {
+      return [new Difference(description:"The attribute fixed changed from ${a.fixedValue} to ${b.fixedValue}.", type: 'attribute')]
     }
     []
   }

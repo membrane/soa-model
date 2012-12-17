@@ -23,7 +23,7 @@ import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
 
-class CreatorTest extends GroovyTestCase{
+class SchemaCreatorTest extends GroovyTestCase{
   
   def schema
   def schemaDefaultNamespace

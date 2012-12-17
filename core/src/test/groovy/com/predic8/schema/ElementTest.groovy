@@ -15,6 +15,9 @@
 package com.predic8.schema
 
 import groovy.xml.*
+
+import com.predic8.schema.creator.SchemaCreator
+import com.predic8.schema.creator.SchemaCreatorContext
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.ClasspathResolver
 
@@ -29,7 +32,7 @@ class ElementTest extends GroovyTestCase{
   }
   
   void testElement() {
-    assertEquals(4, schema.elements.size())
+    assertEquals(6, schema.elements.size())
   }
   
   void testElementType() {
@@ -47,7 +50,7 @@ class ElementTest extends GroovyTestCase{
   void testElementMaxOccurs() {
     assertEquals('3' , schema.getType(compTypeName).sequence.particles[0].maxOccurs)
   }
-  
+	
   void testReferencedSimpleType() {
     def typeName = schema.getElement('Farbauswahl').type
     assertNotNull(schema.getType(typeName))
@@ -65,4 +68,14 @@ class ElementTest extends GroovyTestCase{
   void testElementDocumentation() {
     assertEquals('Docu', schema.getElement('datum').annotation.documentations[0].content.toString())
   }
+	
+	void testElementWithDefaultAndFixedPlusCreator() {
+		def strWriter = new StringWriter()
+		def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
+		schema.create(creator, new SchemaCreatorContext())
+		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
+		def createdSchema = parser.parse(input:new StringReader(strWriter.toString()))
+		assertEquals('This is the default value!', createdSchema.getElement('elementWithDefault').defaultValue)
+		assertEquals('This value is fixed and can not be changed!', createdSchema.getElement('elementWithFixed').fixedValue)
+	}
 }

@@ -81,9 +81,11 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
       attrs['name'] = getDisplayName(element.name,'definitions.allSchemas.elements.name',ctx.error )
     }
     attrs.putAll(getTypeAttribute(element, ctx))
-    if(element.minOccurs != (String)1) {attrs.put('minOccurs' , element.minOccurs)}
-    if(element.maxOccurs != (String)1) {attrs.put('maxOccurs' , element.maxOccurs)}
+    if(element.minOccurs != '1') {attrs.put('minOccurs' , element.minOccurs)}
+    if(element.maxOccurs != '1') {attrs.put('maxOccurs' , element.maxOccurs)}
     if(element.arrayType) attrs['wsdl:arrayType'] = element.arrayType
+		if(element.defaultValue) attrs['default'] = element.defaultValue
+		if(element.fixedValue) attrs['fixed'] = element.fixedValue
     builder.'xsd:element'(attrs){
       element.annotation?.create(this, ctx)
       element.embeddedType?.create(this, ctx)
@@ -249,7 +251,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
       attribs['ref'] = "$prefix${prefix?':':''}${attr.ref.localPart}" 
     }
     if(attr.name) { attribs['name'] = attr.name }
-    if(attr.fixed) { attribs['fixed'] = attr.fixed }
+    if(attr.fixedValue) { attribs['fixed'] = attr.fixedValue }
     if(attr.use != 'optional') {attribs['use']=attr.use}
     if(attr.defaultValue) {attribs['default']=attr.defaultValue}
     if(attr.form) {attribs['form']=attr.form}

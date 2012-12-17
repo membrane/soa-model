@@ -20,13 +20,13 @@ import javax.xml.namespace.QName as JQName
 
 class Attribute extends Declaration {
 
-  String defaultValue
-  String fixed
   String form
   String id
   QName ref
   String use
   SimpleType simpleType
+	String defaultValue 
+	String fixedValue  
 
   
   Attribute(){  }
@@ -35,11 +35,13 @@ class Attribute extends Declaration {
     this.name = name
     this.type = new QName(type.namespaceURI, type.localPart)
   }
+	
+		
   
   protected parseAttributes(token, params){
-    super.parseAttributes(token, params)
-    defaultValue = token.getAttributeValue( null , 'default')
-    fixed = token.getAttributeValue( null , 'fixed')
+		name = token.getAttributeValue( null , 'name')
+		defaultValue = token.getAttributeValue( null , 'default')
+		fixedValue = token.getAttributeValue( null , 'fixed')
     form = token.getAttributeValue( null , 'form')
     id = token.getAttributeValue( null , 'id')
     ref = getTypeQName(token.getAttributeValue( null , 'ref'))

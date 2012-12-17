@@ -37,6 +37,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       yield("\n<!-- Element ${ctx.element.name} has been defined recursivly and will not be created more than ${ctx.maxRecursionDepth} times. -->")
       return
     }
+		
     if(element.minOccurs == element.maxOccurs && element.maxOccurs != '1') yield("\n<!-- must occur exact ${element.minOccurs} times -->")
     else if(element.minOccurs == '0' && element.maxOccurs == '1') yield("\n<!-- optional -->")
     else if (element.minOccurs != element.maxOccurs) yield("\n<!-- from ${element.minOccurs} to ${element.maxOccurs} -->")
@@ -46,6 +47,18 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       return
     }
     ctx.element = element
+		
+		if(element.fixedValue){
+			yield("\n<!-- this element has a fixed value -->")
+			builder."${getElementTagName(element)}"(element.fixedValue, )
+			return
+		}
+		if(element.defaultValue){
+			yield("\n<!-- this element has a default value -->")
+			builder."${getElementTagName(element)}"(element.defaultValue, )
+			return
+		}
+		
     if(element.embeddedType){
       element.embeddedType.create(this, ctx)
       return
@@ -84,8 +97,8 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def attrs = obj.allAttributes
     attrs.each{
       def attr = it.ref ? obj.schema.getAttribute(it.ref) : it
-      if(attr.fixed) {
-        res[attr.name] = attr.fixed
+      if(attr.fixedValue) {
+        res[attr.name] = attr.fixedValue
         return
       }
       if(attr.simpleType){

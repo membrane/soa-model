@@ -18,6 +18,8 @@
               <sequence>
                 <element name="name" type="string" />
                 <element name="id" type="int" />
+                <element name="activity" type="string" default="programer" />
+                <element name="company" type="string" fixed="predic8" />
               </sequence>
             </complexType>
           </element>

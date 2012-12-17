@@ -28,13 +28,20 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   def log = LogFactory.getLog(this.class)
   
   void createElement(Element element, RequestCreatorContext ctx){
-    if(element.embeddedType){
+		
+    if(element.fixedValue){
+			yield("\n<!-- The value of this element is fixed and can not be modified. -->")
+			builder."${getElementTagName(element)}"(element.fixedValue)
+			return
+		}
+		
+		if(element.embeddedType){
       log.debug "embeddedType found"
       element.embeddedType.create(this, ctx.clone(element))
       return
     }
     
-    if ( element.ref ) {
+    if(element.ref ) {
       element.schema.getElement(element.ref).create(this,ctx.clone(element))
       return
     }
@@ -63,6 +70,11 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
       builder."${getElementTagName(element)}"(entries[it],attrs)
     }
     if (!entries) {
+			if(element.defaultValue){
+				yield("\n<!-- This element has a default value. -->")
+				builder."${getElementTagName(element)}"(element.defaultValue, attrs)
+				return
+			}
 	  //This is the case, where the element is required and has not be declared in the xpath expression!
 	  yield("\n<!-- This element is required and should be filled. -->")
       builder."${getElementTagName(element)}"(null,attrs)

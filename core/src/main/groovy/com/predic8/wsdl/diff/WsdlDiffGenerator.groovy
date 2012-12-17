@@ -126,7 +126,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
       def schemaDiffGenerator = new SchemaDiffGenerator(a:aSchema, b:bSchema)
       def lDiffs = schemaDiffGenerator.compare()
       if(lDiffs) {
-        diffs << new Difference(description:"Schema ${tns} has changed:" , diffs : lDiffs)
+        diffs << new Difference(description:"Schema ${tns ? tns+' ' : ''}has changed:" , diffs : lDiffs)
       }
     }
     diffs
