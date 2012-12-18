@@ -53,11 +53,13 @@ class Attribute extends Declaration {
   }
 
   protected parseChildren(token, child, params){
-//	super.parseAttributes(token, params)
     switch (child ){
+			case 'annotation' :
+  			annotation = new Annotation(schema: schema)
+  			annotation.parse(token, params) ; break
       case 'simpleType' :
-      simpleType = new SimpleType(schema:schema)
-      simpleType.parse(token, params) ; break
+        simpleType = new SimpleType(schema:schema)
+        simpleType.parse(token, params) ; break
     }
   }
   

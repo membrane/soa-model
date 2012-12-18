@@ -394,7 +394,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     log.debug "element ${schemaElement.name} with type ${schemaElement.type} and uri ${schemaElement.type.namespaceURI}"
     def prefix = schemaElement.getPrefix(schemaElement.type.namespaceURI) ?: ''
     
-    if ( schemaElement.type.namespaceURI == Schema.SCHEMA_NS ) prefix = 'xsd'
+    if(schemaElement.type.namespaceURI == Schema.SCHEMA_NS ) prefix = 'xsd'
       
     declNSifNeeded(prefix,schemaElement.type.namespaceURI,attrs,ctx)
     if(ctx.createLinks && schemaElement.type.namespaceURI != Schema.SCHEMA_NS) {

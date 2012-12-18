@@ -21,7 +21,7 @@ abstract class Derivation extends SchemaComponent{
   QName base
   List<Attribute> attributes = []
   List<AttributeGroup> attributeGroups = []
-  def model
+  SchemaComponent model
   AnyAttribute anyAttribute
 
   protected parseAttributes(token, params){

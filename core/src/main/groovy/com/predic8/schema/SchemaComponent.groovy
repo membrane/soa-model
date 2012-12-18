@@ -25,7 +25,7 @@ abstract class SchemaComponent extends XMLElement{
   
   Schema schema
   String name
-  def annotation
+  Annotation annotation
   private Log log = LogFactory.getLog(this.class)
 
   protected parseAttributes(token, params){

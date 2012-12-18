@@ -96,4 +96,8 @@ class AttributeTest extends GroovyTestCase{
   void testGetBuildInTypeName() {
     assertEquals('integer', schema.getType('SmallCarType').model.derivation.attributes[0].buildInTypeName)
   }
+	
+	void testAnnotation() {
+		assertEquals('This is a documentation for Attribute.', schema.getAttribute('door').annotation.documentations[0].content)
+	}
 }
