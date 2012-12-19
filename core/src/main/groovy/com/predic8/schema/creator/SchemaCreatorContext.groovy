@@ -29,8 +29,8 @@ class SchemaCreatorContext extends CreatorContext implements Cloneable {
   
   def getSchemaId = {1}
 	
-	//TODO: Implement clone() for extended classes.
   public Object clone() {
     new SchemaCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId)
   }
 }
+

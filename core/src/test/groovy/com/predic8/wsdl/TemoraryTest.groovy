@@ -14,22 +14,35 @@
 
 package com.predic8.wsdl
 
+import groovy.xml.MarkupBuilder
+
+import com.predic8.wsdl.creator.WSDLCreator
+import com.predic8.wsdl.creator.WSDLCreatorContext
 import com.predic8.xml.util.*
 
-class FileTest extends GroovyTestCase {
+/**
+ * This is a template test class to parse and analyze temporary documents.
+ */
+
+class TemoraryTest extends GroovyTestCase {
+	
 
   def wsdl
 
   void setUp(){
-	def parser = new WSDLParser()
+//	def parser = new WSDLParser()
 //    wsdl = parser.parse(new WSDLParserContext(input:"C:/temp/test.wsdl"))
 //    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+//    wsdl = parser.parse(new WSDLParserContext(input:"/RPCStyle.wsdl"))
 //    wsdl = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
-//    wsdl = parser.parse(new WSDLParserContext(input:"/hotel.wsdl"))
   }
   
   void testOutput(){
 //	  println wsdl.getAsString()
+//		def strWriter = new StringWriter()
+//		def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
+//		creator.createDefinitions(wsdl, new WSDLCreatorContext())
+//		println strWriter
   }
 }
 
