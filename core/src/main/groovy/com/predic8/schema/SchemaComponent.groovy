@@ -25,7 +25,7 @@ abstract class SchemaComponent extends XMLElement{
   
   Schema schema
   String name
-  def annotation
+  Annotation annotation
   private Log log = LogFactory.getLog(this.class)
 
   protected parseAttributes(token, params){
@@ -35,8 +35,8 @@ abstract class SchemaComponent extends XMLElement{
   protected parseChildren(token, child, params){
     switch (child ){
       case 'annotation' :
-      annotation = new Annotation(schema: schema)
-      annotation.parse(token, params) ; break
+	      annotation = new Annotation(schema: schema)
+	      annotation.parse(token, params) ; break
     }
   }
 
@@ -50,7 +50,7 @@ abstract class SchemaComponent extends XMLElement{
   }
 
   def create(creator,CreatorContext ctx){
-    throw new RuntimeException("creator for $elementName is missing!")
+    throw new RuntimeException("missing method create(creator,CreatorContext ctx) for class $elementName !")
   }
   
   String getRequestTemplate(){

@@ -14,16 +14,17 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext
 import com.predic8.wstool.creator.*
 
 class EnumerationFacet extends Facet {
   
-  def create(creator, ctx){
+  def create(creator, CreatorContext ctx){
     creator.createEnumerationFacet(this, ctx)
   }
   
   protected getElementName(){
-    'EnumerationFacet'
+	'enumeration'
   }
 
   public boolean equals(obj) {

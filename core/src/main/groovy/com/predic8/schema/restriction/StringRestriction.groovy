@@ -14,15 +14,15 @@
 
 package com.predic8.schema.restriction;
 
+import com.predic8.soamodel.CreatorContext
+
 class StringRestriction extends BaseRestriction{
 
   String getBuildInType(){
     'string'
   }
   
-  def create(creator, ctx){
+  def create(creator, CreatorContext ctx){
     creator.createStringRestriction(this, ctx)
   }
-  
-  
 }

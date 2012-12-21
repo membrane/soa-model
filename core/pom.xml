@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-core</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.2.1</version>
 
 	<dependencies>
 		<dependency>
@@ -39,40 +39,35 @@
 	<build>
 		<plugins>
 			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-antrun-plugin</artifactId>
-			  <version>1.7</version>
-			  <executions>
-			    <execution>
-			      <id>groovydoc</id>
-			      <phase>site</phase>
-			      <goals>
-			        <goal>run</goal>
-			      </goals>
-			      <configuration>
-			        <target>
-			          <taskdef name="groovydoc"
-			            classname="org.codehaus.groovy.ant.Groovydoc" 
-			            classpathref="maven.compile.classpath"
-			          />
-			          <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
-			            sourcepath="${basedir}/src/main/groovy" use="true"
-			            windowtitle="${project.name}"
-			            doctitle="${project.name}"
-			          >
-			            <link packages="java.,org.xml.,javax.,org.xml."
-			              href="http://download.oracle.com/javase/6/docs/api" />
-			            <link packages="org.junit.,junit.framework."
-			              href="http://kentbeck.github.com/junit/javadoc/latest" />
-			            <link packages="groovy.,org.codehaus.groovy."
-			              href="http://groovy.codehaus.org/api/" />
-			          </groovydoc>
-			        </target>
-			      </configuration>
-			    </execution>
-			  </executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>groovydoc</id>
+						<phase>site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<taskdef name="groovydoc" classname="org.codehaus.groovy.ant.Groovydoc"
+									classpathref="maven.compile.classpath" />
+								<groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
+									sourcepath="${basedir}/src/main/groovy" use="true" windowtitle="${project.name}"
+									doctitle="${project.name}">
+									<link packages="java.,org.xml.,javax.,org.xml."
+										href="http://download.oracle.com/javase/6/docs/api" />
+									<link packages="org.junit.,junit.framework."
+										href="http://kentbeck.github.com/junit/javadoc/latest" />
+									<link packages="groovy.,org.codehaus.groovy." href="http://groovy.codehaus.org/api/" />
+								</groovydoc>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
-	    <plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
@@ -95,60 +90,67 @@
 				<version>2.7.0-01</version>
 				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-eclipse-compiler</artifactId>
+				<version>2.7.0-01</version>
+				<extensions>true</extensions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
-		  <plugins>
-		    <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-		    <plugin>
-		      <groupId>org.eclipse.m2e</groupId>
-		      <artifactId>lifecycle-mapping</artifactId>
-		      <version>1.0.0</version>
-		      <configuration>
-		        <lifecycleMappingMetadata>
-		          <pluginExecutions>
-		            <pluginExecution>
-		              <pluginExecutionFilter>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-compiler-plugin</artifactId>
-		                <versionRange>[2.3.2,)</versionRange>
-		                <goals>
-		                  <goal>compile</goal>
-		                  <goal>testCompile</goal>
-		                </goals>
-		              </pluginExecutionFilter>
-		              <action>
-		                <ignore></ignore>
-		              </action>
-		            </pluginExecution>
-		            <pluginExecution>
-		              <pluginExecutionFilter>
-		                <groupId>org.codehaus.groovy</groupId>
-		                <artifactId>groovy-eclipse-compiler</artifactId>
-		                <versionRange>[2.6.0-01,)</versionRange>
-		                <goals>
-		                  <goal>add-groovy-build-paths</goal>
-		                </goals>
-		              </pluginExecutionFilter>
-		              <action>
-		                <ignore></ignore>
-		              </action>
-		            </pluginExecution>
-		          </pluginExecutions>
-		        </lifecycleMappingMetadata>
-		      </configuration>
-		    </plugin>
-		  </plugins>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-compiler-plugin</artifactId>
+										<versionRange>[2.3.2,)</versionRange>
+										<goals>
+											<goal>compile</goal>
+											<goal>testCompile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.groovy</groupId>
+										<artifactId>groovy-eclipse-compiler</artifactId>
+										<versionRange>[2.6.0-01,)</versionRange>
+										<goals>
+											<goal>add-groovy-build-paths</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 
 	<distributionManagement>
 		<repository>
 			<id>predic8-releases</id>
-			 <url>http://repository.membrane-soa.org/content/repositories/releases</url>
+			<url>http://repository.membrane-soa.org/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>predic8-snapshots</id>
-			 <url>http://repository.membrane-soa.org/content/repositories/snapshots</url>
+			<url>http://repository.membrane-soa.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 

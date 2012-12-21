@@ -38,7 +38,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     def lDiffs = []
     lDiffs.addAll(compareAnnotation())
     lDiffs.addAll(compareType())
-    lDiffs.addAll(compareMinMaxOccurs('element'))
+    lDiffs.addAll(compareMinMaxOccurs())
 //    lDiffs.addAll(compareEmbeddedType())
 
     lDiffs
@@ -51,31 +51,24 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 
   protected compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
-    if(a.embeddedType && b.type) return [new Difference(description:"The type of ${typeAndName} has changed from embedded to stand-alone type.", type: 'element', breaks:true)]
-    if(a.type && b.embeddedType) return [new Difference(description:"The type of ${typeAndName} has changed from stand-alone to embedded type.", type: 'element', breaks:true)]
-    if(a.type != b.type) return [new Difference(description:"The type of ${typeAndName} has changed from ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} to ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
+    if(a.embeddedType && b.type) return [new Difference(description:"The type of element '${a.name}' has changed from embedded to stand-alone type.", type: 'element', breaks:true)]
+    if(a.type && b.embeddedType) return [new Difference(description:"The type of element '${a.name}' has changed from stand-alone to embedded type.", type: 'element', breaks:true)]
+    if(a.type != b.type) return [new Difference(description:"The type of element '${a.name}' has changed from ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} to ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
     []
   }
 
-  protected compareMinMaxOccurs(eType){
-    def lDiffs = []
-
-      def aMinOccurs = a.minOccurs ?: 1 // apply defaults if needed
-      def bMinOccurs = b.minOccurs ?: 1 //
-      def aMaxOccurs = a.maxOccurs ?: 1 //
-      def bMaxOccurs = b.maxOccurs ?: 1 //
-
-      if(aMinOccurs != bMinOccurs){
-      lDiffs << new Difference(description:"The attribute minOccurs of ${typeAndName} has changed from ${a.minOccurs} to ${b.minOccurs}.", type: eType, safe:  aMinOccurs >= bMinOccurs, breaks:  aMinOccurs < bMinOccurs)
-    }
-    if(aMaxOccurs != bMaxOccurs){
-      lDiffs << new Difference(description:"The attribute maxOccurs of ${typeAndName} has changed from ${a.maxOccurs} to ${b.maxOccurs}.", type: eType, safe:  aMaxOccurs <= bMaxOccurs, breaks:  aMaxOccurs > bMaxOccurs)
-    }
+  protected compareMinMaxOccurs(eType = 'element'){
+		def lDiffs = []
+		if(a.minOccurs != b.minOccurs){
+			lDiffs << new Difference(description:"The attribute minOccurs of $eType ${a.name ? a.name+' ' : ''}has changed from ${a.minOccurs} to ${b.minOccurs}.", type: eType, safe:  a.minOccurs >= b.minOccurs, breaks:  a.minOccurs < b.minOccurs)
+		}
+		if(a.maxOccurs != b.maxOccurs){
+			lDiffs << new Difference(description:"The attribute maxOccurs of $eType ${a.name ? a.name+' ' : ''}has changed from ${a.maxOccurs} to ${b.maxOccurs}.", type: eType, safe:  a.maxOccurs <= b.maxOccurs, breaks:  a.maxOccurs > b.maxOccurs)
+		}
     lDiffs
   }
 
   private compareEmbeddedType(){
-//    if(!a.embeddedType || !b.embeddedType) return []
     a.embeddedType?.compare(generator, b.embeddedType) ?: []
   }
 

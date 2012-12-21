@@ -132,6 +132,6 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffGen = new SequenceDiffGenerator(a: seqA , b: seqK, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('sequence added'))
+    assertTrue(diffs.diffs.description.toString().contains('Sequence added'))
   }
 }

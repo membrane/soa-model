@@ -14,17 +14,22 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext
 import com.predic8.wstool.creator.*
 
 class MinLengthFacet extends Facet {
   
-  
-  def create(creator, ctx){
+  protected parseAttributes(token, params){
+	value = token.getAttributeValue( null, 'value').toInteger()
+  }
+		
+	
+  def create(creator, CreatorContext ctx){
     creator.createMinLengthFacet(this, ctx)
   }
   
   protected getElementName(){
-    'MinLengthFacet'
+    'minLength'
   }
   
 }

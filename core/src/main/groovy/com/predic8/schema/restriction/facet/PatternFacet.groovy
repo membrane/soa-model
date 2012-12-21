@@ -14,14 +14,16 @@
 
 package com.predic8.schema.restriction.facet;
 
+import com.predic8.soamodel.CreatorContext;
+
 class PatternFacet extends Facet {
   
-  def create(creator, ctx){
+  def create(creator,CreatorContext ctx){
     creator.createPatternFacet(this, ctx)
   }
   
   protected getElementName(){
-    'PatternFacet'
+    'pattern'
   }
   
 }

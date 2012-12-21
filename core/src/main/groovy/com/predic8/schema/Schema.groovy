@@ -87,7 +87,7 @@ class Schema extends XMLElement{
       group.parse(token, params)
       groups << group ;break
       case 'simpleType':
-      def simpleType = new SimpleType(schema:this)
+	  def simpleType = new SimpleType(schema:this)
       simpleType.parse(token, params)
       simpleTypes << simpleType ; break
       case 'element':

@@ -11,7 +11,11 @@
           <xs:attribute name="sizing">
             <xs:simpleType>
               <xs:restriction base="xs:string">
-                <xs:enumeration value="US"/>
+                <xs:enumeration value="US">
+                  <xs:annotation>
+                    <xs:documentation>This is a documentation in enumeration!</xs:documentation>
+                  </xs:annotation>
+                 </xs:enumeration>
                 <xs:enumeration value="European"/>
                 <xs:enumeration value="UK"/>
                 <xs:enumeration value="Japan"/>

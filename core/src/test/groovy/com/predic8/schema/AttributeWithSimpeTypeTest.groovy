@@ -16,8 +16,10 @@ package com.predic8.schema
 
 import groovy.xml.*
 
-import com.predic8.xml.util.*
+import com.predic8.schema.creator.SchemaCreator
+import com.predic8.schema.creator.SchemaCreatorContext
 import com.predic8.schema.restriction.*
+import com.predic8.xml.util.*
 
 class AttributeWithSimpeTypeTest extends GroovyTestCase {
 
@@ -26,6 +28,9 @@ class AttributeWithSimpeTypeTest extends GroovyTestCase {
   void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
     schema = parser.parse(input:"/schema/simplecontent/attributeWithSimpleType.xsd")
+	def strWriter = new StringWriter()
+	def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
+	schema.create(creator, new SchemaCreatorContext())
   }
 
   void testParsingComplexType() {

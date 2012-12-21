@@ -33,8 +33,10 @@ class Element extends Declaration {
   boolean toplevel = false
   Annotation annotation
   QName ref
-  String minOccurs 
-  String maxOccurs 
+  String minOccurs = 1
+  String maxOccurs = 1
+	String defaultValue //can only be used if the element's content is a simple type or text only
+	String fixedValue //can only be used if the element's content is a simple type or text only
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
@@ -42,6 +44,9 @@ class Element extends Declaration {
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
     maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1
     ref = getTypeQName(token.getAttributeValue( null , 'ref'))
+		// Element can have a default value OR a fixed value specified.
+		defaultValue = token.getAttributeValue( null , 'default')
+		fixedValue = token.getAttributeValue( null , 'fixed')
     log.debug "element attribute parsed: [name=$name, type=$type, ref=$ref]"
   }
   

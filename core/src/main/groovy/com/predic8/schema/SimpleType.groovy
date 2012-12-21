@@ -43,7 +43,7 @@ class SimpleType extends TypeDefinition {
       } else {
         restriction = new BaseRestriction(simpleType : this , base : base)
       }
-      restriction.parse(token, params) 
+	  restriction.parse(token, params)
     }
   }
 

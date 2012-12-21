@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:hy="http://www.herongyang.com/Service/"
+  targetNamespace="http://www.herongyang.com/Service/">
+
+  <wsdl:documentation>
+    GetExchangeRate_WSDL_11_SOAP_12_RPC.wsdl
+    Copyright (c) 2007 by Dr. Herong Yang, herongyang.com
+    All rights reserved
+  </wsdl:documentation>
+
+  <wsdl:message name="getExchangeRateInputMessage">
+    <wsdl:part name="datePart" type="xsd:date"/>
+    <wsdl:part name="fromCurrencyPart" type="xsd:string"/>
+    <wsdl:part name="toCurrencyPart" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getExchangeRateOutputMessage">
+    <wsdl:part name="ratePart" type="xsd:decimal"/>
+  </wsdl:message>
+
+  <wsdl:portType name="getExchangeRatePortType">
+    <wsdl:operation name="GetExchangeRate">
+      <wsdl:input name="getExchangeRateInput"
+        message="hy:getExchangeRateInputMessage"/>
+      <wsdl:output name="getExchangeRateOutput"
+        message="hy:getExchangeRateOutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="getExchangeRateBinding"
+    type="hy:getExchangeRatePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <wsdl:operation name="GetExchangeRate">
+      <soap12:operation style="rpc" soapActionRequired="false"/>
+      <wsdl:input name="getExchangeRateInput">
+        <soap12:body use="encoded"
+          parts="fromCurrencyPart toCurrencyPart datePart"/>
+      </wsdl:input>
+      <wsdl:output name="getExchangeRateOutput">
+        <soap12:body use="encoded" parts="ratePart"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="getExchangeRateService">
+    <wsdl:port name="getExchangeRatePort"
+      binding="hy:getExchangeRateBinding">
+      <soap12:address location=
+        "http://www.herongyang.com/Service/GetExchangeRate12.php"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

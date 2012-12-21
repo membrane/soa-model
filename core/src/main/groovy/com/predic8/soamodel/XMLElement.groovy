@@ -74,7 +74,7 @@ abstract class XMLElement {
   def getPrefix(String uri) {
     if ( uri == '' ) return ''
     if ( uri == Consts.XML_NS) return 'xml'
-      def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
+    def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
   }
   
   def getPrefix(){

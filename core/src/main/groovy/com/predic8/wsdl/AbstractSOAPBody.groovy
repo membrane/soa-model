@@ -32,10 +32,6 @@ abstract class AbstractSOAPBody extends BindingElement {
   protected Part getMessagePart(String part){
     parent.message.parts.find{it.name == part}
   }
-
-//  protected Message getMessage(){
-//    definitions.getMessage(parent.bindingOperation.binding.portType.getOperation(parent.bindingOperation.name)."$parent.ELEMENTNAME.localPart".message.qname)
-//  }
   
   def create(creator, ctx) {
     creator.createSOAPBody(this, ctx)

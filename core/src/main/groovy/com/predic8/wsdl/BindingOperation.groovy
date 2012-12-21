@@ -59,7 +59,7 @@ class BindingOperation extends WSDLElement{
       faults << fault ; break
     }
   }
-  
+	
   def create(creator, ctx) {
     creator.createBindingOperation(this, ctx)
   }

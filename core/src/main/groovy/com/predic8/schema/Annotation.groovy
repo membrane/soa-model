@@ -29,13 +29,13 @@ class Annotation extends SchemaComponent {
   protected parseChildren(token, child, params){
     switch (child ){
       case 'documentation' :
-      def documentation = new Documentation(schema : schema)
-      documentation.parse(token, params)
-      contents << documentation ; break
+	      def documentation = new Documentation(schema : schema)
+	      documentation.parse(token, params)
+	      contents << documentation ; break
       case 'appinfo' :
-      def appinfo = new Appinfo(schema : schema)
-      appinfo.parse(token, params)
-      contents << appinfo ; break
+	      def appinfo = new Appinfo(schema : schema)
+	      appinfo.parse(token, params)
+	      contents << appinfo ; break
     }
   }
 

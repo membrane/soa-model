@@ -28,38 +28,44 @@ class RequestCreatorTest extends GroovyTestCase{
   }
   
   void testCreatTemplateRequest() {
-    def strWriter = new StringWriter()
-    def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
-    def formParams = [:]
-    schema.getElement('employeeList').create(creator, new RequestTemplateCreatorContext())
+		def requestTemplate = new XmlSlurper().parseText(schema.getElement('employeeList').requestTemplate)
+		assertEquals('programer', requestTemplate.employee.department.activity.text())
+		assertEquals('predic8', requestTemplate.employee.department.company.text())
   }
   
   void testCreatRequestWithEmbeddedType() {
     def strWriter = new StringWriter()
     def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
     def formParams = [:]
-    formParams['xpath:/employeeList/employee/firstName']='Kaveh'
-    formParams['xpath:/employeeList/employee/lastName']='Keshavarzi'
+    formParams['xpath:/employeeList/employee/firstName']='John'
+    formParams['xpath:/employeeList/employee/lastName']='Smith'
     formParams['xpath:/employeeList/employee/id']='1'
     formParams['xpath:/employeeList/employee/department/id']='123'
     formParams['xpath:/employeeList/employee/@age']='30'
-    formParams['xpath:/employeeList/employee[1]/firstName']='Shaan'
-    formParams['xpath:/employeeList/employee[1]/lastName']='J'
-    formParams['xpath:/employeeList/employee[2]/firstName']='Malkhas'
+    formParams['xpath:/employeeList/employee[1]/firstName']='Angela'
+    formParams['xpath:/employeeList/employee[1]/lastName']='M'
+    formParams['xpath:/employeeList/employee[1]/department/company']='BRD'
+    formParams['xpath:/employeeList/employee[1]/department/activity']='Iron Chancellor'
+    formParams['xpath:/employeeList/employee[2]/firstName']='Barak'
     schema.getElement('employeeList').create(creator, new RequestCreatorContext(formParams:formParams))
     def request = new XmlSlurper().parseText(strWriter.toString())
-    assertEquals('1', request.employee.id.text())
-    assertEquals('123', request.employee.department.id.text())
-    assertEquals('30', request.employee.@age.toString())
-    
+    assertEquals('1', request.employee[0].id.text())
+    assertEquals('123', request.employee[0].department.id.text())
+    assertEquals('30', request.employee[0].@age.toString())
+		assertEquals('programer', request.employee[0].department.activity.text())
+		assertEquals('predic8', request.employee[0].department.company.text())
+		assertEquals('Angela', request.employee[1].firstName.text())
+		assertEquals('Iron Chancellor', request.employee[1].department.activity.text())
+		//The value of 'company' is fixed on 'predic8'. The given value 'BRD' will be ignored!
+		assertEquals('predic8', request.employee[1].department.company.text())
   }
   
   void testCreatRequestWithRefType() {
     def strWriter = new StringWriter()
     def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
     def formParams = [:]
-    formParams['xpath:/employee/firstName']='Shaan'
-    formParams['xpath:/employee/lastName']='J'
+    formParams['xpath:/employee/firstName']='Bill'
+    formParams['xpath:/employee/lastName']='G'
     formParams['xpath:/employee@age']='29'
     schema.getElement('employee').create(creator, new RequestCreatorContext(formParams:formParams))
   }
@@ -68,11 +74,11 @@ class RequestCreatorTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new RequestCreator(builder : new MarkupBuilder(strWriter))
     def formParams = [:]
-    formParams['xpath:/employeeList/employee/firstName']='Kaveh'
-    formParams['xpath:/employeeList/employee[1]/firstName']='Shaan'
-    formParams['xpath:/employeeList/employee[1]/lastName']='J'
-    formParams['xpath:/employeeList/employee[2]/firstName']='Malkhas'
-    formParams['xpath:/employeeList/employee[2]/abc/def/']='Tobias'
+    formParams['xpath:/employeeList/employee/firstName']='John'
+    formParams['xpath:/employeeList/employee[1]/firstName']='Bill'
+    formParams['xpath:/employeeList/employee[1]/lastName']='G'
+    formParams['xpath:/employeeList/employee[2]/firstName']='Barak'
+    formParams['xpath:/employeeList/employee[2]/abc/def/']='Angela'
     def ctx = new RequestCreatorContext(formParams:formParams)
     ctx.path = "xpath:/employeeList/"
     ctx.element = schema.getElement('employee')

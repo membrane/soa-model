@@ -37,6 +37,16 @@ class RequestTemplateCreatorTest extends GroovyTestCase {
     assertEquals('?XXX?', requestTemplate.blz.text())
     assertEquals('?999?', requestTemplate.@testAttribute.toString())
   }
+	
+	void testRequestTemplateForElementWithDefaultAndFixet() {
+/**
+ * see RequestCreatorTest.groovy.	
+ */
+		
+//		def requestTemplate = new XmlSlurper().parseText(definitions.getElement('getBankResponse').requestTemplate)
+//		assertEquals('Europa', requestTemplate.details.kontinent.text())
+//		assertEquals('Deutschland', requestTemplate.details.land.text())
+	}
 
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
