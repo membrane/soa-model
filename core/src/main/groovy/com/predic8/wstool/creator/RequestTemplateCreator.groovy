@@ -41,6 +41,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     if(element.minOccurs == element.maxOccurs && element.maxOccurs != '1') yield("\n<!-- must occur exact ${element.minOccurs} times -->")
     else if(element.minOccurs == '0' && element.maxOccurs == '1') yield("\n<!-- optional -->")
     else if (element.minOccurs != element.maxOccurs) yield("\n<!-- from ${element.minOccurs} to ${element.maxOccurs} -->")
+		if(element.nillable) yield("\n<!-- This element may be left empty if xsi:nil='true' is set. -->")
     log.debug "Element ${element?.name}"
     if ( element.ref ) {
       element.schema.getElement(element.ref).create(this,ctx)
