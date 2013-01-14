@@ -89,20 +89,28 @@ class Definitions extends WSDLElement{
   Message getMessage(GQName name) {
     (getImportedWSDL(name.namespaceURI).messages).flatten().find { it.name == name.localPart}
   }
-  
+	
+	List<Types> getAllTypes() {
+		[types] + importedWSDLs*.types
+	}
+	
   Element getElement(String name) {
     def prefixedName = new PrefixedName(name)
-    types.allSchemas.elements.flatten().find {
+    allTypes.allSchemas.elements.flatten().find {
       it.name == prefixedName.localName
     }
   }
   
-  String getElementNameForOperation(String operation, String portType){
-    getOperation(operation,portType).input.message.parts.flatten()[0]?.element
-  }
+	Element getElement(GQName qname) {
+		getElement(qname.localPart)
+	}
+	
+	String getElementNameForOperation(String operation, portType){
+		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
+	}
   
-  Element getElementForOperation(String operation,String portType){
-    def name = getElementNameForOperation(operation,portType)
+  Element getElementForOperation(String operation, portType){
+		def name = getElementNameForOperation(operation,portType)
     if (name) return getElement(name)
     null
   }
