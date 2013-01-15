@@ -1,4 +1,5 @@
 core/target
-distribution/bin
 core/todo.txt
+distribution/bin
+distribution/report
 

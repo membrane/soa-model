@@ -51,8 +51,8 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 
   protected compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
-    if(a.embeddedType && b.type) return [new Difference(description:"The type of element '${a.name}' has changed from embedded to stand-alone.", type: 'element', breaks:true)]
-    if(a.type && b.embeddedType) return [new Difference(description:"The type of element '${a.name}' has changed from stand-alone to embedded.", type: 'element', breaks:true)]
+    if(a.embeddedType && b.type) return [new Difference(description:"The type of element '${a.name}' has changed from embedded to stand-alone.", type: 'element', safe: false)]
+    if(a.type && b.embeddedType) return [new Difference(description:"The type of element '${a.name}' has changed from stand-alone to embedded.", type: 'element', safe: false)]
     if(a.type != b.type) return [new Difference(description:"The type of element '${a.name}' has changed from ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} to ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
     []
   }
