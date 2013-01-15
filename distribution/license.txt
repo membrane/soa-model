@@ -1,3 +1,18 @@
-Use of this software is free of charge for both personal and commercial purposes.
 
-predic8 HEREBY DISCLAIMS ANY AND ALL WARRANTIES, EXPRESS OR IMPLIED, RELATIVE TO THE SOFTWARE, INCLUDING BUT NOT LIMITED TO ANY WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR MERCHANTIBILITY. predic8 SHALL NOT BE LIABLE OR RESPONSIBLE FOR ANY DAMAGES, INJURIES OR LIABILITIES CAUSED DIRECTLY OR INDIRECTLY FROM THE USE OF THE SOFTWARE, INCLUDING BUT NOT LIMITED TO INCIDENTAL, CONSEQUENTIAL OR SPECIAL DAMAGES. 
+Membrane SOA Model
+---------------------------------------------------------------------------
+Membrane ESB is covered by the Apache License Version 2.0. The
+license agreement can be found on
+http://www.apache.org/licenses/LICENSE-2.0.html
+and is also included below.
+
+Dependencies
+---------------------------------------------------------------------------
+
+Apache License, Version 2.0
+-------------------------------------------------
+Groovy 
+Apache Commons CLI
+Apache Commons HttpClient
+Apache Commons Codec
+Apache Commons Logging
