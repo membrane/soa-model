@@ -4,10 +4,10 @@ set "SOA_MODEL_HOME=%cd%"
 if exist "%SOA_MODEL_HOME%\analysewsdl.bat" goto homeOk
 
 :homeSet
-if exist "%SOA_MODEL_HOME%\analysewsdl.bat" goto homeOk
+if exist "%SOA_MODEL_HOME%\analyzewsdl.bat" goto homeOk
 echo Please set the SOA_MODEL_HOME environment variable to point to
 echo the directory where you have extracted the SOA Model software 
-echo and put it in the your path environment variable.
+echo and put it in your path environment variable.
 goto end
 
 :homeOk
