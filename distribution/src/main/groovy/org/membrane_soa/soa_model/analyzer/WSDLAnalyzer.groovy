@@ -60,7 +60,7 @@ class WSDLAnalyzer{
 	}
 
 	public String getCliUsage() {
-		'analysewsdl <wsdl-document>'
+		'analysewsdl <wsdl-document> [output directory]'
 	}
 
 	void dump(){

@@ -54,9 +54,8 @@ class SchemaDiffCLI extends AbstractDiffCLI{
         diffs.each{ diff -> dump(diff) }
       }
     }
-    println writer
     def input = new ByteArrayInputStream(writer.toByteArray())
-    transform(input)
+    transform(input, 'html')
   }
 
   public String getCliUsage() {
@@ -68,7 +67,7 @@ class SchemaDiffCLI extends AbstractDiffCLI{
   }
   
   public getStylesheet(format) {
-    "${System.getenv('SOA_MODEL_HOME')}/src/main/style/schema2"+format+".xslt"
+    "${System.getenv('SOA_MODEL_HOME')}/src/style/schema2"+format+".xslt"
   }
 
   public getDiffGenerator(doc1, doc2) {

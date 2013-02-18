@@ -64,7 +64,7 @@ abstract class AbstractDiffCLI {
         System.exit(1)
       }
       if(options.getArgs().size() > 2) reportFolder = options.getArgs()[2]
-      else reportFolder = 'report'
+      else reportFolder = 'diff-report'
     }
     else {
       cli.usage()
@@ -82,7 +82,7 @@ abstract class AbstractDiffCLI {
       Result response = new StreamResult(new FileWriter("$reportFolder/diff-report.$format"))
       stylesheet.transform(request, response)
       
-      new File("$reportFolder/static").mkdir()
+      new File("$reportFolder/web").mkdir()
       copy("${System.getenv('SOA_MODEL_HOME')}/src/web","$reportFolder/web")
     }
     catch (TransformerException e) {
