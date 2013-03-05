@@ -34,7 +34,8 @@
 		<fileSet>
 			<directory>/scripts</directory>
 			<includes>
-				<include>*.bat</include>
+				<include>wsdldiff.bat</include>
+				<include>schemadiff.bat</include>
 			</includes>
 			<outputDirectory>/bin</outputDirectory>
 		</fileSet>

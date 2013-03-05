@@ -3,7 +3,27 @@ Membrane SOA Model
 
 Command Line Tools
 ------------------
+WSDL Diff:
 
+bin\wsdldiff <<first wsdl file or url>> <<second wsdl file or url>> [<<report output folder>>]
+
+Example:
+1. cd c:\soa-model-home
+2. c:\soa-model-home>bin\wsdldiff samples\diff\1\article.wsdl samples\diff\2\article.wsdl
+
+
+
+Schema Diff:
+
+bin\schemadiff <<first schema file or url>> <<second schema file or url>> [<<report output folder>>]
+
+Example:
+1. cd c:\soa-model-home
+2. c:\soa-model-home>bin\schemadiff samples\diff\1\common.xsd samples\diff\2\common.xsd
+
+
+
+If no output folder is given, the report will be generated in 'diff-report' in your current directory.
 
 
 

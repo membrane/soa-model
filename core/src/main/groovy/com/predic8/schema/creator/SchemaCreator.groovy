@@ -101,6 +101,9 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     if(complexType.qname) {
       attrs['name'] = getDisplayName(complexType.qname.getLocalPart(), 'definitions.allSchemas.complexTypes.qname.localPart', ctx.error)
     }
+		if(complexType.abstractAttr) {
+      attrs['abstract'] = complexType.abstractAttr
+    }
     builder.'xsd:complexType'(attrs){
       if(complexType.annotation) {
         complexType.annotation?.create(this, ctx)

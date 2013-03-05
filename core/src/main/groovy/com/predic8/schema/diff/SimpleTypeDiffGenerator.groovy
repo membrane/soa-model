@@ -18,9 +18,9 @@ import com.predic8.soamodel.*
 
 class SimpleTypeDiffGenerator extends UnitDiffGenerator {
 
-  def removed = {new Difference(description:"SimpleType removed.", type: 'simpleType', breaks: true, safe:false)}
-  def added = { new Difference(description:"SimpleType added.", type: 'simpleType', breaks: true, safe:false)}
-  def changed = { new Difference(description:"SimpleType has changed.", type: 'simpleType', diffs:compareUnit())}
+  def removed = {new Difference(description:"SimpleType ${a?.name} removed.", type: 'simpleType', breaks: true, safe:false)}
+  def added = { new Difference(description:"SimpleType ${a?.name} added.", type: 'simpleType', breaks: true, safe:false)}
+  def changed = { new Difference(description:"SimpleType ${a?.name} has changed.", type: 'simpleType', diffs:compareUnit())}
 
   List<Difference> compareUnit(){
     def lDiffs = []

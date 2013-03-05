@@ -32,6 +32,10 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
     lDiffs
   }
   
+	private compareAttributes(){
+		//TODO Implement the method to compare 'abstract' attribute.
+	}
+	
   private compareModel(){
     def aType = a
     def bType = b

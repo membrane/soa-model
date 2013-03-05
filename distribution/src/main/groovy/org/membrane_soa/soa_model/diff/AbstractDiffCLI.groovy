@@ -53,14 +53,14 @@ abstract class AbstractDiffCLI {
         doc1 = parser.parse(url1)
       } catch (IOException e) {
         println "Can not parse the document from: ${url1}"
-		cli.usage()
+        println e
         System.exit(1)
       }
       try {
         doc2 = parser.parse(url2)
       } catch (IOException e) {
 		println "Can not parse the document from: ${url2}\n"
-		cli.usage()
+		println e
         System.exit(1)
       }
       if(options.getArgs().size() > 2) reportFolder = options.getArgs()[2]
@@ -77,13 +77,13 @@ abstract class AbstractDiffCLI {
       TransformerFactory xformFactory = TransformerFactory.newInstance()
       Source xsl = new StreamSource(getStylesheet(format))
       Transformer stylesheet = xformFactory.newTransformer(xsl)
-      Source request  = new StreamSource(input)
+      Source inputXML  = new StreamSource(input)
+			
+			new File("$reportFolder/web").mkdirs()
+			Result result = new StreamResult(new FileWriter("$reportFolder/diff-report.$format"))
+			stylesheet.transform(inputXML, result)
 
-      Result response = new StreamResult(new FileWriter("$reportFolder/diff-report.$format"))
-      stylesheet.transform(request, response)
-      
-      new File("$reportFolder/web").mkdir()
-      copy("${System.getenv('SOA_MODEL_HOME')}/src/web","$reportFolder/web")
+			copy("${System.getenv('SOA_MODEL_HOME')}/src/web","$reportFolder/web")
     }
     catch (TransformerException e) {
       System.err.println(e);
@@ -108,6 +108,11 @@ abstract class AbstractDiffCLI {
       diff.diffs.each{ dump(it) }
     }
   }
+	
+	String fixURL(String url) {
+		if(url.startsWith('http')) return url
+		new File(url).getAbsoluteFile()
+	}
 
   abstract String getCliUsage()
 

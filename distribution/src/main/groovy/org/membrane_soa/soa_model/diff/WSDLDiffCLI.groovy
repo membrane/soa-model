@@ -33,7 +33,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
     builder = new MarkupBuilder(new PrintWriter(writer))
     builder.WSDLDiff{
       "WSDL-a"{
-        URL(url1)
+				URL(fixURL(url1))
         TargetNamespace(doc1.targetNamespace)
         Services{
           doc1.services.each { service ->
@@ -51,7 +51,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
         }
       }
       "WSDL-b"{
-        URL(url2)
+        URL(fixURL(url2))
         TargetNamespace(doc2.targetNamespace)
         Services{
           doc2.services.each { service ->
@@ -77,9 +77,8 @@ class WSDLDiffCLI extends AbstractDiffCLI{
     File xml = new File("$reportFolder/diff-report.xml")
     OutputStream outputStream = new FileOutputStream (xml);
     writer.writeTo(outputStream);
-		def input = new ByteArrayInputStream(writer.toByteArray())
-    transform(input, 'html')
-    transform(input, 'txt')
+    transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
+    transform(new ByteArrayInputStream(writer.toByteArray()), 'txt')
   }
 
   public String getCliUsage() {
