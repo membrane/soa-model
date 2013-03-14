@@ -90,7 +90,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
   }
   
   public getStylesheet(format) {
-    "${System.getenv('SOA_MODEL_HOME')}/src/style/wsdl2"+format+".xslt"
+    "${System.getenv('SOA_MODEL_HOME')}/style/wsdl2"+format+".xslt"
   }
 
   public getDiffGenerator(doc1, doc2) {

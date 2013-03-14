@@ -11,8 +11,8 @@ echo and put it in your path environment variable.
 goto end
 
 :homeOk
-set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/soa-model-distribution-1.3.0-snapshot.jar"
-set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/soa-model-core-1.3.0-snapshot.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/soa-model-distribution-${version}.jar"
+set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/soa-model-core-${version}.jar"
 set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/commons-codec-1.6.jar"
 set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/httpclient-4.2.2.jar"
 set "CLASSPATH=%CLASSPATH%;%SOA_MODEL_HOME%/lib/httpcore-4.2.2.jar"

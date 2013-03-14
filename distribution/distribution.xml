@@ -17,7 +17,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>src/samples</directory>
-			<outputDirectory>/src/samples</outputDirectory>
+			<outputDirectory>/samples</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>samples</directory>
@@ -25,11 +25,11 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/web</directory>
-			<outputDirectory>/src/web</outputDirectory>
+			<outputDirectory>/web</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/style</directory>
-			<outputDirectory>/src/style</outputDirectory>
+			<outputDirectory>/style</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/scripts</directory>
@@ -38,6 +38,7 @@
 				<include>schemadiff.bat</include>
 			</includes>
 			<outputDirectory>/bin</outputDirectory>
+			<filtered>true</filtered>
 		</fileSet>
 	</fileSets>
 

@@ -66,7 +66,7 @@ class WSDLAnalyzer{
 	void dump(){
 		new File(reportFolder).mkdir()
 		new File("$reportFolder/web").mkdir()
-		copy("${System.getenv('SOA_MODEL_HOME')}/src/web","$reportFolder/web")
+		copy("${System.getenv('SOA_MODEL_HOME')}/web","$reportFolder/web")
 		def writer = new FileWriter(new File("$reportFolder/index.htm"))
 		builder = new MarkupBuilder(writer)
 		builder.html(){
