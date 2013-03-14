@@ -83,7 +83,7 @@ abstract class AbstractDiffCLI {
 			Result result = new StreamResult(new FileWriter("$reportFolder/diff-report.$format"))
 			stylesheet.transform(inputXML, result)
 
-			copy("${System.getenv('SOA_MODEL_HOME')}/web","$reportFolder/web")
+			copy("${System.getenv('SOA_MODEL_HOME')}/src/main/web","$reportFolder/web")
     }
     catch (TransformerException e) {
       System.err.println(e);

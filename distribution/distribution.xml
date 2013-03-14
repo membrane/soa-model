@@ -16,20 +16,20 @@
 
 	<fileSets>
 		<fileSet>
-			<directory>src/samples</directory>
-			<outputDirectory>/samples</outputDirectory>
+			<directory>src/main/java/samples</directory>
+			<outputDirectory>/src/main/java/samples</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>samples</directory>
 			<outputDirectory>/samples</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/web</directory>
-			<outputDirectory>/web</outputDirectory>
+			<directory>src/main/resources/web</directory>
+			<outputDirectory>/src/main/web</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/style</directory>
-			<outputDirectory>/style</outputDirectory>
+			<directory>src/main/resources/style</directory>
+			<outputDirectory>/src/main/style</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/scripts</directory>

@@ -12,24 +12,23 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package wsdl;
+package samples.wsdl;
 
 import com.predic8.wsdl.*;
 
-public class ListWSDLPorts {
+public class ListWSDLOperations {
 
   public static void main(String[] args) {
     WSDLParser parser = new WSDLParser();
 
-    Definitions wsdl = parser.parse("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl");
-    
-    for(Service service : wsdl.getServices()){
-      System.out.println(service.getName());
-      for(Port port : service.getPorts()){
-        System.out.println(port.getName() + "( " + port.getBinding().getName()+", " + port.getAddress().getLocation() + " )");
+    Definitions defs = parser
+        .parse("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl");
+
+    for (PortType pt : defs.getPortTypes()) {
+      System.out.println(pt.getName());
+      for (Operation op : pt.getOperations()) {
+        System.out.println(" -" + op.getName());
       }
     }
-    
-    System.out.println(wsdl.getAsString());
   }
 }

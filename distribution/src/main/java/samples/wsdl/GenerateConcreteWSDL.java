@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package wsdl;
+package samples.wsdl;
 
 import com.predic8.wsdl.*;
 import com.predic8.schema.*;

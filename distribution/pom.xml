@@ -21,8 +21,6 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.2.2</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
-			<version>1.7.2</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -42,20 +40,17 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${basedir}/src/main/groovy</sourceDirectory>
+		<sourceDirectory>${basedir}/src/main</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>${basedir}/src/main</directory>
+				<directory>${basedir}/src/main/resources</directory>
 				<excludes>
 					<exclude>groovy/**</exclude>
+					<exclude>java/**</exclude>
 				</excludes>
 			</resource>
 		</resources>
 		<plugins>
-			<!-- <plugin> <artifactId>maven-compiler-plugin</artifactId> <version>2.3.2</version> 
-				<configuration> <source>1.6</source> <target>1.6</target> </configuration> 
-				</plugin> </plugins> -->
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>

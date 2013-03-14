@@ -67,7 +67,7 @@ class SchemaDiffCLI extends AbstractDiffCLI{
   }
   
   public getStylesheet(format) {
-    "${System.getenv('SOA_MODEL_HOME')}/style/schema2"+format+".xslt"
+    "${System.getenv('SOA_MODEL_HOME')}/src/main/style/schema2"+format+".xslt"
   }
 
   public getDiffGenerator(doc1, doc2) {
