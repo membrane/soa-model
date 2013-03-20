@@ -34,7 +34,8 @@ class Difference {
   }
   
   public String toString(){    
-    "${description} (type=$type, safe=$safe , breaks=$breaks\n${diffs.join('\n')})"
+//    "${description} (type=$type, safe=$safe , breaks=$breaks\n${diffs.join('\n')})"
+		description
   }
   
   def breaks(){

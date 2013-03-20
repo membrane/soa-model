@@ -35,7 +35,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     a.particles.eachWithIndex() { aP, i ->
       def bP = b.particles[i]
       if(!bP){
-        diffs << elementChangedOrRemoved(bPs, aP)
+        diffs << particleChangedOrRemoved(bPs, aP, i)
         return
       }
       if(!(aP instanceof Element || bP instanceof Element) && aP.class != bP.class) {
@@ -49,19 +49,24 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         diffs.addAll(lDiffs)
         return
       }
-      diffs << elementChangedOrRemoved(bPs, aP)
+      diffs << particleChangedOrRemoved(bPs, aP, i)
       return
     }
     diffs.addAll(compareUnprocessedBPs(bPs))
     diffs
   }
 
-  private elementChangedOrRemoved(bPs, aP){
-    if(getElementB(aP)) {
-      bPs << getElementB(aP)
-      return new Difference(description:"Position of element ${aP.name} changed." , type: 'sequence', safe: false, breaks: true)
+  private particleChangedOrRemoved(bPs, aP, i){
+    if(getParticleB(aP)) {
+      int bi = b.particles.findIndexOf{ it.name == aP.name }
+      
+      bPs << getParticleB(aP)
+      if(aP instanceof Element) return new Difference(description:"Position of element ${aP.name} changed from $i to $bi." , type: 'sequence', safe: false, breaks: true)
+      // "any" is not an element, so a different message here
+      return new Difference(description:"Position of ${aP.elementName} changed from $i to $bi." , type: 'sequence', safe: false, breaks: true)
     }
     if(aP instanceof Element) return new Difference(description:"Element ${aP.name} removed." , type: 'sequence', safe: false, breaks: true)
+    // "any" is not an element, so a different message here
     new Difference(description:"${aP.elementName} removed." , type: 'sequence', safe: false, breaks: true)
   }
 
@@ -77,7 +82,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     diffs
   }
 
-  private getElementB(aP){
-    b.elements.find{it.name == aP.name}
+  private getParticleB(aP) {
+    b.particles.find{it.name == aP.name}
   }
 }

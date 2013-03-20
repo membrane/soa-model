@@ -49,7 +49,7 @@ class SimpleContentTest extends GroovyTestCase {
     def diffs = diffGen.compareSimpleContent(a, b)
     assertEquals(1, diffs.size())
     assertTrue(diffs.toString().contains("SimpleContent has changed"))
-    assertTrue(diffs.toString().contains("Extension base has changed from {http://www.w3.org/2001/XMLSchema}decimal to {http://www.w3.org/2001/XMLSchema}int."))
+    assertTrue(diffs[0].dump().contains("Extension base has changed from {http://www.w3.org/2001/XMLSchema}decimal to {http://www.w3.org/2001/XMLSchema}int."))
   }
 }
 

@@ -86,6 +86,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     if(element.arrayType) attrs['wsdl:arrayType'] = element.arrayType
 		if(element.defaultValue) attrs['default'] = element.defaultValue
 		if(element.fixedValue) attrs['fixed'] = element.fixedValue
+		if(element.nillable) attrs['nillable'] = element.nillable
     builder.'xsd:element'(attrs){
       element.annotation?.create(this, ctx)
       element.embeddedType?.create(this, ctx)
@@ -99,6 +100,9 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
 
     if(complexType.qname) {
       attrs['name'] = getDisplayName(complexType.qname.getLocalPart(), 'definitions.allSchemas.complexTypes.qname.localPart', ctx.error)
+    }
+		if(complexType.abstractAttr) {
+      attrs['abstract'] = complexType.abstractAttr
     }
     builder.'xsd:complexType'(attrs){
       if(complexType.annotation) {

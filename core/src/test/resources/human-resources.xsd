@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://predic8.com/human-resources/"
 	xmlns:tns="http://predic8.com/human-resources/"
 	elementFormDefault="unqualified"
-	xmlns:ct="http://predic8.com/common-types/"
-  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	xmlns:ct="http://predic8.com/common-types/">
 
 	<xsd:import schemaLocation="common-types.xsd"
 		namespace="http://predic8.com/common-types/" />
@@ -14,6 +14,7 @@
 		<xsd:sequence>
 			<xsd:element name="id" type="ct:IdentifierType"  minOccurs="1"  maxOccurs="1"/>
 			<xsd:element name="firstName" type="xsd:string" />
+      <xsd:element name="secondName" nillable="true" type="xsd:string" />
 			<xsd:element name="lastName" type="xsd:string" />
 			<xsd:element name="address" type="tns:AddressType"/>
 		</xsd:sequence>

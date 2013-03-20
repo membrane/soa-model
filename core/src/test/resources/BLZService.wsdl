@@ -16,7 +16,7 @@
       <xsd:element name="getBankResponse" type="tns:getBankResponseType"/>
       <xsd:complexType name="getBankType">
         <xsd:sequence>
-          <xsd:element name="blz" type="xsd:string"/>
+          <xsd:element name="blz" type="xsd:string" nillable="true"/>
         </xsd:sequence>
         <xsd:attribute name="testAttribute" type="xsd:int"/>
       </xsd:complexType>

@@ -37,6 +37,7 @@ class Element extends Declaration {
   String maxOccurs = 1
 	String defaultValue //can only be used if the element's content is a simple type or text only
 	String fixedValue //can only be used if the element's content is a simple type or text only
+	boolean nillable = false
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
@@ -47,7 +48,8 @@ class Element extends Declaration {
 		// Element can have a default value OR a fixed value specified.
 		defaultValue = token.getAttributeValue( null , 'default')
 		fixedValue = token.getAttributeValue( null , 'fixed')
-    log.debug "element attribute parsed: [name=$name, type=$type, ref=$ref]"
+		nillable = (token.getAttributeValue( null , 'nillable') == 'true')
+    log.debug "element attribute parsed: [name=$name, type=$type, ref=$ref, nillable=$nillable]"
   }
   
   protected parseChildren(token, child, params){

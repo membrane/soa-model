@@ -15,6 +15,26 @@
     </complexType>
   </element>
 
+  <element name="person1">
+    <complexType>
+      <sequence>
+        <element name="firstname" type="string" />
+        <element name="secondname" type="string" minOccurs="0"/>
+        <element name="lastname" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  
+  <element name="person2">
+    <complexType>
+      <sequence>
+        <element name="firstname" type="string" />
+        <element name="secondname" type="string" />
+        <element name="lastname" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  
   <complexType name="AddressType">
     <sequence>
       <element name="name"   type="string"/>
@@ -23,4 +43,5 @@
       <element name="city"   type="string"/>
     </sequence>
   </complexType>
+  
 </schema>
