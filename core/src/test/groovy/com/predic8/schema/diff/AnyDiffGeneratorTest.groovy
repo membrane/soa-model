@@ -32,6 +32,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
     def seqI
     def seqJ
     def seqK
+    def seqL
 
     void setUp() {
         def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -46,7 +47,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         seqH = schema.getType('NameTagH').model
         seqI = schema.getType('NameTagI').model
         seqJ = schema.getType('NameTagJ').model
-        seqK = schema.getType('NameTagK').model
+      seqK = schema.getType('NameTagK').model
+      seqL = schema.getType('NameTagL').model
     }
 
     void testEqual() {
@@ -266,6 +268,21 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         assertTrue(diffs[0].breaks())
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
+
+  void testProcessAddedElementBeforeAny() {
+    def diffGen = new SequenceDiffGenerator(a: seqA , b: seqL, generator : new SchemaDiffGenerator())
+    def diffs = diffGen.compare()
+//    def diffs = dumpDiffs(diffGen.compare(), "element added before any")
+    assertEquals(1, diffs.size())
+    assertEquals(2, diffs[0].diffs.size())
+    assertTrue(diffs[0].diffs[0].description.toString().contains('Position of any changed'))
+
+    // inserting an element with minOccurs=1 before the any is a breakage.
+    // In the future, this could be smarter: elements with minOccurs=0
+    // that are added before an "any" could be considered non-breaking
+    assertTrue(diffs[0].breaks())
+    assertTrue(diffs[0].breaks() != diffs[0].safe())
+  }
 
 
 //    private static List<Difference> dumpDiffs(List<Difference> diffs, String msg = null) {

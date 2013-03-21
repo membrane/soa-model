@@ -97,6 +97,15 @@
 		</sequence>
 	</complexType>
 
+    <!-- Like baseline but with another element before the "any" -->
+    <complexType name="NameTagL">
+        <sequence>
+            <element name="name" type="string" />
+            <element name="favoriteColor" type="string" minOccurs="1"/>
+            <any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+                 maxOccurs="unbounded" processContents="strict" />
+        </sequence>
+    </complexType>
 
 
 </schema>
