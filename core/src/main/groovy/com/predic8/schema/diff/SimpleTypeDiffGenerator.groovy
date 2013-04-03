@@ -17,10 +17,10 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class SimpleTypeDiffGenerator extends UnitDiffGenerator {
-
-  def removed = {new Difference(description:"SimpleType ${a?.name} removed.", type: 'simpleType', breaks: true, safe:false)}
-  def added = { new Difference(description:"SimpleType ${a?.name} added.", type: 'simpleType', breaks: true, safe:false)}
-  def changed = { new Difference(description:"SimpleType ${a?.name} has changed.", type: 'simpleType', diffs:compareUnit())}
+  private def labelSimpleType, labelRemoved, labelAdded, labelHasChanged, labelList
+  def removed = {new Difference(description:"${labelSimpleType} ${labelRemoved}.", type: 'simpleType', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelSimpleType} ${labelAdded}.", type: 'simpleType', breaks: true, safe:false)}
+  def changed = { new Difference(description:"${labelSimpleType} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit())}
 
   List<Difference> compareUnit(){
     def lDiffs = []
@@ -29,10 +29,19 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
       lDiffs.addAll(a.restriction.compare(generator, b.restriction))
     }
     if(a.list?.itemType != b.list?.itemType) {
-      lDiffs.add(new Difference(description:"List has changed.", type: 'simpleType', diffs:compareUnit()))
+      lDiffs.add(new Difference(description:"${labelList} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit()))
     }
     // Union is not handled yet.
     lDiffs
+  }
+  
+  protected def updateLabels(){
+	  labelSimpleType = bundle.getString("com.predic8.schema.diff.labelSimpleType")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelList = bundle.getString("com.predic8.schema.diff.labelList")
+
   }
 }
 

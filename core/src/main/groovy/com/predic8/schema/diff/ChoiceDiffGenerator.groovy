@@ -18,13 +18,28 @@ import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class ChoiceDiffGenerator extends AbstractModelDiffGenerator{
+  
+  private def labelChoice, labelRemoved, labelAdded, labelHasChanged
+  	
+  def removed = {new Difference(description:"'${labelChoice}' ${labelRemoved}.", type: 'choice', breaks: true, safe:false)}
 
-  def removed = {new Difference(description:"'Choice' removed.", type: 'choice', breaks: true, safe:false)}
-
-  def added = { new Difference(description:"'Choice' added.", type: 'choice', breaks: true, safe:false)}
+  def added = { new Difference(description:"'${labelChoice}' ${labelAdded}.", type: 'choice', breaks: true, safe:false)}
 
   def changed = { diffs ->
-    new Difference(description:"'Choice' has changed:" , type: 'choice' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"'${labelChoice}' ${labelHasChanged}:" , type: 'choice' ,  diffs : diffs, a: a, b:b)
   }
+  
+  public ChoiceDiffGenerator(){
+	  updateLabels()
+  }
+  
+  protected def updateLabels(){
+	  labelChoice = bundle.getString("com.predic8.schema.diff.labelChoice")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+
+  }
+  
 }
 
