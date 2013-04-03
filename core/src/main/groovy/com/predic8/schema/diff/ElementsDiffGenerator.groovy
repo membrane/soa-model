@@ -17,13 +17,20 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class ElementsDiffGenerator extends ListDiffGenerator{
+ 
+   def labelElement, labelRemoved, labelAdded
 
   def generator
 
-  def removed = { new Difference(description:"Element ${it.name} removed." , type : 'element', breaks:true) }
+  def removed = { new Difference(description:"${labelElement} ${it.name} ${labelRemoved}." , type : 'element', breaks:true) }
 
-  def added = { new Difference(description:"Element ${it.name} added.", type : 'element')}
+  def added = { new Difference(description:"${labelElement} ${it.name} ${labelAdded}.", type : 'element')}
+  
 
+  public ElementsDiffGenerator(){
+	  updateLabels()
+  }
+  
   protected getIntersection(){
     (a.name).intersect(b.name)
   }
@@ -32,5 +39,12 @@ class ElementsDiffGenerator extends ListDiffGenerator{
     def aElement = a.find{ it.name == name}
     def bElement = b.find{ it.name == name}
     aElement.compare(generator , bElement)
+  }
+  
+  protected def updateLabels(){
+	  labelElement = bundle.getString("com.predic8.schema.diff.labelElement")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+
   }
 }

@@ -16,13 +16,22 @@ package com.predic8.schema;
 
 import groovy.xml.*
 import javax.xml.namespace.QName as JQName;
+
+import sun.org.mozilla.classfile.internal.SuperBlock;
+
 import com.predic8.wstool.creator.*
 import com.predic8.soamodel.CreatorContext;
 
 class ComplexType extends TypeDefinition {
   
   SchemaComponent model
-  
+  String abstractAttr 
+	
+	protected parseAttributes(token, params){
+		super.parseAttributes(token, params)
+		abstractAttr = token.getAttributeValue( null , 'abstract')
+	}
+	
   protected parseChildren(token, child, params){
     super.parseChildren(token, child, params)
     switch (child ){

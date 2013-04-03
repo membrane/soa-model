@@ -30,5 +30,7 @@ abstract class ListDiffGenerator extends AbstractDiffGenerator{
   abstract protected getIntersection()
 
   abstract protected List<Difference> compareUnit(qname)
+  
+  abstract protected updateLabels()
 }
 

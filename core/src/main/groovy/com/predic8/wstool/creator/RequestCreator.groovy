@@ -58,7 +58,12 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   private createBuildInElement(Element element, RequestCreatorContext ctx) {
     def attrs = [:]
     declNSifNeeded('ns1',element.schema.targetNamespace, attrs, ctx)
-	//This makes problems if the element name is also used in upper levels.
+	
+		/**There is a problem with the next line if two or more elements were used/declared more than one time in a xpath expression.
+		  *See https://groups.google.com/forum/?hl=en&fromgroups=#!topic/soa-model/CVBErhVbdek
+		  *
+			*This makes also problems if the element name is also used in upper levels.
+		  */
     def entries = ctx.formParams.findAll{(it.key.split('/')[0..-2] + (it.key.split('/')[-1]  - ~/\[\d\]/)).join('/') == "${ctx.path}${element.name}"}
 
 		/*The next line causes unnecessary elements be created without xpath expression!

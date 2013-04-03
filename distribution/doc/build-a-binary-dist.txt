@@ -1,8 +1,3 @@
 Building a binary distribution
 
-1-Rightclick at the project folder 
-2-Click on "Export..."
-3-Choose "Archive File" and click "next"
-4-Expand "soa-model Binary" and unselect the "bin" folder
-5-Choose "Create only selected directories"
-6-Finish
+IMPORTANT: Don't forget to update the .bat files with the new version of libraries.

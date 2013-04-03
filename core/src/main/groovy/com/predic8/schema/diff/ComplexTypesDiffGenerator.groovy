@@ -20,9 +20,11 @@ import groovy.xml.QName
 
 class ComplexTypesDiffGenerator extends ListDiffGenerator{
 
-  def removed = { new Difference(description:"ComplexType ${it.qname.localPart.toString()} removed.", type: 'complexType', breaks:true)}
+   def labelRemoved, labelAdded, labelComplexType
+	
+  def removed = { new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelRemoved}.", type: 'complexType', breaks:true)}
 
-  def added = {new Difference(description:"ComplexType ${it.qname.localPart.toString()} added.", type: 'complexType')}
+  def added = {new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelAdded}.", type: 'complexType')}
 
   List<Difference> compareUnit(qname){
     findA(qname).compare(generator, findB(qname))
@@ -30,6 +32,13 @@ class ComplexTypesDiffGenerator extends ListDiffGenerator{
   
   protected getIntersection(){
     (a.qname).intersect(b.qname)
+  }
+  
+  protected def updateLabels(){
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelComplexType = bundle.getString("com.predic8.schema.diff.labelComplexType")
+
   }
 
 }

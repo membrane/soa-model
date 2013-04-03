@@ -18,15 +18,27 @@ import com.predic8.soamodel.*
 
 class GroupRefDiffGenerator extends UnitDiffGenerator{
 	
-  def removed = {new Difference(description:"group removed.", type: 'group')}
+  private def labelGroup, labelRemoved, labelAdded, labelChanged, labelHasChanged, labelRef
+	
+  def removed = {new Difference(description:"${labelGroup} ${labelRemoved}.", type: 'group')}
 
-  def added = {new Difference(description:"group added.", type: 'group')}
+  def added = {new Difference(description:"${labelGroup} ${labelAdded}.", type: 'group')}
 
-  def changed = {new Difference(description:"group changed.", type: 'group')}
+  def changed = {new Difference(description:"${labelGroup} ${labelChanged}.", type: 'group')}
 
   List<Difference> compareUnit(){
     if(a.ref == b.ref) return []
-    [new Difference(description:"Ref of group has changed:" , type: 'group')]
+    [new Difference(description:"${labelRef} {labelGroup} ${labelHasChanged}:" , type: 'group')]
+  }
+  
+  protected def updateLabels(){
+	  labelGroup = bundle.getString("com.predic8.schema.diff.labelGroup")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelChanged = bundle.getString("com.predic8.schema.diff.labelChanged")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelRef = bundle.getString("com.predic8.schema.diff.labelRef")
+
   }
 }
 

@@ -17,13 +17,15 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class ComplexTypeDiffGenerator extends UnitDiffGenerator{
+  
+  private def labelModelGroupChange, labelHasChanged, labelTo, labelRemoved, labelAdded, labelComplexType
+  
+  def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: true, safe:false)}
 
-  def removed = {new Difference(description:"ComplexType removed.", type: 'complexType', breaks: true, safe:false)}
-
-  def added = { new Difference(description:"ComplexType added.", type: 'complexType', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: true, safe:false)}
 
   def changed = { diffs ->
-    new Difference(description:"ComplexType ${a.qname?.localPart ?: ''} has changed:" , type: 'complexType' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''} ${labelHasChanged}:" , type: 'complexType' ,  diffs : diffs, a: a, b:b)
   }
 
   List<Difference> compareUnit(){
@@ -37,7 +39,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
     def bType = b
     def lDiffs
     if(aType.model?.class != bType.model?.class){
-      lDiffs = new Difference(description:"ModelGroup has changed from ${aType.model?.class} to ${bType.model?.class}." , type: 'model', breaks:true)
+      lDiffs = new Difference(description:"${labelModelGroupChange} ${aType.model?.class} ${labelTo} ${bType.model?.class}." , type: 'model', breaks:true)
     } else {
       lDiffs = aType.model?.compare(generator, bType.model ) ?: []
     }
@@ -47,6 +49,16 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
 //    lDiffs.addAll(generator.compareAttributeGroups(aType, bType))
     lDiffs.addAll(generator.compareAnnotation(aType.annotation, bType.annotation))
     lDiffs
+  }
+  
+  protected def updateLabels(){
+	  labelModelGroupChange = bundle.getString("com.predic8.schema.diff.labelModelGroupChange")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChange")
+	  labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelComplexType = bundle.getString("com.predic8.schema.diff.labelComplexType")
+
   }
 }
 

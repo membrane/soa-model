@@ -61,5 +61,11 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
     }
     diffs.flatten()
   }
+  
+  protected def updateLabels(){
+
+
+  }
+  
 }
 
