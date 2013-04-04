@@ -22,15 +22,28 @@ import org.apache.commons.logging.*
 class SchemaDiffGenerator extends AbstractDiffGenerator{
 
   private Log log = LogFactory.getLog(this.class)
-  
+
+  def labelTN, labelTo
+    
 //  To avoid cycling schema imports. Otherwise it would cause a StackOverFlow exception.  
   private List<String> alreadyImportedNamespaces = [] 
   
-  public SchemaDiffGenerator(){}
+  public SchemaDiffGenerator(){
+    updateLabels()
+  }
   
   public SchemaDiffGenerator(Schema a, Schema b){
+	  
     this.a = a
     this.b = b
+    updateLabels()
+  }
+  
+  public SchemaDiffGenerator(Schema a, Schema b, Locale locale){
+	  bundle = ResourceBundle.getBundle("LabelsBundle", locale)
+	  this.a = a
+			  this.b = b
+			  updateLabels()
   }
 
   List<Difference> compare(){
@@ -38,7 +51,7 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     log.debug("compare schema")
     
     if ( a.targetNamespace != b.targetNamespace ){
-      return diffs << new Difference(description:"targetNamespace changed from ${a.targetNamespace} to ${b.targetNamespace}", type: 'targetNamespace', breaks:true)
+      return diffs << new Difference(description:"${labelTN} ${a.targetNamespace} ${labelTo} ${b.targetNamespace}", type: 'targetNamespace', breaks:true)
     }
     if ( alreadyImportedNamespaces?.contains(a.targetNamespace)){
       return diffs
@@ -127,5 +140,11 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
 
   def compareSimpleRestriction(a, b){
     new SimpleRestrictionDiffGenerator(a: a, b: b, generator: this).compare()
+  }
+  
+  protected def updateLabels(){
+	  labelTN = AbstractDiffGenerator.bundle.getString("com.predic8.schema.diff.labelTN")
+	  labelTo = .AbstractDiffGeneratorbundle.getString("com.predic8.schema.diff.labelTo")
+
   }
 }

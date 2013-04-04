@@ -14,13 +14,15 @@
 
 package com.predic8.schema.diff
 
+import java.util.ResourceBundle;
+
 import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class AbstractModelDiffGenerator extends UnitDiffGenerator {
-
+  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
   def generator
-
+  protected def labelParticle, labelRemoved, labelAdded
   List<Difference> compareUnit(){
     def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator).compare()
     def aPs = (a.particles-a.elements)
@@ -39,10 +41,14 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
     diffs
   }
   
+  public AbstractModelDiffGenerator(){
+	  updateLabels()
+  }
+  
   def writeRemovedParticles(aPs){
     def diffs = []
     aPs.each{
-      diffs << new Difference(description:"Particle ${it.elementName} removed." , type: 'choice')
+      diffs << new Difference(description:"${labelParticle} ${it.elementName} ${labelRemoved}." , type: 'choice')
     }
     diffs
   }
@@ -50,9 +56,16 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
   def wriTeAddedParticles(bPs){
     def diffs = []
     bPs.each{
-      diffs << new Difference(description:"Particle ${it.elementName} added." , type: 'choice')
+      diffs << new Difference(description:"${labelParticle} ${it.elementName} ${labelAdded}." , type: 'choice')
     }
     diffs
+  }
+  
+  protected def updateLabels(){
+	  
+  	labelParticle = bundle.getString("com.predic8.schema.diff.labelParticle")
+  	labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+  	labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
   }
 }
 

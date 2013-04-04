@@ -27,16 +27,18 @@ class AnyDiffGenerator extends ElementDiffGenerator {
     // http://msdn.microsoft.com/en-us/library/ms256043.aspx
 
     private Log log = LogFactory.getLog(this.class)
-
+	
+	private def labelHasChanged, labelAdded, labelAnyElement, labelRemoved, labelHasChenged, labelNamespaceChanged, labelProcessContentLess, labelProcessContentMore
+	
     // removing an 'any' is a breaking change
-    def removed = {new Difference(description:"Any element removed.", type: 'any', breaks: true, safe:false)}
+    def removed = {new Difference(description:"${labelAnyElement} ${labelRemoved}.", type: 'any', breaks: true, safe:false)}
 
     // adding an 'any' is non-breaking
-    def added = { new Difference(description:"Any element added.", type: 'any', breaks: false, safe:true)}
+    def added = { new Difference(description:"${labelAnyElement} ${labelAdded}.", type: 'any', breaks: false, safe:true)}
 
     // changes may be breaking depending on their nature.  processing of attributes will determine...
     def changed = { diffs ->
-        new Difference(description:"Any element has changed:" , type: 'any' ,  diffs : diffs, a: a, b:b, safe: true, breaks: false)
+        new Difference(description:"${labelAnyElement} ${labelHasChanged}:" , type: 'any' ,  diffs : diffs, a: a, b:b, safe: true, breaks: false)
     }
 
     // array of processContents values in order of stringency from most leniant to most strict
@@ -45,7 +47,11 @@ class AnyDiffGenerator extends ElementDiffGenerator {
     protected getTypeAndName() {
         "any"
     }
-
+	
+	public AnyDiffGenerator(){
+		updateLabels()
+	}
+	
     @Override
     List<Difference> compareUnit(){
         log.debug("compareAny")
@@ -86,7 +92,7 @@ class AnyDiffGenerator extends ElementDiffGenerator {
         }
 
         if (!aNamespaces.equals(bNamespaces)) {
-            return [new Difference(description:"namespace attribute changed to '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe)]
+            return [new Difference(description:"${labelNamespaceChanged} '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe)]
         }
 
         []
@@ -100,10 +106,21 @@ class AnyDiffGenerator extends ElementDiffGenerator {
         int aStrictnessIndex = processContentsStrictness.indexOf(aProcessContents);
         int bStrictnessIndex = processContentsStrictness.indexOf(bProcessContents);
 
-        if (aStrictnessIndex > bStrictnessIndex) return [new Difference(description:"processContents became less strict", type: 'any', breaks: false, safe: true)]
-        if (aStrictnessIndex < bStrictnessIndex) return [new Difference(description:"processContents became more strict", type: 'any', breaks: true, safe: false)]
+        if (aStrictnessIndex > bStrictnessIndex) return [new Difference(description:"${labelProcessContentLess}", type: 'any', breaks: false, safe: true)]
+        if (aStrictnessIndex < bStrictnessIndex) return [new Difference(description:"${labelProcessContentMore}", type: 'any', breaks: true, safe: false)]
 
         []
     }
+	    
+	    protected def updateLabels(){
+	    	
+	    	labelNamespaceChanged = bundle.getString("com.predic8.schema.diff.labelNamespaceChanged")
+	    			labelAnyElement = bundle.getString("com.predic8.schema.diff.labelAnyElement")
+	    			labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	    			labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	    			labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	    			labelProcessContentLess = bundle.getString("com.predic8.schema.diff.labelProcessContentLess")
+	    			labelProcessContentMore = bundle.getString("com.predic8.schema.diff.labelProcessContentMore")
+	    }
 
 }

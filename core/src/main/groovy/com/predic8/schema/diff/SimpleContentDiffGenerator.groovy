@@ -50,9 +50,14 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
 //    }
     
     if(a.restriction && b.restriction){
-      return a.restriction.compare(generator, b.restriction) ?: []
+      return a.restriction.compare(generator, b.restriction) ?: []	
     }
     
   }
+  
+  protected def updateLabels(){
+  
+	
+	  }
 }
 

@@ -21,12 +21,15 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 
   private Log log = LogFactory.getLog(this.class)
   
-  def removed = {new Difference(description:"Element removed.", type: 'element', breaks: true, safe:false)}
+  def labelElementRemoved, labelElementAdded, labelElement,  labelHasChanged, labelTypeElement, labelTo,
+  	  labelEmbeddedStandAlone, labelEmbedded, labelAttributeMinOccurs, labelAttributeMaxOccurs, labelFrom
+  
+  def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: true, safe:false)}
 
-  def added = { new Difference(description:"Element added.", type: 'element', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false)}
 
   def changed = { diffs ->
-    new Difference(description:"Element ${a.name} has changed:" , type: 'element' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"${labelElement} ${a.name} ${labelHasChanged}:" , type: 'element' ,  diffs : diffs, a: a, b:b)
   }
 
   protected getTypeAndName() {
@@ -49,21 +52,25 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   }
 
 
+  public ElementDiffGenerator(){
+	  updateLabels()
+  }
+  
   protected compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
-    if(a.embeddedType && b.type) return [new Difference(description:"The type of element '${a.name}' has changed from embedded to stand-alone.", type: 'element', safe: false)]
-    if(a.type && b.embeddedType) return [new Difference(description:"The type of element '${a.name}' has changed from stand-alone to embedded.", type: 'element', safe: false)]
-    if(a.type != b.type) return [new Difference(description:"The type of element '${a.name}' has changed from ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} to ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
+    if(a.embeddedType && b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', safe: false)]
+    if(a.type && b.embeddedType) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false)]
+    if(a.type != b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} ${labelTo} ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
     []
   }
 
   protected compareMinMaxOccurs(eType = 'element'){
 		def lDiffs = []
 		if(a.minOccurs != b.minOccurs){
-			lDiffs << new Difference(description:"The attribute minOccurs of $eType ${a.name ? a.name+' ' : ''}has changed from ${a.minOccurs} to ${b.minOccurs}.", type: eType, safe:  a.minOccurs >= b.minOccurs, breaks:  a.minOccurs < b.minOccurs)
+			lDiffs << new Difference(description:"${labelAttributeMinOccurs} ${labelElement} $eType ${a.name ? a.name+' ' : ''} ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.", type: eType, safe:  a.minOccurs >= b.minOccurs, breaks:  a.minOccurs < b.minOccurs)
 		}
 		if(a.maxOccurs != b.maxOccurs){
-			lDiffs << new Difference(description:"The attribute maxOccurs of $eType ${a.name ? a.name+' ' : ''}has changed from ${a.maxOccurs} to ${b.maxOccurs}.", type: eType, safe:  a.maxOccurs <= b.maxOccurs, breaks:  a.maxOccurs > b.maxOccurs)
+			lDiffs << new Difference(description:"${labelAttributeMaxOccurs} ${labelElement} $eType ${a.name ? a.name+' ' : ''} ${labelHasChanged} ${labelFrom} ${a.maxOccurs} ${labelTo} ${b.maxOccurs}.", type: eType, safe:  a.maxOccurs <= b.maxOccurs, breaks:  a.maxOccurs > b.maxOccurs)
 		}
     lDiffs
   }
@@ -72,5 +79,22 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     a.embeddedType?.compare(generator, b.embeddedType) ?: []
   }
 
+
+  protected def updateLabels(){
+	  labelElementRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelElement = bundle.getString("com.predic8.schema.diff.labelElement")
+	  labelElementAdded = bundle.getString("com.predic8.schema.diff.labelElementAdded")
+	  labelTypeElement = bundle.getString("com.predic8.schema.diff.labelTypeElement")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelTypeElement = bundle.getString("com.predic8.schema.diff.labelTypeElement")
+	  labelEmbeddedStandAlone = bundle.getString("com.predic8.schema.diff.labelEmbeddedStandAlone")
+	  labelEmbedded = bundle.getString("com.predic8.schema.diff.labelEmbedded")
+	  labelAttributeMinOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMinOccurs")
+	  labelAttributeMaxOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMaxOccurs")
+	  labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
+	  labelFrom = bundle.getString("com.predic8.schema.diff.labelFrom")
+
+  }
+  
 }
 
