@@ -14,13 +14,18 @@
 
 package com.predic8.soamodel
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import com.predic8.schema.*
 import com.predic8.schema.restriction.facet.*;
 
 import groovy.xml.QName
 
 abstract class AbstractDiffGenerator {
-
+  
+ public static ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
+  
   def generator
   def a,b
   
@@ -79,4 +84,11 @@ abstract class AbstractDiffGenerator {
   def findB(QName qname){
     b.find{it.qname == qname}
   }
+  
+  def changeLocale(Locale locale){
+    bundle = ResourceBundle.getBundle("LabelsBundle", locale)
+    updateLabels()
+  }
+  
+  abstract protected updateLabels()
 }
