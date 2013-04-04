@@ -17,7 +17,9 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class AttributeDiffGenerator  extends AbstractDiffGenerator {
-
+	
+  private def labelTypeChanged, labelRefChanged, labelTo, labelAttributeChange, labelAttributeFormChange, labelAttributeFixedChange, labelAttributeDefaultChange
+	
   def compare(){
     def diffs = compareType()
     diffs.addAll(compareUse())
@@ -27,44 +29,56 @@ class AttributeDiffGenerator  extends AbstractDiffGenerator {
 
   private compareType() {
     if(a.type != b.type) {
-      return [new Difference(description:"The type has changed from ${a.type} to ${b.type}.", type: 'attribute', breaks:true)]
+      return [new Difference(description:"{$labelTypeChanged} ${a.type} ${labelTo} ${b.type}.", type: 'attribute', breaks:true)]
     }
     []
   }
 
   private compareRef() {
     if(a.ref != b.ref) {
-      return [new Difference(description:"The ref has changed from ${a.ref} to ${b.ref}.", type: 'attribute', breaks:true)]
+      return [new Difference(description:"${labelRefChanged} ${a.ref} ${labelTo} ${b.ref}.", type: 'attribute', breaks:true)]
     }
     []
   }
 
   private compareUse(){
     if(a.use != b.use) {
-      return [new Difference(description:"The attribute use has changed from ${a.use} to ${b.use}.", type: 'attribute')]
+      return [new Difference(description:"${labelAttributeChange} ${a.use} ${labelTo} ${b.use}.", type: 'attribute')]
     }
     []
   }
 
   private compareForm(){
     if(a.form != b.form) {
-      return [new Difference(description:"The attribute form has changed from ${a.form} to ${b.form}.", type: 'attribute')]
+      return [new Difference(description:"${labelAttributeFormChange} ${a.form} ${labelTo} ${b.form}.", type: 'attribute')]
     }
     []
   }
 
   private compareFixed(){
     if(a.fixedValue != b.fixedValue) {
-      return [new Difference(description:"The attribute fixed changed from ${a.fixedValue} to ${b.fixedValue}.", type: 'attribute')]
+      return [new Difference(description:"${labelAttributeFixedChange} ${a.fixedValue} ${labelTo} ${b.fixedValue}.", type: 'attribute')]
     }
     []
   }
 
   private compareDefault(){
     if(a.defaultValue != b.defaultValue) {
-      return [new Difference(description:"The attribute default changed from ${a.defaultValue} to ${b.defaultValue}.", type: 'attribute')]
+      return [new Difference(description:"${labelAttributeDefaultChange} ${a.defaultValue} ${labelTo} ${b.defaultValue}.", type: 'attribute')]
     }
     []
   }
+	
+  protected def updateLabels(){
+	  
+	   labelTypeChanged = bundle.getString("com.predic8.schema.diff.labelTypeChanged")
+	   labelRefChanged = bundle.getString("com.predic8.schema.diff.labelRefChanged")
+	   labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
+	   labelAttributeChange = bundle.getString("com.predic8.schema.diff.labelAttributeChange")
+	   labelAttributeFormChange = bundle.getString("com.predic8.schema.diff.labelAttributeFormChange")
+	   labelAttributeFixedChange = bundle.getString("com.predic8.schema.diff.labelAttributeFixedChange")
+	   labelAttributeDefaultChange = bundle.getString("com.predic8.schema.diff.labelAttributeDefaultChange")
 
+   }
+  
 }

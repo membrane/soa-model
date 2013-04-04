@@ -50,4 +50,5 @@ class ElementDiffGeneratorTest  extends GroovyTestCase{
 		def diffs = diffGen.compare()
 		assertTrue(diffs*.dump().toString().contains('The attribute minOccurs of element secondname has changed from 0 to 1.'))
 	}
+	
 }

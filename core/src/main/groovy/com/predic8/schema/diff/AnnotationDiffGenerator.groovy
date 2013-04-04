@@ -19,12 +19,14 @@ import java.util.List;
 import com.predic8.soamodel.*
 
 class AnnotationDiffGenerator extends AbstractDiffGenerator{
-
+	
+   def labelAnnotation, labelRemoved, labelAdded, labelContentAnnotation
+	
   List<Difference> compare() {
     def diffs = []
-    if(a && !b) return [new Difference(description:"Annotation removed.", type: 'annotation', breaks: false, safe:false)]
-    if(!a && b) return [new Difference(description:"Annotation added.", type: 'annotation', breaks: false, safe:false)]
-    if(a && b && compareContents()) return [new Difference(description:"Content of annotation has changed.", type: 'annotation', breaks: false, safe:false)]
+    if(a && !b) return [new Difference(description:"${labelAnnotation} ${labelRemoved}.", type: 'annotation', breaks: false, safe:false)]
+    if(!a && b) return [new Difference(description:"${labelAnnotation} ${labelAdded}.", type: 'annotation', breaks: false, safe:false)]
+    if(a && b && compareContents()) return [new Difference(description:"${labelContentAnnotation}.", type: 'annotation', breaks: false, safe:false)]
     []
   }
   
@@ -33,7 +35,18 @@ class AnnotationDiffGenerator extends AbstractDiffGenerator{
     if(a.appinfos.content != b.appinfos.content ) return true
     false
   }
-
+  
+  public AnnotationDiffGenerator(){
+	  updateLabels()
+  }
+  
+  protected def updateLabels(){
+	 
+	  labelContentAnnotation = bundle.getString("com.predic8.schema.diff.labelContentAnnotation")
+	  labelAnnotation = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+  }
 
 }
 

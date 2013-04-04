@@ -19,11 +19,13 @@ import com.predic8.schema.*
 
 class SimpleTypesDiffGenerator extends ListDiffGenerator {
 
+   def labelRemoved, labelAdded, labelSimpleType	
+	
   def generator
 
- def removed = { new Difference(description:"SimpleType ${it.qname.toString()} removed.", type: 'simpleType', breaks:true)}
+  def removed = { new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelRemoved}.", type: 'simpleType', breaks:true)}
 
-  def added = {new Difference(description:"SimpleType ${it.qname.toString()} added.", type: 'simpleType')}
+  def added = {new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelAdded}.", type: 'simpleType')}
 
   protected getIntersection(){
     (a.qname).intersect(b.qname)
@@ -31,6 +33,13 @@ class SimpleTypesDiffGenerator extends ListDiffGenerator {
 
   List<Difference> compareUnit(qname){
     findA(qname).compare(generator, findB(qname))
+  }
+  
+  protected def updateLabels(){
+	  labelSimpleType = bundle.getString("com.predic8.schema.diff.labelSimpleType")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+
   }
 }
 
