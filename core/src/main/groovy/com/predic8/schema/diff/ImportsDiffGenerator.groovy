@@ -22,6 +22,8 @@ class ImportsDiffGenerator extends AbstractDiffGenerator{
   
   private List<String> alreadyImportedNamespaces 
   
+   def labelImportedSchema, labelRemoved, labelAdded, labelHasChanged
+  
   def compare(){
     def diffs = compareAddRemove()
     intersection.each{ ns ->
@@ -29,13 +31,17 @@ class ImportsDiffGenerator extends AbstractDiffGenerator{
     }
     diffs
   }
-
+  
   private compareAddRemove(){
     compare(a, b,
-        { new Difference(description:"Imported schema ${it} removed.", type: 'import') },
-        { new Difference(description:"Imported schema ${it} added.", type: 'import') })
+        { new Difference(description:"${labelImportedSchema} ${it} ${labelRemoved}.", type: 'import') },
+        { new Difference(description:"${labelImportedSchema} ${it} ${labelAdded}.", type: 'import') })
   }
 
+  public ImportsDiffGenerator(){
+	  updateLabels()
+  }
+  
   private compareImport(ns){
     def aSchema = a.find{it.namespace == ns}.importSchema
     def bSchema = b.find{it.namespace == ns}.importSchema
@@ -43,13 +49,21 @@ class ImportsDiffGenerator extends AbstractDiffGenerator{
     def schemaDiffGenerator = new SchemaDiffGenerator(a:aSchema, b:bSchema, alreadyImportedNamespaces: alreadyImportedNamespaces)
     def lDiffs = schemaDiffGenerator.compare()
     if(lDiffs) {
-      return [new Difference(description:"Imported schema ${ns} has changed:" , type: 'import', diffs : lDiffs)]
+      return [new Difference(description:"${labelImportedSchema} ${ns} ${labelHasChanged}:" , type: 'import', diffs : lDiffs)]
     }
     []
   }
 
   private getIntersection(){
     (a.namespace).intersect(b.namespace)
+  }
+  
+  protected def updateLabels(){
+	  labelImportedSchema = bundle.getString("com.predic8.schema.diff.labelGroup")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+
   }
 
 }

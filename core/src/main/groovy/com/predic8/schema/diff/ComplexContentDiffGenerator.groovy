@@ -20,6 +20,9 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
 
   def generator
 
+  private def labelContentModelElement, labelContentModelElementMixed, labelComplexContextChangeExtension, 
+  			  labelComplexContextChangeRestriction, labelComplexContextChange, labelHasChanged
+  
   def compare(){
     def diffs = compareMixed()
     diffs.addAll(compareDerivation())
@@ -28,32 +31,43 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   }
 
   private compareMixed(){
-    if(a.mixed  && !b.mixed) return [new Difference(description:"Content model of complexContent changed from 'mixed' to 'element-only'", type: 'complexContent', breaks:true)]
-    if(!a.mixed  && b.mixed) return [new Difference(description:"Content model of complexContent changed from 'element-only' to 'mixed'", type: 'complexContent', breaks:true)]
+    if(a.mixed  && !b.mixed) return [new Difference(description:"${labelContentModelElement}", type: 'complexContent', breaks:true)]
+    if(!a.mixed  && b.mixed) return [new Difference(description:"${labelContentModelElementMixed}", type: 'complexContent', breaks:true)]
     []
   }
 
   private compareDerivation(){
     if(a.hasRestriction()  && b.hasExtension()) {
-      return [new Difference(description:"ComplexContent changed from 'restriction' to 'extension'", type: 'complexContent', breaks:true)]
+      return [new Difference(description:"${labelComplexContextChangeExtension}", type: 'complexContent', breaks:true)]
     }
     if(a.hasExtension() && b.hasRestriction()) {
-      return [new Difference(description:"ComplexContent changed from 'extension' to 'restriction'", type: 'complexContent', breaks:true)]
+      return [new Difference(description:"${labelComplexContextChangeRestriction}", type: 'complexContent', breaks:true)]
+		  
     }
     if(compareModel()){
-      return [new Difference(description:"ComplexContent has changed: " , type: 'complexContent', diffs: compareModel())]
+      return [new Difference(description:"${labelComplexContextChange}: " , type: 'complexContent', diffs: compareModel())]
     }
     []
   }
 
   private compareModel(){
     if(a.derivation.model?.class != b.derivation.model?.class){
-      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} has changed: " , type: 'complexContent', diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true)])]
+      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true)])]
     } 
 		if(a.derivation.model?.compare(generator, b.derivation.model)){
-			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} has changed: " , type: 'complexContent', diffs: a.derivation.model?.compare(generator, b.derivation.model))]
+			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: a.derivation.model?.compare(generator, b.derivation.model))]
 		}
 		[]
+  }
+  
+  protected def updateLabels(){
+	  labelContentModelElement = bundle.getString("com.predic8.schema.diff.labelContentModelElement")
+	  labelContentModelElementMixed = bundle.getString("com.predic8.schema.diff.labelContentModelElementMixed")
+	  labelComplexContextChangeExtension = bundle.getString("com.predic8.schema.diff.labelComplexContextChangeExtension")
+	  labelComplexContextChangeRestriction = bundle.getString("com.predic8.schema.diff.labelComplexContextChangeRestriction")
+	  labelComplexContextChange = bundle.getString("com.predic8.schema.diff.labelComplexContextChange")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+
   }
 }
 

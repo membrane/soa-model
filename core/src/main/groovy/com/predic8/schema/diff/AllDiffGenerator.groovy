@@ -14,19 +14,35 @@
 
 package com.predic8.schema.diff
 
+import java.util.ResourceBundle;
+
 import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class AllDiffGenerator extends AbstractModelDiffGenerator{
+  
+//  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
+  private def labelHasChanged, labelRemoved, labelAdded
 
-  def removed = {new Difference(description:"'All' removed.", type: 'all', breaks: true, safe:false)}
+  def removed = {new Difference(description:"'All' ${labelRemoved}.", type: 'all', breaks: true, safe:false)}
 
-  def added = { new Difference(description:"'All' added.", type: 'all', breaks: true, safe:false)}
-
+  def added = { new Difference(description:"'All' ${labelAdded}.", type: 'all', breaks: true, safe:false)}
+  
+  
   def changed = { diffs ->
-    new Difference(description:"'All' has changed:" , type: 'all' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"'All' ${labelHasChanged}:" , type: 'all' ,  diffs : diffs, a: a, b:b)
   }
-
+  
+  public AllDiffGenerator(){
+	  updateLabels()
+  }
+  
+  protected def updateLabels(){
+	  
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
+  }
  
 }
 
