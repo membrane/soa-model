@@ -21,7 +21,6 @@ import com.predic8.schema.*
 
 class AllDiffGenerator extends AbstractModelDiffGenerator{
   
-//  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
   private def labelHasChanged, labelRemoved, labelAdded
 
   def removed = {new Difference(description:"'All' ${labelRemoved}.", type: 'all', breaks: true, safe:false)}

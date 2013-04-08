@@ -18,6 +18,10 @@ import com.predic8.soamodel.*
 
 class GroupRefDiffGenerator extends UnitDiffGenerator{
 	
+	public GroupRefDiffGenerator() {
+		updateLabels()
+	}
+	
   private def labelGroup, labelRemoved, labelAdded, labelChanged, labelHasChanged, labelRef
 	
   def removed = {new Difference(description:"${labelGroup} ${labelRemoved}.", type: 'group')}

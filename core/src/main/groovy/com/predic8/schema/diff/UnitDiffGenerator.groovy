@@ -20,7 +20,6 @@ import com.predic8.soamodel.*
 
 abstract class UnitDiffGenerator extends AbstractDiffGenerator{
   
-  
   public List<Difference> compare() {
     if(a && !b) return [removed()]
     if(!a && b) return [added()]
@@ -32,7 +31,4 @@ abstract class UnitDiffGenerator extends AbstractDiffGenerator{
 
   abstract List<Difference> compareUnit()
   
-  protected def updateLabels(){
-
-  }
 }

@@ -19,8 +19,12 @@ import com.predic8.schema.*
 import groovy.xml.QName
 
 class ComplexTypesDiffGenerator extends ListDiffGenerator{
+	
+	public ComplexTypesDiffGenerator(){
+		updateLabels()
+	}
 
-   def labelRemoved, labelAdded, labelComplexType
+	def labelRemoved, labelAdded, labelComplexType
 	
   def removed = { new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelRemoved}.", type: 'complexType', breaks:true)}
 

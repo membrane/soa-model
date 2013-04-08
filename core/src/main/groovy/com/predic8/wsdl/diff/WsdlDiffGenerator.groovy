@@ -131,4 +131,9 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
     }
     diffs
   }
+	
+	protected def updateLabels(){
+		labelTN = AbstractDiffGenerator.bundle.getString("com.predic8.wsdl.diff.labelTN")
+		labelTo = AbstractDiffGenerator.bundle.getString("com.predic8.wsdl.diff.labelTo")
+	}
 }

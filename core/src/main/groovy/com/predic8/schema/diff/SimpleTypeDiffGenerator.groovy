@@ -17,10 +17,16 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class SimpleTypeDiffGenerator extends UnitDiffGenerator {
+	
+	public SimpleTypeDiffGenerator() {
+		updateLabels()
+	}
+	
   private def labelSimpleType, labelRemoved, labelAdded, labelHasChanged, labelList
-  def removed = {new Difference(description:"${labelSimpleType} ${labelRemoved}.", type: 'simpleType', breaks: true, safe:false)}
-  def added = { new Difference(description:"${labelSimpleType} ${labelAdded}.", type: 'simpleType', breaks: true, safe:false)}
-  def changed = { new Difference(description:"${labelSimpleType} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit())}
+	
+  def removed = {new Difference(description:"${labelSimpleType} ${a?.name} ${labelRemoved}.", type: 'simpleType', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelAdded}.", type: 'simpleType', breaks: true, safe:false)}
+  def changed = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit())}
 
   List<Difference> compareUnit(){
     def lDiffs = []

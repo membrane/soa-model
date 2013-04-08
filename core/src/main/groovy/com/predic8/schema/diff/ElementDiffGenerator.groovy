@@ -18,6 +18,11 @@ import com.predic8.soamodel.*
 import org.apache.commons.logging.*
 
 class ElementDiffGenerator extends UnitDiffGenerator {
+	
+	
+	public ElementDiffGenerator(){
+		updateLabels()
+	}
 
   private Log log = LogFactory.getLog(this.class)
   
@@ -52,9 +57,6 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   }
 
 
-  public ElementDiffGenerator(){
-	  updateLabels()
-  }
   
   protected compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
@@ -78,7 +80,6 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   private compareEmbeddedType(){
     a.embeddedType?.compare(generator, b.embeddedType) ?: []
   }
-
 
   protected def updateLabels(){
 	  labelElementRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")

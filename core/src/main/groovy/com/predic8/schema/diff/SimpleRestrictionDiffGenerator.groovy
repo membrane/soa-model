@@ -17,6 +17,10 @@ import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
+	
+	public SimpleRestrictionDiffGenerator() {
+		updateLabels()
+	}
 
   List<Difference> compare(){
     def diffs = compareBase()
@@ -63,8 +67,6 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
   }
   
   protected def updateLabels(){
-
-
   }
   
 }

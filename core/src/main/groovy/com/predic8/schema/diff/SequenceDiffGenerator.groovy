@@ -43,7 +43,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     a.particles.eachWithIndex() { aP, i ->
       def bP = b.particles[i]
       if(!bP){
-        diffs << elementChangedOrRemoved(bPs, aP)
+        diffs << particleChangedOrRemoved(bPs, aP, i)
         return
       }
       if(!(aP instanceof Element || bP instanceof Element) && aP.class != bP.class) {
@@ -57,19 +57,24 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         diffs.addAll(lDiffs)
         return
       }
-      diffs << elementChangedOrRemoved(bPs, aP)
+      diffs << particleChangedOrRemoved(bPs, aP, i)
       return
     }
     diffs.addAll(compareUnprocessedBPs(bPs))
     diffs
   }
 
-  private elementChangedOrRemoved(bPs, aP){
-    if(getElementB(aP)) {
-      bPs << getElementB(aP)
-      return new Difference(description:"${labelPositionElement} ${aP.name} ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
+  private particleChangedOrRemoved(bPs, aP, i){
+    if(getParticleB(aP)) {
+      int bi = b.particles.findIndexOf{ it.name == aP.name }
+      
+      bPs << getParticleB(aP)
+      if(aP instanceof Element) return new Difference(description:"${labelPositionElement} ${aP.name} changed from $i to $bi." , type: 'sequence', safe: false, breaks: true)
+      // "any" is not an element, so a different message here
+      return new Difference(description:"${labelPositionElement} ${aP.name ?: aP.elementName} ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
     }
     if(aP instanceof Element) return new Difference(description:"${labelElement} ${aP.name} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
+    // "any" is not an element, so a different message here
     new Difference(description:"${aP.elementName} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
   }
 
@@ -77,7 +82,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     def diffs = []
     (b.particles-bPs).eachWithIndex() { bP, i ->
         if(a.elements.find{it.name == bP.name}) {
-        diffs << new Difference(description:"${labelPositionElement} ${bP.name} ${labelChanged}." , type: 'sequence', breaks: true, safe: false)
+        diffs << new Difference(description:"${labelPositionElement} ${bP.name ?: bP.elementName} ${labelChanged}." , type: 'sequence', breaks: true, safe: false)
       } else {
 				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${labelAddedMinOccurs}=${bP.minOccurs}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
       }
@@ -85,8 +90,11 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     diffs
   }
 
-  private getElementB(aP){
-    b.elements.find{it.name == aP.name}
+  private getParticleB(aP) {
+		if(aP.elementName == 'any'){
+			return b.particles.find{it.elementName == 'any' && it.namespace == aP.namespace}
+		}
+    b.particles.find{it.name == aP.name}
   }
   
   protected def updateLabels(){

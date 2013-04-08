@@ -18,8 +18,12 @@ import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class SimpleTypesDiffGenerator extends ListDiffGenerator {
+	
+	public SimpleTypesDiffGenerator() {
+		updateLabels()
+	}
 
-   def labelRemoved, labelAdded, labelSimpleType	
+	def labelRemoved, labelAdded, labelSimpleType	
 	
   def generator
 

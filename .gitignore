@@ -2,5 +2,4 @@ core/target
 core/todo.txt
 distribution/bin
 distribution/report
-
-/distribution/target
+distribution/target

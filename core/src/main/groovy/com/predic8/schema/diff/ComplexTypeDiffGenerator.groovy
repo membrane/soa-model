@@ -17,8 +17,12 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class ComplexTypeDiffGenerator extends UnitDiffGenerator{
-  
-  private def labelModelGroupChange, labelHasChanged, labelTo, labelRemoved, labelAdded, labelComplexType
+	
+  public ComplexTypeDiffGenerator() {
+	  updateLabels()
+  }
+
+	private def labelModelGroupChange, labelHasChanged, labelTo, labelRemoved, labelAdded, labelComplexType
   
   def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: true, safe:false)}
 
@@ -53,7 +57,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   
   protected def updateLabels(){
 	  labelModelGroupChange = bundle.getString("com.predic8.schema.diff.labelModelGroupChange")
-	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChange")
+	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
 	  labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
 	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
 	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")

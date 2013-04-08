@@ -33,7 +33,6 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   }
   
   public SchemaDiffGenerator(Schema a, Schema b){
-	  
     this.a = a
     this.b = b
     updateLabels()
@@ -42,8 +41,8 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   public SchemaDiffGenerator(Schema a, Schema b, Locale locale){
 	  bundle = ResourceBundle.getBundle("LabelsBundle", locale)
 	  this.a = a
-			  this.b = b
-			  updateLabels()
+	  this.b = b
+	  updateLabels()
   }
 
   List<Difference> compare(){
@@ -144,7 +143,6 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   
   protected def updateLabels(){
 	  labelTN = AbstractDiffGenerator.bundle.getString("com.predic8.schema.diff.labelTN")
-	  labelTo = .AbstractDiffGeneratorbundle.getString("com.predic8.schema.diff.labelTo")
-
+	  labelTo = AbstractDiffGenerator.bundle.getString("com.predic8.schema.diff.labelTo")
   }
 }

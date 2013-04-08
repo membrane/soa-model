@@ -20,7 +20,7 @@ import com.predic8.soamodel.*
 import com.predic8.schema.*
 
 class AbstractModelDiffGenerator extends UnitDiffGenerator {
-  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
+//  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
   def generator
   protected def labelParticle, labelRemoved, labelAdded
   List<Difference> compareUnit(){

@@ -17,6 +17,10 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class SimpleContentDiffGenerator extends AbstractDiffGenerator{
+	
+	public GroupRefDiffGenerator() {
+		updateLabels()
+	}
 
   def generator
 
@@ -55,9 +59,8 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
     
   }
   
-  protected def updateLabels(){
-  
+	protected def updateLabels(){
+	}
 	
-	  }
 }
 

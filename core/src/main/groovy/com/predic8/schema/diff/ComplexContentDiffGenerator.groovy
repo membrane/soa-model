@@ -17,6 +17,10 @@ package com.predic8.schema.diff
 import com.predic8.soamodel.*
 
 class ComplexContentDiffGenerator extends AbstractDiffGenerator{
+	
+	public ComplexContentDiffGenerator(){
+		updateLabels()
+	}
 
   def generator
 

@@ -16,7 +16,11 @@ package com.predic8.schema.diff
 
 import com.predic8.soamodel.*
 
-class AttributeDiffGenerator  extends AbstractDiffGenerator {
+class AttributeDiffGenerator extends AbstractDiffGenerator {
+	
+	public AttributeDiffGenerator(){
+		updateLabels()
+	}
 	
   private def labelTypeChanged, labelRefChanged, labelTo, labelAttributeChange, labelAttributeFormChange, labelAttributeFixedChange, labelAttributeDefaultChange
 	
