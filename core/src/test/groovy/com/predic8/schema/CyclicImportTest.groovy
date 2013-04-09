@@ -29,11 +29,11 @@ class CyclicImportTest extends GroovyTestCase{
   }
   
   void testFromAtoB() {
-      assertNotNull(schema.getType(new QName('schemaB','dataType')))
+      assertNotNull(schema.getElement(new QName('schemaB','dataType')))
   }  
 
   void testFromAtoC() {
-      assertNotNull(schema.getType(new QName('schemaC','dataType')))
+      assertNotNull(schema.getElement(new QName('schemaC','dataType')))
   }  
 
 }

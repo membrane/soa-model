@@ -32,7 +32,7 @@ class ClasspathResolver extends ResourceResolver {
       return input
     }
     
-    def resource = this.class.getResourceAsStream(getLocation(input, baseDir))
+    def resource = fixUtf8BOM(this.class.getResourceAsStream(getLocation(input, baseDir)))
     if (!resource) throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
     resource
   }
