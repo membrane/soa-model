@@ -51,12 +51,12 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
 		
 		if(element.fixedValue){
 			yield("\n<!-- this element has a fixed value -->")
-			builder."${getElementTagName(element)}"(element.fixedValue, )
+			builder."${getElementTagName(element, ctx)}"(element.fixedValue, )
 			return
 		}
 		if(element.defaultValue){
 			yield("\n<!-- this element has a default value -->")
-			builder."${getElementTagName(element)}"(element.defaultValue, )
+			builder."${getElementTagName(element, ctx)}"(element.defaultValue, )
 			return
 		}
 		
@@ -66,17 +66,17 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     }
     def refType = element.schema.getType(element.type)
     if(refType){
-      refType.create(this, ctx)
+			refType.create(this, ctx)
       return
     }
     if(element.type && element.type.namespaceURI.equals(Consts.SCHEMA_NS)){
       def attrs = [:]
-      declNSifNeeded('ns1',element.schema.targetNamespace,attrs,ctx)
+      declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
       if(element.type.localPart=='dateTime') new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
-      builder."${getElementTagName(element)}"(TemplateUtil.getTemplateValue(element.type),attrs)
+      builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(element.type),attrs)
     }
     if(!element.type && !element.embeddedType) {
-      builder."${getElementTagName(element)}"()
+      builder."${getElementTagName(element, ctx)}"()
     }
   }
   
@@ -85,9 +85,9 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def schema = complexType.schema
     ctx.path = "${ctx.path}${ctx.element.name}/"
     def attrs = [:]
-    declNSifNeeded('ns1',complexType.schema.targetNamespace,attrs,ctx)
+		declNSifNeeded(getNSPrefix(ctx.element, ctx),ctx.element.namespaceUri,attrs,ctx)
     attrs.putAll(createAttributes(complexType, ctx))
-    builder."${getElementTagName(ctx.element)}"(attrs){
+    builder."${getElementTagName(ctx.element, ctx)}"(attrs){
       complexType.model?.create(this, ctx)
       complexType.anyAttribute?.create(this, ctx)
     }

@@ -31,7 +31,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
 		
     if(element.fixedValue){
 			yield("\n<!-- The value of this element is fixed and can not be modified. -->")
-			builder."${getElementTagName(element)}"(element.fixedValue)
+			builder."${getElementTagName(element, ctx)}"(element.fixedValue)
 			return
 		}
 		
@@ -57,7 +57,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   
   private createBuildInElement(Element element, RequestCreatorContext ctx) {
     def attrs = [:]
-    declNSifNeeded('ns1',element.schema.targetNamespace, attrs, ctx)
+		declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
 	
 		/**There is a problem with the next line if two or more elements were used/declared more than one time in a xpath expression.
 		  *See https://groups.google.com/forum/?hl=en&fromgroups=#!topic/soa-model/CVBErhVbdek
@@ -72,17 +72,17 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
 	  if(!entries && element.minOccurs == '0') return
 
     entries.keySet().sort{it}.each {
-      builder."${getElementTagName(element)}"(entries[it],attrs)
+      builder."${getElementTagName(element, ctx)}"(entries[it],attrs)
     }
     if (!entries) {
 			if(element.defaultValue){
 				yield("\n<!-- This element has a default value. -->")
-				builder."${getElementTagName(element)}"(element.defaultValue, attrs)
+				builder."${getElementTagName(element, ctx)}"(element.defaultValue, attrs)
 				return
 			}
 	  //This is the case, where the element is required and has not be declared in the xpath expression!
 	  yield("\n<!-- This element is required and should be filled. -->")
-      builder."${getElementTagName(element)}"(null,attrs)
+      builder."${getElementTagName(element, ctx)}"(null,attrs)
     }
   }
   
@@ -104,12 +104,12 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   
   private createElementFromCT(complexType, ctx){
     def attrs = [:]
-    declNSifNeeded('ns1',complexType.schema.targetNamespace, attrs, ctx)
+		declNSifNeeded(getNSPrefix(ctx.element, ctx),ctx.element.namespaceUri,attrs,ctx)
     complexType.allAttributes.each {
       if(ctx.formParams["${ctx.path}@${it.name}"])
         attrs[it.name] = ctx.formParams["${ctx.path}@${it.name}"]
     }
-    builder."${getElementTagName(ctx.element)}"(attrs){
+    builder."${getElementTagName(ctx.element, ctx)}"(attrs){
       complexType.model?.create(this, ctx)
     }
   }

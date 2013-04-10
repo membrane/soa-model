@@ -18,6 +18,8 @@ import java.util.Map;
 import groovy.xml.QName
 import javax.xml.stream.*
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.wsdl.Definitions;
 import com.predic8.xml.util.*
 import org.apache.commons.logging.*
 
@@ -78,8 +80,13 @@ abstract class XMLElement {
   }
   
   def getPrefix(){
-    getPrefix(ELEMENTNAME.namespaceURI)
+		getPrefix(getNamespaceUri())
   }
+	
+	def getNamespaceUri() {
+		if(this.hasProperty("definitions")) return  definitions.targetNamespace
+		schema.targetNamespace
+	}
   
   
   def getNamespace(prefix) {

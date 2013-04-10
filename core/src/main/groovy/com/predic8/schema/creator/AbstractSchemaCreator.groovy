@@ -119,29 +119,43 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
     throw new RuntimeException("createAnyAttribute not implemented yet in ${this.class}")
   }
   
-  protected getElementTagName(Element element){
+  protected getElementTagName(Element element, ctx){
     if(!element.toplevel && element.schema.elementFormDefault=="unqualified")
       return element.name
     else
-      return "ns1:${element.name}"
+  		return "${getNSPrefix(element, ctx)}:${element.name}"
   }
+	
+	protected getNSPrefix(element, ctx){
+		if(!element.prefix || element.prefix == 'tns') {
+			if(ctx.declNS[element.namespaceUri]) return ctx.declNS[element.namespaceUri][0]
+			return getUnusedPrefix("ns1", ctx)
+		}
+		element.prefix
+	}
+	
+	protected getUnusedPrefix(prefix, ctx) {
+		if(ctx.declNS.values()?.flatten()?.contains(prefix)) 
+			return getUnusedPrefix(prefix[0..-2]+(prefix[-1].toInteger()+1), ctx)
+		prefix
+	}
   
   protected buildElement(params, ctx) {
     if ( !params.attrs ) params.attrs = [:]
     if ( !params.body ) params.body = {}
     if ( !params.text ) params.text = ''
-    params.attrs['xmlns:ns1']=ctx.element.schema.targetNamespace //TODO Use declNSifNeeded.
-    builder."${getElementTagName(ctx.element)}"(params.attrs, params.text) {params.body}
+		declNSifNeeded(getNSPrefix(ctx.element, ctx),ctx.element.namespaceUri,params.attrs,ctx)
+    builder."${getElementTagName(ctx.element, ctx)}"(params.attrs, params.text) {params.body}
   }
   
   protected def declNSifNeeded(prefix,ns,attrs,ctx) {
-    prefix = prefix ?: ''
+		prefix = prefix ?: ''
 
     if (prefix == "xml") return
     if (!ctx.declNS[ns]) ctx.declNS[ns] = []
     if ( ctx.declNS[ns].contains(prefix) ) return
-    
     attrs[prefix ? "xmlns:${prefix}" : "xmlns"] = ns
     ctx.declNS[ns] << prefix
+		ctx.declNS[ns]
   }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<schema targetNamespace="http://www.test.com/mytest/reoperation/types" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.test.com/mytest/reoperation/types">
+	<complexType name="MYTESTRequestType">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="t1" type="string"/>
+			<element name="t2" type="string"/>
+			<element name="t3" type="string"/>
+			<element name="t4" type="string"/>
+			<element name="t5" type="string"/>
+		</sequence>
+	</complexType>
+	<element name="MYTESTRequest" type="tns:MYTESTRequestType"/>
+	<complexType name="MYTESTResponseType">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="t1" type="string"/>
+			<element name="t2" type="string"/>
+			<element name="t3" type="string"/>
+		</sequence>
+	</complexType>
+	<element name="MYTESTResponse" type="tns:MYTESTResponseType"/>
+	<complexType name="MYTESTServiceFaultType">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="test1" type="string"/>
+			<element name="test2" type="string"/>
+		</sequence>
+	</complexType>
+	<element name="MYTESTServiceFault" type="tns:MYTESTServiceFaultType"/>
+</schema>
