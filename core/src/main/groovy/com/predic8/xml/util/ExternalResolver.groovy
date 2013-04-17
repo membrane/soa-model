@@ -62,11 +62,14 @@ class ExternalResolver extends ResourceResolver {
 		if(input.startsWith('http') || input.startsWith('https')) {
 			return resolveViaHttp(input)
 		}
+		
+		if(input.matches(/^([A-Z]|[a-z]):\/.*$/) || input.startsWith('/') || input.startsWith('\\') ){
+			return resolveAsFile(input, null)
+		}
 
 		if(baseDir && (baseDir.startsWith('http') || baseDir.startsWith('https'))) {
 			return resolveViaHttp(baseDir + input)
 		}
-
 		resolveAsFile(input, baseDir)
 	}
 
@@ -74,7 +77,6 @@ class ExternalResolver extends ResourceResolver {
 		if(baseDir) {
 			return fixUtf8BOM(new FileInputStream(new File(baseDir,filename)))
 		}
-
 		fixUtf8BOM(new FileInputStream(new File(filename)))
 	}
 

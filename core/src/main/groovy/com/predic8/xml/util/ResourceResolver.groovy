@@ -23,14 +23,14 @@ class ResourceResolver {
 	
 	
 	protected InputStream fixUtf8BOM(InputStream is) throws IOException {
-		PushbackInputStream pis = new PushbackInputStream(new BufferedInputStream(is), 3)
-		byte[] bom = new byte[3]
-		if (pis.read(bom) != -1) {
-			if (!(bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF)) {
-				pis.unread(bom)
-			}
-		}
-		pis
-	}
-  
+//		PushbackInputStream pis = new PushbackInputStream(new BufferedInputStream(is), 3)
+//		byte[] bom = new byte[3]
+//		if (pis.read(bom) != -1) {
+//			if (!(bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF)) {
+//				pis.unread(bom)
+//			}
+//		}
+//		pis
+		is
+	} 
 }

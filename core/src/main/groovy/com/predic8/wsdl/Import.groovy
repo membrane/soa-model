@@ -36,6 +36,7 @@ class Import extends WSDLElement {
     params['input'] = location
     params.baseDir = definitions.baseDir
     importedWSDL = (new WSDLParser(resourceResolver: definitions.resourceResolver )).parse(params)
+//    importedWSDL = (new WSDLParser(resourceResolver: new ExternalResolver())).parse(params)
   if(importedWSDL.targetNamespace == definitions.targetNamespace) {
       definitions.bindings.addAll(importedWSDL.bindings)
       definitions.messages.addAll(importedWSDL.messages)

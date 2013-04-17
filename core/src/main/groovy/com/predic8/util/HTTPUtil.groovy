@@ -24,7 +24,8 @@ class HTTPUtil {
        
     def comps = input.split(/[\\\/]/)
     
-    if(input.startsWith('/') || input.startsWith('\\') || input.startsWith('http') ){
+		//Find out if input a an absolute adress. If so, the oldBaseDir is not needed.
+    if(input.startsWith('/') || input.startsWith('\\') || input.startsWith('http') || input.matches(/^([A-Z]|[a-z]):\/.*$/)){
       return comps[0..-2].join('/')+'/'
     }
     if(comps.size()==1) return oldBaseDir

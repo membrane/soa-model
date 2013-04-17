@@ -43,6 +43,7 @@ abstract class AbstractParser{
 
   private getResourceToken(params) {
       getToken(resourceResolver.resolve(params.input, params.baseDir))
+//      getToken(resourceResolver.resolve(params.input, params.newBaseDir))
   }
 
   private getToken(res) {
