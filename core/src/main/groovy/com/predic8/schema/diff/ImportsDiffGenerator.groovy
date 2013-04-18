@@ -59,7 +59,7 @@ class ImportsDiffGenerator extends AbstractDiffGenerator{
   }
   
   protected def updateLabels(){
-	  labelImportedSchema = bundle.getString("com.predic8.schema.diff.labelGroup")
+	  labelImportedSchema = bundle.getString("com.predic8.schema.diff.labelImportedSchema")
 	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
 	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
 	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
