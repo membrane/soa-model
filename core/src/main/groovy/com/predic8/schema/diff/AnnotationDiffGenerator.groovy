@@ -43,7 +43,7 @@ class AnnotationDiffGenerator extends AbstractDiffGenerator{
   protected def updateLabels(){
 	 
 	  labelContentAnnotation = bundle.getString("com.predic8.schema.diff.labelContentAnnotation")
-	  labelAnnotation = bundle.getString("com.predic8.schema.diff.labelHasChanged")
+	  labelAnnotation = bundle.getString("com.predic8.schema.diff.labelAnnotation")
 	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
 	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
   }
