@@ -39,9 +39,13 @@ class ClasspathResolver extends ResourceResolver {
 		if(baseDir.matches("^([A-Z]|[a-z]):/.*\$")){
 			return fixUtf8BOM(new FileInputStream(new File(baseDir, input)))
 		}
-
-    def resource = fixUtf8BOM(this.class.getResourceAsStream(getLocation(input, baseDir)))
-    if (!resource) throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
+		
+		def resource
+		try {
+			resource = fixUtf8BOM(this.class.getResourceAsStream(getLocation(input, baseDir)))
+    } catch (Exception e) {
+			throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
+    }
     resource
   }
   
