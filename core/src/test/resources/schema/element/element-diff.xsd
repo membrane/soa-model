@@ -15,6 +15,24 @@
     </complexType>
   </element>
 
+  <element name="Contact3" type="AddressType">
+    <annotation>
+      <appinfo>Appinfo for test!</appinfo>
+    </annotation>
+   </element>
+  
+  <element name="Contact4" type="AddressType" >
+    <annotation>
+      <documentation>This is the documentation!</documentation>
+    </annotation>
+  </element>
+  
+  <element name="Contact5" type="AddressType" >
+    <annotation>
+      <documentation>This is the                documentation!</documentation>
+    </annotation>
+  </element>
+  
   <element name="person1">
     <complexType>
       <sequence>

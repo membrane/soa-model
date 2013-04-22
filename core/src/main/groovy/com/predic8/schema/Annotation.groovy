@@ -14,8 +14,9 @@
 
 package com.predic8.schema
 
-import com.predic8.soamodel.CreatorContext 
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.soamodel.CreatorContext
 
 class Annotation extends SchemaComponent {
 
@@ -43,19 +44,19 @@ class Annotation extends SchemaComponent {
     new JQName(Schema.SCHEMA_NS, 'annotation')
   }
 
-  def getDocumentations(){
+  List<Documentation> getDocumentations(){
     contents.findAll{
       it instanceof Documentation
     }
   }
 
-  def getDocumentation(id){
+  Documentation getDocumentation(id){
     documentations.find{
       it?.id == id
     }
   }
 
-  def getAppinfos(){
+  List<Appinfo> getAppinfos(){
     contents.findAll{
       it instanceof Appinfo
     }

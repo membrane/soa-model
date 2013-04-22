@@ -53,7 +53,7 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 	List<Difference> compareUnit(){
 		log.debug("compareAny")
 		def lDiffs = []
-		lDiffs.addAll(compareAnnotation())
+		lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
 		lDiffs.addAll(compareMinMaxOccurs('any'))
 		lDiffs.addAll(compareNamespace())
 		lDiffs.addAll(compareProcessing())

@@ -19,8 +19,8 @@ import javax.xml.stream.*
 
 class Appinfo extends SchemaComponent {
 
-  def source
-  def content = ''
+  String source
+  String content = ''
 
   protected parseAttributes(token, params){
     source = token.getAttributeValue( null , 'source')
@@ -29,6 +29,10 @@ class Appinfo extends SchemaComponent {
   protected parseText(text) {
     content += text
   }
+	
+	def getNormalizedContent(){
+		content.replaceAll("\\s+", " ").trim()
+	}
 
   def create(creator, CreatorContext ctx){
     creator.createAppinfo(this, ctx)

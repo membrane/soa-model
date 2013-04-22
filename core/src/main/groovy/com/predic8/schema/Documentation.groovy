@@ -33,6 +33,10 @@ class Documentation extends SchemaComponent {
   protected parseText(text) {
     content += text
   }
+	
+	def getNormalizedContent(){
+		content.replaceAll("\\s+", " ").trim()
+	}
 
   def create(creator, CreatorContext ctx){
     creator.createDocumentation(this, ctx)

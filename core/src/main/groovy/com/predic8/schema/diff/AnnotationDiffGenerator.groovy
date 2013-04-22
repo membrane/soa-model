@@ -31,8 +31,8 @@ class AnnotationDiffGenerator extends AbstractDiffGenerator{
   }
   
   boolean  compareContents() {
-    if(a.documentations.content != b.documentations.content ) return true
-    if(a.appinfos.content != b.appinfos.content ) return true
+    if(a.documentations.normalizedContent != b.documentations.normalizedContent ) return true
+    if(a.appinfos.normalizedContent != b.appinfos.normalizedContent ) return true
     false
   }
   

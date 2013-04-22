@@ -44,19 +44,12 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   List<Difference> compareUnit(){
     log.debug("compareElement")
     def lDiffs = []
-    lDiffs.addAll(compareAnnotation())
+    lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
     lDiffs.addAll(compareType())
     lDiffs.addAll(compareMinMaxOccurs())
 //    lDiffs.addAll(compareEmbeddedType())
-
     lDiffs
   }
-
-  protected compareAnnotation(){
-    a.annotation?.compare(generator, b.annotation) ?: []
-  }
-
-
   
   protected compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()

@@ -28,7 +28,7 @@ public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'bindin
     verb = token.getAttributeValue(null , 'verb')
   }
 
-  def getProtocol(){
+  String getProtocol(){
     "HTTP"
   }
 
