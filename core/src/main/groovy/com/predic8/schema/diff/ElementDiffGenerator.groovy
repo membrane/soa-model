@@ -19,13 +19,12 @@ import org.apache.commons.logging.*
 
 class ElementDiffGenerator extends UnitDiffGenerator {
 	
+	private Log log = LogFactory.getLog(this.class)
 	
 	public ElementDiffGenerator(){
 		updateLabels()
 	}
 
-  private Log log = LogFactory.getLog(this.class)
-  
   def labelElementRemoved, labelElementAdded, labelElement,  labelHasChanged, labelTypeElement, labelTo,
   	  labelEmbeddedStandAlone, labelEmbedded, labelAttributeMinOccurs, labelAttributeMaxOccurs, labelFrom
   
