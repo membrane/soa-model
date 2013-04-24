@@ -20,7 +20,7 @@ import com.predic8.schema.*
 class SequenceDiffGenerator  extends UnitDiffGenerator {
 	
   def labelSequenceRemoved, labelSequenceAdded, labelSequenceChanged, labelParticle, labelReplacedWith, 
-  			  labelPositionElement, labelChanged, labelElement, labelRemoved, labelAddedMinOccurs
+  			  labelPositionElement, labelChanged, labelElement, labelRemoved, labelAdded
 
   def generator
 
@@ -69,7 +69,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
       int bi = b.particles.findIndexOf{ it.name == aP.name }
       
       bPs << getParticleB(aP)
-      if(aP instanceof Element) return new Difference(description:"${labelPositionElement} ${aP.name} changed from $i to $bi." , type: 'sequence', safe: false, breaks: true)
+      if(aP instanceof Element) return new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
       // "any" is not an element, so a different message here
       return new Difference(description:"${labelPositionElement} ${aP.name ?: aP.elementName} ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
     }
@@ -84,7 +84,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         if(a.elements.find{it.name == bP.name}) {
         diffs << new Difference(description:"${labelPositionElement} ${bP.name ?: bP.elementName} ${labelChanged}." , type: 'sequence', breaks: true, safe: false)
       } else {
-				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${labelAddedMinOccurs}=${bP.minOccurs}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
+				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${labelAdded}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
       }
     }
     diffs
@@ -107,7 +107,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 	  labelChanged = bundle.getString("com.predic8.schema.diff.labelChanged")
 	  labelElement = bundle.getString("com.predic8.schema.diff.labelElement")
 	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
-	  labelAddedMinOccurs = bundle.getString("com.predic8.schema.diff.labelAddedMinOccurs")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
 
   }
 }

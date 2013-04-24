@@ -36,18 +36,23 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		diffs.addAll(compareDocumentation(a, b))
 		if ( a.targetNamespace != b.targetNamespace )
 			diffs << new Difference(description:"TargetNamespace changed from ${a.targetNamespace} to ${b.targetNamespace}", breaks:true)
+			
 		if ( a.services[0] && b.services[0] && a.services[0].name != b.services[0].name )
 			diffs << new Difference(description:"Servicename changed from ${a.services[0].name} to ${b.services[0].name}", breaks:true)
 		else {
+			def typesDiffs = compareDocumentation(a.types, b.types)
+			if(typesDiffs) diffs << new Difference(description:"Types has changed: ", breaks:false, safe: true,  diffs: typesDiffs)
+//			diffs.addAll(compareSchemas())
+			
+			diffs.addAll(compareMessages())
+			
+			diffs.addAll(comparePortTypes())
+			
 			lDiffs.addAll(compareDocumentation(a.services[0], b.services[0]))
 			if ( a.services[0] && b.services[0] ) {
 				lDiffs.addAll(comparePorts())
 			}
 			if(lDiffs) diffs << new Difference(description:"Service ${a.services[0].name} has changed:", type : 'service', diffs: lDiffs)
-			diffs.addAll(comparePortTypes())
-			diffs.addAll(compareMessages())
-			diffs << new Difference(description:"Types has changed: ", breaks:false, safe: true,  diffs: compareDocumentation(a.types, b.types))
-			diffs.addAll(compareSchemas())
 		}
 		if(diffs) return [new Difference(description:"Definitions has changed:", type : 'definitions', diffs: diffs)]
 	}
@@ -57,8 +62,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def bPorts = b.services[0].ports
 		def diffs = []
 		diffs.addAll(compare(aPorts, bPorts,
-				{ new Difference(description:"Port ${it.name} removed.", breaks:true) },
-				{ new Difference(description:"Port ${it.name} added.", safe:true) }))
+				{ new Difference(description:"Port ${it.name} removed.", breaks:true, safe:false) },
+				{ new Difference(description:"Port ${it.name} added.", safe:true, breaks:false) }))
 		def ports = aPorts.name.intersect(bPorts.name)
 		ports.each{ portName ->
 			Port aPort = aPorts.find{ it.name == portName}
@@ -66,7 +71,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			def lDiffs = compareDocumentation(aPort, bPort)
 			if(lDiffs) diffs << new Difference(description:"Port $portName has changed:", diffs : lDiffs)
 			if(aPort.address.location != bPort.address.location)
-				diffs << new Difference(description:"The location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.")
+				diffs << new Difference(description:"The location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.", breaks:true, safe:false)
 		}
 		diffs
 	}
@@ -76,8 +81,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def bMessages = b.messages
 		def diffs = []
 		diffs.addAll(compare(aMessages,bMessages,
-			{ new Difference(description:"Message ${it.name} removed.", breaks:true) },
-			{ new Difference(description:"Message ${it.name} added.", safe:true) }))
+			{ new Difference(description:"Message ${it.name} removed.", breaks:true, safe:false) },
+			{ new Difference(description:"Message ${it.name} added.", safe:true, breaks:false) }))
 		def msg = aMessages.name.intersect(bMessages.name)
 		msg.each{ msgName ->
 			Message aMsg = aMessages.find{ it.name == msgName}
@@ -138,6 +143,9 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 				if(bOperation.output) def bOutputMessage = b.messages.find{it.name == bOperation.output.name}
 				if(aInputMessage.parts[0]?.element != bInputMessage.parts[0]?.element) {
 					opDiffs << new Difference(description:"In message ${aInputMessage.name} the schema element changed from ${aInputMessage.parts[0]?.element?:'empty'} to ${bInputMessage.parts[0]?.element?:'empty'}.", breaks:true)
+				} else { 
+					println aInputMessage.parts[0]?.element
+					println bInputMessage.parts[0]?.element
 				}
 				if(opDiffs) lDiffs << new Difference(description:"Operation ${opName} has changed: " , type: 'operation' ,  diffs : opDiffs)
 			}
@@ -147,6 +155,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	}
 
 	private def compareSchemas(){
+		//TODO
+		return
 		def aSchemas = a.schemas
 		def bSchemas = b.schemas
 		def diffs = []

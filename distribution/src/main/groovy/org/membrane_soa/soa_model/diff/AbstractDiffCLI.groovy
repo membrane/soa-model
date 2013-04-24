@@ -23,6 +23,7 @@ import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
 import com.predic8.soamodel.Difference
+import com.predic8.xml.util.ResourceDownloadException;
 
 abstract class AbstractDiffCLI {
 
@@ -52,17 +53,26 @@ abstract class AbstractDiffCLI {
       try {
         doc1 = parser.parse(url1)
       } catch (IOException e) {
-        println "Can not parse the document from: ${url1}"
-        println e
+        System.err.println("Can not parse the document from: ${url1}")
+        System.err.println(e)
         System.exit(1)
-      }
+      } catch (ResourceDownloadException e) {
+				System.err.println("Can not parse the document from ${url1}")
+				System.err.println("Can not get resource from ${e.url}")
+				System.exit(1)
+			}
+			 
       try {
         doc2 = parser.parse(url2)
       } catch (IOException e) {
-		println "Can not parse the document from: ${url2}\n"
-		println e
+        System.err.println("Can not parse the document from: ${url2}")
+        System.err.println(e)
         System.exit(1)
-      }
+      } catch (ResourceDownloadException e) {
+				System.err.println("Can not parse the document from ${url2}")
+				System.err.println("Can not get resource from ${e.url}")
+				System.exit(1)
+			}
       if(options.getArgs().size() > 2) reportFolder = options.getArgs()[2]
       else reportFolder = 'diff-report'
     }

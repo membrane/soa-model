@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://predic8.com/material/1/"
-    xmlns:tns="http://predic8.com/material/1/"
-    xmlns:ns0="http://predic8.com/common/1/">
-    <xsd:import schemaLocation="common.xsd" namespace="http://predic8.com/common/1/"/>
-    <xsd:complexType name="ArticleType">
-        <xsd:sequence>
-            <xsd:element name="name" type="xsd:string"></xsd:element>
-            <xsd:element name="description" type="xsd:string"></xsd:element>
-            <xsd:element name="price" type="ns0:MoneyType"></xsd:element>
-            <xsd:element name="id" type="ns0:IdentifierType"></xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
+	targetNamespace="http://predic8.com/material/1/" xmlns:tns="http://predic8.com/material/1/"
+	xmlns:ns0="http://predic8.com/common/1/">
+	<xsd:import schemaLocation="common.xsd" namespace="http://predic8.com/common/1/" />
+	<xsd:complexType name="ArticleType">
+		<xsd:annotation>
+			<xsd:documentation>Documentation for ArticleType</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="id" type="ns0:IdentifierType" />
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="description">
+        <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+              <xsd:attribute name="lang" type="xsd:string"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+        </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="availability" type="xsd:int" />
+			<xsd:element name="price" type="ns0:MoneyType" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="manufacturer" type="xsd:string" />
+	
 </xsd:schema>

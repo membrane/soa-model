@@ -39,6 +39,7 @@ class SchemaParser extends AbstractParser{
       }
       if(token.hasNext()) token.next()
     }
+		if(!schema) throw new RuntimeException("The parsed document ${params.input} is not a valid schema document.")
     schema
   }
   

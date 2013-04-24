@@ -80,8 +80,8 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     assertEquals(1, diffs.size())
     assertEquals(2, diffs[0].diffs.size())
     assertTrue(diffs.diffs.description.toString().contains('changed'))
-		assertTrue(diffs[0].diffs[0].dump().contains('Position of element street changed from 1 to 2.'))
-		assertTrue(diffs[0].diffs[1].dump().contains('Position of element number changed from 2 to 1.'))
+		assertTrue(diffs[0].diffs[0].dump().contains('Position of element street changed from 2 to 3.'))
+		assertTrue(diffs[0].diffs[1].dump().contains('Position of element number changed from 3 to 2.'))
   }
 
   void testElementAdded(){
