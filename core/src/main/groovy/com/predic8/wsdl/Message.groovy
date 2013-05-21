@@ -16,6 +16,7 @@ package com.predic8.wsdl;
 
 import groovy.xml.QName
 import javax.xml.namespace.QName as JQName
+import com.predic8.schema.Element
 import com.predic8.soamodel.Consts
 
 class Message extends WSDLElement {
@@ -52,11 +53,17 @@ class Message extends WSDLElement {
   }
   
   Part newPart(String name, String element){
-    Part part = new Part(name:name, definitions:definitions, element:element)
+    Part part = new Part(name:name, definitions:definitions, element:definitions.getElement(element))
     parts << part
     part
   }
   
+	Part newPart(String name, Element element){
+		Part part = new Part(name:name, definitions:definitions, element:element)
+		parts << part
+		part
+	}
+	
   String toString() {
     "message[qname:${getQname()}]"
   }

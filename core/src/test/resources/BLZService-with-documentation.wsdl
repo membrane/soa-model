@@ -57,7 +57,6 @@
       <wsdl:documentation>Documentation in wsdl bindingOperation!</wsdl:documentation>
       <soap:operation soapAction="" style="document"/>
       <wsdl:input>
-        <wsdl:documentation>Documentation in wsdl bindingInput!</wsdl:documentation>
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output>

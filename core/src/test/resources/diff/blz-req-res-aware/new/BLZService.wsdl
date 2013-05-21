@@ -12,9 +12,9 @@
   <wsdl:documentation>BLZService</wsdl:documentation>
   <wsdl:types>
     <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://thomas-bayer.com/blz/">
-      <xsd:element name="getBank" type="tns:getBankType"/>
+      <xsd:element name="getBank" type="tns:getBankType1"/>
       <xsd:element name="getBankResponse" type="tns:getBankResponseType"/>
-      <xsd:complexType name="getBankType">
+      <xsd:complexType name="getBankType1">
         <xsd:sequence>
           <xsd:element name="blz" type="xsd:string"/>
           <xsd:element name="name" type="xsd:string" minOccurs="0"/>
@@ -23,6 +23,7 @@
       <xsd:complexType name="getBankResponseType">
         <xsd:sequence>
           <xsd:element name="details" type="tns:detailsType"/>
+          <xsd:element name="Bankrot" type="xsd:boolean"/>
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="detailsType">

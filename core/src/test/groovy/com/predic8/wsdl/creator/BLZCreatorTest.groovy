@@ -31,6 +31,7 @@ class BLZCreatorTest extends GroovyTestCase {
     def strWriter = new StringWriter()
     def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
     creator.createDefinitions(definitions, new WSDLCreatorContext())
+//    println strWriter
     createdWSDL = new XmlSlurper().parseText(strWriter.toString())
   }
 

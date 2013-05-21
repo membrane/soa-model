@@ -17,6 +17,7 @@ package com.predic8.wsdl;
 import groovy.xml.*
 import javax.xml.namespace.QName as JQName
 import com.predic8.wsi.*
+import com.predic8.xml.util.PrefixedName;
 import com.predic8.schema.*
 import com.predic8.soamodel.Consts
 
@@ -24,13 +25,14 @@ class Part extends WSDLElement{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'part')
   
-  String element
+  Element element
   QName type
-  
+	
   protected parseAttributes(token, params){
     name = token.getAttributeValue( null , 'name')
-    element = token.getAttributeValue(null , 'element')
-    type = getTypeQName(token.getAttributeValue( null , 'type'), token)
+    def elementPN = token.getAttributeValue(null , 'element')
+		if(elementPN)	element = definitions.getElement(elementPN)
+    type = getTypeQName(token.getAttributeValue( null , 'type'))
     if(element && type) params.wsiResults << new WSIResult(rule : 'R2306')
   }
   

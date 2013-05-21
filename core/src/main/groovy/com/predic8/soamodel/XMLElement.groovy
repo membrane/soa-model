@@ -92,7 +92,7 @@ abstract class XMLElement {
   def getNamespace(prefix) {
     if(prefix == "xml") return Consts.XML_NS
     def res = namespaces[prefix] // Don't use ?: because res == '' should be a valid response
-    if ( res == null ) return parent?.getNamespace(prefix) ?: prefix==''?'':null
+    if ( res == null ) return parent?.getNamespace(prefix) ?: prefix=='' ? '' : null
     res
   }
 
@@ -103,7 +103,7 @@ abstract class XMLElement {
     def uri = getNamespace(preName.prefix)
     if ( uri == '' && preName.prefix == '' ) return new QName('',type) //throw new RuntimeException("No namespace declared for element ${type}.") //uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix
     if ( uri == null ) {
-      log.error "Can not find uri for type [${type}]"
+      log.error "Can not find namespace uri for [${type}]"
       throw new RuntimeException("No namespace declared for element ${type}.")
     }
     log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"

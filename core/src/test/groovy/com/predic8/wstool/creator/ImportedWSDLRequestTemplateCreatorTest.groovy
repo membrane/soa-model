@@ -13,13 +13,14 @@ package com.predic8.wstool.creator;
 
 import groovy.xml.*
 import com.predic8.creator.*
+import com.predic8.schema.Element
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
 
 class ImportedWSDLRequestTemplateCreatorTest extends GroovyTestCase {
 
-	def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-	def definitions = parser.parse(new WSDLParserContext(input:"import/stockquoteservice.wsdl"))
+	WSDLParser parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+	Definitions definitions = parser.parse(new WSDLParserContext(input:"import/stockquoteservice.wsdl"))
 	
 	def portTypePrefixedName = new PrefixedName('defs:StockQuotePortType')
 	QName portType = new QName(definitions.getNamespace(portTypePrefixedName.prefix),portTypePrefixedName.localName)
@@ -30,7 +31,7 @@ class ImportedWSDLRequestTemplateCreatorTest extends GroovyTestCase {
 	}
 
 	void testElementRequestTemplate() {
-		def element = definitions.getElementForOperation(operationName, portType)
+		Element element = definitions.getElementForOperation(operationName, portType)
 		def requestTemplate = new XmlSlurper().parseText(element.requestTemplate)
 		assertEquals('?999?', requestTemplate.text())
 	}

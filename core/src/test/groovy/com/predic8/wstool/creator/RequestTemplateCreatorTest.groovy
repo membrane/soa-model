@@ -42,10 +42,6 @@ class RequestTemplateCreatorTest extends GroovyTestCase {
 /**
  * see RequestCreatorTest.groovy.	
  */
-		
-//		def requestTemplate = new XmlSlurper().parseText(definitions.getElement('getBankResponse').requestTemplate)
-//		assertEquals('Europa', requestTemplate.details.kontinent.text())
-//		assertEquals('Deutschland', requestTemplate.details.land.text())
 	}
 
   private def getDefinitions() {

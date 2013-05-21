@@ -89,7 +89,7 @@ class SOARequestCreator extends AbstractCreator{
       } else {
         log.debug "creating body from definitions"
         log.debug "element : ${bodyElement.parts[0].element}"
-        definitions.getElement(bodyElement.parts[0].element).create(creator, creatorContext)
+        bodyElement.parts[0].element.create(creator, creatorContext)
       }
     }
   }
@@ -98,7 +98,7 @@ class SOARequestCreator extends AbstractCreator{
     log.debug "creating headers"
     builder."$soapPrefix:Header"(){
       getHeaderBindingElements(bindingOperation).each {
-        definitions.getElement(it.messagePart.element).create(creator, creatorContext)
+        it.messagePart.element.create(creator, creatorContext)
       }
     }
 

@@ -14,6 +14,7 @@
 
 package com.predic8.wsdl.diff
 
+import com.predic8.schema.Element
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
 
@@ -73,18 +74,11 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
 
   void testMessageName() {
     def d = getDefinitions()
-    d.portTypes[0].operations[0].input.name = "new input name"
+    d.portTypes[0].operations[0].input.name = "NewInputName"
     def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('The name of the input message changed from input1 to new input name.'))
+		assertTrue(diffs*.dump().toString().contains('Input name has changed from input1 to NewInputName.'))
   }
 
-  void testMessageElement(){
-    def d = getDefinitions()
-    d.messages[0].parts[0].element = "new Element"
-    def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('In message createRequest the schema element changed from tns:create to new Element.'))
-  }
-  
   private def compare(a, b) {
     new WsdlDiffGenerator(a: a, b: b).compare()
   }

@@ -32,19 +32,6 @@ abstract class WSDLElement extends XMLElement {
   
   def abstract create(creator , context)
   
-  QName getTypeQName(String type, token) {
-    if ( type ) {
-      def preName = new PrefixedName(type)
-      def uri = getNamespace(preName.prefix)
-      if ( uri == '' && preName.prefix == '' ) uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix 
-      if ( uri == null ) {
-        log.warn "Can not find uri for type [${type}]"
-      }
-      log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"
-      return new QName(uri,preName.localName, preName.prefix)
-    }    
-  }
-
   protected parseChildren(token, child, params) {
     switch (token.name) {
       case Documentation.ELEMENTNAME :

@@ -102,17 +102,12 @@ class Definitions extends WSDLElement{
   }
   
 	Element getElement(GQName qname) {
-		getElement(qname.localPart)
-	}
-	
-	String getElementNameForOperation(String operation, portType){
-		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
+		def lst =allTypes.allSchemas
+		allTypes.allSchemas.flatten()*.getElement(qname).flatten()[0]
 	}
   
   Element getElementForOperation(String operation, portType){
-		def name = getElementNameForOperation(operation,portType)
-    if (name) return getElement(name)
-    null
+		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
   }
   
   List<Binding> getBindings(protocol) {
@@ -176,14 +171,14 @@ class Definitions extends WSDLElement{
 					//Rule 2: "Part" Definitions are wrapper elements
 					if(inPart.type && !inPart.element) result = "Document/Literal"
 					//Rule 3: Input Wrapper Element name should match with Operation name 
-					if(inPart.element.split(':')[-1]  != op.name) result = "Document/Literal"
+					if(inPart.element.name  != op.name) result = "Document/Literal"
 				}
 				def outputParts = bnd.portType.getOperation(op.name).output.message.parts
 				outputParts.each { outPart->
 					//Rule 2: "Part" Definitions are wrapper elements
 					if(outPart.type && !outPart.element) result = "Document/Literal"
 					//Rule 4: <Output Wrapper Element Name> = <Operation Name> + "Response" 
-					if(outPart.element.split(':')[-1]  != "${op.name}Response") result = "Document/Literal"
+					if(outPart.element.name  != "${op.name}Response") result = "Document/Literal"
 				}
 			}
 		}

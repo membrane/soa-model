@@ -70,7 +70,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   
   def createPart(part, ctx) {
     def attrs = [name : part.name]
-    if(part.element) {attrs.put('element' , part.element)}
+    if(part.element) {attrs.put('element' , "${part.getPrefix(part.element.namespaceUri)}:${part.element.name}")}
     if(part.type) {attrs.put('type' , "${part.getPrefix(part.type.namespaceURI)}:${part.type.localPart}")}
     builder.part(attrs + getNamespaceAttributes(part))
   }
