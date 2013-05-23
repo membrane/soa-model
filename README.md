@@ -3,25 +3,22 @@ Membrane SOA Model
 Check the [Repository at GitHub](https://github.com/membrane/soa-model) for the latest source code.
 What is SOA Model?
 -
-Membrane SOA Model is an open-source lightweight Java API for WSDL and XML Schema, licensed under ASF 2.0. that can be used to:
+Membrane SOA Model is an open-source toolkit and Java API for WSDL and XML Schema, licensed under ASF 2.0. that can:
 
-- Parse, create or modify a WSDL or XML Schema Document
-- Compare two WSDL Documents
-- Compare two XML Schema Documents
-- Create a SOAP Request
-- Create a SOAP Request Template
+- Parse, create or modify a WSDL or XML Schema Document from Java
+- Compare two WSDL or XML Schema Documents
+- Create a SOAP Request or Template
 - Analyze a WSDL or Schema document and generate an HMTL report
 
 Command Line Tools
 ------------------
-SOA Model provides helpful command line tools beside the java api.
-You are able to:
+Membrane SOA Model provides command line tools beside the java api for
 
-- Analyze a WSDL Document and Generate a Report
-- Create a SOAP Request Template for a WSDL
-- Compare two WSDL or Schema Documents
+- Analyzing a WSDL document and generating a report
+- Creating a SOAP request or template out of WSDL
+- Comparing two WSDL or Schema documents
 
-All you need is to download and run the batch with the given documents.
+All you need is to download and run the batch with commands.
 
 Code Samples
 -----------
