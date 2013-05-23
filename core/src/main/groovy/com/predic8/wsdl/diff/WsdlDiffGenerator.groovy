@@ -15,6 +15,7 @@ import groovy.xml.QName
 
 import org.apache.commons.logging.*
 
+import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.diff.*
 import com.predic8.soamodel.*
@@ -54,9 +55,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			}
 			if(lDiffs) diffs << new Difference(description:"Service ${a.services[0].name} has changed:", type : 'service', diffs: lDiffs)
 		}
-		if(diffs) return [
-				new Difference(description:"Definitions has changed:", type : 'definitions', diffs: diffs)
-			]
+		if(diffs) return [new Difference(description:"Definitions has changed:", type : 'definitions', diffs: diffs)]
 		[]
 	}
 
@@ -151,6 +150,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareOperation(aOperation, bOperation) {
 		def diffs = compareDocumentation(aOperation, bOperation)
 		if(aOperation.input.name == bOperation.input.name) {
+			
 			diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input))
 		} else {
 			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'operation', breaks : true)
@@ -223,28 +223,26 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(a, b)
 		Element aElement = a.element
 		Element bElement = b.element
-		if(aElement && b.type) 
+		if(aElement && b.type)
 			diffs << new Difference(description:"Element ${aElement.name} has changed to type ${b.type}", type:'part', breaks : true)
 		else if(bElement && a.type)
 			diffs << new Difference(description:"Type ${a.type} has changed to element ${bElement.name}", type:'part', breaks : true)
 		else if(aElement?.name != bElement?.name || aElement.namespaceUri != bElement.namespaceUri)
 			diffs << new Difference(description:"Element has changed from ${aElement.name} to ${bElement.name}", type:'part', breaks : true)
-		else {
-			def generator = new SchemaDiffGenerator()
-
-			def aT = aElement.schema.getType(aElement.type)
-			def bT = bElement.schema.getType(bElement.type)
-			if(aT == bT) {
-				def lDiffs = []
-				lDiffs.addAll(new ComplexTypesDiffGenerator(a: [aT], b: [bT], generator : generator).compare())
-				if(lDiffs) diffs << new Difference(description:"Element ${aElement.name} has changed:}", type:'element', diffs : lDiffs)
-			} else {
-				diffs.addAll(new ElementDiffGenerator(a: aElement , b: bElement, generator: generator).compare())
-			}
-		}
-		if(diffs) return [
-				new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs)
-			]
+//		/* Then aElement and bElement has the same name and can be compared with each other. */
+//		else if(aElement.type && aElement.type == bElement.type){
+//			def lDiffs = []
+//			/* aT and bT can be CompexTypes or SimpleTypes */
+//			def aT = aElement.schema.getType(aElement.type)
+//			def bT = bElement.schema.getType(bElement.type)
+//			/* aT.compare() choose automaticlly the right object (CT or ST DiffGenerator) */
+//			lDiffs.addAll(aT.compare(new SchemaDiffGenerator(), bT))
+//			if(lDiffs) diffs << new Difference(description:"Element ${aElement.name} has changed: ", type:'element', diffs : lDiffs)
+//		}
+		else
+		diffs.addAll(new ElementDiffGenerator(a:aElement, b:bElement, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
+//			diffs.addAll(aElement.compare(new SchemaDiffGenerator(), bElement))
+		if(diffs) return [new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs)]
 		[]
 	}
 

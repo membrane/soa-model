@@ -27,7 +27,7 @@ class ReqResAwareDiffGeneratorTest extends GroovyTestCase {
 
 	void testDocumentationInDefinitions() {
 		def diffs = compare(oldWSDL, newWSDL)
-		print diffs*.dump().toString()
+//		print diffs*.dump().toString()
 	}
 
 	private def compare(a, b) {

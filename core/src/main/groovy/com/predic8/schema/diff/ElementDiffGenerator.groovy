@@ -14,7 +14,11 @@
 
 package com.predic8.schema.diff
 
+import java.util.List;
+
+import com.predic8.schema.ComplexType;
 import com.predic8.soamodel.*
+
 import org.apache.commons.logging.*
 
 class ElementDiffGenerator extends UnitDiffGenerator {
@@ -46,11 +50,11 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
     lDiffs.addAll(compareType())
     lDiffs.addAll(compareMinMaxOccurs())
-//    lDiffs.addAll(compareEmbeddedType())
+		if(generator.compare4WSDL) lDiffs.addAll(compare4WSDL())
     lDiffs
   }
   
-  protected compareType(){
+  protected List<Difference> compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
     if(a.embeddedType && b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', safe: false)]
     if(a.type && b.embeddedType) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false)]
@@ -58,7 +62,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     []
   }
 
-  protected compareMinMaxOccurs(eType = 'element'){
+  protected List<Difference> compareMinMaxOccurs(eType = 'element'){
 		def lDiffs = []
 		if(a.minOccurs != b.minOccurs){
 			lDiffs << new Difference(description:"${labelAttributeMinOccurs} ${labelElement} $eType ${a.name ? a.name+' ' : ''} ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.", type: eType, safe:  a.minOccurs >= b.minOccurs, breaks:  a.minOccurs < b.minOccurs)
@@ -69,9 +73,19 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     lDiffs
   }
 
-  private compareEmbeddedType(){
+  private List<Difference> compareEmbeddedType() {
     a.embeddedType?.compare(generator, b.embeddedType) ?: []
   }
+	
+	List<Difference> compare4WSDL() {
+		def diffs = []
+		def aT = a.schema.getType(a.type)
+		def bT = b.schema.getType(b.type)
+		if(aT && a.type == b.type){
+			diffs.addAll(aT.compare(generator, bT))
+		}
+		diffs
+	}
 
   protected def updateLabels(){
 	  labelElementRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")

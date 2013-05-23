@@ -24,6 +24,11 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   private Log log = LogFactory.getLog(this.class)
 
   def labelTN, labelTo
+	
+	/*
+	 * If true, elements must compare not only their type name, but their real types.
+	 */
+	boolean compare4WSDL
     
 //  To avoid cycling schema imports. Otherwise it would cause a StackOverFlow exception.  
   private List<String> alreadyImportedNamespaces = [] 

@@ -263,6 +263,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     attribs.putAll(getTypeAttribute(attr, ctx))
 
     builder.'xsd:attribute'(attribs) {
+			attr.annotation?.create(this, ctx)
       attr.simpleType?.create(this, ctx)
     } 
   }

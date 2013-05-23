@@ -29,10 +29,9 @@
       <xsd:complexType name="detailsType">
         <xsd:sequence>
           <xsd:element minOccurs="0" name="bezeichnung" type="xsd:string"/>
-          <xsd:element minOccurs="0" name="bic" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="bic" type="xsd:string"/>
           <xsd:element minOccurs="0" name="ort" type="xsd:string"/>
           <xsd:element minOccurs="0" name="plz" type="xsd:string"/>
-          <xsd:element name="bankrott" type="xsd:boolean" minOccurs="0"/>
         </xsd:sequence>
       </xsd:complexType>
     </xsd:schema>
