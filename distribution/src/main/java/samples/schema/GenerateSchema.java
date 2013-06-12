@@ -14,8 +14,18 @@
 
 package samples.schema;
 
-import com.predic8.schema.*;
-import static com.predic8.schema.Schema.*;
+import static com.predic8.schema.Schema.DATE;
+import static com.predic8.schema.Schema.INT;
+import static com.predic8.schema.Schema.STRING;
+
+import javax.xml.namespace.QName;
+
+import com.predic8.schema.Schema;
+import com.predic8.schema.ComplexType;
+import com.predic8.schema.Sequence;
+import com.predic8.schema.SimpleType;
+import com.predic8.schema.restriction.StringRestriction;
+import com.predic8.schema.restriction.facet.PatternFacet;
 
 public class GenerateSchema {
 
@@ -32,6 +42,15 @@ public class GenerateSchema {
     seq.newElement("lastname", STRING);
     seq.newElement("date-of-birth", DATE);
     seq.newElement("address").newComplexType().newSequence().newElement("country", STRING);
+    seq.newElement("email", new QName("http://predic8.com/schema/person/", "emailType"));
+    
+    SimpleType emailType = schema.newSimpleType("emailType");
+    StringRestriction strRestriction = new StringRestriction();
+    PatternFacet pF = new PatternFacet();
+    pF.setValue("[^@]+@[^\\.]+\\..+");
+    strRestriction.setBase(new QName("http://www.w3.org/2001/XMLSchema", "string"));
+    strRestriction.getFacets().add(pF);
+    emailType.setRestriction(strRestriction);
     
     System.out.println(schema.getAsString());
   }

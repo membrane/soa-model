@@ -29,21 +29,15 @@ public class CompareSchema {
   private static void compare(){
     SchemaParser parser = new SchemaParser();
 
-    Schema schema1 = parser.parse("samples/diff/1/common.xsd");
+    Schema schema1 = parser.parse("samples/diff/original/article.xsd");
 
-    Schema schema2 = parser.parse("samples/diff/2/common.xsd");
+    Schema schema2 = parser.parse("samples/diff/modified/article.xsd");
 
     SchemaDiffGenerator diffGen = new SchemaDiffGenerator(schema1, schema2);
     List<Difference> lst = diffGen.compare();
     for (Difference diff : lst) {
-      dumpDiff(diff, "");
+    	System.out.println(diff.dump());
     }
   }
   
-  private static void dumpDiff(Difference diff, String level) {
-    System.out.println(level + diff.getDescription());
-    for (Difference localDiff : diff.getDiffs()){
-      dumpDiff(localDiff, level + "  ");
-    }
-  }
 }

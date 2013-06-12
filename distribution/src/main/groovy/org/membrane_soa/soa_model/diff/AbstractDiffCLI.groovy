@@ -38,6 +38,7 @@ abstract class AbstractDiffCLI {
     setUp(args)
     List<Difference> lst = getDiffGenerator(doc1, doc2).compare()
     Diff2Xml(lst)
+		System.out.println("Report generated in $reportFolder");
   }
   
   public void setUp(args){
@@ -113,7 +114,7 @@ abstract class AbstractDiffCLI {
   }
 
   def dump(diff) {
-    builder.Diff(safe:diff.safe, type:diff.type, breaks:diff.breaks ){
+    builder.Diff(safe:diff.safe, type:diff.type, breaks:diff.breaks, exchange:diff.exchange() ){
       Description("$diff.description")
       diff.diffs.each{ dump(it) }
     }

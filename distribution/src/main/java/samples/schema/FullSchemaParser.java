@@ -19,7 +19,7 @@ public class FullSchemaParser {
 
 	public static void main(String[] args) {
 		SchemaParser parser = new SchemaParser();
-		Schema schema = parser.parse("samples/human-resources.xsd");
+		Schema schema = parser.parse("samples/xsd/human-resources.xsd");
 
 		out("-------------- Schema Information --------------");
 		out("  Schema TargetNamespace: " + schema.getTargetNamespace());

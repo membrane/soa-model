@@ -19,8 +19,8 @@
 }
 
 .treeview li { 
-	margin: 0;
-	padding: 3px 0pt 3px 16px;
+	margin: 7 0 0 0;
+	padding: 0px 0pt 3px 16px;
 }
 
 .treeview a.selected {

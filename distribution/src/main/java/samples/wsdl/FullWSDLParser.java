@@ -22,7 +22,7 @@ public class FullWSDLParser {
 	public static void main(String[] args) {
 		WSDLParser parser = new WSDLParser();
 
-		Definitions defs = parser.parse("samples/BLZService.wsdl");
+		Definitions defs = parser.parse("samples/wsdl/BLZService.wsdl");
 
 		out("-------------- WSDL Details --------------");
 		out("TargenNamespace: \t" + defs.getTargetNamespace());

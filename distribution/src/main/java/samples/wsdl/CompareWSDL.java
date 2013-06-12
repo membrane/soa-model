@@ -28,21 +28,15 @@ public class CompareWSDL {
   private static void compare(){
     WSDLParser parser = new WSDLParser();
 
-    Definitions wsdl1 = parser.parse("samples/diff/1/article.wsdl");
+    Definitions wsdl1 = parser.parse("samples/diff/original/article.wsdl");
 
-    Definitions wsdl2 = parser.parse("samples/diff/2/article.wsdl");
+    Definitions wsdl2 = parser.parse("samples/diff/modified/article.wsdl");
 
     WsdlDiffGenerator diffGen = new WsdlDiffGenerator(wsdl1, wsdl2);
     List<Difference> lst = diffGen.compare();
     for (Difference diff : lst) {
-      dumpDiff(diff, "");
+    	System.out.println(diff.dump());
     }
   }
-
-  private static void dumpDiff(Difference diff, String level) {
-    System.out.println(level + diff.getDescription());
-    for (Difference localDiff : diff.getDiffs()){
-      dumpDiff(localDiff, level + "  ");
-    }
-  }
+  
 }

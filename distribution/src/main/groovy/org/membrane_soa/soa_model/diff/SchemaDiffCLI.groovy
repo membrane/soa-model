@@ -32,8 +32,8 @@ class SchemaDiffCLI extends AbstractDiffCLI{
     def writer = new ByteArrayOutputStream()
     builder = new MarkupBuilder(new PrintWriter(writer))
     builder.SchemaDiff{
-      "Schema-a"{
-        URL(url1)
+      "Original"{
+        URL(fixURL(url1))
         TargetNamespace(doc1.targetNamespace)
         Imports{
           doc1.imports.each { imp ->
@@ -41,8 +41,8 @@ class SchemaDiffCLI extends AbstractDiffCLI{
           }
         }
       }
-      "Schema-b"{
-        URL(url2)
+      "Modified"{
+        URL(fixURL(url1))
         TargetNamespace(doc2.targetNamespace)
         Imports{
           doc2.imports.each { imp ->
@@ -54,8 +54,13 @@ class SchemaDiffCLI extends AbstractDiffCLI{
         diffs.each{ diff -> dump(diff) }
       }
     }
-    def input = new ByteArrayInputStream(writer.toByteArray())
-    transform(input, 'html')
+//    def input = new ByteArrayInputStream(writer.toByteArray())
+//    transform(input, 'html')
+		new File(reportFolder).mkdir()
+		File xml = new File("$reportFolder/diff-report.xml")
+		OutputStream outputStream = new FileOutputStream (xml);
+		writer.writeTo(outputStream);
+		transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
   }
 
   public String getCliUsage() {
@@ -67,7 +72,7 @@ class SchemaDiffCLI extends AbstractDiffCLI{
   }
   
   public getStylesheet(format) {
-    "${System.getenv('SOA_MODEL_HOME')}/src/main/style/schema2"+format+".xslt"
+    "${System.getenv('SOA_MODEL_HOME')}/src/main/style/schema2"+format+".xsl"
   }
 
   public getDiffGenerator(doc1, doc2) {

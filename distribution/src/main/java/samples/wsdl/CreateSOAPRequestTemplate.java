@@ -27,7 +27,7 @@ public class CreateSOAPRequestTemplate {
 
     WSDLParser parser = new WSDLParser();
     
-    Definitions wsdl = parser.parse("samples/article/article.wsdl");
+    Definitions wsdl = parser.parse("samples/wsdl/article-service/article.wsdl");
     
     StringWriter writer = new StringWriter();
     

@@ -1,3 +1,0 @@
-Building a binary distribution
-
-IMPORTANT: Don't forget to update the .bat files with the new version of libraries.
