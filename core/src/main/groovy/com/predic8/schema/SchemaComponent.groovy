@@ -23,10 +23,13 @@ import org.apache.commons.logging.*
 
 abstract class SchemaComponent extends XMLElement{
   
+	private Log log = LogFactory.getLog(this.class)
+	
   Schema schema
   String name
   Annotation annotation
-  private Log log = LogFactory.getLog(this.class)
+	
+	def exchange = [] as Set //For WSDL message direction.
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue( null , 'name')

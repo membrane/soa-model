@@ -27,9 +27,9 @@ class SimpleTypesDiffGenerator extends ListDiffGenerator {
 	
   def generator
 
-  def removed = { new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelRemoved}.", type: 'simpleType', breaks:true)}
+  def removed = { new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelRemoved}.", type: 'simpleType', breaks:true, exchange: a.exchange)}
 
-  def added = {new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelAdded}.", type: 'simpleType')}
+  def added = {new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelAdded}.", type: 'simpleType', exchange: b.exchange)}
 
   protected getIntersection(){
     (a.qname).intersect(b.qname)

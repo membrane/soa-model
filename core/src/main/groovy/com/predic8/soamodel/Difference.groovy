@@ -14,16 +14,19 @@
 
 package com.predic8.soamodel
 
+import java.util.List;
+
 class Difference {
   
   String description
   List<Difference> diffs = []
   String type
-  boolean safe
-  boolean breaks
-  def a
-  def b
-  
+  private boolean safe
+  private boolean breaks
+//  def a
+//  def b
+	def exchange = [] as Set //For WSDL message direction.
+	
   def dump(level = 0) {
     def str = description + '\n'
     level++
@@ -38,7 +41,7 @@ class Difference {
 		description
   }
   
-  def breaks(){
+  boolean breaks(){
     if(breaks) return true
     def res = false
     diffs.each{
@@ -47,13 +50,17 @@ class Difference {
     return res
   }
   
-  def safe(){
-    if(!safe) return false
+  boolean safe(){
+    if(!safe && breaks) return false
     def res = true
     diffs.each{
       if(! it.safe()) res = false
     }
     return res
   }
+	
+	def exchange(){
+		this.exchange.join('')
+	}
   
 }

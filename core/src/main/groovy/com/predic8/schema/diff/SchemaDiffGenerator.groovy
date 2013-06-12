@@ -61,9 +61,9 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
       return diffs
     }
     diffs.addAll(compareAnnotation(a?.annotation, b?.annotation))
+    diffs.addAll(compareElements())
     diffs.addAll(compareComplexTypes())
     diffs.addAll(compareSimpleTypes())
-    diffs.addAll(compareElements())
     diffs.addAll(compareImports())
     
     diffs
@@ -147,7 +147,7 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   }
   
   protected def updateLabels(){
-	  labelTN = AbstractDiffGenerator.bundle.getString("com.predic8.schema.diff.labelTN")
-	  labelTo = AbstractDiffGenerator.bundle.getString("com.predic8.schema.diff.labelTo")
+	  labelTN = bundle.getString("com.predic8.schema.diff.labelTN")
+	  labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
   }
 }

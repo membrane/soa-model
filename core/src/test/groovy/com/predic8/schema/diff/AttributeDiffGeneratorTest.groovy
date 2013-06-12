@@ -52,33 +52,33 @@ class AttributeDiffGeneratorTest extends GroovyTestCase{
   void testAwithC(){
     def diffGen = new AttributesDiffGenerator(a: a, b: c, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.description.toString().contains('The type has changed'))
-    assertTrue(diffs.description.toString().contains('string'))
-    assertTrue(diffs.description.toString().contains('NMTOKEN'))
+    assert diffs.description.toString().contains('The type has changed')
+    assert diffs.description.toString().contains('string')
+    assert diffs.description.toString().contains('NMTOKEN')
   }
 
   void testAwithD(){
     def diffGen = new AttributesDiffGenerator(a: a, b: d, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.description.toString().contains('The attribute use has changed from optional to required'))
-    assertTrue(diffs.description.toString().contains('The attribute fixed changed from null to Germany'))
+    assert diffs.description.toString().contains('The attribute use has changed from optional to required')
+    assert diffs.description.toString().contains('The attribute fixed changed from null to Germany')
   }
 
   void testAwithE(){
     def diffGen = new AttributesDiffGenerator(a: a, b: e, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.description.toString().contains('Attribute icq added.'))
+    assert diffs.description.toString().contains('Attribute icq added.')
   }
 
   void testAwithF(){
     def diffGen = new AttributesDiffGenerator(a: a, b: f, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.description.toString().contains('Attribute fax removed.'))
+    assert diffs.description.toString().contains('Attribute fax removed.')
   }
 
   void testAwithG(){
     def diffGen = new AttributesDiffGenerator(a: a, b: g, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    //assertTrue(diffs.description.toString().contains('Attribute fax removed.'))
+    assert diffs.description.toString().contains('Attribute fax removed.')
   }
 }

@@ -32,7 +32,7 @@ class WSDLDependencyFailureTest extends GroovyTestCase{
       resourceResolver.resolveAsString("http://localhost")
       assert(false)
     } catch (ResourceDownloadException e) {
-      assertTrue(e.rootCause instanceof Exception)
+      assert e.rootCause instanceof Exception
       assertEquals('http://localhost', e.url)
     } catch (Exception e) {
 //      println "excepted [ResourceDownloadException] but was $e" 

@@ -24,12 +24,12 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 
   def generator
 
-  def removed = {new Difference(description:"${labelSequenceRemoved}.", type: 'sequence', breaks: true, safe:false)}
+  def removed = {new Difference(description:"${labelSequenceRemoved}.", type: 'sequence', breaks: true, safe:false, exchange: a.exchange)}
 
-  def added = { new Difference(description:"${labelSequenceAdded}.", type: 'sequence', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelSequenceAdded}.", type: 'sequence', breaks: true, safe:false, exchange: b.exchange)}
 
   def changed = { diffs ->
-    new Difference(description:"${labelSequenceChanged}:" , type: 'sequence' ,  diffs : diffs, a: a, b:b, breaks: false, safe: true)
+    new Difference(description:"${labelSequenceChanged}:" , type: 'sequence' ,  diffs : diffs, exchange: a.exchange)
   }
 
   
@@ -48,11 +48,13 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
       }
       if(!(aP instanceof Element || bP instanceof Element) && aP.class != bP.class) {
         bPs << bP
-        diffs << new Difference(description:"${labelParticle} ${aP.elementName} ${labelReplacedWith} ${bP.elementName}." , type: 'sequence')
+        diffs << new Difference(description:"${labelParticle} ${aP.elementName} ${labelReplacedWith} ${bP.elementName}." , type: 'sequence', exchange: a.exchange)
         return
       }
       if(aP.name == bP.name) {
         bPs << bP
+				aP.exchange.addAll(a.exchange)
+				bP.exchange.addAll(b.exchange)
         def lDiffs = aP.compare(generator, bP)
         diffs.addAll(lDiffs)
         return

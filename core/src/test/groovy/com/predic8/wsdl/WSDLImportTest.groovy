@@ -29,7 +29,7 @@ class WSDLImportTest extends GroovyTestCase{
   }
 
   void testNamespaces() {
-    assertTrue(wsdl.imports.namespace.contains('http://example.com/stockquote/definitions'))
+    assert wsdl.imports.namespace.contains('http://example.com/stockquote/definitions')
   }
 
   void testGetPortTypeByQName() {

@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s3="urn:PessoaJuridicaNFe" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="ConsultaCPF" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s1="urn:PessoaFisicaSimplificada" xmlns:s4="urn:PessoaFisicaNFe" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="urn:PessoaJuridicaSimplificada" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="ConsultaCPF" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;h3&gt;ConsultaCPF - Confirmacao de Dados Cadastrais&lt;/h3&gt;</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="ConsultaCPF">
+      <s:import namespace="urn:PessoaFisicaSimplificada" />
+      <s:import namespace="urn:PessoaJuridicaSimplificada" />
+      <s:import namespace="urn:PessoaJuridicaNFe" />
+      <s:import namespace="urn:PessoaFisicaNFe" />
+      <s:element name="PessoaFisicaSimplificada">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Senha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaFisicaSimplificadaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" ref="s1:PessoaFisicaSimplificadaResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaJuridicaSimplificada">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Senha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaJuridicaSimplificadaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" ref="s2:PessoaJuridicaSimplificadaResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaJuridicaNFe">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Senha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaJuridicaNFeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" ref="s3:PessoaJuridicaNFeResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaFisicaNFe">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Senha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PessoaFisicaNFeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" ref="s4:PessoaFisicaNFeResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:PessoaFisicaSimplificada">
+      <s:element name="PessoaFisicaSimplificadaResult" nillable="true" type="s1:PessoaFisicaSimplificada" />
+      <s:complexType name="PessoaFisicaSimplificada">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:Serialization">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Serialization" />
+      <s:element name="PessoaFisicaSimplificada" nillable="true" type="s1:PessoaFisicaSimplificada" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:PessoaJuridicaSimplificada">
+      <s:element name="PessoaJuridicaSimplificadaResult" nillable="true" type="s2:PessoaJuridicaSimplificada" />
+      <s:complexType name="PessoaJuridicaSimplificada">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Serialization">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="RazaoSocial" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Serialization" />
+      <s:element name="PessoaJuridicaSimplificada" nillable="true" type="s2:PessoaJuridicaSimplificada" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:PessoaJuridicaNFe">
+      <s:element name="PessoaJuridicaNFeResult" nillable="true" type="s3:PessoaJuridicaNFe" />
+      <s:complexType name="PessoaJuridicaNFe">
+        <s:complexContent mixed="false">
+          <s:extension base="s3:Serialization">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RazaoSocial" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NomeFantasia" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DataFundacao" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Endereco" type="s3:Endereco" />
+              <s:element minOccurs="0" maxOccurs="1" name="CNAE" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CNAEDescricao" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SituacaoRFB" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Serialization" />
+      <s:complexType name="Endereco">
+        <s:complexContent mixed="false">
+          <s:extension base="s3:Serialization">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Tipo" type="s3:TiposEnderecos" />
+              <s:element minOccurs="0" maxOccurs="1" name="Logradouro" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Numero" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Complemento" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Bairro" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Cidade" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Estado" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CEP" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DataAtualizacao" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="CodigoIBGE" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="TiposEnderecos">
+        <s:restriction base="s:string">
+          <s:enumeration value="NaoInformado" />
+          <s:enumeration value="Residencial" />
+          <s:enumeration value="Comercial" />
+          <s:enumeration value="Fiscal" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PessoaJuridicaNFe" nillable="true" type="s3:PessoaJuridicaNFe" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:PessoaFisicaNFe">
+      <s:element name="PessoaFisicaNFeResult" nillable="true" type="s4:PessoaFisicaNFe" />
+      <s:complexType name="PessoaFisicaNFe">
+        <s:complexContent mixed="false">
+          <s:extension base="s4:Serialization">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SituacaoRFB" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DataConsultaRFB" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="ProtocoloRFB" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DigitoVerificador" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Serialization" >
+        <s:annotation>
+          <s:documentation>esta é uma documentação para fins de teste</s:documentation>
+        </s:annotation>
+        <s:all/>
+      </s:complexType>
+      <s:element name="PessoaFisicaNFe" nillable="true" type="s4:PessoaFisicaNFe" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PessoaFisicaSimplificadaSoapIn">
+    <wsdl:part name="parameters" element="tns:PessoaFisicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaSimplificadaSoapOut">
+    <wsdl:part name="parameters" element="tns:PessoaFisicaSimplificadaResponse" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaSoapIn">
+    <wsdl:part name="parameters" element="tns:PessoaJuridicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaSoapOut">
+    <wsdl:part name="parameters" element="tns:PessoaJuridicaSimplificadaResponse" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeSoapIn">
+    <wsdl:part name="parameters" element="tns:PessoaJuridicaNFe" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeSoapOut">
+    <wsdl:part name="parameters" element="tns:PessoaJuridicaNFeResponse" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeSoapIn">
+    <wsdl:part name="parameters" type="s4:PessoaFisicaNFe" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeSoapOut">
+    <wsdl:part name="parameters" element="tns:PessoaFisicaNFeResponse" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaSimplificadaHttpGetIn">
+    <wsdl:part name="EMail" type="s:anySimpleType" />
+    <wsdl:part name="Senha" type="s1:Serialization" />
+    <wsdl:part name="Documento" type="s4:Serialization" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaSimplificadaHttpGetOut">
+    <wsdl:part name="Body" element="s1:PessoaFisicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaHttpGetIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaHttpGetOut">
+    <wsdl:part name="Body" element="s2:PessoaJuridicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeHttpGetIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeHttpGetOut">
+    <wsdl:part name="Body" element="s3:PessoaJuridicaNFe" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeHttpGetIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeHttpGetOut">
+    <wsdl:part name="Body" element="s4:PessoaFisicaNFe" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaSimplificadaHttpPostIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaSimplificadaHttpPostOut">
+    <wsdl:part name="Body" element="s1:PessoaFisicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaHttpPostIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaSimplificadaHttpPostOut">
+    <wsdl:part name="Body" element="s2:PessoaJuridicaSimplificada" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeHttpPostIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaJuridicaNFeHttpPostOut">
+    <wsdl:part name="Body" element="s3:PessoaJuridicaNFe" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeHttpPostIn">
+    <wsdl:part name="EMail" type="s:string" />
+    <wsdl:part name="Senha" type="s:string" />
+    <wsdl:part name="Documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PessoaFisicaNFeHttpPostOut">
+    <wsdl:part name="Body" element="s4:PessoaFisicaNFe" />
+  </wsdl:message>
+  <wsdl:portType name="CDCSoap">
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaSimplificadaSoapIn" />
+      <wsdl:output message="tns:PessoaFisicaSimplificadaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaSimplificadaSoapIn" />
+      <wsdl:output message="tns:PessoaJuridicaSimplificadaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaNFeSoapIn" />
+      <wsdl:output message="tns:PessoaJuridicaNFeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaNFeSoapIn" />
+      <wsdl:output message="tns:PessoaFisicaNFeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="CDCHttpGet">
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaSimplificadaHttpGetIn" />
+      <wsdl:output message="tns:PessoaFisicaSimplificadaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaSimplificadaHttpGetIn" />
+      <wsdl:output message="tns:PessoaJuridicaSimplificadaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaNFeHttpGetIn" />
+      <wsdl:output message="tns:PessoaJuridicaNFeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaNFeHttpGetIn" />
+      <wsdl:output message="tns:PessoaFisicaNFeHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="CDCHttpPost">
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaSimplificadaHttpPostIn" />
+      <wsdl:output message="tns:PessoaFisicaSimplificadaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica Simplificada&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaSimplificadaHttpPostIn" />
+      <wsdl:output message="tns:PessoaJuridicaSimplificadaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Juridica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaJuridicaNFeHttpPostIn" />
+      <wsdl:output message="tns:PessoaJuridicaNFeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirmacao de Dados Cadastrais Pessoa Fisica - NFe&lt;br /&gt;&lt;br /&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PessoaFisicaNFeHttpPostIn" />
+      <wsdl:output message="tns:PessoaFisicaNFeHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CDCSoap" type="tns:CDCSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <soap:operation soapAction="ConsultaCPF/PessoaFisicaSimplificada" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <soap:operation soapAction="ConsultaCPF/PessoaJuridicaSimplificada" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <soap:operation soapAction="ConsultaCPF/PessoaJuridicaNFe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <soap:operation soapAction="ConsultaCPF/PessoaFisicaNFe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CDCSoap12" type="tns:CDCSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <soap12:operation soapAction="ConsultaCPF/PessoaFisicaSimplificada" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <soap12:operation soapAction="ConsultaCPF/PessoaJuridicaSimplificada" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <soap12:operation soapAction="ConsultaCPF/PessoaJuridicaNFe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <soap12:operation soapAction="ConsultaCPF/PessoaFisicaNFe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CDCHttpGet" type="tns:CDCHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <http:operation location="/PessoaFisicaSimplificada" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <http:operation location="/PessoaJuridicaSimplificada" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <http:operation location="/PessoaJuridicaNFe" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <http:operation location="/PessoaFisicaNFe" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CDCHttpPost" type="tns:CDCHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="PessoaFisicaSimplificada">
+      <http:operation location="/PessoaFisicaSimplificada" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaSimplificada">
+      <http:operation location="/PessoaJuridicaSimplificada" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaJuridicaNFe">
+      <http:operation location="/PessoaJuridicaNFe" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PessoaFisicaNFe">
+      <http:operation location="/PessoaFisicaNFe" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CDC">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;h3&gt;ConsultaCPF - Confirmacao de Dados Cadastrais&lt;/h3&gt;</wsdl:documentation>
+    <wsdl:port name="CDCSoap" binding="tns:CDCSoap">
+      <soap:address location="http://www.consultacpf.com/webservices/producao/cdc.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CDCSoap12" binding="tns:CDCSoap12">
+      <soap12:address location="http://www.consultacpf.com/webservices/producao/cdc.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CDCHttpGet" binding="tns:CDCHttpGet">
+      <http:address location="http://www.consultacpf.com/webservices/producao/cdc.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CDCHttpPost" binding="tns:CDCHttpPost">
+      <http:address location="http://www.consultacpf.com/webservices/producao/cdc.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

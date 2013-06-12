@@ -14,6 +14,8 @@
 
 package com.predic8.schema;
 
+import java.util.List;
+
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.PrefixedName
 import groovy.xml.QName
@@ -24,7 +26,7 @@ abstract class ModelGroup extends SchemaComponent{
   List<SchemaComponent> particles = []
   def minOccurs = 1
   def maxOccurs = 1
-
+	
   protected parseAttributes(token, params){
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
     maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1

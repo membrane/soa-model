@@ -154,6 +154,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
     if (prefix == "xml") return
     if (!ctx.declNS[ns]) ctx.declNS[ns] = []
     if ( ctx.declNS[ns].contains(prefix) ) return
+		if (!prefix && !ns) return
     attrs[prefix ? "xmlns:${prefix}" : "xmlns"] = ns
     ctx.declNS[ns] << prefix
 		ctx.declNS[ns]

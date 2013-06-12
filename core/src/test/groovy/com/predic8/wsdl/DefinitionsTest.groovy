@@ -27,19 +27,19 @@ class DefinitionsTest extends GroovyTestCase {
   
   void testSOAP11Bindings() {
     assertEquals(1, wsdl.getBindings('SOAP11').size())
-    assertTrue('BLZServiceSOAP11Binding' in wsdl.getBindings('SOAP11').name)
+    assert 'BLZServiceSOAP11Binding' in wsdl.getBindings('SOAP11').name
     assertEquals(['document'], wsdl.getBindings('SOAP11').binding.style)
   }
 
   void testSOAP12Bindings() {
     assertEquals(1, wsdl.getBindings('SOAP12').size())
-    assertTrue('BLZServiceSOAP12Binding' in wsdl.getBindings('SOAP12').name)
+    assert 'BLZServiceSOAP12Binding' in wsdl.getBindings('SOAP12').name
     assertEquals(['document'], wsdl.getBindings('SOAP11').binding.style)
   }
 
   void testHTTPBindings() {
     assertEquals(1, wsdl.getBindings('HTTP').size())
-    assertTrue('BLZServiceHttpBinding' in wsdl.getBindings('HTTP').name)
+    assert 'BLZServiceHttpBinding' in wsdl.getBindings('HTTP').name
     assertEquals(['POST'], wsdl.getBindings('HTTP').binding.verb)
   }
 }

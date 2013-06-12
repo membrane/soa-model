@@ -24,7 +24,7 @@ import groovy.xml.QName
 
 abstract class AbstractDiffGenerator {
   
- public static ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
+ public ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
   
   def generator
   def a,b

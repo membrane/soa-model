@@ -206,9 +206,11 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs,ctx)
 
     if(simpleType.qname) {
-      declNSifNeeded(simpleType.getPrefix(simpleType.schema.targetNamespace),simpleType.schema.targetNamespace,attrs,ctx)
+//      declNSifNeeded(simpleType.getPrefix(simpleType.schema.targetNamespace),simpleType.schema.targetNamespace,attrs,ctx)
       attrs['name'] = getDisplayName(simpleType.qname.localPart, 'definitions.allSchemas.simpleTypes.qname.localPart', ctx.error)
-    }
+    } else if(simpleType.name){
+			attrs['name'] = simpleType.name
+    }  
     builder.'xsd:simpleType'(attrs) {
       simpleType.annotation?.create(this, ctx)
       simpleType.union?.create(this,ctx)

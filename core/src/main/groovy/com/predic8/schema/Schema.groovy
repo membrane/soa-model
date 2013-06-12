@@ -182,6 +182,10 @@ class Schema extends XMLElement{
   ComplexType getComplexType(String typeName){
     getType(new QName(targetNamespace,typeName))
   }
+	
+	SimpleType getSimpleType(String typeName){
+		getType(new QName(targetNamespace,typeName))
+	}
 
   Group getGroup(QName qname){
     (allSchemas.groups).flatten().find{
@@ -235,6 +239,16 @@ class Schema extends XMLElement{
   ComplexType newComplexType(){
     new ComplexType(schema:this, parent: this)
   }
+	
+	SimpleType newSimpleType(){
+		new SimpleType(schema: this, parent: this)
+	}
+	
+	SimpleType newSimpleType(String name){
+		def st = new SimpleType(qname: new QName(targetNamespace, name), schema: this, parent: this, name: name)
+		simpleTypes << st
+		st
+	}
   
   Element newElement(String name, JQName type){
     def e = new Element(name: name, type: new QName(type.namespaceURI, type.localPart), schema: this, parent: this)

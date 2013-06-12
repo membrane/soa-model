@@ -41,11 +41,11 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     b.restriction.facets << new MinLengthFacet(value : 1)
     def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.diffs.description.toString().contains('Enumerartion with value: red removed.'))
-    assertTrue(diffs.diffs.description.toString().contains('Enumerartion with value: blue added.'))
-    assertTrue(diffs.diffs.description.toString().contains('Value of length changed from 3 to 9.'))
-    assertTrue(diffs.diffs.description.toString().contains('Facet maxLength removed.'))
-    assertTrue(diffs.diffs.description.toString().contains('Facet minLength added.'))
+    assert diffs.diffs.description.toString().contains('Enumerartion with value: red removed.')
+    assert diffs.diffs.description.toString().contains('Enumerartion with value: blue added.')
+    assert diffs.diffs.description.toString().contains('Value of length changed from 3 to 9.')
+    assert diffs.diffs.description.toString().contains('Facet maxLength removed.')
+    assert diffs.diffs.description.toString().contains('Facet minLength added.')
   }
 
   void testExtensionDiff(){
@@ -53,7 +53,7 @@ class SimpleContentDiffGeneratorTest extends GroovyTestCase{
     b = new SimpleContent(extension: new Extension(base: new QName(Consts.SCHEMA_NS,'int')))
     def diffGen = new SimpleContentDiffGenerator(a: a, b: b, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
-    assertTrue(diffs.diffs.description.toString().contains('Extension base has changed from {http://www.w3.org/2001/XMLSchema}string to {http://www.w3.org/2001/XMLSchema}int.'))
+    assert diffs.diffs.description.toString().contains('Extension base has changed from {http://www.w3.org/2001/XMLSchema}string to {http://www.w3.org/2001/XMLSchema}int.')
   }
 
 }

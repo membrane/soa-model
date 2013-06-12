@@ -28,7 +28,7 @@
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:element name="getAll" />
+            <xsd:element name="getAll" type="xsd:string"/>
             <xsd:element name="getAllResponse" type="tns:GetAllResponseType"/>
             <xsd:complexType name="GetAllResponseType">
                 <xsd:sequence>

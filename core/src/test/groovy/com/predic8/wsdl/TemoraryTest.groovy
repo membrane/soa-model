@@ -27,22 +27,15 @@ import com.predic8.xml.util.*
 class TemoraryTest extends GroovyTestCase {
 	
 
-  def wsdl
+  Definitions wsdl
 
   void setUp(){
-//	def parser = new WSDLParser()
+//		def parser = new WSDLParser()
 //    wsdl = parser.parse(new WSDLParserContext(input:"C:/temp/test.wsdl"))
-//    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-//    wsdl = parser.parse(new WSDLParserContext(input:"/RPCStyle.wsdl"))
-//    wsdl = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
   }
   
   void testOutput(){
 //	  println wsdl.getAsString()
-//		def strWriter = new StringWriter()
-//		def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
-//		creator.createDefinitions(wsdl, new WSDLCreatorContext())
-//		println strWriter
   }
 }
 

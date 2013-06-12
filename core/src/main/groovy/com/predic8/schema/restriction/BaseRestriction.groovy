@@ -119,6 +119,14 @@ class BaseRestriction  extends SchemaComponent {
   MinLengthFacet getMinLengthFacet(){
     facets.find{it instanceof MinLengthFacet}
   }
+	
+	public void setBase(qName) {
+		if(qName instanceof JQName) {
+			base = new GQName(qName.namespaceURI, qName.localPart, qName.prefix)
+			return
+		}
+		base = qName
+	}
   
   String getBuildInTypeName(){
     base.localPart  

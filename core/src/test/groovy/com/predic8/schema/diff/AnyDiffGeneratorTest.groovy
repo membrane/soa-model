@@ -64,7 +64,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "removed any element")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs.diffs.description.toString().contains('removed'))
+        assert diffs.diffs.description.toString().contains('removed')
 
         // removing an 'any' breaks compatibility, old messages with content there will be rejected
         assertTrue(diffs[0].breaks())
@@ -77,7 +77,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=1")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs.diffs.description.toString().contains('Any added'))
+        assert diffs.diffs.description.toString().contains('Any added')
 
         // adding an 'any' with minOccurs > 0 breaks compatibility, old messages without content there will be rejected
         assertTrue(diffs[0].breaks())
@@ -90,7 +90,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=0")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs.diffs.description.toString().contains('Any added'))
+        assert diffs.diffs.description.toString().contains('Any added')
 
         // adding an 'any' with minOccurs == 0 is safe, old messages without content there will be accepted
         assertTrue(diffs[0].safe() && !diffs[0].breaks() )
@@ -102,7 +102,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(),"tighter minOccurs (bigger)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 0 to 1.'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 0 to 1.')
 
         // tighter minOccurs breaks compatibility, old messages may not have enough
         assertTrue(diffs[0].breaks() && !diffs[0].safe())
@@ -114,7 +114,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser minOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 1 to 0.'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 1 to 0.')
 
         // loosened minOccurs doesn't break compatibility on its own, old messages will have enough
         assertTrue(diffs[0].safe() && !diffs[0].breaks())
@@ -126,7 +126,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "tightened maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from unbounded to 5.'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from unbounded to 5.')
 
         // tightened maxOccurs breaks compatibility, old messages may have too many
         assertTrue(diffs[0].breaks() && !diffs[0].safe())
@@ -138,7 +138,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from 5 to unbounded.'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from 5 to unbounded.')
 
         // loosened maxOccurs doesn't break compatibility, old messages will never have too many
 				assertTrue(diffs[0].safe() && !diffs[0].breaks())
@@ -150,7 +150,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changed namespace breaks compatibility because old messages will not comply with the new namespace
 				assertTrue(diffs[0].breaks() && !diffs[0].safe())
@@ -160,10 +160,9 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         // this is equivalent to changing the namespace to any
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqG, generator : new SchemaDiffGenerator())
 				def diffs = diffGen.compare()
-//        def diffs = dumpDiffs(diffGen.compare(), "namespace removed")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // removing the namespace doesn't break compatibility as the default of ##any relaxes the requirement on the content
         assertFalse(diffs[0].breaks())
@@ -176,7 +175,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace added")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // adding a namespace (something other than ##any) breaks compatibility as old messages
         // may have content outside that namespace
@@ -195,7 +194,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other safely")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changing the namespace to ##other when the previous value was not ##targetNamespace or ##any
         // may have content outside that namespace
@@ -209,7 +208,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other breaks")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changing the namespace to ##other when the previous value was not ##targetNamespace or ##any
         // may have content outside that namespace
@@ -223,7 +222,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to superset")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changing the namespace to a superset of what it was is safe
         assertFalse(diffs[0].breaks())
@@ -236,7 +235,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to subset")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changing the namespace to a subset of what it was breaks
         assertTrue(diffs[0].breaks())
@@ -249,7 +248,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "processContents loosened (less strict)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('processContents became less strict'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('processContents became less strict')
 
         // making processContents less strict doesn't break compatibility, messages that were accepted before will still be
         assertFalse(diffs[0].breaks())
@@ -262,7 +261,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "processContents tightened (more strict)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assertTrue(diffs[0].diffs[0].diffs.description.toString().contains('processContents became more strict'))
+        assert diffs[0].diffs[0].diffs.description.toString().contains('processContents became more strict')
 
         // making processContents more strict breaks compatibility, messages that were accepted before may be rejected now
         assertTrue(diffs[0].breaks())
@@ -275,7 +274,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //    def diffs = dumpDiffs(diffGen.compare(), "element added before any")
     assertEquals(1, diffs.size())
     assertEquals(2, diffs[0].diffs.size())
-    assertTrue(diffs[0].diffs[0].description.toString().contains('Position of element any changed'))
+    assert diffs[0].diffs[0].description.toString().contains('Position of element any changed')
 
     // inserting an element with minOccurs=1 before the any is a breakage.
     // In the future, this could be smarter: elements with minOccurs=0

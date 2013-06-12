@@ -63,7 +63,7 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('changed'))
+    assert diffs.diffs.description.toString().contains('changed')
   }
 
   void testElementRemoved(){
@@ -71,7 +71,7 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('removed'))
+    assert diffs.diffs.description.toString().contains('removed')
   }
 
   void testElementReorderd(){
@@ -79,9 +79,9 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(2, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('changed'))
-		assertTrue(diffs[0].diffs[0].dump().contains('Position of element street changed from 2 to 3.'))
-		assertTrue(diffs[0].diffs[1].dump().contains('Position of element number changed from 3 to 2.'))
+    assert diffs.diffs.description.toString().contains('changed')
+		assert diffs[0].diffs[0].dump().contains('Position of element street changed from 2 to 3.')
+		assert diffs[0].diffs[1].dump().contains('Position of element number changed from 3 to 2.')
   }
 
   void testElementAdded(){
@@ -89,15 +89,15 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(4, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('added'))
+    assert diffs.diffs.description.toString().contains('added')
   }
 
   void testElement2Sequence(){
     def diffGen = new SequenceDiffGenerator(a: seqF , b: seqG, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('removed'))
-    assertTrue(diffs.diffs.description.toString().contains('added'))
+    assert diffs.diffs.description.toString().contains('removed')
+    assert diffs.diffs.description.toString().contains('added')
   }
 
   void testElementsAndSequenceEquals(){
@@ -111,7 +111,7 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('replaced'))
+    assert diffs.diffs.description.toString().contains('replaced')
   }
 
   void testChoice2Sequence(){
@@ -119,7 +119,7 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('replaced'))
+    assert diffs.diffs.description.toString().contains('replaced')
   }
 
   void testElementAddedInSequence(){
@@ -127,13 +127,13 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(2, diffs[0].diffs[0].diffs.size())
-    assertTrue(diffs.diffs.diffs.description.toString().contains('added'))
+    assert diffs.diffs.diffs.description.toString().contains('added')
   }
 
   void testAdditionalSequence(){
     def diffGen = new SequenceDiffGenerator(a: seqA , b: seqK, generator : new SchemaDiffGenerator())
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('Sequence added'))
+    assert diffs.diffs.description.toString().contains('Sequence added')
   }
 }

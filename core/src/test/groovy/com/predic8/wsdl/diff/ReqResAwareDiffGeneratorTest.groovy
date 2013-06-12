@@ -21,8 +21,8 @@ class ReqResAwareDiffGeneratorTest extends GroovyTestCase {
 
 	void setUp() {
 		def parser = new WSDLParser(resourceResolver : new ClasspathResolver())
-		oldWSDL = parser.parse('diff/blz-req-res-aware/old/BLZService.wsdl')
-		newWSDL = parser.parse('diff/blz-req-res-aware/new/BLZService.wsdl')
+		oldWSDL = parser.parse('diff/req-res-aware/old.wsdl')
+		newWSDL = parser.parse('diff/req-res-aware/new.wsdl')
 	}
 
 	void testDocumentationInDefinitions() {

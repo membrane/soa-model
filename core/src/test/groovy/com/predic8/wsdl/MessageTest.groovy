@@ -38,7 +38,7 @@ class MessageTest extends AbstractWSDLTest {
   </wsdl:definitions>'''
   
   void testMessage() {
-    assertTrue(definitions.messages.size() == 2)
+    assert definitions.messages.size() == 2
     assertEquals("getBank" , definitions.messages[0].name)
     assertEquals(definitions.getMessage('getBankResponse'), definitions.messages[1])
   }

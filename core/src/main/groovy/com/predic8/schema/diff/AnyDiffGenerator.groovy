@@ -33,14 +33,14 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 	private def labelHasChanged, labelAdded, labelAnyElement, labelRemoved, labelHasChenged, labelNamespaceChanged, labelProcessContentLess, labelProcessContentMore
 
 	// removing an 'any' is a breaking change
-	def removed = {new Difference(description:"${labelAnyElement} ${labelRemoved}.", type: 'any', breaks: true, safe:false)}
+	def removed = {new Difference(description:"${labelAnyElement} ${labelRemoved}.", type: 'any', breaks: true, safe:false, exchange: a.exchange)}
 
 	// adding an 'any' is non-breaking
-	def added = { new Difference(description:"${labelAnyElement} ${labelAdded}.", type: 'any', breaks: false, safe:true)}
+	def added = { new Difference(description:"${labelAnyElement} ${labelAdded}.", type: 'any', breaks: false, safe:true, exchange: b.exchange)}
 
 	// changes may be breaking depend on their nature.  processing of attributes will determine...
 	def changed = { diffs ->
-		new Difference(description:"${labelAnyElement} ${bundle.getString("com.predic8.schema.diff.labelHasChanged")}:" , type: 'any' ,  diffs : diffs, a: a, b:b, safe: true, breaks: false)
+		new Difference(description:"${labelAnyElement} ${bundle.getString("com.predic8.schema.diff.labelHasChanged")}:" , type: 'any' ,  diffs : diffs, safe: true, breaks: false, exchange: a.exchange)
 	}
 
 	// array of processContents values in order of stringency from most leniant to most strict
@@ -90,7 +90,7 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 
 		if (!aNamespaces.equals(bNamespaces)) {
 			return [
-				new Difference(description:"${labelNamespaceChanged} '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe)
+				new Difference(description:"${labelNamespaceChanged} '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe, exchange: a.exchange)
 			]
 		}
 
@@ -106,10 +106,10 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 		int bStrictnessIndex = processContentsStrictness.indexOf(bProcessContents);
 
 		if (aStrictnessIndex > bStrictnessIndex) return [
-				new Difference(description:"${labelProcessContentLess}", type: 'any', breaks: false, safe: true)
+				new Difference(description:"${labelProcessContentLess}", type: 'any', breaks: false, safe: true, exchange: a.exchange)
 			]
 		if (aStrictnessIndex < bStrictnessIndex) return [
-				new Difference(description:"${labelProcessContentMore}", type: 'any', breaks: true, safe: false)
+				new Difference(description:"${labelProcessContentMore}", type: 'any', breaks: true, safe: false, exchange: a.exchange)
 			]
 
 		[]

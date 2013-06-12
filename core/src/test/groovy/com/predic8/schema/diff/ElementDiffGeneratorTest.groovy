@@ -45,25 +45,25 @@ class ElementDiffGeneratorTest  extends GroovyTestCase{
 	void testMinOccursDiff() {
 		def diffGen = new ElementDiffGenerator(a: schema.getElement('person1'), b: schema.getElement('person2'), generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assertTrue(diffs*.dump().toString().contains('The attribute minOccurs of Element element secondname  has changed from 0 to 1.'))
+		assert diffs*.dump().toString().contains('The attribute minOccurs of Element element secondname  has changed from 0 to 1.')
 	}
 
 	void testAnnotationAddedDiff() {
 		def diffGen = new ElementDiffGenerator(a: schema.getElement('Contact1'), b: schema.getElement('Contact3'), generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assertTrue(diffs*.dump().toString().contains('Annotation added.'))
+		assert diffs*.dump().toString().contains('Annotation added.')
 	}
 
 	void testAnnotationRemovedDiff() {
 		def diffGen = new ElementDiffGenerator(a: schema.getElement('Contact4'), b: schema.getElement('Contact1'), generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assertTrue(diffs*.dump().toString().contains('Annotation removed.'))
+		assert diffs*.dump().toString().contains('Annotation removed.')
 	}
 
 	void testAnnotationChangedDiff() {
 		def diffGen = new ElementDiffGenerator(a: schema.getElement('Contact3'), b: schema.getElement('Contact4'), generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assertTrue(diffs*.dump().toString().contains('Content of annotation has changed.'))
+		assert diffs*.dump().toString().contains('Content of annotation has changed.')
 	}
 
 	void testAnnotationContentChangedDiff() {

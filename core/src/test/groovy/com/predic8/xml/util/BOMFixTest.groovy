@@ -28,6 +28,6 @@ class BOMFixTest extends GroovyTestCase {
 		def strWriter = new StringWriter()
 		def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
 		schema.create(creator, new SchemaCreatorContext())
-		assertTrue(strWriter.toString().startsWith("<xsd:schema targetNamespace='schemaA' attributeFormDefault='unqualified' elementFormDefault='qualified' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>"))
+		assert strWriter.toString().startsWith("<xsd:schema targetNamespace='schemaA' attributeFormDefault='unqualified' elementFormDefault='qualified' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>")
 	}
 }

@@ -38,16 +38,15 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def lDiffs = []
 		diffs.addAll(compareDocumentation(a, b))
 		if ( a.targetNamespace != b.targetNamespace )
-			diffs << new Difference(description:"TargetNamespace changed from ${a.targetNamespace} to ${b.targetNamespace}", breaks:true)
+			diffs << new Difference(description:"TargetNamespace changed from ${a.targetNamespace} to ${b.targetNamespace}.", breaks:true)
 
 		if ( a.services[0] && b.services[0] && a.services[0].name != b.services[0].name )
-			diffs << new Difference(description:"Servicename changed from ${a.services[0].name} to ${b.services[0].name}", breaks:true)
+			diffs << new Difference(description:"Servicename changed from ${a.services[0].name} to ${b.services[0].name}.", breaks:true)
 		else {
-			diffs.addAll(compareTypes())
-
-			diffs.addAll(compareMessages())
 
 			diffs.addAll(comparePortTypes())
+			
+			diffs.addAll(0, compareTypes())
 
 			lDiffs.addAll(compareDocumentation(a.services[0], b.services[0]))
 			if ( a.services[0] && b.services[0] ) {
@@ -61,8 +60,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 
 	private List<Difference> compareTypes(){
 		def diffs = compareDocumentation(a.types, b.types)
-		//		def lDiffs = compareSchemas()
-		//		if(lDiffs) diffs << new Difference(description:"Types has changed: ", breaks:false, safe: true,  diffs: lDiffs)
+		def lDiffs = compareSchemas()
+		if(lDiffs) diffs << new Difference(description:"Types has changed: ", breaks:false,  diffs: lDiffs, type: 'types')
 		diffs
 	}
 
@@ -82,24 +81,6 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			if(aPort.address.location != bPort.address.location)
 				diffs << new Difference(description:"The location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.", breaks:true, safe:false)
 		}
-		diffs
-	}
-
-	private List<Difference> compareMessages() {
-		def aMessages = a.messages
-		def bMessages = b.messages
-		def diffs = []
-		diffs.addAll(compare(aMessages,bMessages,
-				{ new Difference(description:"Message ${it.name} removed.", breaks:true, safe:false) },
-				{ new Difference(description:"Message ${it.name} added.", safe:true, breaks:false) }))
-		//		def msg = aMessages.name.intersect(bMessages.name)
-		//		msg.each{ msgName ->
-		//			//TODO use compareMessage() instead.
-		//			Message aMsg = aMessages.find{ it.name == msgName}
-		//			Message bMsg = bMessages.find{ it.name == msgName}
-		//			def lDiffs = compareDocumentation(aMsg, bMsg)
-		//			if(lDiffs) diffs << new Difference(description:"Message $msgName has changed:", diffs : lDiffs)
-		//		}
 		diffs
 	}
 
@@ -132,8 +113,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareOperations(aOperations, bOperations) {
 		def diffs = []
 		diffs.addAll(compare(aOperations, bOperations,
-				{ new Difference(description:"Operation ${it.name} removed.", breaks:true) },
-				{ new Difference(description:"Operation ${it.name} added.", safe:true) }))
+				{ new Difference(description:"Operation ${it.name} removed.", breaks:true, type:'operation') },
+				{ new Difference(description:"Operation ${it.name} added.", safe:true, type:'operation') }))
 
 		def opNames = aOperations.name.intersect(bOperations.name)
 		opNames.each{ opName ->
@@ -150,18 +131,19 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareOperation(aOperation, bOperation) {
 		def diffs = compareDocumentation(aOperation, bOperation)
 		if(aOperation.input.name == bOperation.input.name) {
-			
-			diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input))
+			def lDiffs = comparePortTypeMessage(aOperation.input, bOperation.input, 'input')
+			diffs.addAll(lDiffs)
 		} else {
-			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'operation', breaks : true)
+			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'input', breaks : true, exchange:'request')
 		}
 		if(aOperation.output?.name == bOperation.output?.name) {
-			diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output))
+			def lDiffs = comparePortTypeMessage(aOperation.output, bOperation.output, 'output')
+			diffs.addAll(lDiffs)
 		} else {
-			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'operation', breaks : true)
+			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : true, exchange:'response')
 		}
-		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults))
-
+		
+		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
 		if(diffs) return [
 				new Difference(description:"Operation ${aOperation.name} has changed: ", type: 'operation', diffs: diffs)
 			]
@@ -169,80 +151,101 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	}
 
 	//Compare operation input/output/fault
-	private List<Difference> comparePortTypeMessage(aPTM, bPTM) {
+	private List<Difference> comparePortTypeMessage(aPTM, bPTM, ptmName) {
+		def exchange
+		switch (ptmName) {
+			case "input" : exchange = ['request'] ; break
+			case "output" : exchange = ['response'] ; break
+			case "fault" : exchange = ['fault'] ; break 
+		}
 		if(!aPTM && !bPTM) return []
 		if(aPTM && !bPTM) return [
-				new Difference(description:"${getElementTagName(aPTM)} removed.")
+				new Difference(description:"${ptmName.capitalize()} removed.", exchange:exchange, type: ptmName)
 			]
 		if(!aPTM && bPTM) return [
-				new Difference(description:"${getElementTagName(bPTM)} added.")
+				new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange, type: ptmName)
 			]
-		def diffs = compareDocumentation(aPTM, bPTM)
-		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) diffs << new Difference(description: "${getElementTagName(aPTM)} message has changed from ${aPTM.message.prefix}:${aPTM.message.name} to ${bPTM.message.prefix}:${bPTM.message.name}", type: 'message', breaks : true)
-		else diffs.addAll(compareMessage(aPTM.message, bPTM.message))
-		if(diffs) return [
-				new Difference(description:"${getElementTagName(aPTM)} has changed:", diffs: diffs)
+		def lDiffs = compareDocumentation(aPTM, bPTM)
+		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.prefix}:${aPTM.message.name} to ${bPTM.message.prefix}:${bPTM.message.name}.", type: 'message', breaks : true, exchange:exchange)
+		else lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
+		if(lDiffs) return [
+				new Difference(description:"${ptmName.capitalize()} has changed:", diffs: lDiffs, exchange:exchange, type: ptmName)
 			]
 		[]
-	}
-
-	private String getElementTagName(WSDLElement we) {
-		we.elementName.localPart.capitalize()
 	}
 
 	//TODO
-	private List<Difference> compareFaults(aFaults, bFaults) {
-		[]
+	private List<Difference> compareFaults(aFaults, bFaults, exchagne) {
+		def diffs = []
+		def faults = aFaults.message.name.intersect(bFaults.message.name)
+		(aFaults - faults).each {
+			diffs << new Difference(description:"Fault with message ${it.message.name} removed. ", type: 'fault', diffs : diffs, exchange:exchange)
+		}
+		(bFaults - faults).each {
+			diffs << new Difference(description:"Fault with message ${it.message.name} added. ", type: 'fault', diffs : diffs, exchange:exchange)
+		}
+		faults.each { f ->
+			diffs.addAll(comparePortTypeMessage(aFaults.find(it.message.name == f.message.name), bFaults.find(it.message.name == f.message.name), exchagne))
+		}
+		diffs
 	}
 
-	protected List<Difference> compareMessage(Message a, Message b) {
+	protected List<Difference> compareMessage(Message a, Message b, exchange) {
 		def diffs = compareDocumentation(a, b)
-		diffs.addAll( compareParts(a.parts, b.parts))
+		diffs.addAll( compareParts(a.parts, b.parts, exchange))
 		if(diffs) return [
-				new Difference(description:"Message ${a.name} has changed: ", type: 'message', diffs : diffs)
+				new Difference(description:"Message ${a.name} has changed: ", type: 'message', diffs : diffs, exchange:exchange)
 			]
 		[]
 	}
 
-	private List<Difference> compareParts(aParts, bParts) {
+	private List<Difference> compareParts(aParts, bParts, exchange) {
 		def diffs = []
 		diffs.addAll( compare(aParts, bParts,
-				{ new Difference(description:"Part ${it.name} removed." , breaks:true) },
-				{ new Difference(description:"Part ${it.name} added." , breaks:true) }))
+				{ new Difference(description:"Part ${it.name} removed." , breaks:true, exchange:exchange) },
+				{ new Difference(description:"Part ${it.name} added." , breaks:true, exchange:exchange) }))
 		def partNames = aParts.name.intersect(bParts.name)
 		partNames.each{ ptName ->
 			Part a = aParts.find{ it.name == ptName}
 			Part b = bParts.find{ it.name == ptName}
-			diffs.addAll(comparePart(a, b))
+			diffs.addAll(comparePart(a, b, exchange))
 		}
 		diffs
 	}
 
 
-	private List<Difference> comparePart(Part a, Part b) {
+	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
-		Element aElement = a.element
-		Element bElement = b.element
-		if(aElement && b.type)
-			diffs << new Difference(description:"Element ${aElement.name} has changed to type ${b.type}", type:'part', breaks : true)
-		else if(bElement && a.type)
-			diffs << new Difference(description:"Type ${a.type} has changed to element ${bElement.name}", type:'part', breaks : true)
-		else if(aElement?.name != bElement?.name || aElement.namespaceUri != bElement.namespaceUri)
-			diffs << new Difference(description:"Element has changed from ${aElement.name} to ${bElement.name}", type:'part', breaks : true)
-//		/* Then aElement and bElement has the same name and can be compared with each other. */
-//		else if(aElement.type && aElement.type == bElement.type){
-//			def lDiffs = []
-//			/* aT and bT can be CompexTypes or SimpleTypes */
-//			def aT = aElement.schema.getType(aElement.type)
-//			def bT = bElement.schema.getType(bElement.type)
-//			/* aT.compare() choose automaticlly the right object (CT or ST DiffGenerator) */
-//			lDiffs.addAll(aT.compare(new SchemaDiffGenerator(), bT))
-//			if(lDiffs) diffs << new Difference(description:"Element ${aElement.name} has changed: ", type:'element', diffs : lDiffs)
-//		}
-		else
-		diffs.addAll(new ElementDiffGenerator(a:aElement, b:bElement, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
-//			diffs.addAll(aElement.compare(new SchemaDiffGenerator(), bElement))
-		if(diffs) return [new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs)]
+		if(a.element && b.type) {
+			a.element.exchange = b.definitions.schemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type).exchange = exchange
+			diffs << new Difference(description:"Element ${a.element.name} has changed to type ${b.type}.", type:'element2type', breaks : true, exchange:exchange)
+		}
+		else if(b.element && a.type) {
+			a.definitions.schemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type).exchange = b.element.exchange = exchange
+			diffs << new Difference(description:"Type ${a.type} has changed to element ${b.element.name}.", type:'type2element', breaks : true, exchange:exchange)
+		}
+		else if(a.element?.name != b.element?.name) {
+			a.element?.exchange = b.element?.exchange = exchange
+			diffs << new Difference(description:"Element has changed from ${a.element.name} to ${b.element.name}.", type:'element', breaks : true, exchange:exchange)
+		}
+		else if(a.element?.namespaceUri != b.element?.namespaceUri) {
+			a.element?.exchange = b.element?.exchange = exchange
+			diffs << new Difference(description:"Element namespace has changed from ${a.element.namespaceUri} to ${b.element.namespaceUri}.", type:'element', breaks : true, exchange:exchange)
+		}
+		else if(a.element && b.element) {
+			a.element.exchange += exchange
+			b.element.exchange += exchange
+			diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
+		}
+		else if(a.type && b.type) {
+			if(a.type != b.type) diffs << new Difference(description:"Type has changed from ${a.type} to ${b.type}.", type:'type', breaks : true, exchange:exchange)
+			else if(a.type.namespaceURI != Consts.SCHEMA_NS) {
+				def aType = a.definitions.schemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type)
+				def bType = b.definitions.schemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type)
+				diffs.addAll(aType.compare(new SchemaDiffGenerator(compare4WSDL:true), bType))
+			}
+		}
+		if(diffs) return [new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs, exchange:exchange)]
 		[]
 	}
 
@@ -250,40 +253,40 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	 * WsdlDiffGenerator doesn't compare all schema elements but the used one.
 	 * So compareSchema() is not really needed!
 	 */
-	//	private List<Difference> compareSchemas(){
-	//		def aSchemas = a.schemas
-	//		def bSchemas = b.schemas
-	//		def diffs = []
-	//
-	//		def schemas = aSchemas.targetNamespace.intersect(bSchemas.targetNamespace)
-	//		schemas.each{  tns ->
-	//			def aSchema = aSchemas.find{it.targetNamespace == tns}
-	//			def bSchema = bSchemas.find{it.targetNamespace == tns}
-	//			log.debug("comparing schemas with namespace ${aSchema.targetNamespace}.")
-	//			def schemaDiffGenerator = new SchemaDiffGenerator(a:aSchema, b:bSchema)
-	//			def lDiffs = schemaDiffGenerator.compare()
-	//			if(lDiffs) diffs << new Difference(description:"Schema ${tns ? tns+' ' : ''}has changed:" , diffs : lDiffs)
-	//		}
-	//		diffs
-	//	}
+		private List<Difference> compareSchemas(){
+			def aSchemas = a.schemas
+			def bSchemas = b.schemas
+			def diffs = []
+	
+			def schemas = aSchemas.targetNamespace.intersect(bSchemas.targetNamespace)
+			schemas.each{  tns ->
+				def aSchema = aSchemas.find{it.targetNamespace == tns}
+				def bSchema = bSchemas.find{it.targetNamespace == tns}
+				log.debug("comparing schemas with namespace ${aSchema.targetNamespace}.")
+				def schemaDiffGenerator = new SchemaDiffGenerator(a:aSchema, b:bSchema)
+				def lDiffs = schemaDiffGenerator.compare()
+				if(lDiffs) diffs << new Difference(description:"Schema ${tns ? tns+' ' : ''}has changed:" , diffs : lDiffs, type: 'schema')
+			}
+			diffs
+		}
 
 	protected List<Difference> compareDocumentation(a,b){
-		if(a.documentation && !b.documentation) return [
-				new Difference(description:"Documentation removed.", breaks : false, safe : true)
+		if(a?.documentation && !b?.documentation) return [
+				new Difference(description:"Documentation removed.", breaks : false, safe : true, type: 'documentation')
 			]
-		if(!a.documentation && b.documentation) return [
-				new Difference(description:"Documentation added.", breaks : false, safe : true)
+		if(!a?.documentation && b?.documentation) return [
+				new Difference(description:"Documentation added.", breaks : false, safe : true, type: 'documentation')
 			]
-		if(getNormalizedContent(a.documentation?.content) != getNormalizedContent(b.documentation?.content))
+		if(getNormalizedContent(a?.documentation?.content) != getNormalizedContent(b?.documentation?.content))
 			return [
-				new Difference(description:"Documentation has changed.", breaks : false, safe : true)
+				new Difference(description:"Documentation has changed.", breaks : false, safe : true, type: 'documentation')
 			]
 		[]
 	}
 
 	def getNormalizedContent(String content){
 		if(!content) return
-			content.replaceAll("\\s+", " ").trim()
+		content.replaceAll("\\s+", " ").trim()
 	}
 
 	protected def updateLabels(){

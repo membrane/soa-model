@@ -24,9 +24,9 @@ class AnnotationDiffGenerator extends AbstractDiffGenerator{
 	
   List<Difference> compare() {
     def diffs = []
-    if(a && !b) return [new Difference(description:"${labelAnnotation} ${labelRemoved}.", type: 'annotation', breaks: false, safe:false)]
-    if(!a && b) return [new Difference(description:"${labelAnnotation} ${labelAdded}.", type: 'annotation', breaks: false, safe:false)]
-    if(a && b && compareContents()) return [new Difference(description:"${labelContentAnnotation}.", type: 'annotation', breaks: false, safe:false)]
+    if(a && !b) return [new Difference(description:"${labelAnnotation} ${labelRemoved}.", type: 'annotation', safe:true)]
+    if(!a && b) return [new Difference(description:"${labelAnnotation} ${labelAdded}.", type: 'annotation', safe:true)]
+    if(a && b && compareContents()) return [new Difference(description:"${labelContentAnnotation}.", type: 'annotation', safe:true)]
     []
   }
   

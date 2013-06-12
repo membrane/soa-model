@@ -22,9 +22,9 @@ class ElementsDiffGenerator extends ListDiffGenerator{
 
   def generator
 
-  def removed = { new Difference(description:"${labelElement} ${it.name} ${labelRemoved}." , type : 'element', breaks:true) }
+  def removed = { new Difference(description:"${labelElement} ${it.name} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
 
-  def added = { new Difference(description:"${labelElement} ${it.name} ${labelAdded}.", type : 'element')}
+  def added = { new Difference(description:"${labelElement} ${it.name} ${labelAdded}.", type : 'element', exchange: it.exchange)}
   
 
   public ElementsDiffGenerator(){

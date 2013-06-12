@@ -30,36 +30,38 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   def compare(){
     def diffs = compareMixed()
     diffs.addAll(compareDerivation())
-
     diffs
   }
 
   private compareMixed(){
-    if(a.mixed  && !b.mixed) return [new Difference(description:"${labelContentModelElement}", type: 'complexContent', breaks:true)]
-    if(!a.mixed  && b.mixed) return [new Difference(description:"${labelContentModelElementMixed}", type: 'complexContent', breaks:true)]
+    if(a.mixed  && !b.mixed) return [new Difference(description:"${labelContentModelElement}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+    if(!a.mixed  && b.mixed) return [new Difference(description:"${labelContentModelElementMixed}", type: 'complexContent', breaks:true, exchange: a.exchange)]
     []
   }
 
   private compareDerivation(){
     if(a.hasRestriction()  && b.hasExtension()) {
-      return [new Difference(description:"${labelComplexContextChangeExtension}", type: 'complexContent', breaks:true)]
+      return [new Difference(description:"${labelComplexContextChangeExtension}", type: 'complexContent', breaks:true, exchange: a.exchange)]
     }
     if(a.hasExtension() && b.hasRestriction()) {
-      return [new Difference(description:"${labelComplexContextChangeRestriction}", type: 'complexContent', breaks:true)]
+      return [new Difference(description:"${labelComplexContextChangeRestriction}", type: 'complexContent', breaks:true, exchange: a.exchange)]
 		  
     }
-    if(compareModel()){
-      return [new Difference(description:"${labelComplexContextChange}: " , type: 'complexContent', diffs: compareModel())]
+		def lDiffs = compareModel() 
+    if(lDiffs){
+      return [new Difference(description:"${labelComplexContextChange}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
     }
     []
   }
 
   private compareModel(){
     if(a.derivation.model?.class != b.derivation.model?.class){
-      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true)])]
+      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', 
+				diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true, exchange: a.exchange)], exchange: a.exchange)]
     } 
-		if(a.derivation.model?.compare(generator, b.derivation.model)){
-			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: a.derivation.model?.compare(generator, b.derivation.model))]
+		def lDiffs = a.derivation.model?.compare(generator, b.derivation.model)
+		if(lDiffs){
+			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
 		}
 		[]
   }

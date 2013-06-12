@@ -20,7 +20,7 @@ abstract class AbstractSOAPBinding extends AbstractBinding{
   String transport = "http://schemas.xmlsoap.org/soap/http"
 
   protected parseAttributes(token, params){
-    style = token.getAttributeValue(null , 'style')
+    style = token.getAttributeValue(null , 'style') ?: 'document'
     transport = token.getAttributeValue(null , 'transport')
   }
   

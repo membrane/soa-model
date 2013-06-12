@@ -22,7 +22,7 @@ abstract class TypeDefinition extends SchemaComponent {
   List<Attribute> attributes = []
   List<AttributeGroup> attributeGroups = []
   AnyAttribute anyAttribute
-
+	
   protected parseAttributes(token, params){
     name = token.getAttributeValue( null , 'name')
     if (name) {

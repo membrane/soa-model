@@ -29,7 +29,7 @@ class ImportRelativeTest extends GroovyTestCase{
   }
   
   void testParse(){
-    assertTrue('src/test/resources/article/money.xsd' in wsdl.types.allSchemas.includes.flatten())
+    assert 'src/test/resources/article/money.xsd' in wsdl.types.allSchemas.includes.flatten()
 //    wsdl.types.allSchemas.find{it.imports}.imports.each{
 //      print it.schema.baseDir
 //      println it.schemaLocation

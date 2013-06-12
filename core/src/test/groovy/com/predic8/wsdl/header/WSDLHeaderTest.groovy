@@ -41,9 +41,9 @@ class WSDLHeaderTest extends GroovyTestCase {
   }
 
   void testWSDLCreator(){
-    assertTrue(createdWSDL.binding.operation.input.body.@parts.toString().contains('parameters'))
-    assertTrue(createdWSDL.binding.operation.input.header.@part.toString().contains('username'))
-    assertTrue(createdWSDL.binding.operation.input.header.@part.toString().contains('timeout'))
+    assert createdWSDL.binding.operation.input.body.@parts.toString().contains('parameters')
+    assert createdWSDL.binding.operation.input.header.@part.toString().contains('username')
+    assert createdWSDL.binding.operation.input.header.@part.toString().contains('timeout')
   }
 
   void testFormCreator(){
@@ -52,10 +52,10 @@ class WSDLHeaderTest extends GroovyTestCase {
     creator.createRequest('LibraryService', 'addBook', 'LibraryServicePortBinding')
     strWriter = "<div>"+ strWriter + "</div>"
     def request = new XmlSlurper().parseText(strWriter.toString())
-    assertTrue(request.table.tbody.tr.td.input.@name.toString().contains('username'))
-    assertTrue(request.table.tbody.tr.td.input.@name.toString().contains('timeout'))
-    assertTrue(request.div.table.tbody.tr.td.input.@name.toString().contains('title'))
-    assertTrue(request.div.table.tbody.tr.td.input.@name.toString().contains('author'))
+    assert request.table.tbody.tr.td.input.@name.toString().contains('username')
+    assert request.table.tbody.tr.td.input.@name.toString().contains('timeout')
+    assert request.div.table.tbody.tr.td.input.@name.toString().contains('title')
+    assert request.div.table.tbody.tr.td.input.@name.toString().contains('author')
   }
 }
 

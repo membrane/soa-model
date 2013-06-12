@@ -42,8 +42,8 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     def d = getDefinitions()
     d.services[0].ports[0].name = "ProServicePort"
     def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('Port ProjectServicePort removed.'))
-		assertTrue(diffs*.dump().toString().contains('Port ProServicePort added.'))
+		assert diffs*.dump().toString().contains('Port ProjectServicePort removed.')
+		assert diffs*.dump().toString().contains('Port ProServicePort added.')
   }
 
   void testPortType() {
@@ -51,8 +51,8 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     d.portTypes[0].name = "ProjectServicePortType"
     def diffs = compare(orig, d)
     assertEquals(1, diffs.size())
-		assertTrue(diffs*.dump().toString().contains('PortType ProjectServicePT removed.'))
-		assertTrue(diffs*.dump().toString().contains('PortType ProjectServicePortType added.'))
+		assert diffs*.dump().toString().contains('PortType ProjectServicePT removed.')
+		assert diffs*.dump().toString().contains('PortType ProjectServicePortType added.')
   }
 
   void testOperation() {
@@ -60,23 +60,23 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     def operation = new Operation(name:"newOperation")
     d.portTypes[0].operations << operation
     def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('Operation newOperation added.'))
+		assert diffs*.dump().toString().contains('Operation newOperation added.')
     diffs = compare(d, orig)
-    assertTrue(diffs*.dump().toString().contains('Operation newOperation removed.'))
+    assert diffs*.dump().toString().contains('Operation newOperation removed.')
   }
 
   void testPortLocation() {
     def d = getDefinitions()
     d.services[0].ports[0].address.location = "http://newhost.de"
     def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('The location of the port ProjectServicePort changed form http://localhost:${HttpDefaultPort}/ProjectService/ProjectServicePort to http://newhost.de.'))
+		assert diffs*.dump().toString().contains('The location of the port ProjectServicePort changed form http://localhost:${HttpDefaultPort}/ProjectService/ProjectServicePort to http://newhost.de.')
   }
 
   void testMessageName() {
     def d = getDefinitions()
     d.portTypes[0].operations[0].input.name = "NewInputName"
     def diffs = compare(orig, d)
-		assertTrue(diffs*.dump().toString().contains('Input name has changed from input1 to NewInputName.'))
+		assert diffs*.dump().toString().contains('Input name has changed from input1 to NewInputName.')
   }
 
   private def compare(a, b) {

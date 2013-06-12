@@ -24,15 +24,15 @@ class GroupRefDiffGenerator extends UnitDiffGenerator{
 	
   private def labelGroup, labelRemoved, labelAdded, labelChanged, labelHasChanged, labelRef
 	
-  def removed = {new Difference(description:"${labelGroup} ${labelRemoved}.", type: 'group')}
+  def removed = {new Difference(description:"${labelGroup} ${labelRemoved}.", type: 'group', exchange: a.exchange)}
 
-  def added = {new Difference(description:"${labelGroup} ${labelAdded}.", type: 'group')}
+  def added = {new Difference(description:"${labelGroup} ${labelAdded}.", type: 'group', exchange: b.exchange)}
 
-  def changed = {new Difference(description:"${labelGroup} ${labelChanged}.", type: 'group')}
+  def changed = {new Difference(description:"${labelGroup} ${labelChanged}.", type: 'group', exchange: a.exchange)}
 
   List<Difference> compareUnit(){
     if(a.ref == b.ref) return []
-    [new Difference(description:"${labelRef} {labelGroup} ${labelHasChanged}:" , type: 'group')]
+    [new Difference(description:"${labelRef} {labelGroup} ${labelHasChanged}:" , type: 'group', exchange: a.exchange)]
   }
   
   protected def updateLabels(){

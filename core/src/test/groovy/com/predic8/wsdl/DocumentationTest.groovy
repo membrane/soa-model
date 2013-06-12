@@ -39,8 +39,8 @@ class DocumentationTest extends GroovyTestCase {
   }
   
   void testDocumentationInDefinitions() {
-    assertTrue(createdWSDL.documentation.toString().contains('This documentation contains mixed content.'))
-    assertTrue(createdWSDL.documentation.test.toString().contains('mixed'))
+    assert createdWSDL.documentation.toString().contains('This documentation contains mixed content.')
+    assert createdWSDL.documentation.test.toString().contains('mixed')
   }
   
   void testDocumentationInTypes() {

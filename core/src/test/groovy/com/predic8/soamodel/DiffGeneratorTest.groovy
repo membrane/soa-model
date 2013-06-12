@@ -38,7 +38,7 @@ class DiffGeneratorTest extends GroovyTestCase {
     def diffGen = new SchemaDiffGenerator()
     def msgs = diffGen.doCompare(comTypesA, comTypesB, {"${it.qname} removed"}, {"${it.qname} added"}, {it.qname})
     assertEquals(2, msgs.size())
-    assertTrue(msgs*.toString().contains('{urn}b removed'))
-    assertTrue(msgs*.toString().contains('{urn}c added'))
+    assert msgs*.toString().contains('{urn}b removed')
+    assert msgs*.toString().contains('{urn}c added')
   }
 }

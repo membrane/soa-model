@@ -122,14 +122,6 @@ class Definitions extends WSDLElement{
     (getImportedWSDL(name.namespaceURI)).bindings.flatten().find { it.name == name.localPart }
   }
   
-  /**
-   * Use getSOAP11Binding instead
-   */
-  @Deprecated
-  def getSoapBinding(name) {
-    getSoap11Binding(name)
-  }
-  
   def getSoap11Binding(name) {
     bindings.binding.find { it instanceof SOAP11Binding && it.name == name }
   }
@@ -151,8 +143,9 @@ class Definitions extends WSDLElement{
 		def styles, usages = []
 		String style, usage
 		
-		styles  = ((bindings.binding).grep(AbstractSOAPBinding))*.style
-		usages  = bindings*.operations.input.bindingElements.use.unique().flatten()
+		List<Binding> sBindings = bindings.findAll{it.binding instanceof AbstractSOAPBinding}  
+		styles  = sBindings.binding*.style
+		usages  = sBindings*.operations.input.bindingElements.use.unique().flatten()
 		
 		if(styles.unique().size() > 1)  style = 'Mixed'
 		else style = styles[0].capitalize() ?: 'Unknown'
@@ -162,21 +155,27 @@ class Definitions extends WSDLElement{
 		
 		if("$style/$usage" != 'Document/Literal') return "$style/$usage"
 		String result = "Document/Literal-Wrapped"
-		bindings.each { bnd ->
+		sBindings.each { bnd ->
 			bnd.operations.each {op ->
 				def inputParts = bnd.portType.getOperation(op.name).input.message.parts
 				//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
 				if(inputParts?.size() > 1) result = "Document/Literal"
-				inputParts.each { inPart->  
-					//Rule 2: "Part" Definitions are wrapper elements
-					if(inPart.type && !inPart.element) result = "Document/Literal"
+				inputParts.each { inPart->
+					//Rule 2: "Part" Definitions should use element and not type
+					if(inPart.type && !inPart.element) {
+						result = "Document/Literal (Invalid! The input message of operation ${op.name} uses a part with type instead of element.)"
+						return
+					}
 					//Rule 3: Input Wrapper Element name should match with Operation name 
 					if(inPart.element.name  != op.name) result = "Document/Literal"
 				}
 				def outputParts = bnd.portType.getOperation(op.name).output.message.parts
 				outputParts.each { outPart->
 					//Rule 2: "Part" Definitions are wrapper elements
-					if(outPart.type && !outPart.element) result = "Document/Literal"
+					if(outPart.type && !outPart.element) {
+						result = "Document/Literal ((Invalid! The outputmessage of operation ${op.name} uses a part with type instead of element.)" 
+						return
+					}
 					//Rule 4: <Output Wrapper Element Name> = <Operation Name> + "Response" 
 					if(outPart.element.name  != "${op.name}Response") result = "Document/Literal"
 				}

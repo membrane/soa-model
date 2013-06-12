@@ -24,9 +24,9 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
 	
   private def labelSimpleType, labelRemoved, labelAdded, labelHasChanged, labelList
 	
-  def removed = {new Difference(description:"${labelSimpleType} ${a?.name} ${labelRemoved}.", type: 'simpleType', breaks: true, safe:false)}
-  def added = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelAdded}.", type: 'simpleType', breaks: true, safe:false)}
-  def changed = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit())}
+  def removed = {new Difference(description:"${labelSimpleType} ${a?.name} ${labelRemoved}.", type: 'simpleType', breaks: true, safe:false, exchange: a.exchange)}
+  def added = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelAdded}.", type: 'simpleType', breaks: true, safe:false, exchange: b.exchange)}
+  def changed = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit(), exchange: a.exchange)}
 
   List<Difference> compareUnit(){
     def lDiffs = []
@@ -35,7 +35,7 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
       lDiffs.addAll(a.restriction.compare(generator, b.restriction))
     }
     if(a.list?.itemType != b.list?.itemType) {
-      lDiffs.add(new Difference(description:"${labelList} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit()))
+      lDiffs.add(new Difference(description:"${labelList} ${labelHasChanged}.", type: 'simpleType', diffs:compareUnit(), exchange: a.exchange))
     }
     // Union is not handled yet.
     lDiffs

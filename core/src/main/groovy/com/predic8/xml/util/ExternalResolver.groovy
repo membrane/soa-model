@@ -108,7 +108,7 @@ class ExternalResolver extends ResourceResolver {
 		new StringReader(resolveAsString(uri.toString()))
 	}
 
-	public resolveAsString(url) {
+	private resolveAsString(url) {
 		try{
 			HttpResponse con = request(url)
 			EntityUtils.toString(con.entity)

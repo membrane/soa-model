@@ -24,12 +24,12 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
 
 	private def labelModelGroupChange, labelHasChanged, labelTo, labelRemoved, labelAdded, labelComplexType
   
-  def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: true, safe:false)}
+  def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: true, safe:false, exchange: a.exchange)}
 
-  def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: true, safe:false, exchange: b.exchange)}
 
   def changed = { diffs ->
-    new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''} ${labelHasChanged}:" , type: 'complexType' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''} ${labelHasChanged}:" , type: 'complexType' ,  diffs : diffs, exchange: a.exchange)
   }
 
   List<Difference> compareUnit(){
@@ -39,19 +39,18 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   }
   
   private compareModel(){
-    def aType = a
-    def bType = b
-    def lDiffs
-    if(aType.model?.class != bType.model?.class){
-      lDiffs = new Difference(description:"${labelModelGroupChange} ${aType.model?.class} ${labelTo} ${bType.model?.class}." , type: 'model', breaks:true)
-    } else {
-      lDiffs = aType.model?.compare(generator, bType.model ) ?: []
+    def lDiffs = []
+    if(a.model?.class != b.model?.class){
+      lDiffs << new Difference(description:"${labelModelGroupChange} ${a.model?.class?.simpleName} ${labelTo} ${b.model?.class?.simpleName}." , type: 'model', breaks:true, exchange: a.exchange)
+    } else if(a.model) {
+			a.model.exchange.addAll(a.exchange)
+			b.model?.exchange?.addAll(b.exchange)
+      lDiffs.addAll(a.model.compare(generator, b.model ))
     }
     
-    lDiffs.addAll(generator.compareAttributes(aType, bType))
-//    compareAttributeGroups not implemented yet!
-//    lDiffs.addAll(generator.compareAttributeGroups(aType, bType))
-    lDiffs.addAll(generator.compareAnnotation(aType.annotation, bType.annotation))
+    lDiffs.addAll(generator.compareAttributes(a, b))
+		//TODO  compareAttributeGroups not implemented yet!
+//    lDiffs.addAll(generator.compareAttributeGroups(a, b))
     lDiffs
   }
   

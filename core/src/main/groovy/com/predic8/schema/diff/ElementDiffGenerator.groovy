@@ -32,12 +32,12 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   def labelElementRemoved, labelElementAdded, labelElement,  labelHasChanged, labelTypeElement, labelTo,
   	  labelEmbeddedStandAlone, labelEmbedded, labelAttributeMinOccurs, labelAttributeMaxOccurs, labelFrom
   
-  def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: true, safe:false)}
+  def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: true, safe:false, exchange: a.exchange)}
 
-  def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false)}
+  def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false, exchange: b.exchange)}
 
   def changed = { diffs ->
-    new Difference(description:"${labelElement} ${a.name} ${labelHasChanged}:" , type: 'element' ,  diffs : diffs, a: a, b:b)
+    new Difference(description:"${labelElement} ${a.name} ${labelHasChanged}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
   }
 
   protected getTypeAndName() {
@@ -56,9 +56,9 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   
   protected List<Difference> compareType(){
     if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
-    if(a.embeddedType && b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', safe: false)]
-    if(a.type && b.embeddedType) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false)]
-    if(a.type != b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} ${labelTo} ${a.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true)]
+    if(a.embeddedType && b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', safe: false, exchange: a.exchange)]
+    if(a.type && b.embeddedType) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false, exchange: a.exchange)]
+    if(a.type != b.type) return [new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} ${labelTo} ${b.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true, exchange: a.exchange)]
     []
   }
 
@@ -74,6 +74,8 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   }
 
   private List<Difference> compareEmbeddedType() {
+		a.embeddedType?.exchange.addAll(a.exchange)
+		b.embeddedType?.exchange.addAll(b.exchange)
     a.embeddedType?.compare(generator, b.embeddedType) ?: []
   }
 	
@@ -81,7 +83,9 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 		def diffs = []
 		def aT = a.schema.getType(a.type)
 		def bT = b.schema.getType(b.type)
-		if(aT && a.type == b.type){
+		if(aT && bT &&a.type == b.type){
+			aT?.exchange.addAll(a.exchange)
+			bT?.exchange.addAll(b.exchange)
 			diffs.addAll(aT.compare(generator, bT))
 		}
 		diffs

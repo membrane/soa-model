@@ -51,7 +51,7 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('removed'))
+    assert diffs.diffs.description.toString().contains('removed')
   }
 
   void testElementAdded(){
@@ -59,7 +59,7 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('added'))
+    assert diffs.diffs.description.toString().contains('added')
   }
 
   void testSequenceAdded(){
@@ -67,7 +67,7 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('added'))
+    assert diffs.diffs.description.toString().contains('added')
   }
 
   void testSequenceRemoved(){
@@ -75,7 +75,7 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assertTrue(diffs.diffs.description.toString().contains('removed'))
+    assert diffs.diffs.description.toString().contains('removed')
   }
 
 }
