@@ -83,14 +83,14 @@ class WSDLAnalyzer{
 							tr{
 								th("URL")
 								th("TargetNamespace")
-								th("Style")
+//								th("Style")
 							}
 						}
 						tbody{
 							tr{
 								td{span(url)}
 								td{span(wsdl.targetNamespace)}
-								td{span(wsdl.style)}
+//								td{span(wsdl.style)}
 							}
 						}
 					}

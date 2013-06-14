@@ -26,7 +26,6 @@ public class FullWSDLParser {
 
 		out("-------------- WSDL Details --------------");
 		out("TargenNamespace: \t" + defs.getTargetNamespace());
-		out("Style: \t\t\t" + defs.getStyle());
 		if (defs.getDocumentation() != null) {
 			out("Documentation: \t\t" + defs.getDocumentation());
 		}
@@ -84,7 +83,7 @@ public class FullWSDLParser {
 			out("  Binding Name: " + bnd.getName());
 			out("  Binding Type: " + bnd.getPortType().getName());
 			out("  Binding Protocol: " + bnd.getBinding().getProtocol());
-			if(bnd.getBinding() instanceof AbstractSOAPBinding) out("  Style: " + (((AbstractSOAPBinding)bnd.getBinding()).getStyle()));
+			out("  Binding Style: " + bnd.getStyle());
 			out("  Binding Operations: ");
 			for (BindingOperation bop : bnd.getOperations()) {
 				out("    Operation Name: " + bop.getName());
