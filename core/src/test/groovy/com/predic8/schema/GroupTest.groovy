@@ -30,7 +30,7 @@ class GroupTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/group.xsd")
+    schema = parser.parse("/group.xsd")
   }
 
   void testTopLevelGroup(){

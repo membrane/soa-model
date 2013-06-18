@@ -14,32 +14,43 @@
 
 package com.predic8.schema
 
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.HashMap;
 import com.predic8.soamodel.*
 
 class SchemaParser extends AbstractParser{
   
-  Schema parse(String input){
-    parse(input: input, baseDir:'');
-  }
+	Schema parse(String input){
+		super.parse(new SchemaParserContext(input: input))
+	}
+	
+	Schema parse(InputStream input){
+		super.parse(new SchemaParserContext(input: input))
+	}
+	
+	Schema parse(Reader input){
+		super.parse(new SchemaParserContext(input: input))
+	}
+	
+	Schema parse(SchemaParserContext input){
+		super.parse(input)
+	}
   
-  Schema parse(params){
-    super.parse(params)
-  }
-  
-  def parseLocal(token, params){
-    params.importedSchemas = params.importedSchemas ?: [:]
+  def parseLocal(token, ctx){
+    ctx.importedSchemas = ctx.importedSchemas ?: [:]
     def schema
     while(token.hasNext()){
       if (token.startElement) {
         def qname = token.name
         if(qname.getLocalPart() == 'schema') {
-          schema = new Schema(baseDir : params.newBaseDir ?: '', resourceResolver: params.resourceResolver)
-          schema.parse(token, params)
+          schema = new Schema(baseDir : ctx.newBaseDir ?: '', resourceResolver: ctx.resourceResolver)
+          schema.parse(token, ctx)
         }
       }
       if(token.hasNext()) token.next()
     }
-		if(!schema) throw new RuntimeException("The parsed document ${params.input} is not a valid schema document.")
+		if(!schema) throw new RuntimeException("The parsed document ${ctx.input} is not a valid schema document.")
     schema
   }
   

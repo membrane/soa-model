@@ -24,15 +24,15 @@ class Policy extends XMLElement{
   All all
   ExactlyOne eOne
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name ){
       case All.ELEMENTNAME:
       all = new All()
-      all.parse(token, params) ; break
+      all.parse(token, ctx) ; break
       case ExactlyOne.ELEMENTNAME:
       eOne = new ExactlyOne()
-      eOne.parse(token, params) ; break
+      eOne.parse(token, ctx) ; break
     }
   }
 

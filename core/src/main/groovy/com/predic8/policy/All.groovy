@@ -25,7 +25,7 @@ class All extends XMLElement{
     ELEMENTNAME
   }
 
-  def parse(token, params){
+  def parse(token, ctx){
     //println "all parse method!"
   }
 }

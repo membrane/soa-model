@@ -25,7 +25,7 @@ class ExactlyOne extends XMLElement{
     ELEMENTNAME
   }
 
-  def parse(token, params){
+  def parse(token, ctx){
 //    println "one parse method!"
   }
 }

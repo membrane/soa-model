@@ -29,7 +29,7 @@ class NumberRestrictionTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/number-restriction.xsd")
+    schema = parser.parse("/number-restriction.xsd")
   }
   
   void testRestrictions() {

@@ -29,13 +29,13 @@ class CyclingElementsSchemaTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/cycling-elements.xsd")
+    schema = parser.parse("/schema/cycling-elements.xsd")
   }
 
   void testRequestTemplateCreator() {
     def strWriter = new StringWriter()
     def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
-    schema.getElement('area').create(creator, new RequestTemplateCreatorContext())
+    schema.getElement('area').create(creator, new RequestTemplateCreatorContext(maxRecursionDepth:3))
     def req = new XmlSlurper().parseText(strWriter.toString())
     assertEquals('?XXX?', req.country.toString())
     assertEquals('?XXX?', req.area.country.toString())

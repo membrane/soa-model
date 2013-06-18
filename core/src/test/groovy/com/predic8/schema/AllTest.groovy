@@ -30,7 +30,7 @@ class AllTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/all/all.xsd")
+    schema = parser.parse("/schema/all/all.xsd")
   }
 
   void testTopLevelAll(){

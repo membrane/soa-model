@@ -28,7 +28,7 @@ class OtaTest extends GroovyTestCase {
   
   void setUp() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse(new WSDLParserContext(input:"/hotel.wsdl"))
+    definitions = parser.parse("/hotel.wsdl")
     def strWriter = new StringWriter()
     def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
     creator.createDefinitions(definitions, new WSDLCreatorContext())

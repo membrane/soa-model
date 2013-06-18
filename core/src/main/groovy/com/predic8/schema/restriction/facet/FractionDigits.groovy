@@ -18,9 +18,10 @@ import com.predic8.soamodel.CreatorContext
 
 class FractionDigits extends Facet {
   
-  protected parseAttributes(token, params){
-	value = token.getAttributeValue( null, 'value') as BigDecimal
+  protected parseAttributes(token, ctx){
+		value = token.getAttributeValue( null, 'value') as BigDecimal
   }
+	
   def create(creator, CreatorContext ctx){
     creator.createFractionDigits(this, ctx)
   }

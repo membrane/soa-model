@@ -31,7 +31,7 @@ class AllDiffGeneratorTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/choice/choice-diff.xsd")
+    schema = parser.parse("/schema/choice/choice-diff.xsd")
     a = schema.getType('contactA').model
     b = schema.getType('contactB').model
     c = schema.getType('contactC').model

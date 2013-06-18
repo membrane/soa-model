@@ -19,9 +19,9 @@ import com.predic8.wsi.*
 
 class WSPParser extends AbstractParser{
 
-  def parseLocal(token, params){
+  def parseLocal(token, ctx){
 //    def encoding = token.getCharacterEncodingScheme()
-//    if( !encoding || (encoding != 'UTF-8' && encoding != 'UTF-16')) params.wsiResults << new WSIResult(rule : 'R4003')
+//    if( !encoding || (encoding != 'UTF-8' && encoding != 'UTF-16')) ctx.wsiResults << new WSIResult(rule : 'R4003')
     def policy
     while(token.hasNext()) {
       if (token.startElement) {

@@ -36,7 +36,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void setUp() {
         def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-        schema = parser.parse(input:"/schema/any/any-diff.xsd")
+        schema = parser.parse("/schema/any/any-diff.xsd")
         seqA = schema.getType('NameTagA').model
         seqB = schema.getType('NameTagB').model
         seqC = schema.getType('NameTagC').model

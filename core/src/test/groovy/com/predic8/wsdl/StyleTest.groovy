@@ -13,11 +13,11 @@ class StyleTest extends GroovyTestCase {
 	void setUp() {
 		
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    wsdl1 = parser.parse(new WSDLParserContext(input:"/hotel.wsdl"))
-    wsdl2 = parser.parse(new WSDLParserContext(input:"/RPCStyle.wsdl"))
-    wsdl3 = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
-    wsdl4 = parser.parse(new WSDLParserContext(input:"/diff/part-with-type/original.wsdl"))
-    wsdl5 = parser.parse(new WSDLParserContext(input:"/diff/part-with-type/modified.wsdl"))
+    wsdl1 = parser.parse("/hotel.wsdl")
+    wsdl2 = parser.parse("/RPCStyle.wsdl")
+    wsdl3 = parser.parse("/BLZService.wsdl")
+    wsdl4 = parser.parse("/diff/part-with-type/original.wsdl")
+    wsdl5 = parser.parse("/diff/part-with-type/modified.wsdl")
 	}
 	
 	void testDefinitionsStyle() {

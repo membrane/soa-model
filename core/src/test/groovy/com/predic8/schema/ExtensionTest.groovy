@@ -26,7 +26,7 @@ class ExtensionTest extends GroovyTestCase{
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/ExtensionTest.xsd")
+    schema = parser.parse("/schema/ExtensionTest.xsd")
   }
   
   void testParsing() {

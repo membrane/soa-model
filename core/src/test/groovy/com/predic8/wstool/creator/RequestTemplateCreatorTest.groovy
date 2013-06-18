@@ -46,6 +46,6 @@ class RequestTemplateCreatorTest extends GroovyTestCase {
 
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
+    definitions = parser.parse("/BLZService.wsdl")
   }
 }

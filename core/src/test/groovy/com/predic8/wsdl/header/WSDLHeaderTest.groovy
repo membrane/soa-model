@@ -28,7 +28,7 @@ class WSDLHeaderTest extends GroovyTestCase {
 
   void setUp(){
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    wsdl = parser.parse(new WSDLParserContext(input:"/header/LibraryServiceService.wsdl"))
+    wsdl = parser.parse("/header/LibraryServiceService.wsdl")
     def strWriter = new StringWriter()
     def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
     creator.createDefinitions(wsdl, new WSDLCreatorContext())

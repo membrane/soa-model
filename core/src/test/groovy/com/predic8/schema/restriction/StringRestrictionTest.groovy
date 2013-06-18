@@ -31,7 +31,7 @@ class StringRestrictionTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/string-restriction.xsd")
+    schema = parser.parse("/string-restriction.xsd")
   }
   
   void testSchemaCreator() {

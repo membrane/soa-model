@@ -26,8 +26,8 @@ class AnnotationTest extends GroovyTestCase {
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema1 = parser.parse(input:"/annotation_1.xsd")
-    schema2 = parser.parse(input:"/annotation_2.xsd")
+    schema1 = parser.parse("/annotation_1.xsd")
+    schema2 = parser.parse("/annotation_2.xsd")
   }
 
   void testParseAnnotation() {

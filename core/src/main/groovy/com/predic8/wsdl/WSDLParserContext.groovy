@@ -14,16 +14,9 @@
 
 package com.predic8.wsdl
 
-class WSDLParserContext {
+import com.predic8.soamodel.AbstractParserContext;
 
-  def input
-  def resourceResolver
-  def baseDir
-  def newBaseDir
-  def parent
-  def targetNamespace
-  def importedSchemas
-  def token
-  def wsiResults = []
+class WSDLParserContext extends AbstractParserContext{
+
 }
 

@@ -31,10 +31,10 @@ class RestrictionTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/restriction.xsd")
+    schema = parser.parse("/restriction.xsd")
     
     parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema2 = parser.parse(input:"/restriction-baserewriting.xsd")
+    schema2 = parser.parse("/restriction-baserewriting.xsd")
   }
   
   void testRestrictions() {

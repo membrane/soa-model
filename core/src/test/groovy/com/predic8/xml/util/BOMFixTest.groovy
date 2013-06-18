@@ -24,7 +24,7 @@ class BOMFixTest extends GroovyTestCase {
   
   void testClasspathResolver() {
 		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    def schema = parser.parse(input:"/aWithBom.xsd")
+    def schema = parser.parse("/aWithBom.xsd")
 		def strWriter = new StringWriter()
 		def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
 		schema.create(creator, new SchemaCreatorContext())

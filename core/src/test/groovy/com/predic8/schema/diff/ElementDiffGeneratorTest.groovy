@@ -25,7 +25,7 @@ class ElementDiffGeneratorTest  extends GroovyTestCase{
 
 	void setUp() {
 		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-		schema = parser.parse(input:"/schema/element/element-diff.xsd")
+		schema = parser.parse("/schema/element/element-diff.xsd")
 		a = schema.getElement('Contact1')
 		b = schema.getElement('Contact2')
 	}

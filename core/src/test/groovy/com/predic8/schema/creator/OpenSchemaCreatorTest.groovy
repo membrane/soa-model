@@ -29,14 +29,14 @@ class OpenSchemaCreatorTest extends GroovyTestCase{
     
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ExternalResolver())
-//    schema = parser.parse(input:"C:/temp/test.xsd")
+//    schema = parser.parse("C:/temp/test.xsd")
   }
     
   void testCreatorOutput() {
 //    def strWriter = new StringWriter()
 //    schema.create(new SchemaCreator(builder : new MarkupBuilder(strWriter)), new SchemaCreatorContext())
 //    def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-//    schema = parser.parse(input:new StringReader(strWriter.toString()))
+//    schema = parser.parse(new StringReader(strWriter.toString()))
 //    println strWriter
   }
 }

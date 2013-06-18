@@ -28,7 +28,7 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
   
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    parser.parse(input:"/project-service.wsdl")
+    parser.parse("/project-service.wsdl")
   }
   
   void testServiceName() {

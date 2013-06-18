@@ -24,12 +24,12 @@ class PolicyReference extends XMLElement{
   String uri
   String Digest
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     uri = token.getAttributeValue(null , 'URI')
     digest = token.getAttributeValue(null , 'Digest')
   }
 
-  def parse(token, params){
+  def parse(token, ctx){
 //    println "PolicyReference parse method!"
   }
 

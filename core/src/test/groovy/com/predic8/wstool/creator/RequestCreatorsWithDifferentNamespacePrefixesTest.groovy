@@ -55,6 +55,6 @@ class RequestCreatorsWithDifferentNamespacePrefixesTest extends GroovyTestCase{
   
   private def getDefinitions(input) {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    parser.parse(new WSDLParserContext(input:input))
+    parser.parse(input)
   }
 }

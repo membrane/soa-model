@@ -26,7 +26,7 @@ class FormCreatorOnSchemaTest extends GroovyTestCase{
   
   public void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/formCreator/schema1.xsd")
+    schema = parser.parse("/formCreator/schema1.xsd")
   }
   
 //@TODO: write a better test that make sense!  

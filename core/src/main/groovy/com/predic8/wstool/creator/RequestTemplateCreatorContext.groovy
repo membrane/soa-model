@@ -22,7 +22,7 @@ class RequestTemplateCreatorContext extends SchemaCreatorContext implements Clon
   def path = ''
   def element
   def elements = []
-  int maxRecursionDepth = 3
+  int maxRecursionDepth = 2
   
   public Object clone() {
     new RequestTemplateCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId, path:path, element: element, elements : elements.clone(), maxRecursionDepth: maxRecursionDepth)

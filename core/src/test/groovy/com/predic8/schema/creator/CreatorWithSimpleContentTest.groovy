@@ -24,7 +24,7 @@ class CreatorWithSimpleContentTest extends GroovyTestCase {
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/simplecontent/attributeWithSimpleType.xsd")
+    schema = parser.parse("/schema/simplecontent/attributeWithSimpleType.xsd")
   }
 
   void testCreatorOutput() {
@@ -32,7 +32,7 @@ class CreatorWithSimpleContentTest extends GroovyTestCase {
     def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
     schema.create(creator, new SchemaCreatorContext())
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    //schema = parser.parse(input:new StringReader(strWriter.toString()))
+    //schema = parser.parse(new StringReader(strWriter.toString()))
   }
 	
 }

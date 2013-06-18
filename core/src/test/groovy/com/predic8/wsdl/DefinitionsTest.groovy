@@ -22,7 +22,7 @@ class DefinitionsTest extends GroovyTestCase {
 
   void setUp(){
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    wsdl = parser.parse(new WSDLParserContext(input:"/BLZService.wsdl"))
+    wsdl = parser.parse("/BLZService.wsdl")
   }
   
   void testSOAP11Bindings() {

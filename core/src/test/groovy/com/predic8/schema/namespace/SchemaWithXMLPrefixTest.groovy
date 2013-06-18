@@ -30,7 +30,7 @@ class SchemaWithXMLPrefixTest extends GroovyTestCase{
     
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/namespaces.xsd")
+    schema = parser.parse("/namespaces.xsd")
   }
     
   void testCreatorOutput() {
@@ -40,7 +40,7 @@ class SchemaWithXMLPrefixTest extends GroovyTestCase{
     assertEquals('base', schema.attributeGroups[0].attributes[0].ref.localPart)
     assertEquals('http://www.w3.org/XML/1998/namespace', schema.attributeGroups[0].attributes[0].ref.namespaceURI)
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:new StringReader(strWriter.toString()))
+    schema = parser.parse(new StringReader(strWriter.toString()))
 //    println strWriter
   }
 }

@@ -18,7 +18,7 @@ abstract class Facet extends SchemaComponent{
 
 	String value
 
-	protected parseAttributes(token, params){
+	protected parseAttributes(token, ctx){
 		value = token.getAttributeValue( null, 'value')
 	}
 	

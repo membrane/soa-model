@@ -33,7 +33,7 @@ class AttributeDiffGeneratorTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/attribute/attr-diff.xsd")
+    schema = parser.parse("/schema/attribute/attr-diff.xsd")
     a = schema.getType('contactA').attributes
     b = schema.getType('contactB').attributes
     c = schema.getType('contactC').attributes

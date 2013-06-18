@@ -23,7 +23,7 @@ class SOAPBodyTest extends GroovyTestCase{
 
   void setUp(){
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    wsdl = parser.parse(new WSDLParserContext(input:"/RPCLiteralSample.wsdl"))
+    wsdl = parser.parse("/RPCLiteralSample.wsdl")
   }
 
   void testGetMessage(){

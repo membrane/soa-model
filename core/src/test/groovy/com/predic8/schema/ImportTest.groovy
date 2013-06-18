@@ -25,7 +25,7 @@ class ImportTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/basedir-a.xsd")
+    schema = parser.parse("/basedir-a.xsd")
   }
   
   void testBaseDir() {

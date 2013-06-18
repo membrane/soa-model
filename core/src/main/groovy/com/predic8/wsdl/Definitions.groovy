@@ -102,7 +102,6 @@ class Definitions extends WSDLElement{
   }
   
 	Element getElement(GQName qname) {
-		def lst =allTypes.allSchemas
 		allTypes.allSchemas.flatten()*.getElement(qname).flatten()[0]
 	}
   
@@ -134,36 +133,36 @@ class Definitions extends WSDLElement{
     bindings.binding.find { it instanceof HTTPBinding && it.name == name }
   }
   
-  protected parseAttributes(token, params){
-    targetNamespace = params.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
+  protected parseAttributes(token, ctx){
+    targetNamespace = ctx.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
     name = token.getAttributeValue( null , 'name')
   }
 	
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name) {
       case Import.ELEMENTNAME :
         def imp = new Import(definitions : this)
-        imp.parse(token, params)
+        imp.parse(token, ctx)
           imports << imp ; break
       case Types.ELEMENTNAME :
         types = new Types(definitions : this)
-          types.parse(token, params) ; break
+          types.parse(token, ctx) ; break
       case Message.ELEMENTNAME :
         def message = new Message(definitions: this)
-        message.parse(token, params)
+        message.parse(token, ctx)
           messages << message ; break
       case PortType.ELEMENTNAME:
         def portType = new PortType(definitions:this)
-        portType.parse(token, params)
+        portType.parse(token, ctx)
           portTypes << portType ; break
       case Binding.ELEMENTNAME :
         def binding = new Binding(definitions: this)
-        binding.parse(token, params)
+        binding.parse(token, ctx)
           bindings << binding; break
       case Service.ELEMENTNAME :
         def service = new Service(definitions : this)
-        service.parse(token, params)
+        service.parse(token, ctx)
           services << service; break
     }
   }

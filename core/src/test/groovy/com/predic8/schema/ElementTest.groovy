@@ -28,7 +28,7 @@ class ElementTest extends GroovyTestCase{
    
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/ElementTest.xsd")
+    schema = parser.parse("/schema/ElementTest.xsd")
   }
   
   void testElement() {
@@ -74,7 +74,7 @@ class ElementTest extends GroovyTestCase{
 		def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
 		schema.create(creator, new SchemaCreatorContext())
 		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-		def createdSchema = parser.parse(input:new StringReader(strWriter.toString()))
+		def createdSchema = parser.parse(new StringReader(strWriter.toString()))
 		assertEquals('This is the default value!', createdSchema.getElement('elementWithDefault').defaultValue)
 		assertEquals('This value is fixed and can not be changed!', createdSchema.getElement('elementWithFixed').fixedValue)
 	}

@@ -27,7 +27,7 @@ class AttributeWithSimpeTypeTest extends GroovyTestCase {
 
   void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/simplecontent/attributeWithSimpleType.xsd")
+    schema = parser.parse("/schema/simplecontent/attributeWithSimpleType.xsd")
 	def strWriter = new StringWriter()
 	def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
 	schema.create(creator, new SchemaCreatorContext())

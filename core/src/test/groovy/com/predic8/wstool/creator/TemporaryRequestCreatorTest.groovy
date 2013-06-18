@@ -28,7 +28,7 @@ class TemporaryRequestCreatorTestTest extends GroovyTestCase{
 
   public void setUp(){
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    wsdl = parser.parse(input:"article/article.wsdl")
+    wsdl = parser.parse("article/article.wsdl")
   }
   
   void testCreatRequest() {

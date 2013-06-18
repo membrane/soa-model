@@ -25,7 +25,7 @@ class SimpleContentTest extends GroovyTestCase {
   
   void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/simplecontent/attributeWithSimpleType.xsd")
+    schema = parser.parse("/schema/simplecontent/attributeWithSimpleType.xsd")
     element = schema.getElement('shoeSize')
   }
   

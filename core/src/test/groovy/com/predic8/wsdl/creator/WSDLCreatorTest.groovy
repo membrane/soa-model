@@ -33,7 +33,7 @@ class WSDLCreatorTest extends GroovyTestCase{
   
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse(new WSDLParserContext(input:"article/article.wsdl"))
+    definitions = parser.parse("article/article.wsdl")
   }
   
   void testTNS(){

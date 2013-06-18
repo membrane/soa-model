@@ -25,7 +25,7 @@ class CyclicImportTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/a.xsd")
+    schema = parser.parse("/a.xsd")
   }
   
   void testFromAtoB() {

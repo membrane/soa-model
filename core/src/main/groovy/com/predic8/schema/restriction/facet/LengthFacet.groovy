@@ -18,7 +18,7 @@ import com.predic8.soamodel.CreatorContext
 
 class LengthFacet extends Facet{
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
 	value = token.getAttributeValue( null, 'value').toInteger()
   }
 	

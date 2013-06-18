@@ -25,22 +25,12 @@ class ImportRelativeTest extends GroovyTestCase{
   
   void setUp(){
     def parser = new WSDLParser()
-    wsdl = parser.parse(new WSDLParserContext(input:"src/test/resources/article/article.wsdl"))
+    wsdl = parser.parse("src/test/resources/article/article.wsdl")
   }
   
   void testParse(){
     assert 'src/test/resources/article/money.xsd' in wsdl.types.allSchemas.includes.flatten()
-//    wsdl.types.allSchemas.find{it.imports}.imports.each{
-//      print it.schema.baseDir
-//      println it.schemaLocation
-//    }
   }
   
-  void testCreator(){
-//    def strWriter = new StringWriter()
-//    def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
-//    creator.createDefinitions(wsdl, new WSDLCreatorContext())
-//    println strWriter
-  }
 }
 

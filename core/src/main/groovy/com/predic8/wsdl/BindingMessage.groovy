@@ -14,6 +14,8 @@
 
 package com.predic8.wsdl;
 
+import org.omg.CORBA.CTX_RESTRICT_SCOPE;
+
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap11.SOAPFault as SOAP11Fault
@@ -28,12 +30,12 @@ abstract class BindingMessage extends WSDLElement{
   BindingOperation bindingOperation
   List<BindingElement> bindingElements = []
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     def be
     switch (token.name){
       case SOAP11Header.ELEMENTNAME :
@@ -47,7 +49,7 @@ abstract class BindingMessage extends WSDLElement{
       case SOAP12Fault.ELEMENTNAME :
       be = new SOAP12Fault(definitions : definitions, parent : this); break
     }
-    be?.parse(token, params)
+    be?.parse(token, ctx)
     if(be) bindingElements << be
   }
   
@@ -92,7 +94,11 @@ abstract class BindingMessage extends WSDLElement{
   }
   
   protected Message getMessage(){
-    definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
+		try {
+			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
+    } catch (Exception e) {
+	    throw new RuntimeException("Can not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
+    }
   }
   
   def create(creator, ctx) {

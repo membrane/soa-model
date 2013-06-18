@@ -140,12 +140,12 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 		prefix
 	}
   
-  protected buildElement(params, ctx) {
-    if ( !params.attrs ) params.attrs = [:]
-    if ( !params.body ) params.body = {}
-    if ( !params.text ) params.text = ''
-		declNSifNeeded(getNSPrefix(ctx.element, ctx),ctx.element.namespaceUri,params.attrs,ctx)
-    builder."${getElementTagName(ctx.element, ctx)}"(params.attrs, params.text) {params.body}
+  protected buildElement(ctx, params) {
+    if ( !ctx.attrs ) ctx.attrs = [:]
+    if ( !ctx.body ) ctx.body = {}
+    if ( !ctx.text ) ctx.text = ''
+		declNSifNeeded(getNSPrefix(params.element, params),params.element.namespaceUri,ctx.attrs,params)
+    builder."${getElementTagName(params.element, params)}"(ctx.attrs, ctx.text) {ctx.body}
   }
   
   protected def declNSifNeeded(prefix,ns,attrs,ctx) {

@@ -19,7 +19,7 @@ import com.predic8.wstool.creator.*
 
 class MinLengthFacet extends Facet {
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
 	value = token.getAttributeValue( null, 'value').toInteger()
   }
 		

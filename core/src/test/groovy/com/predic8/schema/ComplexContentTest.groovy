@@ -29,8 +29,8 @@ class ComplexContentTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schemaA = parser.parse(input:"/schema/complexcontent/person-a.xsd")
-    schemaB = parser.parse(input:"/schema/complexcontent/person-b.xsd")
+    schemaA = parser.parse("/schema/complexcontent/person-a.xsd")
+    schemaB = parser.parse("/schema/complexcontent/person-b.xsd")
   }
 
 

@@ -31,7 +31,7 @@ class AttributeTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/attribute/attr-test.xsd")
+    schema = parser.parse("/schema/attribute/attr-test.xsd")
   }
   
   void testParsing() {

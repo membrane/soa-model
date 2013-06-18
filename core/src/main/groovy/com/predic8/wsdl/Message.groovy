@@ -26,16 +26,16 @@ class Message extends WSDLElement {
 
   List<Part> parts = []
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     name = token.getAttributeValue( null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     switch(token.name) {
       case Part.ELEMENTNAME :
       def part = new Part(definitions: definitions)
-      part.parse(token, params)
+      part.parse(token, ctx)
       parts << part ; break
     }
   }

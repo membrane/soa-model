@@ -28,19 +28,19 @@ class Import extends SchemaComponent {
   
   private Log log = LogFactory.getLog(this.class)
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     namespace = token.getAttributeValue( null , 'namespace')
     schemaLocation = token.getAttributeValue( null , 'schemaLocation')
     log.debug("import: $schemaLocation , ns: $namespace , schema.basedir: ${schema.baseDir}")
     if(!schemaLocation){
       return
     }
-    importSchema = params.importedSchemas[namespace] ?: parseImportedSchema(input:this,importedSchemas:params.importedSchemas)
+    importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(input:this, importedSchemas:ctx.importedSchemas)
   }
   
   def getImportSchema() {
     if ( !importSchema ) {
-      log.debug("inlined schema [$namespace] import resolving.")
+      log.debug("Inlined schema [$namespace] import resolving.")
       return schema.definitions?.schemas.find{it.targetNamespace==namespace}
     }
     importSchema
@@ -58,9 +58,9 @@ class Import extends SchemaComponent {
     "import[ namespace=$namespace, schemaLocation=$schemaLocation ]"
   }
   
-  private parseImportedSchema(params) {
-    params.baseDir = schema.baseDir
-    def impSchema = (new SchemaParser(resourceResolver: schema.resourceResolver)).parse(params)
+  private parseImportedSchema(ctx) {
+    ctx.baseDir = schema.baseDir
+    def impSchema = (new SchemaParser(resourceResolver: schema.resourceResolver)).parse(ctx)
     log.debug("importedSchem.baseDir: ${impSchema.baseDir} , namespace: ${namespace}")
     impSchema
   }

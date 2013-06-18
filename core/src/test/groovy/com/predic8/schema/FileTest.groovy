@@ -24,8 +24,8 @@ class FileTest extends GroovyTestCase{
 
 	void setUp() {
 //		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-//		schema1 = parser.parse(input:"/extern/File1.xsd")
-//		schema2 = parser.parse(input:"/extern/File2.xsd")
+//		schema1 = parser.parse("/extern/File1.xsd")
+//		schema2 = parser.parse("/extern/File2.xsd")
 	}
 
 	void testDiffGen() {

@@ -28,7 +28,7 @@ class AttributeGroupTest extends GroovyTestCase{
     
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/attributeGroup.xsd")
+    schema = parser.parse("/attributeGroup.xsd")
   }
     
   void testParser() {
@@ -43,7 +43,7 @@ class AttributeGroupTest extends GroovyTestCase{
     def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
     schema.create(creator, new SchemaCreatorContext())
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:new StringReader(strWriter.toString()))
+    schema = parser.parse(new StringReader(strWriter.toString()))
     assertEquals('Attr1', schema.attributeGroups[0].attributes[0].name)
     assertEquals(new QName(Consts.SCHEMA_NS, 'string'), schema.getAttributeGroup('AttrG1').getAttribute('Attr2').type)
     assertEquals('AttrG1', schema.getType('EmployeeType').attributeGroups[0].ref.localPart)

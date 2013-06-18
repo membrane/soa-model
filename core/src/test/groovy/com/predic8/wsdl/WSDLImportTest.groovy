@@ -25,7 +25,7 @@ class WSDLImportTest extends GroovyTestCase{
 
   void setUp(){
     def parser = new WSDLParser( resourceResolver: new ClasspathResolver())
-    wsdl = parser.parse(new WSDLParserContext(input:"/import/stockquoteservice.wsdl"))
+    wsdl = parser.parse("/import/stockquoteservice.wsdl")
   }
 
   void testNamespaces() {
@@ -33,7 +33,6 @@ class WSDLImportTest extends GroovyTestCase{
   }
 
   void testGetPortTypeByQName() {
-//    println "imported portTypes: " + wsdl.portTypes
     assertNotNull(wsdl.getPortType(new GQName('http://example.com/stockquote/definitions', 'StockQuotePortType')))
     assertEquals(1, wsdl.getImportedWSDL('http://example.com/stockquote/definitions').portTypes.size())
   }

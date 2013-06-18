@@ -35,7 +35,7 @@ class DocumentationTest extends GroovyTestCase {
   
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse(new WSDLParserContext(input:"/DocumentationTestBLZService.wsdl"))
+    definitions = parser.parse("/DocumentationTestBLZService.wsdl")
   }
   
   void testDocumentationInDefinitions() {

@@ -30,11 +30,11 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema1 = parser.parse(input:"/diff/original.xsd")
-    schema2 = parser.parse(input:"/diff/schema2.xsd")
-    schema3 = parser.parse(input:"/diff/schema3.xsd")
-    schema4 = parser.parse(input:"/diff/schema4.xsd")
-    schemaKomplex = parser.parse(input:"/diff/PriceList.xsd")
+    schema1 = parser.parse("/diff/original.xsd")
+    schema2 = parser.parse("/diff/schema2.xsd")
+    schema3 = parser.parse("/diff/schema3.xsd")
+    schema4 = parser.parse("/diff/schema4.xsd")
+    schemaKomplex = parser.parse("/diff/PriceList.xsd")
   }
 
   void testCompareSchema1WithSchema2() {

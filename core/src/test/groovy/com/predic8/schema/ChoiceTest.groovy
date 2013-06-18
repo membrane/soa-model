@@ -31,7 +31,7 @@ class ChoiceTest extends GroovyTestCase{
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/choice/choice.xsd")
+    schema = parser.parse("/schema/choice/choice.xsd")
   }
 
   void testChoiceInComplexType(){

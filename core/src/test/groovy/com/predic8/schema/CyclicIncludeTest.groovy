@@ -25,7 +25,7 @@ class CyclicIncludeTest extends GroovyTestCase{
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"IncludeImport/schema-a.xsd")
+    schema = parser.parse("IncludeImport/schema-a.xsd")
   }
   
   void test() {

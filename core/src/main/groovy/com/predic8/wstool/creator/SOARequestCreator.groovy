@@ -40,7 +40,7 @@ class SOARequestCreator extends AbstractCreator{
   Definitions definitions
   def creator
   def formParams
-  int maxRecursionDepth = 3
+  int maxRecursionDepth = 2
 
   private String operationName
   private String bindingName

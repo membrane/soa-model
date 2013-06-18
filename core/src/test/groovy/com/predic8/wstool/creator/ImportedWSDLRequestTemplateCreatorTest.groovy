@@ -20,7 +20,7 @@ import com.predic8.xml.util.*
 class ImportedWSDLRequestTemplateCreatorTest extends GroovyTestCase {
 
 	WSDLParser parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-	Definitions definitions = parser.parse(new WSDLParserContext(input:"import/stockquoteservice.wsdl"))
+	Definitions definitions = parser.parse("import/stockquoteservice.wsdl")
 	
 	def portTypePrefixedName = new PrefixedName('defs:StockQuotePortType')
 	QName portType = new QName(definitions.getNamespace(portTypePrefixedName.prefix),portTypePrefixedName.localName)

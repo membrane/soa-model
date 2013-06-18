@@ -24,7 +24,7 @@ class RequestCreatorTest extends GroovyTestCase{
 
   public void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/schema/complexcontent/person-a.xsd")
+    schema = parser.parse("/schema/complexcontent/person-a.xsd")
   }
   
   void testCreatTemplateRequest() {

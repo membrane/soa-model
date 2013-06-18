@@ -32,9 +32,11 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   
   
   void createElement(Element element, RequestTemplateCreatorContext ctx){
+		
     ctx.elements.add(element)
     if(ctx.elements.findAll{it == ctx.element}.size() >= ctx.maxRecursionDepth) {
-      yield("\n<!-- Element ${ctx.element.name} has been defined recursivly and will not be created more than ${ctx.maxRecursionDepth} times. -->")
+      yield("""\n<!-- Element ${ctx.element.name} has been defined recursivly and will not be created more than ${ctx.maxRecursionDepth} times.
+				For more repetition increase the  maxRecursionDepth value in the CreatorContext.-->""")
       return
     }
 		

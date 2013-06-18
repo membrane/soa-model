@@ -24,10 +24,10 @@ class IncludeTest extends GroovyTestCase {
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/include.xsd")
+    schema = parser.parse("/include.xsd")
    
     parser = new SchemaParser(resourceResolver: new ClasspathResolver())    
-    schema2 = parser.parse(input:"/common.xsd")
+    schema2 = parser.parse("/common.xsd")
   }
     
   void testNotIncludedElement(){

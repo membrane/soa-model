@@ -16,7 +16,7 @@ class ParserImportAbsoluteTest extends GroovyTestCase {
 	
 //	void setUp() {
 //		WSDLParser parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-//		wsdl = parser.parse(new WSDLParserContext(input:"import-absolute-path/stockquoteservice.wsdl"))
+//		wsdl = parser.parse(new WSDLParserContext("import-absolute-path/stockquoteservice.wsdl"))
 //	}
 	
 	void test() {

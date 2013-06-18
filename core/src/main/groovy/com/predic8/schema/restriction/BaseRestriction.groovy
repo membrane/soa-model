@@ -31,60 +31,60 @@ class BaseRestriction  extends SchemaComponent {
   
   AnyAttribute anyAttribute
   
-  protected parseChildren(token, child, params){
-    super.parseAttributes(token, params)
+  protected parseChildren(token, child, ctx){
+    super.parseAttributes(token, ctx)
     switch (child ){
       case 'enumeration':
 		  def facet = new EnumerationFacet(schema: schema)
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'length' :
 		  def facet = new LengthFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'maxLength' :
 		  def facet = new MaxLengthFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'minLength' :
 		  def facet = new MinLengthFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'pattern' :
 		  def facet = new PatternFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'whiteSpace' :
 		  def facet = new WhiteSpaceFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'maxInclusive' :
 		  def facet = new MaxInclusiveFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'maxExclusive' :
 		  def facet = new MaxExclusiveFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'minInclusive' :
 		  def facet = new MinInclusiveFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'minExclusive' :
 		  def facet = new MinExclusiveFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'totalDigits' :
 		  def facet = new TotalDigitsFacet()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'fractionDigits' :
 		  def facet = new FractionDigits()
-		  facet.parse(token, params)
+		  facet.parse(token, ctx)
 		  facets << facet ; break
       case 'anyAttribute' :
 	      anyAttribute = new AnyAttribute(schema: schema)
-	      anyAttribute.parse(token, params) ; break
+	      anyAttribute.parse(token, ctx) ; break
     }
   }
   

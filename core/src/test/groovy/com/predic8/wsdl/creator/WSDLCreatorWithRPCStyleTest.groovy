@@ -33,7 +33,7 @@ class WSDLCreatorWithRPCStyleTest extends GroovyTestCase{
   
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse(new WSDLParserContext(input:"/RPCStyle.wsdl"))
+    definitions = parser.parse("/RPCStyle.wsdl")
   }
 
   void testCreateParts() {

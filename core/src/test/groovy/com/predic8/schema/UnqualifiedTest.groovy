@@ -27,7 +27,7 @@ class UnqualifiedTest extends GroovyTestCase{
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(input:"/unqualified-locals.xsd")
+    schema = parser.parse("/unqualified-locals.xsd")
 }
   
   void testRequestCreatorUnqualified() {
