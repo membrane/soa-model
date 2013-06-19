@@ -14,9 +14,13 @@
 
 package com.predic8.soamodel
 
+import javax.xml.namespace.QName
+
+
 class Consts {
 
   public static final String WSDL11_NS = "http://schemas.xmlsoap.org/wsdl/"
+	public static final String WSDL20_NS = "http://www.w3.org/2006/01/wsdl/"
   public static final String WSDL_SOAP11_NS = "http://schemas.xmlsoap.org/wsdl/soap/"
   public static final String WSDL_SOAP12_NS = "http://schemas.xmlsoap.org/wsdl/soap12/"
   public static final String WSDL_HTTP_NS = "http://schemas.xmlsoap.org/wsdl/http/"
@@ -26,4 +30,8 @@ class Consts {
   public static final String SOAP11_NS = "http://schemas.xmlsoap.org/soap/envelope/"
   public static final String SOAP12_NS = "http://www.w3.org/2003/05/soap-envelope"
   public static final String WSP_NS = "http://www.w3.org/ns/ws-policy"
+	
+	public static final QName WSDL11_DEFINITIONS = new QName(WSDL11_NS, 'definitions')
+  public static final QName WSDL20_DEFINITIONS = new QName(WSDL20_NS, 'definitions')
+  public static final QName SCHEMA10_SCHEMA = new QName(SCHEMA_NS, 'schema')
 }

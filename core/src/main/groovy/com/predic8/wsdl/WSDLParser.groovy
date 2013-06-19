@@ -12,7 +12,9 @@
 package com.predic8.wsdl
 
 import com.predic8.soamodel.*
+
 import com.predic8.wsi.*
+//import com.predic8.soamodel.C
 
 class WSDLParser extends AbstractParser{
 
@@ -38,10 +40,12 @@ class WSDLParser extends AbstractParser{
 		def definitions
 		while(token.hasNext()) {
 			if (token.startElement) {
-				def qname = token.name
-				if(qname.getLocalPart() == 'definitions') {
+				if(token.name == Consts.WSDL11_DEFINITIONS) {
 					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver)
 					definitions.parse(token, ctx)
+				}
+				else if(token.name == Consts.WSDL11_DEFINITIONS) {
+					throw new RuntimeException("WSDL 2.0 is not supported yet.")
 				}
 			}
 			if(token.hasNext()) token.next()

@@ -15,7 +15,6 @@
 package com.predic8.schema;
 
 import java.util.List;
-
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.PrefixedName
 import groovy.xml.QName
@@ -72,7 +71,7 @@ abstract class ModelGroup extends SchemaComponent{
     particles << element
   }
   
-  Element newElement(String name, JQName type){
+  Element newElement(String name, type){
     def e = new Element(name: name, type: new QName(type.namespaceURI, type.localPart), schema: schema, parent: this)
     particles << e
     e

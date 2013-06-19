@@ -17,7 +17,8 @@ package com.predic8.schema
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
-import com.predic8.soamodel.*
+import com.predic8.soamodel.AbstractParser
+import com.predic8.soamodel.Consts
 
 class SchemaParser extends AbstractParser{
   
@@ -42,8 +43,7 @@ class SchemaParser extends AbstractParser{
     def schema
     while(token.hasNext()){
       if (token.startElement) {
-        def qname = token.name
-        if(qname.getLocalPart() == 'schema') {
+        if(token.name == Consts.SCHEMA10_SCHEMA) {
           schema = new Schema(baseDir : ctx.newBaseDir ?: '', resourceResolver: ctx.resourceResolver)
           schema.parse(token, ctx)
         }
