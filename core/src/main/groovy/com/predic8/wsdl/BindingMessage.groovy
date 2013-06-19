@@ -14,12 +14,10 @@
 
 package com.predic8.wsdl;
 
-import org.omg.CORBA.CTX_RESTRICT_SCOPE;
-
+import com.predic8.soamodel.ModelAccessException
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap11.SOAPFault as SOAP11Fault
-
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.wsdl.soap12.SOAPFault as SOAP12Fault
 
@@ -97,7 +95,7 @@ abstract class BindingMessage extends WSDLElement{
 		try {
 			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
     } catch (Exception e) {
-	    throw new RuntimeException("Can not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
+	    throw new ModelAccessException("Can not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
     }
   }
   
