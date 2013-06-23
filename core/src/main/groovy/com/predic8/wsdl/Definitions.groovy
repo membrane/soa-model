@@ -141,6 +141,10 @@ class Definitions extends WSDLElement{
   protected parseChildren(token, child, ctx){
     super.parseChildren(token, child, ctx)
     switch (token.name) {
+			
+//			case Policy.ELEMENTNAME:
+//				println "Parsing Policy!"; break
+				
       case Import.ELEMENTNAME :
         def imp = new Import(definitions : this)
         imp.parse(token, ctx)

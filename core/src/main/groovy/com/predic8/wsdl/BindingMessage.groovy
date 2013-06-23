@@ -95,7 +95,7 @@ abstract class BindingMessage extends WSDLElement{
 		try {
 			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
     } catch (Exception e) {
-	    throw new ModelAccessException("Can not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
+	    throw new ModelAccessException("Could not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
     }
   }
   

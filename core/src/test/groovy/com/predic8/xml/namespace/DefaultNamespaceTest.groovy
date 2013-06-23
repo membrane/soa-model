@@ -19,6 +19,7 @@ import javax.xml.stream.*
 import com.predic8.soamodel.*
 
 class A2 extends XMLElement {
+	static final String NAMESPACE
   def b
   def c
   
@@ -42,12 +43,14 @@ class A2 extends XMLElement {
 }
 
 class B2 extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'b'
   }
 }
 
 class C2 extends XMLElement {
+	static final String NAMESPACE
   def d
   def e
   
@@ -69,12 +72,14 @@ class C2 extends XMLElement {
 }
 
 class D2 extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'd'
   }
 }
 
 class E2 extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'e'
   }

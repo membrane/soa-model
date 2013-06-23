@@ -22,14 +22,18 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
 
   Message message
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')
     def messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
     if(definitions.getNamespace(messagePrefixedName.prefix)==definitions.targetNamespace){
       message = definitions.getMessage(messagePrefixedName.localName)
       return
     }
-    message = definitions.getMessage(new QName(definitions.getNamespace(messagePrefixedName.prefix),messagePrefixedName.localName))
+		try {
+			message = definitions.getMessage(new QName(definitions.getNamespace(messagePrefixedName.prefix),messagePrefixedName.localName))
+    } catch (Exception e) {
+	    ctx.errors << "Could not definition for message ${messagePrefixedName.localName}."
+    }
   }
   
   def create(creator, ctx) {

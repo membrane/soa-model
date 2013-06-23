@@ -44,7 +44,7 @@ class WSDLParser extends AbstractParser{
 					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver)
 					definitions.parse(token, ctx)
 				}
-				else if(token.name == Consts.WSDL11_DEFINITIONS) {
+				else if(token.name == Consts.WSDL20_DEFINITIONS) {
 					throw new RuntimeException("WSDL 2.0 is not supported yet.")
 				}
 			}

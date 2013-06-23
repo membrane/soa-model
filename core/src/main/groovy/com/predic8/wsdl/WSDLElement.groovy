@@ -17,6 +17,7 @@ package com.predic8.wsdl
 import groovy.xml.*
 import javax.xml.stream.*
 import com.predic8.xml.util.*
+import com.predic8.schema.restriction.QNameRestriction;
 import com.predic8.soamodel.XMLElement
 import javax.xml.namespace.QName as JQName
 import org.apache.commons.logging.*
@@ -25,10 +26,13 @@ import com.predic8.soamodel.Consts
 
 abstract class WSDLElement extends XMLElement {
 
-  String name
+	private Log log = LogFactory.getLog(this.class)
+
+	static final String NAMESPACE = Consts.WSDL11_NS
+	
+	String name
   Definitions definitions
   Documentation documentation
-  private Log log = LogFactory.getLog(this.class)
   
   def abstract create(creator , context)
   
@@ -39,6 +43,10 @@ abstract class WSDLElement extends XMLElement {
       documentation.parse(token, params)
     }
   }
+	
+	String getNamespaceUri() {
+		definitions.targetNamespace
+	}
 
   JQName getElementName() {
     ELEMENTNAME

@@ -25,7 +25,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.predic8.schema.*
+import com.predic8.schema.Import as SchemaImport
+import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.io.*
 
 class BasicAuthenticationResolver extends ResourceResolver {
@@ -39,9 +40,14 @@ class BasicAuthenticationResolver extends ResourceResolver {
   def proxyPort
   
   def resolve(input) {
-    if ( input instanceof Import ) {
+    if ( input instanceof SchemaImport ) {
       if ( !input.schemaLocation ) return 
       input = input.schemaLocation
+    }
+		
+    if ( input instanceof WsdlImport ) {
+    	if ( !input.location ) return 
+    			input = input.location
     }
 
 		if ( input instanceof Reader || input instanceof InputStream )  {

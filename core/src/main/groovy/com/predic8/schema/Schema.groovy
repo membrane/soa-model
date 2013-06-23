@@ -24,7 +24,7 @@ import com.predic8.wsdl.Definitions;
 import com.predic8.xml.util.PrefixedName
 import java.io.StringWriter;
 
-class Schema extends XMLElement{
+class Schema extends SchemaComponent{
   
   public final static String SCHEMA_NS ="http://www.w3.org/2001/XMLSchema"
   public final static JQName ELEMENTNAME = new JQName(SCHEMA_NS, 'schema')
@@ -267,8 +267,13 @@ class Schema extends XMLElement{
     elements << e
     e
   }
+	
+	Schema getSchema() {
+		//SchemaComponent.schema is used in parse() and getNamspaceUri() methods
+		this
+	}
   
-  def create(creator, ctx) {
+  def create(creator, CreatorContext ctx) {
     creator.createSchema(this, ctx.clone())
   }
   

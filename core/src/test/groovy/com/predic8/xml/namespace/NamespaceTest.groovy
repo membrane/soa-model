@@ -21,6 +21,7 @@ import com.predic8.soamodel.*
 class A extends XMLElement {
   def b
   def c
+	static final String NAMESPACE
   
   protected parseChildren(token, child, params) {
     switch ( child ) {
@@ -42,12 +43,14 @@ class A extends XMLElement {
 }
 
 class B extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'b'
   }
 }
 
 class C extends XMLElement {
+	static final String NAMESPACE
   def d
   def e
   
@@ -69,12 +72,14 @@ class C extends XMLElement {
 }
 
 class D extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'd'
   }
 }
 
 class E extends XMLElement {
+	static final String NAMESPACE
   def getElementName() {
     'e'
   }

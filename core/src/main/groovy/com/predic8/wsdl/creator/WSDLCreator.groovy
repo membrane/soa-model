@@ -20,7 +20,7 @@ import com.predic8.soamodel.Consts
 import groovy.xml.MarkupBuilderHelper 
 
 class WSDLCreator extends AbstractWSDLCreator{
-  
+	
   def createDefinitions(definitions, ctx){
     def attrs = ['targetNamespace':getDisplayName(definitions.targetNamespace, 'definitions.targetNamespace', ctx.error)]
     if(definitions.name) attrs['name'] = definitions.name
@@ -158,22 +158,24 @@ class WSDLCreator extends AbstractWSDLCreator{
 
   def createSOAPBody(body, ctx){
     def attrs = [use : body.use]
+		def prefix = body.getPrefix(body.ELEMENTNAME.namespaceURI)
     if(body.parts) attrs['parts'] = body.parts.name.join(' ')
     if(body.encodingStyle) attrs['encodingStyle'] = body.encodingStyle
     if(body.namespace) attrs['namespace'] = body.namespace
-    builder."${body.prefix}:body"(attrs + getNamespaceAttributes(body))
+    builder."${prefix}:body"(attrs + getNamespaceAttributes(body))
   }
   
   def createSOAP11Header(header, ctx){
-    def prefix = header.getPrefix(Consts.WSDL_SOAP11_NS)
+    def prefix = header.getPrefix(header.ELEMENTNAME.namespaceURI)
     def attrs = [message : "${header.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use, part : header.part]
     if(header.encodingStyle) attrs['encodingStyle'] = header.encodingStyle
     if(header.namespace) attrs['namespace'] = header.namespace
-    builder."$prefix:header"(attrs + getNamespaceAttributes(header))
+    builder."${prefix}:header"(attrs + getNamespaceAttributes(header))
   }
 
   def createSOAPFault(fault, ctx){
-    builder."${fault.prefix}:fault"(use: fault.use, name : fault.name)
+		def prefix = fault.getPrefix(fault.ELEMENTNAME.namespaceURI)
+    builder."${prefix}:fault"(use: fault.use, name : fault.name)
   }
 
   def createService(service , ctx) {

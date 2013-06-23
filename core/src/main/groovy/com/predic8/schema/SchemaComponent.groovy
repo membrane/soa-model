@@ -25,6 +25,8 @@ abstract class SchemaComponent extends XMLElement{
   
 	private Log log = LogFactory.getLog(this.class)
 	
+	static final String NAMESPACE = Consts.SCHEMA_NS
+	
   Schema schema
   String name
   Annotation annotation
@@ -42,6 +44,10 @@ abstract class SchemaComponent extends XMLElement{
 	      annotation.parse(token, params) ; break
     }
   }
+	
+	String getNamespaceUri() {
+		schema.targetNamespace
+	}
 
   String getSchemaFragment(ctx){
     if ( !ctx.declNS ) {

@@ -15,5 +15,25 @@
 package com.predic8.soamodel
 
 class ModelAccessException extends RuntimeException {
+	
+	public ModelAccessException() {
+	  super();
+	  // TODO Auto-generated constructor stub
+  }
 
+	public ModelAccessException(String message, Throwable cause,
+      boolean enableSuppression, boolean writableStackTrace) {
+	  super(message, cause, enableSuppression, writableStackTrace);
+	  // TODO Auto-generated constructor stub
+  }
+
+	public ModelAccessException(String message, Throwable cause) {
+	  super(message, cause);
+	  // TODO Auto-generated constructor stub
+  }
+
+	public ModelAccessException(Throwable cause) {
+	  super(cause);
+	  // TODO Auto-generated constructor stub
+  }
 }

@@ -23,7 +23,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-import com.predic8.schema.*
+import com.predic8.schema.Import as SchemaImport
+import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.soamodel.Consts;
 import com.predic8.io.*
 
@@ -36,9 +37,15 @@ class ExternalResolver extends ResourceResolver {
 	int timeout = 10000
 
 	def resolve(input, baseDir) {
-		if ( input instanceof Import ) {
+		
+		if ( input instanceof SchemaImport ) {
 			if ( !input.schemaLocation ) return
 				input = input.schemaLocation
+		}
+		
+		if(input instanceof WsdlImport) {
+			if ( !input.location ) return
+			input = input.location
 		}
 
 		if ( input instanceof Reader || input instanceof InputStream )  {

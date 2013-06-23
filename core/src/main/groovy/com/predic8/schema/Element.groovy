@@ -53,6 +53,7 @@ class Element extends Declaration {
   }
   
   protected parseChildren(token, child, params){
+		//		Can't use super.parseChildren(token, child, params) to parse annotation!
     switch (child ){
       case 'annotation' :
         annotation = new Annotation(schema: schema)

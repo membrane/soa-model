@@ -17,7 +17,8 @@ package com.predic8.xml.util
 import org.apache.commons.httpclient.methods.*
 import org.apache.commons.httpclient.*
 
-import com.predic8.schema.*
+import com.predic8.schema.Import as SchemaImport
+import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.io.*
 import com.predic8.util.*
 
@@ -25,13 +26,19 @@ class ClasspathResolver extends ResourceResolver {
   
 
   def resolve(input, baseDir) {
-    if ( input instanceof Import ) {
+    if ( input instanceof SchemaImport ) {
       input = input.schemaLocation
     }
+    
+    if(input instanceof WsdlImport) {
+    	if ( !input.location ) return
+    			input = input.location
+    }
+		
     if ( input instanceof Reader ) {
       return input
     }
-    
+		
 		if(input.matches("^([A-Z]|[a-z]):/.*\$")){
 			return fixUtf8BOM(new FileInputStream(new File(input)))
 		}

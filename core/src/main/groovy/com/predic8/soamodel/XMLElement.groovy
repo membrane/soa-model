@@ -27,8 +27,11 @@ abstract class XMLElement {
 
   private Log log = LogFactory.getLog(this.class)
   
+	/**
+	 * Static final String NAMESPACE need to be declared. It will be used to choose the right parser for the element.
+	 */
   protected Map<String, String> namespaces = [:]
-  
+	
   XMLElement parent
   
   def parse(token, params){
@@ -38,6 +41,9 @@ abstract class XMLElement {
     token.next()
     while(token.hasNext()) {
       if(token.startElement) {
+				if(token.name.namespaceURI == NAMESPACE) {
+					
+				}
         params.parent = this        
         parseChildren(token, token.name.getLocalPart(), params)
       }
@@ -61,7 +67,7 @@ abstract class XMLElement {
   protected parseText(text){}
 
   abstract protected getElementName()
-
+	
   private isEndTagReached(token){
     if(! token.endElement) return false
 
@@ -83,6 +89,7 @@ abstract class XMLElement {
 		getPrefix(getNamespaceUri())
   }
 	
+	//Gives the namespace where the element is defined.
 	def getNamespaceUri() {
 		if(this.hasProperty("definitions")) return  definitions.targetNamespace
 		schema.targetNamespace
