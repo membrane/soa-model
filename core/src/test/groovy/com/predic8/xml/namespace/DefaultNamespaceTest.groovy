@@ -19,20 +19,20 @@ import javax.xml.stream.*
 import com.predic8.soamodel.*
 
 class A2 extends XMLElement {
-	static final String NAMESPACE
+	static final String NAMESPACE = ''
   def b
   def c
   
   protected parseChildren(token, child, params) {
     switch ( child ) {
       case 'b' :
-      b = new B()
+      b = new B2()
       b.parse(token,params)
       break
     }
     switch ( child ) {
       case 'c' :
-      c = new C()
+      c = new C2()
       c.parse(token,params)
       break
     }
@@ -43,43 +43,43 @@ class A2 extends XMLElement {
 }
 
 class B2 extends XMLElement {
-	static final String NAMESPACE
+	static final String NAMESPACE = ''
   def getElementName() {
     'b'
   }
 }
 
 class C2 extends XMLElement {
-	static final String NAMESPACE
+	static final String NAMESPACE = 'uri:c'
   def d
   def e
   
   protected parseChildren(token, child, params) {
     switch ( child ) {
       case 'd' :
-      d = new D()
+      d = new D2()
       d.parse(token,params)
       break
       case 'e' :
-      e = new E()
+      e = new E2()
       e.parse(token,params)
       break
     }
-  }  
+  }
   def getElementName() {
     'c'
   }
 }
 
 class D2 extends XMLElement {
-	static final String NAMESPACE
+	static final String NAMESPACE = ''
   def getElementName() {
     'd'
   }
 }
 
 class E2 extends XMLElement {
-	static final String NAMESPACE
+	static final String NAMESPACE = 'uri:e'
   def getElementName() {
     'e'
   }
@@ -91,10 +91,11 @@ class DefaultNamespaceTest extends GroovyTestCase {
   
   void setUp() {
     def token = XMLInputFactory.newInstance().createXMLStreamReader(this.class.getResourceAsStream("/namespaces/defaultNS.xml"))    
-    a = new A()
+    a = new A2()
     token.nextTag()
     a.parse(token, [:])
   }
+	
   void testA(){    
     assertEquals('',a.getPrefix(""))
     assertEquals('',a.getNamespace(""))

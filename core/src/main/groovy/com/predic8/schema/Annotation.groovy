@@ -17,6 +17,7 @@ package com.predic8.schema
 import javax.xml.namespace.QName as JQName
 
 import com.predic8.soamodel.CreatorContext
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Annotation extends SchemaComponent {
 
@@ -41,7 +42,7 @@ class Annotation extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'annotation')
+    new JQName(SCHEMA_NS, 'annotation')
   }
 
   List<Documentation> getDocumentations(){

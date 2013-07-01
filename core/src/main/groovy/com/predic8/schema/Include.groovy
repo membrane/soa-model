@@ -20,6 +20,7 @@ import javax.xml.stream.*
 import com.predic8.soamodel.*
 import org.apache.commons.logging.*
 import javax.xml.namespace.QName as JQName
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Include extends SchemaComponent {
   
@@ -56,7 +57,7 @@ class Include extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'include')
+    new JQName(SCHEMA_NS, 'include')
   }
 
   String toString(){

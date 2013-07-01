@@ -25,19 +25,19 @@ class PortType extends WSDLElement{
   List<Operation> operations = []
   def ping = []
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, ctx){
     name = token.getAttributeValue( null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name ){
       case Policy.ELEMENTNAME :
       def policy = new Policy()
-      policy.parse(token, params) ; break
+      policy.parse(token, ctx) ; break
       case Operation.ELEMENTNAME:
       def operation = new Operation(definitions : definitions)
-      operation.parse(token, params)
+      operation.parse(token, ctx)
       operations << operation ; break
     }
   }

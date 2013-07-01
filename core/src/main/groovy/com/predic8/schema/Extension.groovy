@@ -16,11 +16,12 @@ package com.predic8.schema
 
 import com.predic8.soamodel.CreatorContext 
 import javax.xml.namespace.QName as JQName
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Extension extends Derivation {
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'extension')
+    new JQName(SCHEMA_NS, 'extension')
   }
 
   def create(creator, CreatorContext ctx){

@@ -30,10 +30,6 @@ class SchemaParser extends AbstractParser{
 		super.parse(new SchemaParserContext(input: input))
 	}
 	
-	Schema parse(Reader input){
-		super.parse(new SchemaParserContext(input: input))
-	}
-	
 	Schema parse(SchemaParserContext input){
 		super.parse(input)
 	}
@@ -43,7 +39,7 @@ class SchemaParser extends AbstractParser{
     def schema
     while(token.hasNext()){
       if (token.startElement) {
-        if(token.name == Consts.SCHEMA10_SCHEMA) {
+        if(token.name == Schema.ELEMENTNAME) {
           schema = new Schema(baseDir : ctx.newBaseDir ?: '', resourceResolver: ctx.resourceResolver)
           schema.parse(token, ctx)
         }

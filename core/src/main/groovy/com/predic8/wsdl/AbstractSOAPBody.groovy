@@ -17,24 +17,38 @@ package com.predic8.wsdl
 abstract class AbstractSOAPBody extends BindingElement {
 
   List<Part> parts = []
+	
+	/**
+	 * lazy access to parts is needed cause of possible WSDL import structure.
+	 */
+	protected List<String> partNames = []
 
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
-    if(!token.getAttributeValue(null , 'parts')){
-      parts = parent.message.parts
-    } else {
+    if(token.getAttributeValue(null , 'parts')){
       token.getAttributeValue(null , 'parts').split().each {
-        parts << (getMessagePart(it))
+        partNames << it
       }
     }
   }
-
-  protected Part getMessagePart(String part){
-    parent.message.parts.find{it.name == part}
-  }
+	
+	/**
+	 * lazy access to parts is needed cause of possible WSDL import structure.
+	 */
+	List<Part> getParts() {
+		if(parts) return parts
+		if(partNames) {
+			parts = partNames.collect{getMessagePart(it)}
+			return parts
+		}
+		parts = parent.message.parts
+	}
   
   def create(creator, ctx) {
     creator.createSOAPBody(this, ctx)
   }
 
+  protected Part getMessagePart(String part){
+  	parent.message.parts.find{it.name == part}
+  }
 }

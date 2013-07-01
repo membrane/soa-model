@@ -35,13 +35,8 @@ class Import extends WSDLElement {
   private parseImport(token, ctx){
     ctx.input = this
     ctx.baseDir = definitions.baseDir
-    importedWSDL = (new WSDLParser(resourceResolver: definitions.resourceResolver )).parse(ctx)
-  if(importedWSDL.targetNamespace == definitions.targetNamespace) {
-      definitions.bindings.addAll(importedWSDL.bindings)
-      definitions.messages.addAll(importedWSDL.messages)
-      definitions.portTypes.addAll(importedWSDL.portTypes)
-      definitions.imports.addAll(importedWSDL.imports)
-    }
+    importedWSDL = (new WSDLParser(resourceResolver: definitions.resourceResolver, registry: definitions.registry )).parse(ctx)
+		
   }
 
   def create(creator, ctx) {

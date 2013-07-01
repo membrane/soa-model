@@ -17,16 +17,18 @@ package com.predic8.policy
 import javax.xml.namespace.QName
 import com.predic8.soamodel.*
 
-class ExactlyOne extends XMLElement{
+class ExactlyOne extends PolicyOperator{
 
-  public static final QName ELEMENTNAME = new QName(Consts.WSP_NS, 'ExactlyOne')
+  public static final QName ELEMENTNAME = new QName(Consts.WSP15_NS, 'ExactlyOne')
 
   QName getElementName() {
     ELEMENTNAME
   }
 
-  def parse(token, ctx){
-//    println "one parse method!"
+	@Override
+  public Object create(Object creator, Object context) {
+	  // TODO Auto-generated method stub
+	  return null;
   }
 }
 

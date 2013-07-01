@@ -10,13 +10,12 @@
  limitations under the License. */
 
 package com.predic8.wsdl
-
 import com.predic8.soamodel.*
-
 import com.predic8.wsi.*
-//import com.predic8.soamodel.C
 
 class WSDLParser extends AbstractParser{
+	
+	Registry registry
 
 	Definitions parse(String input){
 		super.parse(new WSDLParserContext(input: input))
@@ -26,12 +25,8 @@ class WSDLParser extends AbstractParser{
 		super.parse(new WSDLParserContext(input: input))
 	}
 	
-	Definitions parse(Reader input){
-		super.parse(new WSDLParserContext(input: input))
-	}
-	
-	Definitions parse(WSDLParserContext input){
-		super.parse(input)
+	Definitions parse(WSDLParserContext ctx){
+		super.parse(ctx)
 	}
 	
 	protected Definitions parseLocal(token, ctx){
@@ -40,8 +35,8 @@ class WSDLParser extends AbstractParser{
 		def definitions
 		while(token.hasNext()) {
 			if (token.startElement) {
-				if(token.name == Consts.WSDL11_DEFINITIONS) {
-					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver)
+				if(token.name == Definitions.ELEMENTNAME) {
+					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver, registry : registry ?: new Registry())
 					definitions.parse(token, ctx)
 				}
 				else if(token.name == Consts.WSDL20_DEFINITIONS) {

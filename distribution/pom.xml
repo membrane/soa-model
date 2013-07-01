@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-distribution</artifactId>
-	<version>1.4.0.1</version>
+	<version>1.4.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -130,6 +130,28 @@
 										</versionRange>
 										<goals>
 											<goal>compile</goal>
+											<goal>testCompile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.groovy
+										</groupId>
+										<artifactId>
+											groovy-eclipse-compiler
+										</artifactId>
+										<versionRange>
+											[2.7.0-01,)
+										</versionRange>
+										<goals>
+											<goal>
+												add-groovy-build-paths
+											</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

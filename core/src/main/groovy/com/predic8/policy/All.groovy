@@ -17,16 +17,18 @@ package com.predic8.policy
 import javax.xml.namespace.QName
 import com.predic8.soamodel.*
 
-class All extends XMLElement{
+class All extends PolicyOperator{
 
-  public static final QName ELEMENTNAME = new QName(Consts.WSP_NS, 'All')
+  public static final QName ELEMENTNAME = new QName(Consts.WSP15_NS, 'All')
 
   QName getElementName() {
     ELEMENTNAME
   }
 
-  def parse(token, ctx){
-    //println "all parse method!"
+	@Override
+  public Object create(Object creator, Object context) {
+	  // TODO Auto-generated method stub
+	  return null;
   }
 }
 

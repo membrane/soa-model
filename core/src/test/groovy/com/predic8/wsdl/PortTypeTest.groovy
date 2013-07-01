@@ -60,7 +60,7 @@ class PortTypeTest extends GroovyTestCase{
         if(token.name.getLocalPart() == 'portType') {
           portType = new PortType(definitions: definitions)
           definitions.portTypes << portType
-          portType.parse(token, [:])
+          portType.parse(token, new WSDLParserContext())
         }
       }
       if(token.hasNext()) token.next()

@@ -19,6 +19,7 @@ import javax.xml.namespace.QName
 
 class Consts {
 
+	//WSDL, Schema and SOAP namespaces
   public static final String WSDL11_NS = "http://schemas.xmlsoap.org/wsdl/"
 	public static final String WSDL20_NS = "http://www.w3.org/2006/01/wsdl/"
   public static final String WSDL_SOAP11_NS = "http://schemas.xmlsoap.org/wsdl/soap/"
@@ -29,9 +30,11 @@ class Consts {
   public static final String XML_NS = "http://www.w3.org/XML/1998/namespace"
   public static final String SOAP11_NS = "http://schemas.xmlsoap.org/soap/envelope/"
   public static final String SOAP12_NS = "http://www.w3.org/2003/05/soap-envelope"
-  public static final String WSP_NS = "http://www.w3.org/ns/ws-policy"
 	
-	public static final QName WSDL11_DEFINITIONS = new QName(WSDL11_NS, 'definitions')
-  public static final QName WSDL20_DEFINITIONS = new QName(WSDL20_NS, 'definitions')
-  public static final QName SCHEMA10_SCHEMA = new QName(SCHEMA_NS, 'schema')
+	//WS-Policy namcespaces
+  public static final String WSP15_NS = "http://www.w3.org/ns/ws-policy"
+  public static final String SP_NS = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+  public static final String WSAM_NS = "http://www.w3.org/2007/05/addressing/metadata"
+  public static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd	"
+	
 }

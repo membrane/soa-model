@@ -20,6 +20,7 @@ import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction;
 import com.predic8.xml.util.*
 import org.apache.commons.logging.*
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
 
@@ -29,10 +30,10 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     def attrs = [targetNamespace : schema.targetNamespace,
       attributeFormDefault : schema.attributeFormDefault , elementFormDefault : schema.elementFormDefault ]
 
-    declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs,ctx)
+    declNSifNeeded('xsd',SCHEMA_NS,attrs,ctx)
       
     schema.namespaceContext.each{ key, value ->
-      if ( value != Schema.SCHEMA_NS )
+      if ( value != SCHEMA_NS )
       declNSifNeeded(key,value,attrs,ctx)
     }
     
@@ -73,7 +74,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
 
   void createElement(Element element, SchemaCreatorContext  ctx){
     def attrs = [:]
-    declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs,ctx)
+    declNSifNeeded('xsd',SCHEMA_NS,attrs,ctx)
 
     if ( element.ref ) {
       attrs['ref'] = element.getTypeString(element.ref)      
@@ -96,7 +97,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   void createComplexType(ComplexType complexType, SchemaCreatorContext  ctx){
     def attrs = [:]
 
-    declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs, ctx)
+    declNSifNeeded('xsd',SCHEMA_NS,attrs, ctx)
 
     if(complexType.qname) {
       attrs['name'] = getDisplayName(complexType.qname.getLocalPart(), 'definitions.allSchemas.complexTypes.qname.localPart', ctx.error)
@@ -136,7 +137,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     if(group.minOccurs) attrs['minOccurs'] = group.minOccurs
     if(group.maxOccurs) attrs['maxOccurs'] = group.maxOccurs
 
-    declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs,ctx)
+    declNSifNeeded('xsd',SCHEMA_NS,attrs,ctx)
 
     if(group.qname) {
       attrs['name'] = getDisplayName(group.qname.getLocalPart(), 'definitions.allSchemas.groups.qname.localPart', ctx.error)
@@ -189,7 +190,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     def attrs = [:]
     if(union.memberTypes){
       attrs['memberTypes'] = union.memberTypes.collect { 
-        def prefix = it.namespaceURI == Schema.SCHEMA_NS ? 'xsd' : union.getPrefix(it.namespaceURI) 
+        def prefix = it.namespaceURI == SCHEMA_NS ? 'xsd' : union.getPrefix(it.namespaceURI) 
         "$prefix${prefix?':':''}${it.localPart}"
       }.join(' ')
     }
@@ -203,7 +204,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   void createSimpleType(SimpleType simpleType, SchemaCreatorContext  ctx){
     def attrs = [:]
 
-    declNSifNeeded('xsd',Schema.SCHEMA_NS,attrs,ctx)
+    declNSifNeeded('xsd',SCHEMA_NS,attrs,ctx)
 
     if(simpleType.qname) {
 //      declNSifNeeded(simpleType.getPrefix(simpleType.schema.targetNamespace),simpleType.schema.targetNamespace,attrs,ctx)
@@ -220,7 +221,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createSimpleRestriction(BaseRestriction restriction, SchemaCreatorContext  ctx){
-    def prefix = restriction.base.namespaceURI == Schema.SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI) 
+    def prefix = restriction.base.namespaceURI == SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI) 
     builder.'xsd:restriction'(base : "$prefix${prefix?':':''}${restriction.base.localPart}"){
       restriction.facets.each{
         it.create(this, ctx)
@@ -229,7 +230,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createExtension(Extension extension, SchemaCreatorContext  ctx){
-    def prefix = extension.base.namespaceURI == Schema.SCHEMA_NS ? 'xsd' : extension.getPrefix(extension.base.namespaceURI)
+    def prefix = extension.base.namespaceURI == SCHEMA_NS ? 'xsd' : extension.getPrefix(extension.base.namespaceURI)
     builder.'xsd:extension'(base : "$prefix${prefix?':':''}${extension.base.localPart}"){
       extension.model?.create(this, ctx)
       extension.attributes.each{
@@ -253,7 +254,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   void createAttribute(Attribute attr, SchemaCreatorContext  ctx){
     def attribs = [:]
     if(attr.ref) {
-      def prefix = attr.ref.namespaceURI == Schema.SCHEMA_NS ? 'xsd' : attr.getPrefix(attr.ref.namespaceURI)
+      def prefix = attr.ref.namespaceURI == SCHEMA_NS ? 'xsd' : attr.getPrefix(attr.ref.namespaceURI)
       attribs['ref'] = "$prefix${prefix?':':''}${attr.ref.localPart}" 
     }
     if(attr.name) { attribs['name'] = attr.name }
@@ -273,7 +274,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   void createAttributeGroup(AttributeGroup attrG, SchemaCreatorContext  ctx) {
     def attribs = [:]
     if(attrG.ref) {
-      def prefix = attrG.ref.namespaceURI == Schema.SCHEMA_NS ? 'xsd' : attrG.getPrefix(attrG.ref.namespaceURI)
+      def prefix = attrG.ref.namespaceURI == SCHEMA_NS ? 'xsd' : attrG.getPrefix(attrG.ref.namespaceURI)
       attribs['ref'] = "$prefix${prefix?':':''}${attrG.ref.localPart}"
     }
     if(attrG.name) { 
@@ -401,10 +402,10 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     log.debug "element ${schemaElement.name} with type ${schemaElement.type} and uri ${schemaElement.type.namespaceURI}"
     def prefix = schemaElement.getPrefix(schemaElement.type.namespaceURI) ?: ''
     
-    if(schemaElement.type.namespaceURI == Schema.SCHEMA_NS ) prefix = 'xsd'
+    if(schemaElement.type.namespaceURI == SCHEMA_NS ) prefix = 'xsd'
       
     declNSifNeeded(prefix,schemaElement.type.namespaceURI,attrs,ctx)
-    if(ctx.createLinks && schemaElement.type.namespaceURI != Schema.SCHEMA_NS) {
+    if(ctx.createLinks && schemaElement.type.namespaceURI != SCHEMA_NS) {
       def type = schemaElement.schema.getType(schemaElement.type)
       if(type instanceof ComplexType)
       attrs['type'] = "[link href='complextype?schema=${ctx.getSchemaId(type.qname)}&complextype=${schemaElement.type.localPart}']$prefix${prefix?':':''}${schemaElement.type.localPart}[/link]"

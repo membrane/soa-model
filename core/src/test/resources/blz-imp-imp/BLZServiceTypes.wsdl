@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://thomas-bayer.com/blz/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	targetNamespace="http://thomas-bayer.com/blz/">
+
+	<wsdl:documentation>BLZService</wsdl:documentation>
+	<wsdl:import namespace="http://thomas-bayer.com/blz/"
+		location="BLZServiceMessagesAndPT.wsdl" />
+
+	<wsdl:types>
+		<xsd:schema attributeFormDefault="unqualified"
+			elementFormDefault="qualified" targetNamespace="http://thomas-bayer.com/blz/">
+			<xsd:element name="getBank" type="tns:getBankType" />
+			<xsd:element name="getBankResponse" type="tns:getBankResponseType" />
+			<xsd:complexType name="getBankType">
+				<xsd:sequence>
+					<xsd:element name="blz" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="getBankResponseType">
+				<xsd:sequence>
+					<xsd:element name="details" type="tns:detailsType" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="detailsType">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="bezeichnung" type="xsd:string" />
+					<xsd:element minOccurs="0" name="bic" type="xsd:string" />
+					<xsd:element minOccurs="0" name="ort" type="xsd:string" />
+					<xsd:element minOccurs="0" name="plz" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+
+</wsdl:definitions>

@@ -48,9 +48,14 @@ class ExternalResolver extends ResourceResolver {
 			input = input.location
 		}
 
-		if ( input instanceof Reader || input instanceof InputStream )  {
+		if (input instanceof InputStream )  {
 			log.debug("resolving from reader, baseDir: $baseDir")
 			return fixUtf8BOM(input);
+		}
+		
+		if ( input instanceof Reader) {
+//			fixUtf8BOM() is not applicable for java.io.StringReader
+			throw new RuntimeException("Please use an InputStream instead of Reader!")
 		}
 
 		log.debug("resolving: $input, baseDir: $baseDir")

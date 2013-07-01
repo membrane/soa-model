@@ -19,6 +19,7 @@ import javax.xml.namespace.QName as JQName
 import org.apache.commons.logging.*
 
 import com.predic8.xml.util.*
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Import extends SchemaComponent {
   
@@ -39,7 +40,7 @@ class Import extends SchemaComponent {
   }
   
   def getImportSchema() {
-    if ( !importSchema ) {
+    if (!importSchema) {
       log.debug("Inlined schema [$namespace] import resolving.")
       return schema.definitions?.schemas.find{it.targetNamespace==namespace}
     }
@@ -51,7 +52,7 @@ class Import extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'import')
+    new JQName(SCHEMA_NS, 'import')
   }
   
   String toString(){

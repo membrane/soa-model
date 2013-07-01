@@ -25,112 +25,113 @@ import org.apache.commons.logging.*
 
 abstract class XMLElement {
 
-  private Log log = LogFactory.getLog(this.class)
-  
+	private Log log = LogFactory.getLog(this.class)
+
 	/**
 	 * Static final String NAMESPACE need to be declared. It will be used to choose the right parser for the element.
 	 */
-  protected Map<String, String> namespaces = [:]
-	
-  XMLElement parent
-  
-  def parse(token, params){
-    parent = params.parent
-    parseNamespaces(token)
-    parseAttributes(token, params)
-    token.next()
-    while(token.hasNext()) {
-      if(token.startElement) {
-				if(token.name.namespaceURI == NAMESPACE) {
-					
-				}
-        params.parent = this        
-        parseChildren(token, token.name.getLocalPart(), params)
-      }
-      if(token.getEventType() in [XMLStreamReader.CHARACTERS,XMLStreamReader.CDATA,XMLStreamReader.SPACE]) {
-        parseText(token.getText())
-      }
-      if(isEndTagReached(token)){
-        token.next()
-        break
-      }
-      if(token.hasNext()) token.next()
-    }
-    this
-  }
+	protected Map<String, String> namespaces = [:]
 
-  protected parseAttributes(token, params){}
+	XMLElement parent
 
-  //@TODO Remove child parameter. SchemaParser has to be changed first.
-  protected parseChildren(token, child, params){}
+	def parse(token, ctx){
+		parent = ctx.parent
+		parseNamespaces(token)
+		parseAttributes(token, ctx)
+		token.next()
+		while(token.hasNext()) {
+			if(token.startElement) {
+				ctx.parent = this
+				parseChildren(token, token.name.getLocalPart(), ctx)
+			}
+			if(token.getEventType() in [
+				XMLStreamReader.CHARACTERS,
+				XMLStreamReader.CDATA,
+				XMLStreamReader.SPACE
+			]) {
+				parseText(token.getText())
+			}
+			if(isEndTagReached(token)){
+				token.next()
+				break
+			}
+			if(token.hasNext()) token.next()
+		}
+		this
+	}
 
-  protected parseText(text){}
+	protected parseAttributes(token, ctx){}
 
-  abstract protected getElementName()
-	
-  private isEndTagReached(token){
-    if(! token.endElement) return false
+	//@TODO Remove child parameter. SchemaParser has to be changed first.
+	protected parseChildren(token, child, ctx){}
 
-    def name = getElementName()
-    if(name instanceof JQName) return name == token.name
-    else if(name instanceof QName){
-      return name.localPart == token.name.localPart && name.namespaceURI == token.name.namespaceURI
-    }
-    token.name.getLocalPart() == name
-  }
-  
-  def getPrefix(String uri) {
-    if ( uri == '' ) return ''
-    if ( uri == Consts.XML_NS) return 'xml'
-    def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
-  }
-  
-  def getPrefix(){
+	protected parseText(text){}
+
+	abstract protected getElementName()
+
+	private isEndTagReached(token){
+		if(! token.endElement) return false
+
+		def name = getElementName()
+		if(name instanceof JQName) return name == token.name
+		else if(name instanceof QName){
+			return name.localPart == token.name.localPart && name.namespaceURI == token.name.namespaceURI
+		}
+		token.name.getLocalPart() == name
+	}
+
+	def getPrefix(String uri) {
+		if ( uri == '' ) return ''
+		if ( uri == Consts.XML_NS) return 'xml'
+		def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
+	}
+
+	def getPrefix(){
 		getPrefix(getNamespaceUri())
-  }
-	
+	}
+
 	//Gives the namespace where the element is defined.
 	def getNamespaceUri() {
 		if(this.hasProperty("definitions")) return  definitions.targetNamespace
 		schema.targetNamespace
 	}
-  
-  
-  def getNamespace(prefix) {
-    if(prefix == "xml") return Consts.XML_NS
-    def res = namespaces[prefix] // Don't use ?: because res == '' should be a valid response
-    if ( res == null ) return parent?.getNamespace(prefix) ?: prefix=='' ? '' : null
-    res
-  }
 
-  QName getTypeQName(String type) {
-    if ( !type ) return // Null is OK cause of embedded types.
-    
-    def preName = new PrefixedName(type)
-    def uri = getNamespace(preName.prefix)
-    if ( uri == '' && preName.prefix == '' ) return new QName('',type) //throw new RuntimeException("No namespace declared for element ${type}.") //uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix
-    if ( uri == null ) {
-      log.error "Can not find namespace uri for [${type}]"
-      throw new RuntimeException("No namespace declared for element ${type}.")
-    }
-    log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"
-    return new QName(uri,preName.localName, preName.prefix)
-  }
 
-  String getTypeString(qname){
-    def prefix = getPrefix(qname.namespaceURI)
-    "$prefix${prefix?':':''}${qname.localPart}"
-  }
-  
-  protected parseNamespaces(token) {
-    token.getNamespaceCount().times {
-      namespaces[token.getNamespacePrefix(it) ?: ''] = token.getNamespaceURI(it)?:''
-    }
-  }
-    
-  def getNamespaceContext() {
-    if (!parent) return namespaces
-    parent.namespaceContext + namespaces
-  }
-  
+	def getNamespace(prefix) {
+		if(prefix == "xml") return Consts.XML_NS
+		def res = namespaces[prefix] // Don't use ?: because res == '' should be a valid response
+		if ( res == null ) return parent?.getNamespace(prefix) ?: prefix=='' ? '' : null
+		res
+	}
+
+	QName getTypeQName(String type) {
+		if ( !type ) return // Null is OK cause of embedded types.
+
+		def preName = new PrefixedName(type)
+		def uri = getNamespace(preName.prefix)
+		if ( uri == '' && preName.prefix == '' ) return new QName('',type) //throw new RuntimeException("No namespace declared for element ${type}.") //uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix
+		if ( uri == null ) {
+			log.error "Can not find namespace uri for [${type}]"
+			throw new RuntimeException("No namespace declared for element ${type}.")
+		}
+		log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"
+		return new QName(uri,preName.localName, preName.prefix)
+	}
+
+	String getTypeString(qname){
+		def prefix = getPrefix(qname.namespaceURI)
+		"$prefix${prefix?':':''}${qname.localPart}"
+	}
+
+	protected parseNamespaces(token) {
+		token.getNamespaceCount().times {
+			namespaces[token.getNamespacePrefix(it) ?: ''] = token.getNamespaceURI(it)?:''
+		}
+	}
+
+	def getNamespaceContext() {
+		if (!parent) return namespaces
+		parent.namespaceContext + namespaces
+	}
+
 }

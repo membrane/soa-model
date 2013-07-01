@@ -24,7 +24,7 @@ class Documentation extends WSDLElement {
   
   String content = ''
   
-  def parse(token, child){
+  def parse(token, ctx){
     token.next()
     while(token.hasNext()) {
       if(token.startElement) {

@@ -93,9 +93,11 @@ abstract class BindingMessage extends WSDLElement{
   
   protected Message getMessage(){
 		try {
+//			definitions.registry.wsdls[definitions.targetNamespace]*.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)[0]
 			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
     } catch (Exception e) {
-	    throw new ModelAccessException("Could not find the definition for at lease one message of the operation: ${bindingOperation.name} in the WSDL.", e)
+			e.printStackTrace()
+	    throw new ModelAccessException("Could not find the definition for at least one message of the operation: ${bindingOperation.name} in the WSDL.", e)
     }
   }
   

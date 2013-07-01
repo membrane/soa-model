@@ -17,6 +17,7 @@ package com.predic8.schema
 import groovy.xml.QName
 
 import javax.xml.namespace.QName as JQName
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 abstract class Declaration extends SchemaComponent {
   QName type
@@ -44,7 +45,7 @@ abstract class Declaration extends SchemaComponent {
   }
   
   String getBuildInTypeName(){
-    if(type?.namespaceURI == Schema.SCHEMA_NS) return type.localPart
+    if(type?.namespaceURI == SCHEMA_NS) return type.localPart
     if(schema.getType(type)) return schema.getType(type).buildInTypeName
     buildInTypeNameLocal
   }

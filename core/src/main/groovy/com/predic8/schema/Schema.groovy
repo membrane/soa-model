@@ -18,22 +18,22 @@ import groovy.xml.*
 import org.apache.commons.logging.*
 import javax.xml.namespace.QName as JQName
 
+import java.io.StringWriter
+
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.*
-import com.predic8.wsdl.Definitions;
+import com.predic8.wsdl.Definitions
 import com.predic8.xml.util.PrefixedName
-import java.io.StringWriter;
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Schema extends SchemaComponent{
   
-  public final static String SCHEMA_NS ="http://www.w3.org/2001/XMLSchema"
   public final static JQName ELEMENTNAME = new JQName(SCHEMA_NS, 'schema')
   public final static JQName STRING = new JQName(SCHEMA_NS, 'string')
   public final static JQName INT = new JQName(SCHEMA_NS, 'int')
   public final static JQName INTEGER = new JQName(SCHEMA_NS, 'integer')
   public final static JQName DATE = new JQName(SCHEMA_NS, 'date')
   
-
   private Log log = LogFactory.getLog(this.class)
 
   /**
@@ -87,7 +87,7 @@ class Schema extends SchemaComponent{
       group.parse(token, params)
       groups << group ;break
       case 'simpleType':
-	  def simpleType = new SimpleType(schema:this)
+			def simpleType = new SimpleType(schema:this)
       simpleType.parse(token, params)
       simpleTypes << simpleType ; break
       case 'element':
@@ -196,7 +196,7 @@ class Schema extends SchemaComponent{
   List<Schema> getAllSchemas(){
     [this] + importedSchemas
   }
-  
+	
   List<Schema> getImportedSchemas(){
     getImportedSchemas([])
   }

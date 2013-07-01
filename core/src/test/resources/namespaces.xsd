@@ -10,10 +10,10 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <attributeGroup name="specialAttrs">
-    <attribute ref="xml:base" />
-    <attribute ref="xml:lang" />
-    <attribute ref="xml:space" />
-  </attributeGroup>
+  <xsd:attributeGroup name="specialAttrs">
+    <xsd:attribute ref="xml:base" />
+    <xsd:attribute ref="xml:lang" />
+    <xsd:attribute ref="xml:space" />
+  </xsd:attributeGroup>
 
 </xsd:schema>

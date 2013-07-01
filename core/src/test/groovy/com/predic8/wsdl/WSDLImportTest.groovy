@@ -34,12 +34,12 @@ class WSDLImportTest extends GroovyTestCase{
 
   void testGetPortTypeByQName() {
     assertNotNull(wsdl.getPortType(new GQName('http://example.com/stockquote/definitions', 'StockQuotePortType')))
-    assertEquals(1, wsdl.getImportedWSDL('http://example.com/stockquote/definitions').portTypes.size())
+    assertEquals(1, wsdl.getWSDL('http://example.com/stockquote/definitions').portTypes.size())
   }
 
   void testGetMessageByQName() {
     assertNotNull(wsdl.getMessage(new GQName('http://example.com/stockquote/messages', 'GetLastTradePriceInput')))
-    assertEquals(2, wsdl.getImportedWSDL('http://example.com/stockquote/messages').messages.size())
+    assertEquals(2, wsdl.getWSDL('http://example.com/stockquote/messages').messages.size())
   }
 
   void testBindingByQName() {

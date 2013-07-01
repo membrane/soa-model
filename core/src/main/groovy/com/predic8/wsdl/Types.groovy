@@ -29,25 +29,20 @@ class Types extends WSDLElement {
   
   List<Schema> schemas = []
   
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name ){
       case Schema.ELEMENTNAME :
       log.debug("new schema")
       log.debug("$definitions")
       def schema = new Schema(baseDir: definitions.baseDir, definitions: definitions, resourceResolver : definitions.resourceResolver)
-      schema.parse(token, params)
+      schema.parse(token, ctx)
       schemas << schema ; break
     }
   }
 
   List<Schema> getAllSchemas() {
-    def allSchemas = []
-    schemas.each {
-      allSchemas << it
-      allSchemas.addAll(it.getImportedSchemas())
-    }
-    allSchemas
+		(schemas + schemas.importedSchemas.flatten()).unique()
   }
 
   def create(creator, ctx){

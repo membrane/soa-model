@@ -14,18 +14,23 @@
 
 package com.predic8.wsdl
 
-import com.predic8.schema.*
-import com.predic8.xml.util.*
-import groovy.xml.MarkupBuilder;
+import java.lang.invoke.MethodHandles.Lookup;
+
+import groovy.xml.MarkupBuilder
 import groovy.xml.QName as GQName
+
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.policy.*
+import com.predic8.schema.*
+import com.predic8.soamodel.Consts
+import com.predic8.wsdl.creator.WSDLCreator
+import com.predic8.wsdl.creator.WSDLCreatorContext
+import com.predic8.wsdl.http.HTTPBinding
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
-import com.predic8.wsdl.creator.WSDLCreator;
-import com.predic8.wsdl.creator.WSDLCreatorContext;
-import com.predic8.wsdl.http.HTTPBinding   as HTTPBinding
-import com.predic8.soamodel.Consts
-import java.io.StringWriter;
+import com.predic8.xml.util.*
+
 
 class Definitions extends WSDLElement{
   
@@ -36,25 +41,31 @@ class Definitions extends WSDLElement{
   def baseDir
   String targetNamespace = ''
   List<Service> services = []
-  Types types = new Types()
+  Types types 
   List<Binding> bindings = []
   List<Message> messages = []
   List<PortType> portTypes = []
   List<Import> imports = []
-  
+	
+	/**
+	 * If this is an imported WSDL, the information from the importing WSDL is needed for creators.
+	 */
+  Registry registry
+	
   public Definitions() {
-  }
+		//Default constructor
+	}
   
   public Definitions(String tns, String name) { 
     this.name = name
     this.namespaces[''] = 'http://schemas.xmlsoap.org/wsdl/'
-      this.namespaces['wsdl'] = 'http://schemas.xmlsoap.org/wsdl/'
+    this.namespaces['wsdl'] = 'http://schemas.xmlsoap.org/wsdl/'
     this.namespaces['tns'] = tns
     this.targetNamespace = tns
   }
   
   Boolean isConcrete() {
-    !!getBindings("SOAP11")[0]
+    getBindings("SOAP11")[0]
   }
   
   String getTargetNamespacePrefix() {
@@ -62,12 +73,11 @@ class Definitions extends WSDLElement{
   }
   
   PortType getPortType(String name) {
-    portTypes.find{ it.name == name }
+    portTypes.find{ it.name == name } ?: lookup("portTypes", new GQName(targetNamespace, name))
   }
   
-  PortType getPortType(GQName name) {
-//    if(!getImportedWSDL(name.namespaceURI)) return
-    (getImportedWSDL(name.namespaceURI).portTypes).flatten().find{it.name == name.localPart}
+  PortType getPortType(GQName qname) {
+		lookup("portTypes", qname)
   }
   
   List<Operation> getOperations() {
@@ -83,15 +93,17 @@ class Definitions extends WSDLElement{
   }
   
   Message getMessage(String name) {
-    messages.find { it.name == name }
+    messages.find { it.name == name } ?: lookup("messages", new GQName(targetNamespace, name))
   }
   
-  Message getMessage(GQName name) {
-    (getImportedWSDL(name.namespaceURI).messages).flatten().find { it.name == name.localPart}
+  Message getMessage(GQName qname) {
+		lookup("messages", qname)
   }
 	
+  def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item".flatten().find{it.name == qname.localPart}}
+  
 	List<Types> getAllTypes() {
-		[types] + importedWSDLs*.types
+		registry.getWsdls(targetNamespace)*.types.flatten()
 	}
 	
   Element getElement(String name) {
@@ -108,17 +120,21 @@ class Definitions extends WSDLElement{
   Element getElementForOperation(String operation, portType){
 		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
   }
+	
+//	List<Binding> getAllBindings() {
+//		registry.allWsdls*.bindings.flatten()
+//	}
   
   List<Binding> getBindings(protocol) {
     bindings.findAll{it.protocol == protocol}
   }
   
   Binding getBinding(String name) {
-    bindings.find { it.name == name }
+    bindings.find { it.name == name } ?: lookup("bindings", new GQName(targetNamespace, name))
   }
   
-  Binding getBinding(GQName name) {
-    (getImportedWSDL(name.namespaceURI)).bindings.flatten().find { it.name == name.localPart }
+  Binding getBinding(GQName qname) {
+		lookup("bindings", qname)
   }
   
   def getSoap11Binding(name) {
@@ -135,16 +151,17 @@ class Definitions extends WSDLElement{
   
   protected parseAttributes(token, ctx){
     targetNamespace = ctx.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
+		registry.add(this)
     name = token.getAttributeValue( null , 'name')
   }
 	
   protected parseChildren(token, child, ctx){
     super.parseChildren(token, child, ctx)
     switch (token.name) {
-			
-//			case Policy.ELEMENTNAME:
-//				println "Parsing Policy!"; break
-				
+			case Policy.ELEMENTNAME :
+				def policy = new Policy(wsdlElement: this, parent : parent)
+				policy.parse(token, ctx)
+				policies << policy ; break
       case Import.ELEMENTNAME :
         def imp = new Import(definitions : this)
         imp.parse(token, ctx)
@@ -168,6 +185,11 @@ class Definitions extends WSDLElement{
         def service = new Service(definitions : this)
         service.parse(token, ctx)
           services << service; break
+			
+			default : 
+				if(token.name != Documentation.ELEMENTNAME || token.name != Policy.ELEMENTNAME )
+				ctx.errors << "${token.name} in a wsdl is not supported yet!"
+				break
     }
   }
   
@@ -179,37 +201,21 @@ class Definitions extends WSDLElement{
     types.allSchemas.flatten().find{ it.targetNamespace == targetNamespace }
   }
   
-  def getService(GQName name){
-    (getImportedWSDL(name.namespaceURI).services).flatten().find{ it.name == name.localPart}
+  def getService(GQName qname){
+		lookup("services", qname)
   }
   
   def create(creator, ctx){
     creator.createDefinitions(this, ctx)
   }
-  
+	
   List<Definitions> getAllWSDLs(){
-    [this] + importedWSDLs
+		registry.allWsdls
   }
   
-  List<Definitions> getImportedWSDLs(){
-    getImportedWSDLsInternal([])
-  }
   
-  protected List<Definitions> getImportedWSDLsInternal(wsdls){
-    //log.debug "imported WSDLs: ${wsdls.targetNamespace}"
-    def res = []
-    imports.each { imp ->
-      Definitions wsdl = imp.importedWSDL
-      if(wsdl && !(wsdls.contains(wsdl))) {
-        res << wsdl
-        res.addAll(wsdl.getImportedWSDLsInternal(res + wsdls))
-      }
-    }
-    res
-  }
-  
-  private getImportedWSDL(tns){
-    allWSDLs.find{it.targetNamespace == tns}
+  private getWSDL(tns){
+		registry.getWsdls(tns)[0]
   }
   
   public void add(Schema schema){
@@ -247,6 +253,6 @@ class Definitions extends WSDLElement{
   }
   
   String toString() {
-    "defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$services, documentation=$documentation, schemas=$schemas, bindings=$bindings, messages=$messages, portTypes=$portTypes ]"
+    "defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$services, documentation=$documentation, schemas=$schemas, bindings=$bindings, messages=$messages, portTypes=$portTypes]"
   }
 }

@@ -17,6 +17,7 @@ import com.predic8.soamodel.CreatorContext
 
 import com.predic8.schema.restriction.*
 import javax.xml.namespace.QName as JQName
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class ComplexContent extends SchemaComponent {
 
@@ -47,7 +48,7 @@ class ComplexContent extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'complexContent')
+    new JQName(SCHEMA_NS, 'complexContent')
   }
 
   def create(creator, CreatorContext ctx){

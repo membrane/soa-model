@@ -15,32 +15,35 @@
 package com.predic8.wsdl
 
 import groovy.xml.*
-import javax.xml.stream.*
-import com.predic8.xml.util.*
-import com.predic8.schema.restriction.QNameRestriction;
-import com.predic8.soamodel.XMLElement
+
 import javax.xml.namespace.QName as JQName
+import javax.xml.stream.*
+
 import org.apache.commons.logging.*
+
+import com.predic8.policy.Policy
 import com.predic8.soamodel.Consts
+import com.predic8.soamodel.XMLElement
+import com.predic8.xml.util.*
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.HeaderTokenizer.Token;
 
 abstract class WSDLElement extends XMLElement {
 
 	private Log log = LogFactory.getLog(this.class)
 
-	static final String NAMESPACE = Consts.WSDL11_NS
-	
 	String name
   Definitions definitions
   Documentation documentation
+	List<Policy> policies = []
   
   def abstract create(creator , context)
   
-  protected parseChildren(token, child, params) {
+  protected parseChildren(token, child, ctx) {
     switch (token.name) {
       case Documentation.ELEMENTNAME :
-      documentation = new Documentation(definitions: definitions, parent : parent)
-      documentation.parse(token, params)
+      	documentation = new Documentation(definitions: definitions, parent : parent)
+				documentation.parse(token, ctx)
+				break
     }
   }
 	

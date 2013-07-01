@@ -12,11 +12,13 @@
 package com.predic8.soamodel
 
 import javax.xml.stream.*
-import com.predic8.xml.util.*
-import com.predic8.util.*
+
+import org.apache.commons.logging.*
+
 import com.predic8.io.*
 import com.predic8.schema.*
-import org.apache.commons.logging.*
+import com.predic8.util.*
+import com.predic8.xml.util.*
 
 abstract class AbstractParser{
 
@@ -28,6 +30,13 @@ abstract class AbstractParser{
 	//ctx should not be typed! Otherwise method calls using hash map don't work any more!
 
 		protected parse(ctx) {
+		if ( ctx instanceof Reader) {
+			/**
+			 * TODO There are test classes using StringReader as input in schema package.
+			 * 			Change those inputs to InputStreame and eliminate the following condition.
+			 */
+			return this.parse(new SchemaParserContext(input: ctx))
+		}
 		updatectx(ctx)
 		log.debug("AbstractParser: ctx.newBaseDir: ${ctx.newBaseDir} , ctx.input: " + ctx.input)
 		log.debug("parsing " + ctx.input + " input from baseDir: ${ctx.baseDir}")

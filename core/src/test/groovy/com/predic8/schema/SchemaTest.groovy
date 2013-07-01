@@ -46,7 +46,7 @@ class SchemaTest extends GroovyTestCase{
                                   <xsd:sequence>
                                     <xsd:element name="blz" type="xsd:string"/>
                                   </xsd:sequence>
-                                  <attribute name="country" type="xsd:string" />
+                                  <xsd:attribute name="country" type="xsd:string" />
                                 </xsd:complexType>
                               </xsd:schema>'''
   

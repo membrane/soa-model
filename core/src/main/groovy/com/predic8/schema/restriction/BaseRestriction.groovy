@@ -21,6 +21,7 @@ import com.predic8.wstool.creator.*
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.*
 import com.predic8.soamodel.*
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class BaseRestriction  extends SchemaComponent {
   
@@ -93,7 +94,7 @@ class BaseRestriction  extends SchemaComponent {
   }
   
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'restriction')
+    new JQName(SCHEMA_NS, 'restriction')
   }
   
   LengthFacet getLengthFacet(){

@@ -12,18 +12,25 @@
 package com.predic8.wsdl;
 
 import com.predic8.xml.util.*
+
 import groovy.xml.QName
+
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
 import com.predic8.wsdl.http.HTTPBinding   as HTTPBinding
+
 import javax.xml.namespace.QName as JQName
+
 import org.apache.commons.logging.*
+
 import com.predic8.soamodel.Consts
 import com.predic8.policy.*
+import com.sun.xml.internal.ws.org.objectweb.asm.Item;
 
 class Binding extends WSDLElement{
 
 	private Log log = LogFactory.getLog(this.class)
+
 	public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'binding')
 
 	PortType portType
@@ -73,6 +80,7 @@ class Binding extends WSDLElement{
 	}
 
 	PortType getPortType(){
+//		definitions.registry.wsdls[definitions.targetNamespace]*.getPortType(type)[0]
 		definitions.getPortType(type)
 	}
 
@@ -81,9 +89,9 @@ class Binding extends WSDLElement{
 	}
 
 	String getStyle(){
-		
+
 		if(binding.protocol == 'HTTP') return 'This binding uses the HTTP protocol and has no style information'
-		
+
 		List<String> usages = operations.input.bindingElements.use.unique()
 		String style  = binding.style.capitalize()
 		String  usage

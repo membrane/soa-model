@@ -14,26 +14,17 @@
 
 package com.predic8.wsdl
 
-import junit.framework.TestCase
-import javax.xml.stream.*
 import groovy.xml.*
+
+import javax.xml.stream.*
 
 abstract class AbstractWSDLTest extends GroovyTestCase{
   
   def token
   def definitions
   
-  void setUp() {
-    token = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(wsdl))
-    while (token.hasNext()) {
-      if(token.startElement) {
-        if(token.name.getLocalPart() == 'definitions') {
-          definitions = new Definitions()
-          definitions.parse(token, new WSDLParserContext())
-        }
-      }
-      if(token.hasNext()) token.next()
-    }
+	void setUp() {
+		definitions = new WSDLParser().parse(new ByteArrayInputStream(wsdl.bytes))
   }
   
 }

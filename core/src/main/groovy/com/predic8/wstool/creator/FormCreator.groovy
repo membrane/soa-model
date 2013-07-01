@@ -110,7 +110,7 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
     if(!item.type && !item.embeddedType) {
       return
     }
-    String buildinTypeName = item.type?.localPart ?: item.embeddedType.buildInType
+		String buildinTypeName = item.type?.localPart ?: item.embeddedType.buildInTypeName
     def attrs = [name:getFieldName(item, ctx), type: 'text']
     String info
     switch (buildinTypeName) {

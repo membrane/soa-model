@@ -11,10 +11,12 @@
 
 package com.predic8.schema
 
-import com.predic8.soamodel.CreatorContext
+import java.util.List
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.soamodel.CreatorContext
 import com.predic8.schema.restriction.*
-import java.util.List;
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class SimpleContent extends SchemaComponent {
 
@@ -30,7 +32,7 @@ class SimpleContent extends SchemaComponent {
       case 'restriction' :
         def base = getTypeQName(token.getAttributeValue( null , 'base'))
         def type = base.localPart
-        if(schema.getNamespace(base.prefix) == Schema.SCHEMA_NS){
+        if(schema.getNamespace(base.prefix) == SCHEMA_NS){
           restriction = RestrictionUtil.getRestriction(type, [base: base])
         } else {
           restriction = new BaseRestriction(base : base)
@@ -44,7 +46,7 @@ class SimpleContent extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'simpleContent')
+    new JQName(SCHEMA_NS, 'simpleContent')
   }
 
   def create(creator, CreatorContext ctx){

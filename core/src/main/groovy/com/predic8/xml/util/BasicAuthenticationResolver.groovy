@@ -50,9 +50,13 @@ class BasicAuthenticationResolver extends ResourceResolver {
     			input = input.location
     }
 
-		if ( input instanceof Reader || input instanceof InputStream )  {
+		if ( input instanceof InputStream )  {
       log.debug("resolving from reader, baseDir: $baseDir")
       return input;
+		}
+		
+		if(input instanceof Reader) {
+			throw new RuntimeException("Please use an InputStream instead of Reader!")
 		}
     
     log.debug("resolving: $input, baseDir: $baseDir")

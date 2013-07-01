@@ -18,6 +18,7 @@ import javax.xml.namespace.QName as JQName
 
 import com.predic8.soamodel.CreatorContext;
 import com.predic8.wstool.creator.*
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class SchemaList extends SchemaComponent {
   
@@ -43,7 +44,7 @@ class SchemaList extends SchemaComponent {
   }
 
   protected getElementName(){
-    new JQName(Schema.SCHEMA_NS, 'list')
+    new JQName(SCHEMA_NS, 'list')
   }
   
   def create(creator, CreatorContext ctx){

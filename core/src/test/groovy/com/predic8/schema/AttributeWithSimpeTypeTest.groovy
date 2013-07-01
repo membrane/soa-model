@@ -20,6 +20,7 @@ import com.predic8.schema.creator.SchemaCreator
 import com.predic8.schema.creator.SchemaCreatorContext
 import com.predic8.schema.restriction.*
 import com.predic8.xml.util.*
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class AttributeWithSimpeTypeTest extends GroovyTestCase {
 
@@ -44,7 +45,7 @@ class AttributeWithSimpeTypeTest extends GroovyTestCase {
 
   void testParsingRestriction() {
     assertTrue(schema.getElement('shoeSize').embeddedType.model.extension.attributes[0].simpleType.restriction instanceof StringRestriction)
-    assertEquals(new QName(Schema.SCHEMA_NS, 'string'), schema.getElement('shoeSize').embeddedType.model.extension.attributes[0].simpleType.restriction.base)
+    assertEquals(new QName(SCHEMA_NS, 'string'), schema.getElement('shoeSize').embeddedType.model.extension.attributes[0].simpleType.restriction.base)
     assertEquals(4, schema.getElement('shoeSize').embeddedType.model.extension.attributes[0].simpleType.restriction.enumerationFacets.value.size())
   }
   

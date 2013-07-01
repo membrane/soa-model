@@ -30,8 +30,11 @@ class WSDLCreator extends AbstractWSDLCreator{
       definitions.imports.each{
         it.create(this, ctx)
       }
+	  
       definitions.types?.create(this, ctx)
-      definitions.messages.each {
+//	  definitions.registry.wsdls[definitions.targetNamespace]*.types*.create(this,ctx)
+      
+	  definitions.messages.each {
         it.create(this, ctx)
       }
       definitions.portTypes.each {
