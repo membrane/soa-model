@@ -14,45 +14,56 @@
 
 package com.predic8.wsdl.creator;
 
+import com.predic8.wsdl.*
+
 class DummyCreator extends AbstractWSDLCreator{  
   
-  def createDefinitions(definitions, context){
+  def createDefinitions(Definitions definitions, WSDLCreatorContext ctx){
     println "createDefinitions"
   }
+
+	def createImport(Import imp, WSDLCreatorContext context){
+		println "createImport"
+	}
+	
+	
+  def createTypes(Types types, WSDLCreatorContext context) {
+		println "createTypes"
+	}
   
-  def createMessage(message, context){
+  def createMessage(Message message, WSDLCreatorContext ctx){
     println "createMessage"
   }
   
-  def createPart(part, context){
+  def createPart(Part part, WSDLCreatorContext ctx){
     println "createPart"
   }
   
-  def createPortType(portType, context){
+  def createPortType(PortType portType, WSDLCreatorContext ctx){
     println "createPortType"
   }
   
-  def createOperation(operation, context){
+  def createOperation(Operation operation, WSDLCreatorContext ctx){
     println "createOperation"
   }
   
-  def createBinding(binding, context){
+  def createBinding(Binding binding, WSDLCreatorContext ctx){
     println "createBinding"
   }
   
-  def createSoapBinding(binding, context){
+  def createSoapBinding(AbstractSOAPBinding binding, WSDLCreatorContext ctx){
     println "createSoapBinding"
   }
   
-  def createBindingOperation(operation, context){
+  def createBindingOperation(BindingOperation operation, WSDLCreatorContext ctx){
     println "createBindingOperation"
   }
   
-  def createService(service, context){
+  def createService(Service service, WSDLCreatorContext ctx){
     println "createService"
   }
   
-  def createPort(port, context){
+  def createPort(Port port, WSDLCreatorContext ctx){
     println "createPort"
   }
 }

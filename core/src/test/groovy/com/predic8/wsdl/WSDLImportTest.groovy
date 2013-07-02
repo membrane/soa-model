@@ -53,7 +53,7 @@ class WSDLImportTest extends GroovyTestCase{
   void testCreator() {
     def strWriter = new StringWriter()
     def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
-    creator.createDefinitions(wsdl, [:])
+    creator.createDefinitions(wsdl, new WSDLCreatorContext())
     def createdWSDL = new XmlSlurper().parseText(strWriter.toString())
   }
 

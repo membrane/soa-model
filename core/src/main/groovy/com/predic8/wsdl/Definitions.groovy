@@ -147,7 +147,6 @@ class Definitions extends WSDLElement{
 	}
 
 	Element getElement(GQName qname) {
-//		types.allSchemas.flatten()*.getElement(qname).flatten()[0]
 		schemas*.elements.flatten().find{
 			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
 		}
@@ -158,7 +157,7 @@ class Definitions extends WSDLElement{
 	}
 
 	List<Binding> getBindings(protocol) {
-		localBindings.findAll{it.protocol == protocol}
+		bindings.findAll{it.protocol == protocol}
 	}
 
 	Binding getBinding(String name) {
@@ -166,15 +165,15 @@ class Definitions extends WSDLElement{
 	}
 
 	def getSoap11Binding(name) {
-		localBindings.binding.find { it instanceof SOAP11Binding && it.name == name }
+		bindings.binding.find { it instanceof SOAP11Binding && it.name == name }
 	}
 
 	def getSoap12Binding(name) {
-		localBindings.binding.find { it instanceof SOAP12Binding && it.name == name }
+		bindings.binding.find { it instanceof SOAP12Binding && it.name == name }
 	}
 
 	def getHTTPBinding(name) {
-		localBindings.binding.find { it instanceof HTTPBinding && it.name == name }
+		bindings.binding.find { it instanceof HTTPBinding && it.name == name }
 	}
 
 	protected parseAttributes(token, ctx){

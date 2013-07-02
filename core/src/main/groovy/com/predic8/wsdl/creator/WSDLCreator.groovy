@@ -14,26 +14,33 @@
 
 package com.predic8.wsdl.creator;
 
-import com.predic8.wsdl.*
+import groovy.xml.MarkupBuilderHelper
+
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.Consts
-import groovy.xml.MarkupBuilderHelper 
+import com.predic8.wsdl.*
+import com.predic8.wsdl.http.HTTPBinding;
+import com.predic8.wsdl.soap11.SOAPHeader
 
 class WSDLCreator extends AbstractWSDLCreator{
 	
-  def createDefinitions(definitions, ctx){
+  def createDefinitions(Definitions definitions, WSDLCreatorContext ctx){
     def attrs = ['targetNamespace':getDisplayName(definitions.targetNamespace, 'definitions.targetNamespace', ctx.error)]
     if(definitions.name) attrs['name'] = definitions.name
     
     builder.definitions(attrs + getNamespaceAttributes(definitions)) {
       definitions.documentation?.create(this, ctx)
-      definitions.imports.each{
-        it.create(this, ctx)
-      }
-	  
-      definitions.types*.create(this, ctx)
       
-	  definitions.messages.each {
+			/**
+			 * Imports should be created only if inlineWSDLImports in ctx is true.
+			 */
+//			definitions.imports.each{
+//        it.create(this, ctx)
+//      }
+	  
+			definitions.types*.create(this, ctx)
+      
+			definitions.messages.each {
         it.create(this, ctx)
       }
       definitions.portTypes.each {
@@ -48,11 +55,11 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
 
-  def createImport(imp, ctx){
+  def createImport(Import imp, WSDLCreatorContext ctx){
     builder.'import'([namespace: imp.namespace, location: imp.location] + getNamespaceAttributes(imp))
   }
 
-  def createTypes(types, ctx){
+  def createTypes(Types types, WSDLCreatorContext ctx){
     builder.types(){
       types.documentation?.create(this, ctx)
       types.schemas.each{
@@ -61,7 +68,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createMessage(message, ctx){
+  def createMessage(Message message, WSDLCreatorContext ctx){
     builder.message([name : getDisplayName(message.name, 'definitions.message.name', ctx.error)] + getNamespaceAttributes(message)) {
       message.documentation?.create(this, ctx)
       message.parts.each {
@@ -70,14 +77,14 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createPart(part, ctx) {
+  def createPart(Part part, WSDLCreatorContext ctx) {
     def attrs = [name : part.name]
     if(part.element) {attrs.put('element' , "${part.getPrefix(part.element.namespaceUri)}:${part.element.name}")}
     if(part.type) {attrs.put('type' , "${part.getPrefix(part.type.namespaceURI)}:${part.type.localPart}")}
     builder.part(attrs + getNamespaceAttributes(part))
   }
   
-  def createPortType(portType, ctx) {
+  def createPortType(PortType portType, WSDLCreatorContext ctx) {
     builder.portType([name : getDisplayName(portType.name, 'definitions.portTypes.name', ctx.error)] + getNamespaceAttributes(portType)) {
       portType.documentation?.create(this, ctx)
       portType.operations.each{
@@ -86,7 +93,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createOperation(operation, ctx) {
+  def createOperation(Operation operation, WSDLCreatorContext ctx) {
     builder.operation([name : getDisplayName(operation.name, 'definitions.operations.name', ctx.error)] + getNamespaceAttributes(operation)){
       operation.documentation?.create(this, ctx)
       operation.input.create(this, ctx)
@@ -97,7 +104,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createBinding(binding, ctx){
+  def createBinding(Binding binding, WSDLCreatorContext ctx){
     builder.binding([name : binding.name, type: binding.getTypeString(binding.type)] + getNamespaceAttributes(binding)){
       binding.documentation?.create(this, ctx)
       binding.binding?.create(this, ctx)
@@ -108,8 +115,8 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createSoapBinding(binding, ctx){
-    builder."${binding.prefix}:binding"([style: binding.style, transport: Consts.SOAP_ENC_NS] + getNamespaceAttributes(binding))
+  def createSoapBinding(AbstractSOAPBinding soapBinding, WSDLCreatorContext ctx){
+    builder."${soapBinding.prefix}:binding"([style: soapBinding.style, transport: Consts.SOAP_ENC_NS] + getNamespaceAttributes(soapBinding))
   }
   
   private getProtocolNamespace(protocol){
@@ -117,38 +124,38 @@ class WSDLCreator extends AbstractWSDLCreator{
     Consts.WSDL_SOAP12_NS
   }
 
-  def createHTTPBinding(binding, ctx){
+  def createHTTPBinding(HTTPBinding binding, ctx){
     builder."${binding.prefix}:binding"([verb: binding.verb] + getNamespaceAttributes(binding))
   }
   
-  def createBindingOperation(operation, ctx) {
-    builder."operation"([name : operation.name] + getNamespaceAttributes(operation)) {
-      operation.operation?.create(this, ctx)
-      operation.input?.create(this, ctx)
-      operation.output?.create(this, ctx)
-      operation.faults.each{
+  def createBindingOperation(BindingOperation bindingOperation, WSDLCreatorContext ctx) {
+    builder."operation"([name : bindingOperation.name] + getNamespaceAttributes(bindingOperation)) {
+      bindingOperation.operation?.create(this, ctx)
+      bindingOperation.input?.create(this, ctx)
+      bindingOperation.output?.create(this, ctx)
+      bindingOperation.faults.each{
         it.create(this, ctx)
       }
     }
   }
 
-  def createSOAPOperation(operation, ctx){
-    def attrs = [soapAction : operation.soapAction]
-    if(operation.style) attrs['style'] = operation.style
-    builder."${operation.prefix}:operation"(attrs + getNamespaceAttributes(operation))
+  def createSOAPOperation(ExtensibilityOperation soapOperation, WSDLCreatorContext ctx){
+    def attrs = [soapAction : soapOperation.soapAction]
+    if(soapOperation.style) attrs['style'] = soapOperation.style
+    builder."${soapOperation.prefix}:operation"(attrs + getNamespaceAttributes(soapOperation))
   }
 
-  def createHTTPOperation(operation, ctx){
-    builder."${operation.prefix}:operation"([location : operation.location]  + getNamespaceAttributes(operation))
+  def createHTTPOperation(ExtensibilityOperation httpOperation, WSDLCreatorContext ctx){
+    builder."${httpOperation.prefix}:operation"([location : httpOperation.location]  + getNamespaceAttributes(httpOperation))
   }
 
-  def createPortTypeMessage(portTypeMessage, ctx) {
+  def createPortTypeMessage(AbstractPortTypeMessage portTypeMessage, WSDLCreatorContext ctx) {
     def attrs = [message: "${portTypeMessage.definitions.targetNamespacePrefix}:${portTypeMessage.message.name}"]
     if(portTypeMessage.name) attrs['name'] = portTypeMessage.name
     builder."${portTypeMessage.ELEMENTNAME.localPart}"(attrs + getNamespaceAttributes(portTypeMessage))
   }
 
-  def createBindingMessage(bindingMessage, ctx){
+  def createBindingMessage(BindingMessage bindingMessage, WSDLCreatorContext ctx){
     def attrs = [:]
     if(bindingMessage.name ) attrs['name'] = bindingMessage.name
     builder."${bindingMessage.ELEMENTNAME.localPart}"(attrs + getNamespaceAttributes(bindingMessage)){
@@ -158,7 +165,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
 
-  def createSOAPBody(body, ctx){
+  def createSOAPBody(AbstractSOAPBody body, WSDLCreatorContext ctx){
     def attrs = [use : body.use]
 		def prefix = body.getPrefix(body.ELEMENTNAME.namespaceURI)
     if(body.parts) attrs['parts'] = body.parts.name.join(' ')
@@ -167,7 +174,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     builder."${prefix}:body"(attrs + getNamespaceAttributes(body))
   }
   
-  def createSOAP11Header(header, ctx){
+  def createSOAP11Header(SOAPHeader header, WSDLCreatorContext ctx){
     def prefix = header.getPrefix(header.ELEMENTNAME.namespaceURI)
     def attrs = [message : "${header.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use, part : header.part]
     if(header.encodingStyle) attrs['encodingStyle'] = header.encodingStyle
@@ -175,12 +182,12 @@ class WSDLCreator extends AbstractWSDLCreator{
     builder."${prefix}:header"(attrs + getNamespaceAttributes(header))
   }
 
-  def createSOAPFault(fault, ctx){
+  def createSOAPFault(fault, WSDLCreatorContext ctx){
 		def prefix = fault.getPrefix(fault.ELEMENTNAME.namespaceURI)
     builder."${prefix}:fault"(use: fault.use, name : fault.name)
   }
 
-  def createService(service , ctx) {
+  def createService(Service service , WSDLCreatorContext ctx) {
     builder.service(name : getDisplayName(service.name, 'definitions.services.name', ctx.error)) {
       service.documentation?.create(this, ctx)
       service.ports.each {
@@ -189,18 +196,18 @@ class WSDLCreator extends AbstractWSDLCreator{
     }
   }
   
-  def createPort(port, ctx) {
+  def createPort(Port port, WSDLCreatorContext ctx) {
     builder.port([name: port.name, binding : "${port.definitions.targetNamespacePrefix}:${port.binding.name}"] + getNamespaceAttributes(port)) {
       port.documentation?.create(this, ctx)
       port.address.create(this, ctx)
     }
   }
   
-  def createAddress(address, ctx){
+  def createAddress(AbstractAddress address, WSDLCreatorContext ctx){
     builder."${address.prefix}:address"([location : address.location] + getNamespaceAttributes(address))
   }
 
-  private createDocumentation(Documentation doc, ctx){
+  private createDocumentation(Documentation doc, WSDLCreatorContext ctx){
     builder.documentation{new MarkupBuilderHelper(builder).yieldUnescaped(doc)}
   }
 }

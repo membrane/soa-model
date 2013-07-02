@@ -15,27 +15,32 @@
 package com.predic8.wsdl.creator;
 
 import com.predic8.soamodel.AbstractCreator
+import com.predic8.wsdl.*
 
 abstract class AbstractWSDLCreator extends AbstractCreator{
   
-  def abstract createDefinitions(definitions, context)
+  def abstract createDefinitions(Definitions definitions, WSDLCreatorContext context)
   
-  def abstract createMessage(message, context)
+  def abstract createImport(Import imp, WSDLCreatorContext context)
+	
+  def abstract createTypes(Types types, WSDLCreatorContext context)
   
-  def abstract createPart(part, context)
+  def abstract createMessage(Message message, WSDLCreatorContext context)
   
-  def abstract createPortType(portType, context)
+  def abstract createPart(Part part, WSDLCreatorContext context)
   
-  def abstract createOperation(operation, context)
+  def abstract createPortType(PortType portType, WSDLCreatorContext context)
   
-  def abstract createBinding(binding, context)
+  def abstract createOperation(Operation operation, WSDLCreatorContext context)
   
-  def abstract createSoapBinding(binding, context)
+  def abstract createBinding(Binding binding, WSDLCreatorContext context)
   
-  def abstract createBindingOperation(operation, context)
+  def abstract createSoapBinding(AbstractSOAPBinding binding, WSDLCreatorContext context)
   
-  def abstract createService(service, context)
+  def abstract createBindingOperation(BindingOperation operation, WSDLCreatorContext context)
   
-  def abstract createPort(port, context)
+  def abstract createService(Service service, WSDLCreatorContext context)
+  
+  def abstract createPort(Port port, WSDLCreatorContext context)
   
 }
