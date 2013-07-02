@@ -40,7 +40,7 @@ class WSDLTest extends AbstractWSDLTest {
   
   void testGetMessage() {
     def input = new Message(name : 'getBank')
-    definitions.messages << input
+    definitions.localMessages << input
     assertEquals('getBank' , definitions.getMessage('getBank').name)
   }
   

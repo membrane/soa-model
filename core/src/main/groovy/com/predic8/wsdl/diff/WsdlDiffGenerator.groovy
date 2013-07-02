@@ -59,7 +59,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	}
 
 	private List<Difference> compareTypes(){
-		def diffs = compareDocumentation(a.types, b.types)
+		def diffs = compareDocumentation(a.localTypes, b.localTypes)
 		def lDiffs = compareSchemas()
 		if(lDiffs) diffs << new Difference(description:"Types has changed: ", breaks:false,  diffs: lDiffs, type: 'types')
 		diffs
@@ -217,11 +217,11 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
 		if(a.element && b.type) {
-			a.element.exchange = b.definitions.schemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type).exchange = exchange
+			a.element.exchange = b.definitions.localSchemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type).exchange = exchange
 			diffs << new Difference(description:"Element ${a.element.name} has changed to type ${b.type}.", type:'element2type', breaks : true, exchange:exchange)
 		}
 		else if(b.element && a.type) {
-			a.definitions.schemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type).exchange = b.element.exchange = exchange
+			a.definitions.localSchemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type).exchange = b.element.exchange = exchange
 			diffs << new Difference(description:"Type ${a.type} has changed to element ${b.element.name}.", type:'type2element', breaks : true, exchange:exchange)
 		}
 		else if(a.element?.name != b.element?.name) {
@@ -240,8 +240,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		else if(a.type && b.type) {
 			if(a.type != b.type) diffs << new Difference(description:"Type has changed from ${a.type} to ${b.type}.", type:'type', breaks : true, exchange:exchange)
 			else if(a.type.namespaceURI != Consts.SCHEMA_NS) {
-				def aType = a.definitions.schemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type)
-				def bType = b.definitions.schemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type)
+				def aType = a.definitions.localSchemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type)
+				def bType = b.definitions.localSchemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type)
 				diffs.addAll(aType.compare(new SchemaDiffGenerator(compare4WSDL:true), bType))
 			}
 		}
@@ -254,8 +254,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	 * So compareSchema() is not really needed!
 	 */
 		private List<Difference> compareSchemas(){
-			def aSchemas = a.schemas
-			def bSchemas = b.schemas
+			def aSchemas = a.localSchemas
+			def bSchemas = b.localSchemas
 			def diffs = []
 	
 			def schemas = aSchemas.targetNamespace.intersect(bSchemas.targetNamespace)

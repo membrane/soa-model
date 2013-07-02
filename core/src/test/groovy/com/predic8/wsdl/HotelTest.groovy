@@ -36,7 +36,7 @@ class OtaTest extends GroovyTestCase {
   }
   
   void testTypes() {
-    assertEquals(definitions.schemas.size(), createdWSDL.types[0].childNodes().size())
+    assertEquals(definitions.localSchemas.size(), createdWSDL.types[0].childNodes().size())
   }
   
   void testMessages() {

@@ -64,13 +64,13 @@ class ImportTransitivTest extends AbstractWSDLTest{
 
   void setUp() {
     super.setUp()
-    schemaA = definitions.schemas.find{ it.targetNamespace == 'urn:a'}
-    schemaB = definitions.schemas.find{ it.targetNamespace == 'urn:b'}
-    schemaC = definitions.schemas.find{ it.targetNamespace == 'urn:c'}
+    schemaA = definitions.localSchemas.find{ it.targetNamespace == 'urn:a'}
+    schemaB = definitions.localSchemas.find{ it.targetNamespace == 'urn:b'}
+    schemaC = definitions.localSchemas.find{ it.targetNamespace == 'urn:c'}
   }
   
   void testGetElement() {
-//    definitions.schemas.elements.each {
+//    definitions.localSchemas.elements.each {
 //    }
   }
   

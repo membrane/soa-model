@@ -42,7 +42,7 @@ class Import extends SchemaComponent {
   def getImportSchema() {
     if (!importSchema) {
       log.debug("Inlined schema [$namespace] import resolving.")
-      return schema.definitions?.schemas.find{it.targetNamespace==namespace}
+      return schema.definitions?.localSchemas.find{it.targetNamespace==namespace}
     }
     importSchema
   }

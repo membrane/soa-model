@@ -19,5 +19,10 @@ class WsdlImportWsdlImportWsdlTest extends GroovyTestCase {
 		assert 4 == wsdl.registry.getWsdls(wsdl.targetNamespace).size()
 //		println wsdl.asString
 	}
+	
+	void testTypes() {
+		assert !wsdl.localBindings
+		assert wsdl.bindings.size() == 3
+	}
 
 }

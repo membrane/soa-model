@@ -85,17 +85,12 @@ abstract class XMLElement {
 		if ( uri == Consts.XML_NS) return 'xml'
 		def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
 	}
+	
+	abstract String getNamespaceUri()
 
 	def getPrefix(){
 		getPrefix(getNamespaceUri())
 	}
-
-	//Gives the namespace where the element is defined.
-	def getNamespaceUri() {
-		if(this.hasProperty("definitions")) return  definitions.targetNamespace
-		schema.targetNamespace
-	}
-
 
 	def getNamespace(prefix) {
 		if(prefix == "xml") return Consts.XML_NS

@@ -1,25 +1,22 @@
 /* Copyright 2012 predic8 GmbH, www.predic8.com
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License. */
 
 package com.predic8.wsdl
-
-import java.lang.invoke.MethodHandles.Lookup;
 
 import groovy.xml.MarkupBuilder
 import groovy.xml.QName as GQName
 
 import javax.xml.namespace.QName as JQName
+
+import sun.org.mozilla.classfile.internal.SuperBlock;
 
 import com.predic8.policy.*
 import com.predic8.schema.*
@@ -33,226 +30,256 @@ import com.predic8.xml.util.*
 
 
 class Definitions extends WSDLElement{
-  
-  public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'definitions')
-  
-  def resourceResolver
-  
-  def baseDir
-  String targetNamespace = ''
-  List<Service> services = []
-  Types types 
-  List<Binding> bindings = []
-  List<Message> messages = []
-  List<PortType> portTypes = []
-  List<Import> imports = []
-	
+
+	public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'definitions')
+
+	def resourceResolver
+
+	def baseDir
+	String targetNamespace = ''
+
 	/**
-	 * If this is an imported WSDL, the information from the importing WSDL is needed for creators.
+	 * The local-prefix indicates that the elements are defined in this WSDL document. 
+	 * Calling e.g. getBindings will return all the bindings in an wsdl:import hierarchy
 	 */
-  Registry registry
-	
-  public Definitions() {
-		//Default constructor
-	}
-  
-  public Definitions(String tns, String name) { 
-    this.name = name
-    this.namespaces[''] = 'http://schemas.xmlsoap.org/wsdl/'
-    this.namespaces['wsdl'] = 'http://schemas.xmlsoap.org/wsdl/'
-    this.namespaces['tns'] = tns
-    this.targetNamespace = tns
-  }
-  
-  Boolean isConcrete() {
-    getBindings("SOAP11")[0]
-  }
-  
-  String getTargetNamespacePrefix() {
-    getPrefix(targetNamespace)
-  }
-  
-  PortType getPortType(String name) {
-    portTypes.find{ it.name == name } ?: lookup("portTypes", new GQName(targetNamespace, name))
-  }
-  
-  PortType getPortType(GQName qname) {
-		lookup("portTypes", qname)
-  }
-  
-  List<Operation> getOperations() {
-    (portTypes.operations).flatten().unique{ it.name }
-  }
-  
-  Operation getOperation(String name,String portType) {
-    getPortType(portType).operations.find{ name == it.name }
-  }
-  
-  Operation getOperation(String name, GQName portType) {
-    getPortType(portType).operations.find{ name == it.name }
-  }
-  
-  Message getMessage(String name) {
-    messages.find { it.name == name } ?: lookup("messages", new GQName(targetNamespace, name))
-  }
-  
-  Message getMessage(GQName qname) {
-		lookup("messages", qname)
-  }
-	
-  def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item".flatten().find{it.name == qname.localPart}}
-  
-	List<Types> getAllTypes() {
-		registry.getWsdls(targetNamespace)*.types.flatten()
-	}
-	
-  Element getElement(String name) {
-    def prefixedName = new PrefixedName(name)
-    allTypes.allSchemas.elements.flatten().find {
-      it.name == prefixedName.localName
-    }
-  }
-  
-	Element getElement(GQName qname) {
-		allTypes.allSchemas.flatten()*.getElement(qname).flatten()[0]
-	}
-  
-  Element getElementForOperation(String operation, portType){
-		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
-  }
-	
-//	List<Binding> getAllBindings() {
-//		registry.allWsdls*.bindings.flatten()
-//	}
-  
-  List<Binding> getBindings(protocol) {
-    bindings.findAll{it.protocol == protocol}
-  }
-  
-  Binding getBinding(String name) {
-    bindings.find { it.name == name } ?: lookup("bindings", new GQName(targetNamespace, name))
-  }
-  
-  Binding getBinding(GQName qname) {
-		lookup("bindings", qname)
-  }
-  
-  def getSoap11Binding(name) {
-    bindings.binding.find { it instanceof SOAP11Binding && it.name == name }
-  }
-  
-  def getSoap12Binding(name) {
-    bindings.binding.find { it instanceof SOAP12Binding && it.name == name }
-  }
-  
-  def getHTTPBinding(name) {
-    bindings.binding.find { it instanceof HTTPBinding && it.name == name }
-  }
-  
-  protected parseAttributes(token, ctx){
-    targetNamespace = ctx.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
+	Types localTypes
+	List<Message> localMessages = []
+	List<PortType> localPortTypes = []
+	List<Binding> localBindings = []
+	List<Service> localServices = []
+
+	List<Import> imports = []
+
+	/**
+	 * If this is an imported WSDL, the information from the importing WSDL will be 
+	 * achieved from the WSDLs in the registry.
+	 */
+	Registry registry = new Registry() 
+
+	public Definitions() {
 		registry.add(this)
-    name = token.getAttributeValue( null , 'name')
-  }
+	}
+
+	public Definitions(String tns, String name) {
+		this.name = name
+		this.namespaces[''] = 'http://schemas.xmlsoap.org/wsdl/'
+		this.namespaces['wsdl'] = 'http://schemas.xmlsoap.org/wsdl/'
+		this.namespaces['tns'] = tns
+		this.targetNamespace = tns
+		registry.add(this)
+	}
+
+	/**
+	 * All the getter methods return the local elements and elements defined in other 
+	 * WSDLs with the same namespace. 
+	 */
+	public List<Types> getTypes() {
+		registry.getWsdls(targetNamespace)*.localTypes.flatten()
+	}
+
+	public List<Message> getMessages() {
+		allWSDLs.localMessages.flatten()
+	}
+
+	public List<PortType> getPortTypes() {
+		allWSDLs.localPortTypes.flatten()
+	}
+
+	public List<Binding> getBindings() {
+		allWSDLs.localBindings.flatten()
+	}
+
+	public List<Service> getServices() {
+		allWSDLs.localServices.flatten()
+	}
+
+	String getTargetNamespacePrefix() {
+		getPrefix(targetNamespace)
+	}
 	
-  protected parseChildren(token, child, ctx){
-    super.parseChildren(token, child, ctx)
-    switch (token.name) {
+	public void setTypes(Types types){
+		localTypes = types
+	}
+	
+	Boolean isConcrete() {
+		getBindings("SOAP11")[0]
+	}
+
+	PortType getPortType(String name) {
+		portTypes.find{ it.name == name }
+	}
+
+	PortType getPortType(GQName qname) {
+		lookup("portTypes", qname)
+	}
+
+	List<Operation> getOperations() {
+		(portTypes.operations).flatten().unique()
+	}
+
+	Operation getOperation(String name, String portType) {
+		getPortType(portType).operations.find{ name == it.name }
+	}
+
+	Operation getOperation(String name, GQName portType) {
+		getPortType(portType).operations.find{ name == it.name }
+	}
+
+	Message getMessage(String name) {
+		messages.find { it.name == name }
+	}
+
+	Message getMessage(GQName qname) {
+		lookup("messages", qname)
+	}
+	
+	Binding getBinding(GQName qname) {
+		lookup("bindings", qname)
+	}
+
+	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item".flatten().find{it.name == qname.localPart}}
+
+	Element getElement(String name) {
+		def prefixedName = new PrefixedName(name)
+		types.allSchemas.elements.flatten().find {
+			it.name == prefixedName.localName
+		}
+	}
+
+	Element getElement(GQName qname) {
+//		types.allSchemas.flatten()*.getElement(qname).flatten()[0]
+		schemas*.elements.flatten().find{
+			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
+		}
+	}
+
+	Element getElementForOperation(String operation, portType){
+		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
+	}
+
+	List<Binding> getBindings(protocol) {
+		localBindings.findAll{it.protocol == protocol}
+	}
+
+	Binding getBinding(String name) {
+		bindings.find { it.name == name }
+	}
+
+	def getSoap11Binding(name) {
+		localBindings.binding.find { it instanceof SOAP11Binding && it.name == name }
+	}
+
+	def getSoap12Binding(name) {
+		localBindings.binding.find { it instanceof SOAP12Binding && it.name == name }
+	}
+
+	def getHTTPBinding(name) {
+		localBindings.binding.find { it instanceof HTTPBinding && it.name == name }
+	}
+
+	protected parseAttributes(token, ctx){
+		targetNamespace = ctx.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
+		registry.add(this)
+		name = token.getAttributeValue( null , 'name')
+	}
+
+	protected parseChildren(token, child, ctx){
+		super.parseChildren(token, child, ctx)
+		switch (token.name) {
 			case Policy.ELEMENTNAME :
 				def policy = new Policy(wsdlElement: this, parent : parent)
 				policy.parse(token, ctx)
-				policies << policy ; break
-      case Import.ELEMENTNAME :
-        def imp = new Import(definitions : this)
-        imp.parse(token, ctx)
-          imports << imp ; break
-      case Types.ELEMENTNAME :
-        types = new Types(definitions : this)
-          types.parse(token, ctx) ; break
-      case Message.ELEMENTNAME :
-        def message = new Message(definitions: this)
-        message.parse(token, ctx)
-          messages << message ; break
-      case PortType.ELEMENTNAME:
-        def portType = new PortType(definitions:this)
-        portType.parse(token, ctx)
-          portTypes << portType ; break
-      case Binding.ELEMENTNAME :
-        def binding = new Binding(definitions: this)
-        binding.parse(token, ctx)
-          bindings << binding; break
-      case Service.ELEMENTNAME :
-        def service = new Service(definitions : this)
-        service.parse(token, ctx)
-          services << service; break
-			
-			default : 
+					policies << policy ; break
+			case Import.ELEMENTNAME :
+				def imp = new Import(definitions : this)
+				imp.parse(token, ctx)
+					imports << imp ; break
+			case Types.ELEMENTNAME :
+				localTypes = new Types(definitions : this)
+					localTypes.parse(token, ctx) ; break
+			case Message.ELEMENTNAME :
+				def message = new Message(definitions: this)
+				message.parse(token, ctx)
+					localMessages << message ; break
+			case PortType.ELEMENTNAME:
+				def portType = new PortType(definitions:this)
+				portType.parse(token, ctx)
+					localPortTypes << portType ; break
+			case Binding.ELEMENTNAME :
+				def binding = new Binding(definitions: this)
+				binding.parse(token, ctx)
+					localBindings << binding; break
+			case Service.ELEMENTNAME :
+				def service = new Service(definitions : this)
+				service.parse(token, ctx)
+					localServices << service; break
+
+			default :
 				if(token.name != Documentation.ELEMENTNAME || token.name != Policy.ELEMENTNAME )
-				ctx.errors << "${token.name} in a wsdl is not supported yet!"
+					ctx.errors << "${token.name} in a wsdl is not supported yet!"
 				break
-    }
-  }
-  
-  List<Schema> getSchemas(){
-    types?.schemas
-  }
-  
-  Schema getSchema(String targetNamespace){
-    types.allSchemas.flatten().find{ it.targetNamespace == targetNamespace }
-  }
-  
-  def getService(GQName qname){
-		lookup("services", qname)
-  }
-  
-  def create(creator, ctx){
-    creator.createDefinitions(this, ctx)
-  }
+		}
+	}
+
+	List<Schema> getLocalSchemas(){
+		localTypes?.schemas
+	}
 	
-  List<Definitions> getAllWSDLs(){
-		registry.allWsdls
-  }
-  
-  
-  private getWSDL(tns){
-		registry.getWsdls(tns)[0]
-  }
-  
-  public void add(Schema schema){
-      types.schemas << schema
-  }
-  
-  public Message newMessage(String name){
-    def msg = new Message(definitions:this, name:name, parent: this)
-    messages << msg
-    msg
-  }
-  
-  public PortType newPortType(String name){
-    def pt = new PortType(definitions:this, name:name, parent: this)
-    portTypes << pt
-    pt
-  }
-  
-  public Binding newBinding(String name){
-    def bnd = new Binding(definitions:this, name:name, parent: this)
-    bindings << bnd
-    bnd
-  }
-  
-  public Service newService(String name){
-    def service = new Service(name : name, definitions: this, parent: this)
-    services << service
-    service
-  }
-  
-  String getAsString(){
-    StringWriter writer = new StringWriter()
-    create(new WSDLCreator(builder: new MarkupBuilder(writer)), new WSDLCreatorContext())
-    writer.toString()
-  }
-  
-  String toString() {
-    "defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$services, documentation=$documentation, schemas=$schemas, bindings=$bindings, messages=$messages, portTypes=$portTypes]"
-  }
+	List<Schema> getSchemas(){
+		types.schemas.flatten()
+	}
+
+	Schema getSchema(String targetNamespace){
+		types.allSchemas.flatten().find{ it.targetNamespace == targetNamespace }
+	}
+
+	def getService(GQName qname){
+		lookup("services", qname)
+	}
+
+	def create(creator, ctx){
+		creator.createDefinitions(this, ctx)
+	}
+
+	List<Definitions> getAllWSDLs(){
+		registry.getWsdls(targetNamespace)
+	}
+
+	public void addSchema(Schema schema){
+		localTypes.schemas << schema
+	}
+
+	public Message newMessage(String name){
+		def msg = new Message(definitions:this, name:name, parent: this)
+		localMessages << msg
+		msg
+	}
+
+	public PortType newPortType(String name){
+		def pt = new PortType(definitions:this, name:name, parent: this)
+		localPortTypes << pt
+		pt
+	}
+
+	public Binding newBinding(String name){
+		def bnd = new Binding(definitions:this, name:name, parent: this)
+		localBindings << bnd
+		bnd
+	}
+
+	public Service newService(String name){
+		def service = new Service(name : name, definitions: this, parent: this)
+		localServices << service
+		service
+	}
+
+	String getAsString(){
+		StringWriter writer = new StringWriter()
+		create(new WSDLCreator(builder: new MarkupBuilder(writer)), new WSDLCreatorContext())
+		writer.toString()
+	}
+
+	String toString() {
+		"defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$localServices, documentation=$documentation, schemas=$localSchemas, bindings=$localBindings, messages=$localMessages, portTypes=$localPortTypes]"
+	}
 }

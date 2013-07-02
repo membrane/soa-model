@@ -43,7 +43,8 @@ class ServiceTest extends AbstractWSDLTest {
   void setUp() {
     def binding = new Binding(name:'BLZServiceSOAP11Binding', binding : new Soap11Binding())
     definitions = new Definitions()
-    definitions.bindings << binding
+    definitions.localBindings << binding
+		definitions.registry.add(definitions)	
     
     token = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(wsdl))
     while (token.hasNext()) {
@@ -56,7 +57,7 @@ class ServiceTest extends AbstractWSDLTest {
       if(token.hasNext()) token.next()
     }
   }
-  
+	
   void testBinding() {
     assertNotNull(service.ports[0].binding)
   }

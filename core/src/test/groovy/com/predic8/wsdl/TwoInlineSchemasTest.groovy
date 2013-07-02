@@ -59,8 +59,8 @@ class TwoInlineSchemasTest extends AbstractWSDLTest{
 
   void setUp() {
     super.setUp()
-    schemaA = definitions.schemas.find{ it.targetNamespace == 'urn:a'}
-    schemaB = definitions.schemas.find{ it.targetNamespace == 'urn:b'}
+    schemaA = definitions.localSchemas.find{ it.targetNamespace == 'urn:a'}
+    schemaB = definitions.localSchemas.find{ it.targetNamespace == 'urn:b'}
   }
   
   void testGetElement() {

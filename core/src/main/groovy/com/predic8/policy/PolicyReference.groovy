@@ -15,6 +15,7 @@
 package com.predic8.policy
 
 import javax.xml.namespace.QName
+
 import com.predic8.soamodel.*
 
 class PolicyReference extends XMLElement{
@@ -32,6 +33,10 @@ class PolicyReference extends XMLElement{
   def parse(token, ctx){
 //    println "PolicyReference parse method!"
   }
+	
+	String getNamespaceUri() {
+		definitions.targetNamespace
+	}
 
   QName getElementName() {
     ELEMENTNAME

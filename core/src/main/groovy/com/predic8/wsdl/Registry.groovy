@@ -18,13 +18,14 @@ class Registry {
 	}
 	
 	String toString() {
-		String str = ''
-		wsdls.each{
-			str += it.key
-			str += ' : '
-			str += it.value
-			str += '\n' 
-		}
-		str
+//		String str = ''
+//		wsdls.each{
+//			str += it.key
+//			str += ' : '
+//			str += it.value
+//			str += '\n' 
+//		}
+//		str
+		wsdls.toString()
 	}
 }

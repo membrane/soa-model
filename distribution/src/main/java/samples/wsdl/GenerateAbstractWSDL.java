@@ -30,7 +30,7 @@ public class GenerateAbstractWSDL {
         .newElement("number", INT);
 
     Definitions wsdl = new Definitions("http://predic8.com/wsdl/AddService/1/","AddService");
-    wsdl.add(schema);
+    wsdl.addSchema(schema);
 
     PortType pt = wsdl.newPortType("AddPortType");
     Operation op = pt.newOperation("add");

@@ -21,7 +21,7 @@ import groovy.xml.MarkupBuilder
 
 class WSDLImportTest extends GroovyTestCase{
 
-  def wsdl
+  Definitions wsdl
 
   void setUp(){
     def parser = new WSDLParser( resourceResolver: new ClasspathResolver())
@@ -34,12 +34,12 @@ class WSDLImportTest extends GroovyTestCase{
 
   void testGetPortTypeByQName() {
     assertNotNull(wsdl.getPortType(new GQName('http://example.com/stockquote/definitions', 'StockQuotePortType')))
-    assertEquals(1, wsdl.getWSDL('http://example.com/stockquote/definitions').portTypes.size())
+    assertEquals(1, wsdl.registry.getWsdls('http://example.com/stockquote/definitions')[0].portTypes.size())
   }
 
   void testGetMessageByQName() {
     assertNotNull(wsdl.getMessage(new GQName('http://example.com/stockquote/messages', 'GetLastTradePriceInput')))
-    assertEquals(2, wsdl.getWSDL('http://example.com/stockquote/messages').messages.size())
+    assertEquals(2, wsdl.registry.getWsdls('http://example.com/stockquote/messages')[0].messages.size())
   }
 
   void testBindingByQName() {

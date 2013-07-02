@@ -15,7 +15,9 @@
 package com.predic8.xml.namespace
 
 import junit.framework.TestCase
+
 import javax.xml.stream.*
+
 import com.predic8.soamodel.*
 
 class A extends XMLElement {
@@ -40,12 +42,18 @@ class A extends XMLElement {
   def getElementName() {
     'a'
   }
+  public String getNamespaceUri() {
+		'uri:a'
+  }
 }
 
 class B extends XMLElement {
 	static final String NAMESPACE = 'uri:a'
   def getElementName() {
     'b'
+  }
+  public String getNamespaceUri() {
+	 'uri:a'
   }
 }
 
@@ -69,6 +77,9 @@ class C extends XMLElement {
   def getElementName() {
     'c'
   }
+  public String getNamespaceUri() {
+	  'uri:a'
+  }
 }
 
 class D extends XMLElement {
@@ -76,12 +87,18 @@ class D extends XMLElement {
   def getElementName() {
     'd'
   }
+  public String getNamespaceUri() {
+	 'uri:d'
+  }
 }
 
 class E extends XMLElement {
 	static final String NAMESPACE = 'uri:e'
   def getElementName() {
     'e'
+  }
+  public String getNamespaceUri() {
+		'uri:e'
   }
 }
 

@@ -51,15 +51,15 @@ class PortTypeTest extends GroovyTestCase{
     def output1 = new Message(name : 'getBankResponse', definitions : definitions)
     def input2 = new Message(name : 'getBankDetails', definitions : definitions)
     def output2 = new Message(name : 'getBankDetailsResponse', definitions : definitions)
-    definitions.messages << input1 << output1
-    definitions.messages << input2 << output2
+    definitions.localMessages << input1 << output1
+    definitions.localMessages << input2 << output2
 
     token = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(wsdl))
     while (token.hasNext()) {
       if(token.startElement) {
         if(token.name.getLocalPart() == 'portType') {
           portType = new PortType(definitions: definitions)
-          definitions.portTypes << portType
+          definitions.localPortTypes << portType
           portType.parse(token, new WSDLParserContext())
         }
       }
