@@ -14,15 +14,32 @@
 
 package com.predic8.wsdl
 
+import com.predic8.wsdl.style.*
+
 abstract class AbstractSOAPBinding extends AbstractBinding{
   
-  String style = 'document'
+	Binding binding
+	BindingStyle bindingStyle = new DocumentLiteralStyle()
   String transport = "http://schemas.xmlsoap.org/soap/http"
+	
 
-  protected parseAttributes(token, params){
-    style = token.getAttributeValue(null , 'style') ?: 'document'
+  protected parseAttributes(token, ctx){
+    String tempStyle = token.getAttributeValue(null , 'style')
+		if(tempStyle == 'rpc') bindingStyle = new RPCStyle()
+		else{
+			bindingStyle = new DocumentLiteralStyle()
+    	if(tempStyle != 'document') ctx.errors << "The style of binding '${binding.name}' should be 'rpc' or 'document'."
+		}
     transport = token.getAttributeValue(null , 'transport')
   }
+	
+	public getStyle() {
+		bindingStyle.value
+	}
+	
+	Map checkStyle() {
+		bindingStyle.check(binding)
+	}
   
   abstract String getContentType()
   

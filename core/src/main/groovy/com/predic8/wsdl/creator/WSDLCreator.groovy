@@ -116,7 +116,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createSoapBinding(AbstractSOAPBinding soapBinding, WSDLCreatorContext ctx){
-    builder."${soapBinding.prefix}:binding"([style: soapBinding.style, transport: Consts.SOAP_ENC_NS] + getNamespaceAttributes(soapBinding))
+    builder."${soapBinding.prefix}:binding"([style: soapBinding.bindingStyle, transport: Consts.SOAP_ENC_NS] + getNamespaceAttributes(soapBinding))
   }
   
   private getProtocolNamespace(protocol){

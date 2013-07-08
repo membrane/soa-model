@@ -51,8 +51,8 @@ class Definitions extends WSDLElement{
 	List<Import> imports = []
 
 	/**
-	 * If this is an imported WSDL, the information from the importing WSDL will be 
-	 * achieved from the WSDLs in the registry.
+	 * If there are imported WSDLs, the complete information about the WSDL elements 
+	 * should be collected from the WSDLs in the registry.
 	 */
 	Registry registry = new Registry() 
 

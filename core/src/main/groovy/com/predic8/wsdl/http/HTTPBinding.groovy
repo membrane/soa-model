@@ -31,6 +31,10 @@ public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'bindin
   String getProtocol(){
     "HTTP"
   }
+	
+	Map checkStyle() {
+		[result:'This binding uses the HTTP protocol and has no style information']
+	}
 
   def create(creator, ctx) {
     creator.createHTTPBinding(this, ctx)

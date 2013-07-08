@@ -107,7 +107,7 @@ abstract class XMLElement {
 		if ( uri == '' && preName.prefix == '' ) return new QName('',type) //throw new RuntimeException("No namespace declared for element ${type}.") //uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix
 		if ( uri == null ) {
 			log.error "Can not find namespace uri for [${type}]"
-			throw new RuntimeException("No namespace declared for element ${type}.")
+			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for element ${type} in element '${this.name}'.", preName, this)
 		}
 		log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"
 		return new QName(uri,preName.localName, preName.prefix)

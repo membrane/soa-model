@@ -32,8 +32,8 @@ class ExternalResolver extends ResourceResolver {
 
 	private Log log = LogFactory.getLog(this.class)
 
-	def proxyHost
-	def proxyPort
+	String proxyHost
+	int proxyPort
 	int timeout = 10000
 
 	def resolve(input, baseDir) {
@@ -92,28 +92,6 @@ class ExternalResolver extends ResourceResolver {
 		fixUtf8BOM(new FileInputStream(new File(filename)))
 	}
 
-	private request(url) {
-		HttpClient client = new DefaultHttpClient();
-		if ( proxyHost ) {
-			HttpHost proxy = new HttpHost(proxyHost, proxyPort);
-			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-		}
-		HttpParams params = client.getParams();
-		HttpConnectionParams.setConnectionTimeout(params, 10000);
-
-		HttpGet method = new HttpGet(url);
-		method.setHeader("User-Agent", "SOA Model (see http://membrane-soa.org)")
-		HttpResponse response = client.execute(method)
-		if(response.statusLine.statusCode != 200) {
-			def rde = new ResourceDownloadException("could not get resource $url by HTTP")
-			rde.status = status
-			rde.url = url
-			method.releaseConnection()
-			throw rde
-		}
-		response
-	}
-
 	protected resolveViaHttp(url) {
 		URI uri = new URI(url)
 		uri.normalize()
@@ -129,5 +107,27 @@ class ExternalResolver extends ResourceResolver {
 		} catch (Exception e) {
 			throw new ResourceDownloadException(rootCause : e, url : url)
 		}
+	}
+
+	private request(url) {
+		HttpClient client = new DefaultHttpClient();
+		if ( proxyHost ) {
+			HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+		}
+		HttpParams params = client.getParams();
+		HttpConnectionParams.setConnectionTimeout(params, timeout);
+
+		HttpGet method = new HttpGet(url);
+		method.setHeader("User-Agent", "SOA Model (see http://membrane-soa.org)")
+		HttpResponse response = client.execute(method)
+		if(response.statusLine.statusCode != 200) {
+			def rde = new ResourceDownloadException("could not get resource $url by HTTP")
+			rde.status = status
+			rde.url = url
+			method.releaseConnection()
+			throw rde
+		}
+		response
 	}
 }

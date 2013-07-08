@@ -23,6 +23,8 @@ import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
+import sun.org.mozilla.javascript.internal.ast.SwitchStatement;
+
 import com.predic8.soamodel.Consts
 import com.predic8.policy.*
 import com.sun.xml.internal.ws.org.objectweb.asm.Item;
@@ -49,6 +51,7 @@ class Binding extends WSDLElement{
 	protected parseAttributes(token, params){
 		name = token.getAttributeValue(null , 'name')
 		type = getTypeQName(token.getAttributeValue(null , 'type'))
+		//TODO: parse style attribute.
 	}
 
 	protected parseChildren(token, child, params){
@@ -60,10 +63,10 @@ class Binding extends WSDLElement{
 					policy.parse(token, params) ; break
 			case SOAP11Binding.ELEMENTNAME :
 				log.debug "is soap11"
-				binding = new SOAP11Binding(definitions: definitions)
+				binding = new SOAP11Binding(definitions: definitions, binding: this)
 					binding.parse(token, params) ;   break
 			case SOAP12Binding.ELEMENTNAME :
-				binding = new SOAP12Binding(definitions: definitions)
+				binding = new SOAP12Binding(definitions: definitions, binding: this)
 					binding.parse(token, params) ; break
 			case Operation.ELEMENTNAME:
 				def operation = new BindingOperation(definitions : definitions, binding: this)
@@ -80,57 +83,30 @@ class Binding extends WSDLElement{
 	}
 
 	PortType getPortType(){
-//		definitions.registry.wsdls[definitions.targetNamespace]*.getPortType(type)[0]
 		definitions.getPortType(type)
 	}
 
 	def getProtocol() {
 		binding.getProtocol()
 	}
-
+	
+	/**
+	 * Analyzes and returns the style/use attribute of the binding.
+	 * @return The style/use combination of a WSDL binding as string
+	 */
 	String getStyle(){
-
-		if(binding.protocol == 'HTTP') return 'This binding uses the HTTP protocol and has no style information'
-
-		List<String> usages = operations.input.bindingElements.use.unique()
-		String style  = binding.style.capitalize()
-		String  usage
-
-
-		usages = usages.flatten()
-		if(usages.size() > 1) usage = 'Mixed'
-		else usage = usages[0].capitalize() ?: 'Unknown'
-
-		if("$style/$usage" != 'Document/Literal') return "$style/$usage"
-		String result = "Document/Literal-Wrapped"
-		//		sBindings.each { bnd ->
-		operations.each {op ->
-			def inputParts = portType.getOperation(op.name).input.message.parts
-			//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
-			if(inputParts?.size() > 1) result = "Document/Literal"
-			inputParts.each { inPart->
-				//Rule 2: "Part" Definitions should use element and not type
-				if(inPart.type && !inPart.element) {
-					result = "Document/Literal (Invalid! The input message of operation ${op.name} uses a part with type instead of element.)"
-					return
-				}
-				//Rule 3: Input Wrapper Element name should match with Operation name
-				if(inPart.element.name  != op.name) result = "Document/Literal"
-			}
-			def outputParts = portType.getOperation(op.name).output.message.parts
-			outputParts.each { outPart->
-				//Rule 2: "Part" Definitions are wrapper elements
-				if(outPart.type && !outPart.element) {
-					result = "Document/Literal ((Invalid! The outputmessage of operation ${op.name} uses a part with type instead of element.)"
-					return
-				}
-				//Rule 4: <Output Wrapper Element Name> = <Operation Name> + "Response"
-				if(outPart.element.name  != "${op.name}Response") result = "Document/Literal"
-			}
-		}
-		result
+		binding.checkStyle()['result']
 	}
-
+	
+	/**
+	 * Returns a list of errors, if there are some in the binding style.
+	 * Each error is a hash map.
+	 * @return List of style errors. 
+	 */
+	List<Map> getStyleErrors() {
+		binding.checkStyle()['errors']
+	}
+	
 	SOAP11Binding newSOAP11Binding(){
 		definitions.namespaces += ['soap':Consts.WSDL_SOAP11_NS]
 		binding = new SOAP11Binding(definitions: definitions, parent: this)

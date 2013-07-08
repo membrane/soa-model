@@ -21,7 +21,7 @@ import javax.xml.stream.*
 abstract class AbstractWSDLTest extends GroovyTestCase{
   
   def token
-  def definitions
+  Definitions definitions
   
 	void setUp() {
 		definitions = new WSDLParser().parse(new ByteArrayInputStream(wsdl.bytes))

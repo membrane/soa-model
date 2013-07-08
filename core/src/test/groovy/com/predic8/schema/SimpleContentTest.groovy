@@ -20,8 +20,8 @@ import com.predic8.schema.diff.SchemaDiffGenerator
 
 class SimpleContentTest extends GroovyTestCase {
   
-  def schema
-  def element
+  Schema schema
+  Element element
   
   void setUp(){
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())

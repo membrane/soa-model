@@ -24,6 +24,7 @@ abstract class TypeDefinition extends SchemaComponent {
   AnyAttribute anyAttribute
 	
   protected parseAttributes(token, params){
+		super.parseAttributes(token, params)
     name = token.getAttributeValue( null , 'name')
     if (name) {
       def preName = new PrefixedName(name)

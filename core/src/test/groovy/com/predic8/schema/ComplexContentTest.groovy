@@ -24,8 +24,8 @@ import com.predic8.wstool.creator.*
 
 class ComplexContentTest extends GroovyTestCase{
 
-  def schemaA
-  def schemaB
+  Schema schemaA
+  Schema schemaB
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())

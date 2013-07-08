@@ -35,7 +35,6 @@ class Part extends WSDLElement{
 			element = definitions.getElement(elementPN)
 			if (!element) ctx.errors << "Could not find element $elementPN referenced from a message part! Please make sure that the element is defined in the used XML Schema definitions!"
 		}
-		
     type = getTypeQName(token.getAttributeValue( null , 'type'))
     if(element && type) ctx.wsiResults << new WSIResult(rule : 'R2306')
   }

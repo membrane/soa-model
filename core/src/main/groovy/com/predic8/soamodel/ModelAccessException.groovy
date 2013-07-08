@@ -14,6 +14,8 @@
 
 package com.predic8.soamodel
 
+@groovy.transform.CompileStatic
+
 class ModelAccessException extends RuntimeException {
 	
 	public ModelAccessException() {

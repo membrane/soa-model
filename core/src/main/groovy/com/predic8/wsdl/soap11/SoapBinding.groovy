@@ -23,10 +23,10 @@ class SOAPBinding extends AbstractSOAPBinding{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP11_NS, 'binding')
 
-  protected parseAttributes(token, params){
-    super.parseAttributes(token, params)
-    if(!transport) params.wsiResults << new WSIResult(rule : 'R2701')
-    if(transport && transport != 'http://schemas.xmlsoap.org/soap/http') params.wsiResults << new WSIResult(rule : 'R2702')
+  protected parseAttributes(token, ctx){
+    super.parseAttributes(token, ctx)
+    if(!transport) ctx.wsiResults << new WSIResult(rule : 'R2701')
+    if(transport && transport != 'http://schemas.xmlsoap.org/soap/http') ctx.wsiResults << new WSIResult(rule : 'R2702')
   }
 
   String getContentType(){

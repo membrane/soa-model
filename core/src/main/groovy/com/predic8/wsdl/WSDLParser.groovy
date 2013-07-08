@@ -39,8 +39,11 @@ class WSDLParser extends AbstractParser{
 					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver, registry : registry ?: new Registry())
 					definitions.parse(token, ctx)
 				}
-				else if(token.name == Consts.WSDL20_DEFINITIONS) {
+				else if(token.name.namespaceURI == Consts.WSDL20_NS) {
 					throw new RuntimeException("WSDL 2.0 is not supported yet.")
+				}
+				else {
+					throw new WrongGrammerException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WSDL document but was '${token.name}'.", token.name)
 				}
 			}
 			if(token.hasNext()) token.next()

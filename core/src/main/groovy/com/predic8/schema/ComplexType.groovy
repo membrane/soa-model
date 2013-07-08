@@ -72,7 +72,20 @@ class ComplexType extends TypeDefinition {
     }
     model
   }
-  
+	
+	/**
+	 * If C is in a ComplexType hierarchy like: A <- B <- C ,
+	 * calling C.getSuperTypes() returns [B, A]  
+	 * @return the list of derivated CompexTypes and SimpleTypes   
+	 */
+	List<QName> getSuperTypes(){
+		if(model instanceof ComplexContent || model instanceof SimpleContent){
+			QName base = model.derivation.base ?: ((model.extension ?: model.restriction).base)
+			return schema.getComplexType(base.localPart) ? [base] + schema.getComplexType(base.localPart)?.superTypes : [base]
+		}
+		[]
+	}
+	
   def create(creator, CreatorContext ctx){
     creator.createComplexType(this, ctx.clone())
   }

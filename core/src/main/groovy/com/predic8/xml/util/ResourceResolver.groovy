@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 
 
-class ResourceResolver {
+abstract class ResourceResolver {
 	
 	
 	protected InputStream fixUtf8BOM(InputStream is) throws IOException {

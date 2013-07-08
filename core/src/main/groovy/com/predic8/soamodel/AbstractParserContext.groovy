@@ -14,14 +14,16 @@
 
 package com.predic8.soamodel
 
+import com.predic8.xml.util.ResourceResolver
+
 abstract class AbstractParserContext {
 
   def input
-  def resourceResolver
-  def baseDir
-  def newBaseDir
+  ResourceResolver resourceResolver
+  String baseDir
+  String newBaseDir
   def parent
-  def targetNamespace
+  String targetNamespace
   def importedSchemas
   def token
   def wsiResults = []
