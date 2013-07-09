@@ -18,6 +18,7 @@ import org.apache.commons.httpclient.methods.*
 import org.apache.commons.httpclient.*
 
 import com.predic8.schema.Import as SchemaImport
+import com.predic8.schema.Include;
 import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.io.*
 import com.predic8.util.*
@@ -26,7 +27,7 @@ class ClasspathResolver extends ResourceResolver {
   
 
   def resolve(input, baseDir) {
-    if ( input instanceof SchemaImport ) {
+    if ( input instanceof SchemaImport || input instanceof Include ) {
       input = input.schemaLocation
     }
     

@@ -19,4 +19,3 @@ import com.predic8.soamodel.AbstractParserContext;
 class SchemaParserContext extends AbstractParserContext{
 
 }
-

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://thomas-bayer.com/blz/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	targetNamespace="http://thomas-bayer.com/blz/">
+
+	<wsdl:documentation>BLZService messages and portTypes</wsdl:documentation>
+
+	<wsdl:portType name="BLZServicePortType">
+		<wsdl:operation name="getBank">
+			<wsdl:input message="tns:getBank" />
+			<wsdl:output message="tns:getBankResponse"
+				wsaw:Action="http://thomas-bayer.com/blz/BLZService/getBankResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+</wsdl:definitions>

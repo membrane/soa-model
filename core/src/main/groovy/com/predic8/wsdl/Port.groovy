@@ -20,8 +20,11 @@ import com.predic8.wsdl.soap12.Address as SOAP12Address;
 import com.predic8.wsdl.http.Address as HttpAddress;
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
+
 import groovy.xml.QName
+
 import javax.xml.namespace.QName as JQName
+
 import com.predic8.soamodel.Consts
 //import com.sun.xml.internal.ws.fault.SOAP11Fault;
 
@@ -31,11 +34,12 @@ class Port extends WSDLElement{
 
   Binding binding
   AbstractAddress address
+	private PrefixedName prefixedName
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue(null , 'name')
-    def pn = new PrefixedName(token.getAttributeValue(null , 'binding'))
-    binding = definitions.getBinding(pn.localName)
+    prefixedName = new PrefixedName(token.getAttributeValue(null , 'binding'))
+    
   }
 
   protected parseChildren(token, child, params){
@@ -52,6 +56,11 @@ class Port extends WSDLElement{
       address.parse(token, params) ; break
     }
   }
+	
+	Binding getBinding() {
+		if(binding) return binding
+		binding = definitions.getBinding(getQNameForPN(prefixedName))
+	}
   
   def isSOAP11() {
     binding.binding instanceof SOAP11Binding

@@ -102,15 +102,19 @@ abstract class XMLElement {
 	QName getTypeQName(String type) {
 		if ( !type ) return // Null is OK cause of embedded types.
 
-		def preName = new PrefixedName(type)
-		def uri = getNamespace(preName.prefix)
-		if ( uri == '' && preName.prefix == '' ) return new QName('',type) //throw new RuntimeException("No namespace declared for element ${type}.") //uri = schema.targetNamespace //take targetnamespace if no defaultnamespace and no prefix
+		PrefixedName preName = new PrefixedName(type)
+		getQNameForPN(preName)
+	}
+	
+	public getQNameForPN(PrefixedName pn) {
+		String uri = getNamespace(pn.prefix)
+		if ( uri == '' && pn.prefix == '' ) return new QName('',pn.localName)
 		if ( uri == null ) {
-			log.error "Can not find namespace uri for [${type}]"
-			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for element ${type} in element '${this.name}'.", preName, this)
+			log.error "Can not find namespace uri for [${pn}]"
+			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for element ${pn} in element '${this.name}'.", pn, this)
 		}
-		log.debug "resolving [$type] as ${new QName(uri,preName.localName, preName.prefix)}"
-		return new QName(uri,preName.localName, preName.prefix)
+		log.debug "resolving [$pn] as ${new QName(uri,pn.localName, pn.prefix)}"
+		return new QName(uri,pn.localName, pn.prefix)
 	}
 
 	String getTypeString(qname){

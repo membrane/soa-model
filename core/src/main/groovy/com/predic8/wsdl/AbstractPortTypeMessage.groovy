@@ -20,29 +20,25 @@ import com.predic8.xml.util.*
 
 abstract class AbstractPortTypeMessage extends WSDLElement {
 
-  Message message
+	private PrefixedName messagePrefixedName 
 
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')
-    def messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
-    if(definitions.getNamespace(messagePrefixedName.prefix)==definitions.targetNamespace){
-      message = definitions.getMessage(messagePrefixedName.localName)
-      return
-    }
-		try {
-			message = definitions.getMessage(new QName(definitions.getNamespace(messagePrefixedName.prefix),messagePrefixedName.localName))
-    } catch (Exception e) {
-	    ctx.errors << "Could not definition for message ${messagePrefixedName.localName}."
-    }
+    messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
   }
   
+	def getMessage() {
+		if(messagePrefixedName) return definitions.getMessage(getQNameForPN(messagePrefixedName))
+		definitions.getMessage(name)
+	}
+	
   def create(creator, ctx) {
     creator.createPortTypeMessage(this, ctx)
   }
   
   Message newMessage(String name){
-    message = definitions.newMessage(name)
-  }  
+    definitions.newMessage(name)
+  }	
   
 }
 

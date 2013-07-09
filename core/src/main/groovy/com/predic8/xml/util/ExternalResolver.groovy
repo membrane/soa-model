@@ -12,6 +12,7 @@
 package com.predic8.xml.util
 
 import java.net.ConnectException;
+
 import org.apache.commons.logging.*
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -24,6 +25,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import com.predic8.schema.Import as SchemaImport
+import com.predic8.schema.Include;
 import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.soamodel.Consts;
 import com.predic8.io.*
@@ -38,7 +40,7 @@ class ExternalResolver extends ResourceResolver {
 
 	def resolve(input, baseDir) {
 		
-		if ( input instanceof SchemaImport ) {
+		if ( input instanceof SchemaImport || input instanceof Include) {
 			if ( !input.schemaLocation ) return
 				input = input.schemaLocation
 		}

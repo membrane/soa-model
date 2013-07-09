@@ -36,7 +36,7 @@ class Include extends SchemaComponent {
   }
 
   private parseIncludedSchema(params){
-    def resource = schema.resourceResolver.resolve(schemaLocation, schema.baseDir)
+    def resource = schema.resourceResolver.resolve(this, schema.baseDir)
   	
     def incToken = XMLInputFactory.newInstance().createXMLStreamReader(resource)
     while(incToken.hasNext()) {

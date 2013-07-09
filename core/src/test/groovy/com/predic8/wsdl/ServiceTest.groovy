@@ -15,8 +15,9 @@
 package com.predic8.wsdl
 
 import javax.xml.stream.*
+
 import com.predic8.wsdl.soap11.SOAPBinding as Soap11Binding
-import com.predic8.wsdl.soap12.SOAPBinding as Soap12Binding
+import com.predic8.xml.util.ClasspathResolver
 
 class ServiceTest extends AbstractWSDLTest {
   
@@ -41,33 +42,23 @@ class ServiceTest extends AbstractWSDLTest {
   </wsdl:definitions>'''
   
   void setUp() {
-    def binding = new Binding(name:'BLZServiceSOAP11Binding', binding : new Soap11Binding())
-    definitions = new Definitions()
-    definitions.localBindings << binding
-		definitions.registry.add(definitions)	
-    
-    token = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(wsdl))
-    while (token.hasNext()) {
-      if(token.startElement) {
-        if(token.name.getLocalPart() == 'service') {
-          service = new Service(definitions : definitions)
-          service.parse(token, [:])
-        }
-      }
-      if(token.hasNext()) token.next()
-    }
+		super.setUp()
+		def binding = new Binding(name:'BLZServiceSOAP11Binding', binding : new Soap11Binding())
+		definitions.localBindings << binding
+		service = definitions.services[0]
   }
 	
   void testBinding() {
-    assertNotNull(service.ports[0].binding)
+    assert service.ports.binding 
+    assert service.ports[0].binding.name == 'BLZServiceSOAP11Binding'
   }
   
   void testService() {
-    assertEquals('BLZService' , service.name)
+    assert  service.name == 'BLZService'
   }
   
   void testPort() {
-    assertEquals('BLZServiceSOAP11port_http' , service.ports[0].name)
-    assertEquals("http://www.thomas-bayer.com:80/axis2/services/BLZService" , service.ports[0].address.location)
+    assert service.ports[0].name == 'BLZServiceSOAP11port_http' 
+    assert service.ports[0].address.location == "http://www.thomas-bayer.com:80/axis2/services/BLZService" 
   }
 }
