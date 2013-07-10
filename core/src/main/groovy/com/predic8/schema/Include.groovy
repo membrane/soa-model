@@ -27,11 +27,10 @@ class Include extends SchemaComponent {
   private Log log = LogFactory.getLog(this.class)
   
   String schemaLocation
-  def importSchema
 
    protected parseAttributes(token, params){
     schemaLocation = token.getAttributeValue( null , 'schemaLocation')
-    if(schema.includes.contains(HTTPUtil.getLocation(schema.baseDir,schemaLocation))) return
+    if(schema.includedPaths.contains(HTTPUtil.getLocation(schema.baseDir,schemaLocation))) return
     parseIncludedSchema(params)
   }
 
@@ -53,7 +52,7 @@ class Include extends SchemaComponent {
     schema.parse(incToken, [targetNamespace:schema.targetNamespace, importedSchemas:params.importedSchemas])
     schema.baseDir = origBaseDir
 
-    schema.includes << HTTPUtil.getLocation(schema.baseDir,schemaLocation)
+    schema.includedPaths << HTTPUtil.getLocation(schema.baseDir,schemaLocation)
   }
 
   protected getElementName(){

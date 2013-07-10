@@ -225,7 +225,7 @@ class Definitions extends WSDLElement{
 	}
 	
 	List<Schema> getSchemas(){
-		types.schemas.flatten()
+		types.allSchemas.flatten()
 	}
 
 	Schema getSchema(String targetNamespace){

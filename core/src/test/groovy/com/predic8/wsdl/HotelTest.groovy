@@ -21,7 +21,7 @@ import com.predic8.wsdl.creator.*
 import com.predic8.xml.util.*
 import com.predic8.creator.*
 
-class OtaTest extends GroovyTestCase {
+class HotelTest extends GroovyTestCase {
   
   def definitions
   def createdWSDL

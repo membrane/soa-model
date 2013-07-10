@@ -49,7 +49,16 @@ class Schema extends SchemaComponent{
   String attributeFormDefault = "unqualified"
   String elementFormDefault = "unqualified"
   List<Import> imports = []
+	/**
+	 * includes contains a list of Include objects for each included schema.
+	 */
   List<Include> includes = []
+	
+	/**
+	 * includedPaths contains a list of Strings with the real schema location 
+	 * and is used to prevent a cycling include circle to come to a deadlock.
+	 */
+	List<String> includedPaths = []
   List<ComplexType> complexTypes = []
   List<Group> groups = []
   List<SimpleType> simpleTypes = []
@@ -103,7 +112,8 @@ class Schema extends SchemaComponent{
       params.token = token
       def inc = new Include(schema : this)
       log.debug "including schema $inc"
-      inc.parse(token, params) ; break
+      inc.parse(token, params)
+      includes << inc ; break
       case 'attribute' :
       def attribute = new Attribute(schema: this)
       attribute.parse(token, params)
@@ -298,6 +308,6 @@ class Schema extends SchemaComponent{
   }
   
   String toString(){
-    "schema[ baseDir=$baseDir, targetNamespace=$targetNamespace, attributeFormDefault=$attributeFormDefault, elementFormDefault=$elementFormDefault, namespaces=$namespaceContext, imports=$imports, complexTypes=${complexTypes.qname}, simpleTypes=${simpleTypes.qname}, elements=${elements.name} ]\n"
+    "schema[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, imports=$imports, includes=$includes, complexTypes=${complexTypes.name}, simpleTypes=${simpleTypes.name}, elements=${elements.name} ]\n"
   }
 }
