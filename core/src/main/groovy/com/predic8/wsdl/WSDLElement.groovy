@@ -25,33 +25,38 @@ import com.predic8.policy.Policy
 import com.predic8.soamodel.Consts
 import com.predic8.soamodel.XMLElement
 import com.predic8.xml.util.*
+
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.HeaderTokenizer.Token;
 
 abstract class WSDLElement extends XMLElement {
 
-	private Log log = LogFactory.getLog(this.class)
+    private Log log = LogFactory.getLog(this.class)
 
-	String name
-  Definitions definitions
-  Documentation documentation
-	List<Policy> policies = []
-  
-  def abstract create(creator , context)
-  
-  protected parseChildren(token, child, ctx) {
-    switch (token.name) {
-      case Documentation.ELEMENTNAME :
-      	documentation = new Documentation(definitions: definitions, parent : parent)
-				documentation.parse(token, ctx)
-				break
+    String name
+    Definitions definitions
+    Documentation documentation
+    List<Policy> policies = []
+
+    def abstract create(creator, context)
+
+    protected parseChildren(token, child, ctx) {
+        switch (token.name) {
+            case Documentation.ELEMENTNAME:
+                documentation = new Documentation(definitions: definitions, parent: parent)
+                documentation.parse(token, ctx)
+                break
+        }
     }
-  }
-	
-	String getNamespaceUri() {
-		definitions.targetNamespace
-	}
 
-  JQName getElementName() {
-    ELEMENTNAME
-  }
+    String getNamespaceUri() {
+        definitions.targetNamespace
+    }
+
+    JQName getElementName() {
+        ELEMENTNAME
+    }
+
+    QName getQName() {
+        new QName(namespaceUri, name)
+    }
 }
