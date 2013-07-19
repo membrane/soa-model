@@ -68,6 +68,11 @@ class Element extends Declaration {
     log.debug "child [$child] of element [$name] parsed!"
   }
   
+  //TODO return the real object of ref! 
+//	def getRef(){
+//		schema.getElement(ref).name or qname!
+//	}
+	
   protected getElementName(){
     'element'
   }

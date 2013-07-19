@@ -62,6 +62,6 @@ class PortType extends WSDLElement{
   }
   
   String toString() {
-    "portType[ operations=$operations, ping=$ping, documentation=$documentation ]"
+    "portType[name=$name,  operations=$operations, ping=$ping, documentation=$documentation ]"
   }
 }

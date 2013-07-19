@@ -43,6 +43,8 @@ abstract class XMLElement {
 			if(token.startElement) {
 				ctx.parent = this
 				parseChildren(token, token.name.getLocalPart(), ctx)
+				if(token.hasNext()) token.next()
+				continue				
 			}
 			if(token.getEventType() in [
 				XMLStreamReader.CHARACTERS,
@@ -52,7 +54,7 @@ abstract class XMLElement {
 				parseText(token.getText())
 			}
 			if(isEndTagReached(token)){
-				token.next()
+//				if(token.hasNext()) token.next()
 				break
 			}
 			if(token.hasNext()) token.next()
@@ -111,7 +113,7 @@ abstract class XMLElement {
 		if ( uri == '' && pn.prefix == '' ) return new QName('',pn.localName)
 		if ( uri == null ) {
 			log.error "Can not find namespace uri for [${pn}]"
-			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for element ${pn} in element '${this.name}'.", pn, this)
+			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for '${pn}'" + (name ? " in element '${name}'." : "."), pn, this)
 		}
 		log.debug "resolving [$pn] as ${new QName(uri,pn.localName, pn.prefix)}"
 		return new QName(uri,pn.localName, pn.prefix)

@@ -84,7 +84,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     def diffs = []
     (b.particles-bPs).eachWithIndex() { bP, i ->
         if(a.elements.find{it.name == bP.name}) {
-        diffs << new Difference(description:"${labelPositionElement} ${bP.name ?: bP.elementName} ${labelChanged}." , type: 'sequence', breaks: true, safe: false)
+        diffs << new Difference(description:"${labelPositionElement} ${bP.name ? bP.name +' ' : ''}${labelChanged}." , type: 'sequence', breaks: true, safe: false)
       } else {
 				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${labelAdded}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
       }

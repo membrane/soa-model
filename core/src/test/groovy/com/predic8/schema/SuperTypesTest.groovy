@@ -12,33 +12,24 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package com.predic8.wsdl
+package com.predic8.schema
 
-import groovy.xml.QName
-
+import com.predic8.wsdl.Definitions
+import com.predic8.wsdl.WSDLParser
 import com.predic8.xml.util.*
 
-abstract class AbstractPortTypeMessage extends WSDLElement {
-
-	private PrefixedName messagePrefixedName 
-
-  protected parseAttributes(token, ctx){
-    name = token.getAttributeValue(null , 'name')
-    messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
+class SuperTypesTest extends GroovyTestCase {
+  
+  Definitions wsdl
+  
+  void setUp(){
+    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+    wsdl = parser.parse("article-service-inheritance/ArticleService.wsdl")
   }
   
-	Message getMessage() {
-		if(messagePrefixedName) return definitions.getMessage(getQNameForPN(messagePrefixedName))
-		definitions.getMessage(name)
+	void testComplexTypeGetSuperTypes() {
+		Schema schema1 = wsdl.getSchema('http://predic8.com/wsdl/material/ArticleService/1/')
+		assert 4 == schema1.getComplexType('Child').superTypes.size()
 	}
-	
-  def create(creator, ctx) {
-    creator.createPortTypeMessage(this, ctx)
-  }
-  
-  Message newMessage(String name){
-    definitions.newMessage(name)
-  }	
-  
 }
 

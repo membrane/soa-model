@@ -24,7 +24,8 @@ abstract class AbstractSOAPHeader extends BindingElement{
 
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
-    message = definitions.getMessage(new PrefixedName(token.getAttributeValue(null , 'message')).localName)
+    //TODO Resolve message element lazy and outside the parse()!
+		message = definitions.getMessage(new PrefixedName(token.getAttributeValue(null , 'message')).localName)
     part = token.getAttributeValue(null , 'part')
   }
 

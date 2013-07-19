@@ -68,6 +68,7 @@ class DocumentLiteralStyle extends BindingStyle {
 		String result = "Document/Literal-Wrapped"
 
 		operations.each {op ->
+			if(!portType.getOperation(op.name).input?.message) return
 			def inputParts = portType.getOperation(op.name).input.message.parts
 			//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
 			if(inputParts?.size() > 1) {
@@ -82,6 +83,7 @@ class DocumentLiteralStyle extends BindingStyle {
 				//Rule 3: Input Wrapper Element name should match with Operation name
 				if(inPart.element?.name  != op.name) result = "Document/Literal"
 			}
+			if(!portType.getOperation(op.name).output?.message) return
 			def outputParts = portType.getOperation(op.name).output.message.parts
 			outputParts.each { outPart->
 				//Rule 2: "Part" Definitions are wrapper elements
@@ -100,7 +102,7 @@ class DocumentLiteralStyle extends BindingStyle {
 		def errors = []
 		operations.each {op ->
 			//Check if every message in an operation uses only one part and if the part references an element.
-			def opMessages = [portType.getOperation(op.name).input.message] + [portType.getOperation(op.name).output.message]
+			def opMessages = ([portType.getOperation(op.name).input] + [portType.getOperation(op.name).output]).message
 			errors.addAll(checkPartErrors(op, opMessages))
 		}
 		errors

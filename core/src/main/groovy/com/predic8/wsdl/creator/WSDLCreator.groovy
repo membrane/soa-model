@@ -88,6 +88,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     builder.portType([name : getDisplayName(portType.name, 'definitions.portTypes.name', ctx.error)] + getNamespaceAttributes(portType)) {
       portType.documentation?.create(this, ctx)
       portType.operations.each{
+				//TODO call it.create() instead.
         createOperation(it, ctx)
       }
     }

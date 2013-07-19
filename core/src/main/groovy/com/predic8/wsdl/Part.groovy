@@ -31,7 +31,7 @@ class Part extends WSDLElement{
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue( null , 'name')
     def elementPN = token.getAttributeValue(null , 'element')
-		if(elementPN)	{ 
+		if(elementPN)	{
 			element = definitions.getElement(elementPN)
 			if (!element) ctx.errors << "Could not find element $elementPN referenced from a message part! Please make sure that the element is defined in the used XML Schema definitions!"
 		}

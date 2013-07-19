@@ -68,6 +68,6 @@ class Operation extends WSDLElement{
   }
   
   String toString() {
-    "operation[ input=$input, output=$output, faults=$faults, documentation=$documentation ]"
+    "operation[ name=$name, input=$input, output=$output, faults=$faults, documentation=$documentation ]"
   }
 }

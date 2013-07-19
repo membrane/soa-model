@@ -28,8 +28,8 @@ class Group extends SchemaComponent{
   def maxOccurs
 
 
-  protected parseAttributes(token, params){
-    super.parseAttributes(token, params)
+  protected parseAttributes(token, ctx){
+    super.parseAttributes(token, ctx)
     if (name) {
       def preName = new PrefixedName(name)
       qname = new QName(schema.targetNamespace, preName.localName)
@@ -38,18 +38,21 @@ class Group extends SchemaComponent{
     maxOccurs = token.getAttributeValue( null , 'maxOccurs')
   }
 
-  protected parseChildren(token, child, params){
+  protected parseChildren(token, child, ctx){
     switch (child ){
       case 'annotation' :
       annotation = new Annotation(schema: schema)
-      annotation.parse(token, params) ; break
+      annotation.parse(token, ctx) ; break
       case 'sequence' :
       model = new Sequence(schema:schema)
       //token.nextTag()
-      model.parse(token, params) ; break
+      model.parse(token, ctx) ; break
       case 'all' :
       model = new All(schema:schema)
-      model.parse(token, params) ; break
+      model.parse(token, ctx) ; break
+			case 'choice' :
+			model = new Choice(schema:schema)
+			model.parse(token, ctx) ; break
     }
   }
 
