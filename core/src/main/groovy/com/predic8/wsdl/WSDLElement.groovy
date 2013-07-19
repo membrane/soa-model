@@ -54,4 +54,8 @@ abstract class WSDLElement extends XMLElement {
   JQName getElementName() {
     ELEMENTNAME
   }
+
+  QName getQName() {
+      new QName(namespaceUri, name)
+  }
 }
