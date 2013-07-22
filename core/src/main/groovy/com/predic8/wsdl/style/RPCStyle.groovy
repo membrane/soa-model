@@ -27,7 +27,7 @@ class RPCStyle extends BindingStyle {
 			}
 		}
 		
-		value = value.capitalize()
+		def value = value.capitalize()
 			
 		def usages = (([operations.input]+ [operations.output]).bindingElements.use).flatten().unique()
 		def err = [:]
