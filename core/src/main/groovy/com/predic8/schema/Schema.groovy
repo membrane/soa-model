@@ -45,7 +45,7 @@ class Schema extends SchemaComponent{
   def resourceResolver
   
   String baseDir = ''
-  String targetNamespace=''
+  String targetNamespace = ''
   String attributeFormDefault = "unqualified"
   String elementFormDefault = "unqualified"
   List<Import> imports = []
@@ -74,53 +74,53 @@ class Schema extends SchemaComponent{
     namespaces['tns'] = tns
   }
   
-  protected parseAttributes(token, params){
-    targetNamespace = params.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
-    params.importedSchemas = params.importedSchemas ?: [:]
-    params.importedSchemas[targetNamespace]=this
+  protected parseAttributes(token, ctx){
+    targetNamespace = ctx.targetNamespace ?: (token.getAttributeValue( null , 'targetNamespace') ?: '')
+    ctx.importedSchemas = ctx.importedSchemas ?: [:]
+    ctx.importedSchemas[targetNamespace] = this
     attributeFormDefault = token.getAttributeValue( null , 'attributeFormDefault') ?: "unqualified"
     elementFormDefault = token.getAttributeValue( null , 'elementFormDefault') ?: "unqualified"
   }
 
-  protected parseChildren(token, child, params){
+  protected parseChildren(token, child, ctx){
     switch (child ){
       case 'annotation' :
       annotation = new Annotation(schema: this)
-      annotation.parse(token, params) ; break
+      annotation.parse(token, ctx) ; break
       case 'complexType':
       def complexType = new ComplexType(schema:this)
-      complexType.parse(token, params)
+      complexType.parse(token, ctx)
       complexTypes << complexType ; break
       case 'group':
       def group = new Group(schema:this)
-      group.parse(token, params)
+      group.parse(token, ctx)
       groups << group ;break
       case 'simpleType':
 			def simpleType = new SimpleType(schema:this)
-      simpleType.parse(token, params)
+      simpleType.parse(token, ctx)
       simpleTypes << simpleType ; break
       case 'element':
       def element = new Element(schema:this,toplevel:true)
-      element.parse(token, params)
+      element.parse(token, ctx)
       elements << element ; break
       case 'import':
       def imp = new Import(schema : this)
-      params.token = token
-      imp.parse(token, params)
+      ctx.token = token
+      imp.parse(token, ctx)
       imports << imp ; break
       case 'include':
-      params.token = token
+      ctx.token = token
       def inc = new Include(schema : this)
       log.debug "including schema $inc"
-      inc.parse(token, params)
+      inc.parse(token, ctx)
       includes << inc ; break
       case 'attribute' :
       def attribute = new Attribute(schema: this)
-      attribute.parse(token, params)
+      attribute.parse(token, ctx)
       attributes << attribute ; break
       case 'attributeGroup' :
       def attributeGroup = new AttributeGroup(schema: this)
-      attributeGroup.parse(token, params)
+      attributeGroup.parse(token, ctx)
       attributeGroups << attributeGroup ; break
     }
   }

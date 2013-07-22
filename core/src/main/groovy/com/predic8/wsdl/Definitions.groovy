@@ -138,18 +138,30 @@ class Definitions extends WSDLElement{
 	}
 
 	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item".flatten().find{it.name == qname.localPart}}
-
+	
 	Element getElement(String name) {
-		def prefixedName = new PrefixedName(name)
-		types.allSchemas.elements.flatten().find {
-			it.name == prefixedName.localName
-		}
+		getElement(getQNameForPN(new PrefixedName(name)))
 	}
 
 	Element getElement(GQName qname) {
-		schemas*.elements.flatten().find{
+		schemas.elements.flatten().find{
 			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
 		}
+	}
+	
+	TypeDefinition getSchemaType(String name) {
+		getSchemaType(getQNameForPN(new PrefixedName(name)))
+	}
+	
+	TypeDefinition getSchemaType(GQName qname) {
+		TypeDefinition type
+		schemas.each{
+			if(it.getType(qname)){
+				type = it.getType(qname)
+				return
+			}
+		}
+		type
 	}
 
 	Element getElementForOperation(String operation, portType){
@@ -229,7 +241,7 @@ class Definitions extends WSDLElement{
 	}
 
 	Schema getSchema(String targetNamespace){
-		types.allSchemas.flatten().find{ it.targetNamespace == targetNamespace }
+		schemas.find{ it.targetNamespace == targetNamespace }
 	}
 
 	def getService(GQName qname){

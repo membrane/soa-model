@@ -10,6 +10,7 @@
  limitations under the License. */
 
 package com.predic8.wsdl
+
 import com.predic8.soamodel.*
 import com.predic8.wsi.*
 
@@ -49,6 +50,8 @@ class WSDLParser extends AbstractParser{
 			if(token.hasNext()) token.next()
 		}
 		if(!definitions) throw new RuntimeException("The parsed document ${ctx.input} is not a valid WSDL document.")
+//		Class WSDLValidator, Method validate()  new Class ValidationError --> ctx.errors
+		new WSDLValidator().validate(definitions, ctx)
 		definitions
 	}
 }

@@ -14,6 +14,10 @@
 
 package com.predic8.schema;
 
+import groovy.xml.QName;
+
+import java.util.List;
+
 import com.predic8.soamodel.CreatorContext 
 import com.predic8.wstool.creator.*
 import com.predic8.schema.restriction.*
@@ -47,6 +51,10 @@ class SimpleType extends TypeDefinition {
 	  restriction.parse(token, params)
     }
   }
+	
+	List<QName> getSuperTypes(){
+		[restriction?.base] ?: []
+	}
 
   public boolean equals(obj) {
     obj && ( this.is(obj) ||

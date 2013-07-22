@@ -112,7 +112,7 @@ abstract class XMLElement {
 		String uri = getNamespace(pn.prefix)
 		if ( uri == '' && pn.prefix == '' ) return new QName('',pn.localName)
 		if ( uri == null ) {
-			log.error "Can not find namespace uri for [${pn}]"
+			log.debug "Can not find namespace uri for [${pn}]"
 			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for '${pn}'" + (name ? " in element '${name}'." : "."), pn, this)
 		}
 		log.debug "resolving [$pn] as ${new QName(uri,pn.localName, pn.prefix)}"

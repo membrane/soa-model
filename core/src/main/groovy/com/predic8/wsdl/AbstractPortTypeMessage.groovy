@@ -20,7 +20,7 @@ import com.predic8.xml.util.*
 
 abstract class AbstractPortTypeMessage extends WSDLElement {
 
-	private PrefixedName messagePrefixedName 
+	PrefixedName messagePrefixedName 
 
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')

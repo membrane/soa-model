@@ -24,37 +24,42 @@ class TwoInlineSchemasTest extends AbstractWSDLTest{
 <definitions name="zweiSchema" targetNamespace="http://j2ee.netbeans.org/wsdl/zweiSchema"
     xmlns="http://schemas.xmlsoap.org/wsdl/"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/zweiSchema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns0="urn:a" xmlns:ns1="urn:b">
-    <types>
-        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="urn:a"
-        xmlns:b="urn:b"
-        xmlns:tns="urn:a"
-        elementFormDefault="qualified">
-          <xsd:import namespace="urn:b"/>
-            <xsd:complexType name="AType">
-                <xsd:sequence>
-                    <xsd:element name="a" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:element name="aa" type="tns:AType"/>
-      <xsd:element name="dd" type="b:BType"/>
-    </xsd:schema>
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		xmlns:tns="http://j2ee.netbeans.org/wsdl/zweiSchema" 	
+		xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" 
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+		xmlns:ns0="urn:a" 
+		xmlns:ns1="urn:b">
+  <types>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="urn:b"
-        xmlns:tns="urn:b"
-        xmlns:a="urn:a"
-        elementFormDefault="qualified">
-        <xsd:import namespace="urn:a"/>
-      <xsd:complexType name="BType">
-        <xsd:sequence>
-          <xsd:element name="b" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:element name="bb" type="tns:BType"/>
-      <xsd:element name="cc" type="a:AType"/>
-    </xsd:schema>
-  </types>
+    targetNamespace="urn:a"
+    xmlns:b="urn:b"
+    xmlns:tns="urn:a"
+    elementFormDefault="qualified">
+      <xsd:import namespace="urn:b"/>
+      <xsd:complexType name="AType">
+          <xsd:sequence>
+              <xsd:element name="a" type="xsd:string"/>
+  				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="aa" type="tns:AType"/>
+  		<xsd:element name="dd" type="b:BType"/>
+		</xsd:schema>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:b"
+    xmlns:tns="urn:b"
+    xmlns:a="urn:a"
+    elementFormDefault="qualified">
+    	<xsd:import namespace="urn:a"/>
+  		<xsd:complexType name="BType">
+    		<xsd:sequence>
+      		<xsd:element name="b" type="xsd:string"/>
+    		</xsd:sequence>
+  		</xsd:complexType>
+  		<xsd:element name="bb" type="tns:BType"/>
+  		<xsd:element name="cc" type="a:AType"/>
+		</xsd:schema>
+	</types>
 </definitions>'''
 
   void setUp() {
@@ -64,13 +69,13 @@ class TwoInlineSchemasTest extends AbstractWSDLTest{
   }
   
   void testGetElement() {
-    assertNotNull(definitions.getElement('aa'))
-    assertNotNull(definitions.getElement('bb'))
+    assertNotNull(definitions.getElement('ns0:aa'))
+    assertNotNull(definitions.getElement('ns1:bb'))
   }
   
   void testElementType() {
-    assertEquals(new QName('urn:a','AType'), (definitions.getElement('aa').type))
-    assertEquals(new QName('urn:b','BType'), (definitions.getElement('bb').type))
+    assertEquals(new QName('urn:a','AType'), (definitions.getElement('ns0:aa').type))
+    assertEquals(new QName('urn:b','BType'), (definitions.getElement('ns1:bb').type))
   }
   
   void testFindTypeInImportedSchema() {
