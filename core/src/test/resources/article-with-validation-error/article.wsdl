@@ -54,6 +54,7 @@
     </message>
     <message name="getResponse">
         <part name="parameters" element="tns:getResponse"/>
+        <part name="4Test" type="xsd:string"/>
     </message>
     <message name="getAllRequest">
         <part name="parameters" element="tns:getAll"/>

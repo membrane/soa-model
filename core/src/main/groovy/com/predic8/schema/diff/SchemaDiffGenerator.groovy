@@ -145,6 +145,10 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
   def compareSimpleRestriction(a, b){
     new SimpleRestrictionDiffGenerator(a: a, b: b, generator: this).compare()
   }
+	
+	def compareBuiltInSchemaType(a, b){
+    new BuiltInSchemaTypeDiffGenerator(a: a, b: b, generator: this).compare()
+  }
   
   protected def updateLabels(){
 	  labelTN = bundle.getString("com.predic8.schema.diff.labelTN")

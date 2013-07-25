@@ -11,11 +11,13 @@
 
 package com.predic8.wsdl;
 
-public class InvalidWSDLException extends RuntimeException {
+public class WSDLVersion2NotSupportedException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-  private static final long serialVersionUID = 4414283795961883803L;
+  public WSDLVersion2NotSupportedException(String message) {
+	  super(message);
+  }
+
+	private static final long serialVersionUID = 7180057899382788821L;
+  
 	
 }

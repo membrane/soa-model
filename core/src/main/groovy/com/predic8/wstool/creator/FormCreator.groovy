@@ -38,7 +38,7 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
     
     def msg = operation.input.message
     getHeaderElements(bindingOperation).each{ header ->
-      msg.getPart(header.part).element.create(this, new FormCreatorContext(formParams:'',path:"xpath:/"))
+      msg.getPart(header.partName).element.create(this, new FormCreatorContext(formParams:'',path:"xpath:/"))
     }
     def body = bindingOperation.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body}
     msg.parts.findAll{it in body.parts}.each{

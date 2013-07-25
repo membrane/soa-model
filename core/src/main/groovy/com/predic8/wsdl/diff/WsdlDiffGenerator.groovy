@@ -217,11 +217,11 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
 		if(a.element && b.type) {
-			a.element.exchange = b.definitions.localSchemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type).exchange = exchange
-			diffs << new Difference(description:"Element ${a.element.name} has changed to type ${b.type}.", type:'element2type', breaks : true, exchange:exchange)
+			a.element.exchange = b.type.exchange = exchange
+			diffs << new Difference(description:"Element ${a.element.name} has changed to type ${b.type.qname}.", type:'element2type', breaks : true, exchange:exchange)
 		}
 		else if(b.element && a.type) {
-			a.definitions.localSchemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type).exchange = b.element.exchange = exchange
+			a.type.exchange = b.element.exchange = exchange
 			diffs << new Difference(description:"Type ${a.type} has changed to element ${b.element.name}.", type:'type2element', breaks : true, exchange:exchange)
 		}
 		else if(a.element?.name != b.element?.name) {
@@ -238,12 +238,9 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
 		}
 		else if(a.type && b.type) {
-			if(a.type != b.type) diffs << new Difference(description:"Type has changed from ${a.type} to ${b.type}.", type:'type', breaks : true, exchange:exchange)
-			else if(a.type.namespaceURI != Consts.SCHEMA_NS) {
-				def aType = a.definitions.localSchemas.find{it.targetNamespace == a.type.namespaceURI}.getType(a.type)
-				def bType = b.definitions.localSchemas.find{it.targetNamespace == b.type.namespaceURI}.getType(b.type)
-				diffs.addAll(aType.compare(new SchemaDiffGenerator(compare4WSDL:true), bType))
-			}
+			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needen.
+			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange)
+			diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
 		if(diffs) return [new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs, exchange:exchange)]
 		[]

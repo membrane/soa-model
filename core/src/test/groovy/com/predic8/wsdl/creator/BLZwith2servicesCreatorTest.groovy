@@ -21,9 +21,9 @@ import com.predic8.wsdl.*
 import com.predic8.xml.util.*
 import com.predic8.creator.*
 
-class BLZCreatorTest extends GroovyTestCase {
+class BLZwith2servicesCreatorTest extends GroovyTestCase {
 
-  def definitions
+  Definitions definitions
   def createdWSDL
 
   void setUp() {
@@ -37,10 +37,11 @@ class BLZCreatorTest extends GroovyTestCase {
 
   private def getDefinitions() {
     def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-    definitions = parser.parse("/BLZService.wsdl")
+    definitions = parser.parse("/BLZ-with-2-services.wsdl")
   }
 
   void testCreator() {
     assertEquals('BLZService', createdWSDL.toString())
+		assert 'BLZServiceTestService' == createdWSDL.service.@name.toString()
   }
 }

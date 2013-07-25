@@ -12,12 +12,14 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package com.predic8.soamodel
+package com.predic8.soamodel;
 
 @groovy.transform.CompileStatic
 
 class ModelAccessException extends RuntimeException {
-	
+
+  private static final long serialVersionUID = 5405085246506357279L;
+
 	public ModelAccessException() {
 	  super();
 	  // TODO Auto-generated constructor stub

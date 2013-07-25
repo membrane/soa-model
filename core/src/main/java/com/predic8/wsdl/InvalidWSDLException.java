@@ -9,30 +9,10 @@
  See the License for the specific language governing permissions and
  limitations under the License. */
 
-package com.predic8.soamodel;
+package com.predic8.wsdl;
 
-import javax.xml.namespace.QName;
+public class InvalidWSDLException extends RuntimeException {
 
-public class WrongGrammerException extends RuntimeException {
+  private static final long serialVersionUID = 4414283795961883803L;
 	
-	/**
-	 * 
-	 */
-  private static final long serialVersionUID = -2200072011898720523L;
-
-	public WrongGrammerException(String message, Object rootElement) { 
-		super(message);
-		setRootElement((QName) rootElement);
-	}
-
-	QName rootElement;
-
-	public QName getRootElement() {
-		return rootElement;
-	}
-
-	public void setRootElement(QName rootElement) {
-		this.rootElement = rootElement;
-	}
-
 }

@@ -112,6 +112,19 @@ class BindingStyleTest extends AbstractWSDLTest {
     </wsdl:operation>
   </wsdl:binding>
 
+	<wsdl:binding name="BLZServiceHttpBinding" type="tns:BLZServicePortType">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="getBank">
+      <http:operation location="BLZService/getBank"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="getBank"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="getBank"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
   <wsdl:service name="BLZService">
     <wsdl:port name="BLZServiceSOAP11port_http" binding="tns:BLZServiceSOAP11Binding">
       <soap:address location="http://www.thomas-bayer.com:80/axis2/services/BLZService"/>
@@ -127,7 +140,8 @@ class BindingStyleTest extends AbstractWSDLTest {
 '''
 	
   void testBinding() {
-//		println "DocumentLiteralBinding Style: " +  definitions.getBinding('DocumentLiteralBinding').binding.checkStyle()
+  	assert definitions.bindings.styleErrors
+		assert definitions.bindings[3].styleErrors == []
 		assert definitions.getBinding('DocumentLiteralBinding').binding.checkStyle()['result'] == 'Document/Literal'
 		assert definitions.getBinding('DocumentLiteralBinding').styleErrors.size() == 3
   }

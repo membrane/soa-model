@@ -14,8 +14,9 @@
 
 package com.predic8.schema
 
+import javax.xml.stream.XMLStreamReader
+
 import com.predic8.soamodel.AbstractParser
-import com.predic8.soamodel.Consts;
 import com.predic8.soamodel.WrongGrammerException
 
 class SchemaParser extends AbstractParser{
@@ -32,7 +33,7 @@ class SchemaParser extends AbstractParser{
 		super.parse(input)
 	}
   
-  def parseLocal(token, ctx){
+  def parseLocal(XMLStreamReader token, ctx){
     ctx.importedSchemas = ctx.importedSchemas ?: [:]
     def schema
     while(token.hasNext()){

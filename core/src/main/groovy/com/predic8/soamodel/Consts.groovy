@@ -21,7 +21,7 @@ class Consts {
 
 	//WSDL, Schema and SOAP namespaces
   public static final String WSDL11_NS = "http://schemas.xmlsoap.org/wsdl/"
-	public static final String WSDL20_NS = "http://www.w3.org/2006/01/wsdl/"
+	public static final String WSDL20_NS = "http://www.w3.org/ns/wsdl"
   public static final String WSDL_SOAP11_NS = "http://schemas.xmlsoap.org/wsdl/soap/"
   public static final String WSDL_SOAP12_NS = "http://schemas.xmlsoap.org/wsdl/soap12/"
   public static final String WSDL_HTTP_NS = "http://schemas.xmlsoap.org/wsdl/http/"

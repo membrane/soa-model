@@ -19,18 +19,30 @@ import com.predic8.xml.util.*
 
 abstract class AbstractSOAPHeader extends BindingElement{
 
+	String messageName
   Message message
-  String part
+  String partName
+	/**
+	 * SOAPHeader uses part and not parts. WSDL spec section A 4.2 SOAP Binding Schema is wrong!
+	 */
+  Part part
+	
 
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
-    //TODO Resolve message element lazy and outside the parse()!
-		message = definitions.getMessage(new PrefixedName(token.getAttributeValue(null , 'message')).localName)
-    part = token.getAttributeValue(null , 'part')
+		messageName = token.getAttributeValue(null , 'message')
+    partName = token.getAttributeValue(null , 'part')
   }
+	
+	Message getMessage() {
+		if(message) return message
+		message = definitions.getMessage(getTypeQName(messageName))
+	}
+	
 
-  protected getMessagePart(){
-    message.parts.find{it.name == part}
+  Part getPart(){
+		if(part) return part
+		part = getMessage().parts.find{it.name == partName}
   }
   
   def create(creator, ctx) {

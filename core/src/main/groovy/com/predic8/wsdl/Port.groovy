@@ -34,11 +34,11 @@ class Port extends WSDLElement{
 
   Binding binding
   AbstractAddress address
-	private PrefixedName prefixedName
+	PrefixedName bindingPN
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue(null , 'name')
-    prefixedName = new PrefixedName(token.getAttributeValue(null , 'binding'))
+    bindingPN = new PrefixedName(token.getAttributeValue(null , 'binding'))
     
   }
 
@@ -59,7 +59,7 @@ class Port extends WSDLElement{
 	
 	Binding getBinding() {
 		if(binding) return binding
-		binding = definitions.getBinding(getQNameForPN(prefixedName))
+		binding = definitions.getBinding(getQNameForPN(bindingPN))
 	}
   
   def isSOAP11() {

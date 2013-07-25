@@ -98,7 +98,7 @@ class SOARequestCreator extends AbstractCreator{
     log.debug "creating headers"
     builder."$soapPrefix:Header"(){
       getHeaderBindingElements(bindingOperation).each {
-        it.messagePart.element.create(creator, creatorContext)
+        it.part.element.create(creator, creatorContext)
       }
     }
 

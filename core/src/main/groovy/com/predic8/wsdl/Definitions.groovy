@@ -42,7 +42,7 @@ class Definitions extends WSDLElement{
 	 * The local-prefix indicates that the elements are defined in this WSDL document. 
 	 * Calling e.g. getBindings will return all the bindings in an wsdl:import hierarchy
 	 */
-	Types localTypes
+	Types localTypes 
 	List<Message> localMessages = []
 	List<PortType> localPortTypes = []
 	List<Binding> localBindings = []
@@ -154,14 +154,8 @@ class Definitions extends WSDLElement{
 	}
 	
 	TypeDefinition getSchemaType(GQName qname) {
-		TypeDefinition type
-		schemas.each{
-			if(it.getType(qname)){
-				type = it.getType(qname)
-				return
-			}
-		}
-		type
+		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
+		schemas.find{ it.getType(qname) }?.getType(qname) 
 	}
 
 	Element getElementForOperation(String operation, portType){
@@ -226,7 +220,7 @@ class Definitions extends WSDLElement{
 					localServices << service; break
 
 			default :
-				if(token.name != Documentation.ELEMENTNAME || token.name != Policy.ELEMENTNAME )
+				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.ELEMENTNAME )
 					ctx.errors << "${token.name} in a wsdl is not supported yet!"
 				break
 		}
@@ -257,6 +251,7 @@ class Definitions extends WSDLElement{
 	}
 
 	public void addSchema(Schema schema){
+		if(!localTypes) localTypes = new Types()
 		localTypes.schemas << schema
 	}
 

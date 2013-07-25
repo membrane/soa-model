@@ -26,29 +26,32 @@ class Part extends WSDLElement{
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'part')
   
   Element element
-  QName type
-	String elementPN
+  TypeDefinition type
+	PrefixedName typePN
+	PrefixedName elementPN
 	
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue( null , 'name')
-    elementPN = token.getAttributeValue(null , 'element')
+    if(token.getAttributeValue(null , 'element')) elementPN = new PrefixedName(token.getAttributeValue(null , 'element'))
 		if(elementPN)	{
-			element = definitions.getElement(elementPN)
+			element = definitions.getElement(getQNameForPN(elementPN))
 			if (!element) ctx.errors << "Could not find element $elementPN referenced from a message part! Please make sure that the element is defined in the used XML Schema definitions!"
 		}
-    type = getTypeQName(token.getAttributeValue( null , 'type'))
-    if(element && type) ctx.wsiResults << new WSIResult(rule : 'R2306')
+    if(token.getAttributeValue( null , 'type')) typePN = new PrefixedName(token.getAttributeValue( null , 'type'))
+    if(elementPN && typePN) ctx.wsiResults << new WSIResult(rule : 'R2306')
   }
   
-  def create(creator, ctx) {
-    creator.createPart(this, ctx)
-  }
-  
-	TypeDefinition getTypeObject() {
-		definitions.getSchemaType(type)
+	TypeDefinition getType() {
+		if(!typePN) return
+		if(type) return type
+		type = definitions.getSchemaType(getQNameForPN(typePN))
+	}
+	
+	def create(creator, ctx) {
+		creator.createPart(this, ctx)
 	}
 	
   String toString() {
-    "part[name= $name, type= $type, element= $element]"
+    "part[name= $name, type= ${getType()}, element= $element]"
   }
 }

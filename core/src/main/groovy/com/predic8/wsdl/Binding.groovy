@@ -37,6 +37,7 @@ class Binding extends WSDLElement{
 
 	PortType portType
 	List<BindingOperation> operations = []
+	String typePN
 	QName type
 	AbstractBinding binding
 
@@ -50,7 +51,7 @@ class Binding extends WSDLElement{
 
 	protected parseAttributes(token, params){
 		name = token.getAttributeValue(null , 'name')
-		type = getTypeQName(token.getAttributeValue(null , 'type'))
+		typePN = token.getAttributeValue(null , 'type')
 		//TODO: parse style attribute.
 	}
 
@@ -78,12 +79,17 @@ class Binding extends WSDLElement{
 		}
 	}
 
+	QName getType() {
+		if(type) return type
+		type = getTypeQName(typePN)
+	}
+	
 	BindingOperation getOperation(String name){
 		operations.find{it.name == name}
 	}
 
 	PortType getPortType(){
-		definitions.getPortType(type)
+		definitions.getPortType(getType())
 	}
 
 	def getProtocol() {
@@ -139,7 +145,7 @@ class Binding extends WSDLElement{
 	}
 
 	void setType(PortType pt){
-		type = new QName(definitions.targetNamespace, pt.name)
+		type = new QName(pt.definitions.targetNamespace, pt.name)
 	}
 
 	def create(creator, ctx) {
@@ -147,6 +153,6 @@ class Binding extends WSDLElement{
 	}
 
 	String toString() {
-		"binding[name=$name, portType=$portType,type=$type,operations=$operations]"
+		"binding[name=$name, portType=$portType,type=${getType()},operations=$operations]"
 	}
 }

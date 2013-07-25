@@ -11,6 +11,8 @@
 
 package com.predic8.wsdl
 
+import javax.xml.stream.XMLStreamReader
+
 import com.predic8.soamodel.*
 import com.predic8.wsi.*
 
@@ -30,7 +32,7 @@ class WSDLParser extends AbstractParser{
 		super.parse(ctx)
 	}
 	
-	protected Definitions parseLocal(token, ctx){
+	protected Definitions parseLocal(XMLStreamReader token, ctx){
 		def encoding = token.getCharacterEncodingScheme()
 		if( !encoding || (encoding != 'UTF-8' && encoding != 'UTF-16')) ctx.wsiResults << new WSIResult(rule : 'R4003')
 		def definitions
@@ -41,16 +43,15 @@ class WSDLParser extends AbstractParser{
 					definitions.parse(token, ctx)
 				}
 				else if(token.name.namespaceURI == Consts.WSDL20_NS) {
-					throw new RuntimeException("WSDL 2.0 is not supported yet.")
+					throw new WSDLVersion2NotSupportedException("WSDL 2.0 is not supported yet.")
 				}
 				else {
-					throw new WrongGrammerException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WSDL document but was '${token.name}'.", token.name)
+					throw new WrongGrammerException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WSDL document but was '${token.name}'.", token.name, token.location)
 				}
 			}
 			if(token.hasNext()) token.next()
 		}
 		if(!definitions) throw new RuntimeException("The parsed document ${ctx.input} is not a valid WSDL document.")
-//		Class WSDLValidator, Method validate()  new Class ValidationError --> ctx.errors
 		new WSDLValidator().validate(definitions, ctx)
 		definitions
 	}

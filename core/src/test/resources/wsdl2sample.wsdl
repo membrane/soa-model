@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:description xmlns:wsdl="http://www.w3.org/ns/wsdl"
+  targetNamespace="http://predic8.com/wsdl2/">
+	<wsdl:documentation>
+	This WSDL document is only defined for test purposes.
+	</wsdl:documentation>
+</wsdl:description>

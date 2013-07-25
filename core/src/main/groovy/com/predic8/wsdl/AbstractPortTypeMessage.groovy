@@ -20,7 +20,8 @@ import com.predic8.xml.util.*
 
 abstract class AbstractPortTypeMessage extends WSDLElement {
 
-	PrefixedName messagePrefixedName 
+	PrefixedName messagePrefixedName
+	Message message
 
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')
@@ -28,8 +29,8 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
   }
   
 	Message getMessage() {
-		if(messagePrefixedName) return definitions.getMessage(getQNameForPN(messagePrefixedName))
-		definitions.getMessage(name)
+		if(message)	return message
+		definitions.getMessage(getQNameForPN(messagePrefixedName))
 	}
 	
   def create(creator, ctx) {
@@ -37,7 +38,7 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
   }
   
   Message newMessage(String name){
-    definitions.newMessage(name)
+		message = definitions.newMessage(name)
   }	
   
 }

@@ -182,14 +182,13 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createPart(part, RequestTemplateCreatorContext ctx){
-    def refType = part.definitions.getSchema(part.type.namespaceURI)?.getType(part.type)
-    if(refType){
-      refType.create(this, ctx)
+    if(part.type instanceof ComplexType || part.type instanceof SimpleType){
+      part.type.create(this, ctx)
       return
     }
-    if(part.type && part.type.namespaceURI.equals(Consts.SCHEMA_NS)){
-      if(part.type.localPart=='dateTime') yield('<!--dateTime-->')
-      builder."${part.name}"(TemplateUtil.getTemplateValue(part.type))
+    if(part.type instanceof BuiltInSchemaType){
+      if(part.type.qname.localPart=='dateTime') yield('<!--dateTime-->')
+      builder."${part.name}"(TemplateUtil.getTemplateValue(part.type.qname))
     }
   }
   

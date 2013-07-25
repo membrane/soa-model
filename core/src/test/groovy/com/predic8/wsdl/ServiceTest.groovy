@@ -35,10 +35,16 @@ class ServiceTest extends AbstractWSDLTest {
                                          name="BLZService" 
                                          targetNamespace="http://thomas-bayer.com/blz/">
     <wsdl:service name="BLZService">
-          <wsdl:port name="BLZServiceSOAP11port_http" binding="tns:BLZServiceSOAP11Binding">
-              <soap:address location="http://www.thomas-bayer.com:80/axis2/services/BLZService"/>
-          </wsdl:port>
-      </wsdl:service>
+      <wsdl:port name="BLZServiceSOAP11port_http" binding="tns:BLZServiceSOAP11Binding">
+        <soap:address location="http://www.thomas-bayer.com:80/axis2/services/BLZService"/>
+      </wsdl:port>
+    </wsdl:service>
+		<wsdl:service name="TestService">
+		 	<wsdl:port name="TestServiceSOAP11Port" binding="tns:BLZServiceSOAP11Binding">
+		  	<soap:address
+		       location="http://www.thomas-bayer.com:80/axis2/services/BLZService" />
+		  </wsdl:port>
+		</wsdl:service>
   </wsdl:definitions>'''
   
   void setUp() {
@@ -61,4 +67,8 @@ class ServiceTest extends AbstractWSDLTest {
     assert service.ports[0].name == 'BLZServiceSOAP11port_http' 
     assert service.ports[0].address.location == "http://www.thomas-bayer.com:80/axis2/services/BLZService" 
   }
+	
+	void testMultiServices() {
+		assert 2 == definitions.services.size()
+	}
 }

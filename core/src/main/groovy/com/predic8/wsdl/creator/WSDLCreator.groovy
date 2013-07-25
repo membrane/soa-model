@@ -80,7 +80,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   def createPart(Part part, WSDLCreatorContext ctx) {
     def attrs = [name : part.name]
     if(part.element) {attrs.put('element' , "${part.getPrefix(part.element.namespaceUri)}:${part.element.name}")}
-    if(part.type) {attrs.put('type' , "${part.getPrefix(part.type.namespaceURI)}:${part.type.localPart}")}
+    if(part.type) {attrs.put('type' , part.typePN)}
     builder.part(attrs + getNamespaceAttributes(part))
   }
   
@@ -177,7 +177,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   
   def createSOAP11Header(SOAPHeader header, WSDLCreatorContext ctx){
     def prefix = header.getPrefix(header.ELEMENTNAME.namespaceURI)
-    def attrs = [message : "${header.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use, part : header.part]
+    def attrs = [message : "${header.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use, part : header.partName]
     if(header.encodingStyle) attrs['encodingStyle'] = header.encodingStyle
     if(header.namespace) attrs['namespace'] = header.namespace
     builder."${prefix}:header"(attrs + getNamespaceAttributes(header))

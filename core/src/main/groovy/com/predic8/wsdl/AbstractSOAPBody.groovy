@@ -18,9 +18,6 @@ abstract class AbstractSOAPBody extends BindingElement {
 
   List<Part> parts = []
 	
-	/**
-	 * lazy access to parts is needed cause of possible WSDL import structure.
-	 */
 	protected List<String> partNames = []
 
   protected parseAttributes(token, params){

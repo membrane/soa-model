@@ -14,6 +14,10 @@
 
 package com.predic8.wsdl
 
+import groovy.xml.MarkupBuilder
+
+import com.predic8.wsdl.creator.WSDLCreator
+import com.predic8.wsdl.creator.WSDLCreatorContext
 import com.predic8.xml.util.ClasspathResolver
 
 class WSDLValidatorTest extends GroovyTestCase{
@@ -28,6 +32,14 @@ class WSDLValidatorTest extends GroovyTestCase{
   }
 	
 	void testValidation() {
+//		ctx.errors.grep(ValidationError).invalidElement.each{
+//			if(it instanceof Port){
+//				def strWriter = new StringWriter()
+//				new WSDLCreator(builder : new MarkupBuilder(strWriter)).createPort(it, new WSDLCreatorContext())
+//				println strWriter
+//			}
+//		}
+//		ctx.errors.grep(ValidationError).each { println it.message}
 		assert 4 == ctx.errors.grep(ValidationError).size()
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Binding)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Port)
