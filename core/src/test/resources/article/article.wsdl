@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://predic8.com/wsdl/material/ArticleService/1/" xmlns:ns="http://predic8.com/material/1/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://predic8.com/material/1/" xmlns:ns2="http://predic8.com/common/1/" name="article" targetNamespace="http://predic8.com/wsdl/material/ArticleService/1/">
+		<wsdl:import location="../BLZService.wsdl" namespace="http://thomas-bayer.com/blz/"/>
     <types>
         <xsd:schema targetNamespace="http://predic8.com/wsdl/material/ArticleService/1/" xmlns:ns1="http://predic8.com/material/1/" xmlns:ns2="http://predic8.com/common/1/">
             <xsd:import namespace="http://predic8.com/material/1/" schemaLocation="material.xsd"/>

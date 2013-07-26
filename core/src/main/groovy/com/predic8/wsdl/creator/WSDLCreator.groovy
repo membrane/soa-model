@@ -34,9 +34,9 @@ class WSDLCreator extends AbstractWSDLCreator{
 			/**
 			 * Imports should be created only if inlineWSDLImports in ctx is true.
 			 */
-//			definitions.imports.each{
-//        it.create(this, ctx)
-//      }
+			definitions.imports.each{
+        it.create(this, ctx)
+      }
 	  
 			definitions.types*.create(this, ctx)
       

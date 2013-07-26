@@ -48,6 +48,15 @@ abstract class SchemaComponent extends XMLElement{
 	String getNamespaceUri() {
 		schema.targetNamespace
 	}
+	
+/**
+ * Is used by RequestCreator and RequestTemplateCreator
+ * to get the prefix of the targetNamespace of the created element, like p8, ns0, ns1.	
+ * @return Prefix of the schema targetNamespace. 
+ */
+	String getPrefix(){
+		getPrefix(schema.targetNamespace)
+	}
 
   String getSchemaFragment(ctx){
     if ( !ctx.declNS ) {

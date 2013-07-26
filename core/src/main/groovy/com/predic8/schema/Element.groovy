@@ -69,9 +69,9 @@ class Element extends Declaration {
   }
   
   //TODO return the real object of ref! 
-//	def getRef(){
-//		schema.getElement(ref).name or qname!
-//	}
+	//	def getRef(){
+	//		schema.getElement(ref).name or qname!
+	//	}
 	
   protected getElementName(){
     'element'

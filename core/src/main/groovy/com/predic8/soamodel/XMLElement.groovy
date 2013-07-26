@@ -90,9 +90,12 @@ abstract class XMLElement {
 	
 	abstract String getNamespaceUri()
 
-	def getPrefix(){
-		getPrefix(getNamespaceUri())
-	}
+	/**
+	 * Should be implemented separately in WSDLElement and SchemaComponent.
+	 * WSDL elements should return the prefix of their own namespace, like wsdl, soap, http & etc.
+	 * SchemaComponent should return the prefix of the targetNamespace of the document, like p8, ns0 & etc.
+	 */
+	abstract String getPrefix()
 
 	def getNamespace(prefix) {
 		if(prefix == "xml") return Consts.XML_NS

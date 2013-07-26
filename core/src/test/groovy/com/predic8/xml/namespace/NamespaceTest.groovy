@@ -45,6 +45,7 @@ class A extends XMLElement {
   public String getNamespaceUri() {
 		'uri:a'
   }
+  public String getPrefix() { null }
 }
 
 class B extends XMLElement {
@@ -55,6 +56,7 @@ class B extends XMLElement {
   public String getNamespaceUri() {
 	 'uri:a'
   }
+  public String getPrefix() { null }
 }
 
 class C extends XMLElement {
@@ -80,6 +82,7 @@ class C extends XMLElement {
   public String getNamespaceUri() {
 	  'uri:a'
   }
+  public String getPrefix() { null }
 }
 
 class D extends XMLElement {
@@ -90,6 +93,7 @@ class D extends XMLElement {
   public String getNamespaceUri() {
 	 'uri:d'
   }
+  public String getPrefix() { null }
 }
 
 class E extends XMLElement {
@@ -100,6 +104,7 @@ class E extends XMLElement {
   public String getNamespaceUri() {
 		'uri:e'
   }
+  public String getPrefix() { null }
 }
 
 

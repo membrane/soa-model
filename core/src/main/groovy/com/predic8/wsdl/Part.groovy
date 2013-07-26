@@ -33,13 +33,15 @@ class Part extends WSDLElement{
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue( null , 'name')
     if(token.getAttributeValue(null , 'element')) elementPN = new PrefixedName(token.getAttributeValue(null , 'element'))
-		if(elementPN)	{
-			element = definitions.getElement(getQNameForPN(elementPN))
-			if (!element) ctx.errors << "Could not find element $elementPN referenced from a message part! Please make sure that the element is defined in the used XML Schema definitions!"
-		}
     if(token.getAttributeValue( null , 'type')) typePN = new PrefixedName(token.getAttributeValue( null , 'type'))
     if(elementPN && typePN) ctx.wsiResults << new WSIResult(rule : 'R2306')
   }
+	
+	Element getElement() {
+		if(element) return element
+		if(!elementPN) return
+		element = definitions.getElement(getQNameForPN(elementPN))
+	}
   
 	TypeDefinition getType() {
 		if(!typePN) return
@@ -52,6 +54,6 @@ class Part extends WSDLElement{
 	}
 	
   String toString() {
-    "part[name= $name, type= ${getType()}, element= $element]"
+    "part[name= $name, type= ${getType()}, element= ${getElement()}]"
   }
 }

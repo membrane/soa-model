@@ -24,18 +24,26 @@ class WSDLValidator {
 			validateMessageParts(msg , ctx)
 		}
 	}
-	
+
 	void validateServicePorts(ports, ctx) {
 		ports.each {
-			if(!it.binding)
-			ctx.errors << new ValidationError(invalidElement : it, message : "Port ${it.name} uses '${it.bindingPN}' as a binding reference, which is not defined in this WSDL.")
+			try {
+				if(!it.binding)
+					ctx.errors << new ValidationError(invalidElement : it, message : "Port ${it.name} uses '${it.bindingPN}' as a binding reference, which is not defined in this WSDL.")
+			} catch (Exception e) {
+				ctx.errors << new ValidationError(invalidElement : it, message : (e.message ?: "Port ${it.name} is invalid."))
+			}
 		}
 	}
-	
+
 	void validateBindings(bnds, ctx) {
 		bnds.each {
-			if(!it.portType)
-			ctx.errors << new ValidationError(invalidElement : it, message : "Binding ${it.name} uses '${it.typePN}' as a type reference which is not defined in this WSDL.")
+			try {
+				if(!it.portType)
+					ctx.errors << new ValidationError(invalidElement : it, message : "Binding ${it.name} uses '${it.typePN}' as a type reference which is not defined in this WSDL.")
+			} catch (Exception e) {
+				ctx.errors << new ValidationError(invalidElement : it, message : (e.message ?: "Binding ${it.name} is invalid."))
+			}
 		}
 	}
 
@@ -43,23 +51,28 @@ class WSDLValidator {
 		ptms.each {
 			def err
 			try {
-				if(!it.message){
-					err = new ValidationError(invalidElement : it, message : "Message '${it.messagePrefixedName}' is not defined in this WSDL.")
+				if(it && !it.message){
+					err = new ValidationError(invalidElement : it, message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.")
 				}
 			} catch (Exception e) {
-				err = new ValidationError(invalidElement : it, message : e.message)
+				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.ELEMENTNAME.localPart} ${it.name} is invalid."))
 			}
-			if(err) ctx.errors << err
+			if(err) {
+				ctx.errors << err
+			}
 		}
 	}
 
 	void validateMessageParts(msg, ctx) {
 		msg.parts.each {
-			if(it.elementPN && !it.element) 
-				ctx.errors << new ValidationError(invalidElement : it, message : "The referenced element ${it.elementPN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.")
-			if(it.typePN && !it.type)
-				ctx.errors << new ValidationError(invalidElement : it, message : "The referenced type ${it.typePN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.")
+			try {
+				if(it.elementPN && !it.element)
+					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced element ${it.elementPN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.")
+				if(it.typePN && !it.type)
+					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced type ${it.typePN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.")
+			} catch (Exception e) {
+				ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : (e.message ?: "The part ${it.name} in message ${msg.name} is invalid."))
+			}
 		}
 	}
-
 }

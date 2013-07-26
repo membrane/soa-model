@@ -37,6 +37,14 @@ class PolicyReference extends XMLElement{
 	String getNamespaceUri() {
 		definitions.targetNamespace
 	}
+	
+	/**
+	 * Should return the prefix for the namespace of the element, like wsdl, soap, http & etc.
+	 * Used in WSDLCreator.
+	 */
+	String getPrefix(){
+		getPrefix(ELEMENTNAME.namespaceURI)
+	}
 
   QName getElementName() {
     ELEMENTNAME

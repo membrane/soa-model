@@ -17,5 +17,9 @@ package com.predic8.wsdl
 class ValidationError {
 
 	WSDLElement invalidElement
+	
+	//Parent is necessary e.g. to find the right part if the part name is not unique.
+	WSDLElement parent
+	
 	String message
 }

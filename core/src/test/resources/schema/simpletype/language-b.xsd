@@ -21,4 +21,7 @@
       <s:enumeration value="EnglishTOSpanish" />
     </s:restriction>
   </s:simpleType>
+  <s:simpleType name="Sprache">
+  	<s:restriction base="tns:Language"/>
+  </s:simpleType>
 </s:schema>

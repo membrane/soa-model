@@ -137,7 +137,7 @@ class Definitions extends WSDLElement{
 		lookup("bindings", qname)
 	}
 
-	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item".flatten().find{it.name == qname.localPart}}
+	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item"?.flatten().find{it.name == qname.localPart}}
 	
 	Element getElement(String name) {
 		getElement(getQNameForPN(new PrefixedName(name)))
