@@ -26,8 +26,8 @@ import com.predic8.schema.diff.*
 class SimpleTypeTest extends GroovyTestCase{
   
   def token
-  def schemaA
-  def schemaB
+  Schema schemaA
+  Schema schemaB
 
   def static qname = new QName("http://thomas-bayer.com/blz/",'getBankType')
   
@@ -83,4 +83,9 @@ class SimpleTypeTest extends GroovyTestCase{
 		assert diffs[1].diffs[0].dump().contains('Content of annotation has changed.')
 		assert diffs[1].diffs[1].dump().contains('Enumerartion with value: EnglishTOSpanish added.')
   }
+	
+	void testSuperTypes() {
+		assert schemaB.getSimpleType('Sprache').superTypes.size() == 2
+	}
+	
 }

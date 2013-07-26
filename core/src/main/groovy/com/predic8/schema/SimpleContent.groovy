@@ -22,7 +22,7 @@ class SimpleContent extends SchemaComponent {
 
   //Derivation can not be used as a superclass. Because restriction is a simpleRestriction in this case.
   Extension extension
-  def restriction
+  BaseRestriction restriction
 
   protected parseChildren(token, child, params) {
     switch (child ){

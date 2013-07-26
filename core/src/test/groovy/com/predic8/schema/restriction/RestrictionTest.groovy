@@ -51,7 +51,6 @@ class RestrictionTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new FormCreator(builder : new MarkupBuilder(strWriter))
     schema.create(creator, new SchemaCreatorContext())
-//    println strWriter
   }
   
   void testBaseRewriting() {
