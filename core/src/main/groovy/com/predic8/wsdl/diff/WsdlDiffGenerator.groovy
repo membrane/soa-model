@@ -142,7 +142,6 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		} else {
 			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : true, exchange:'response')
 		}
-		
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
 		if(diffs) return [
 				new Difference(description:"Operation ${aOperation.name} has changed: ", type: 'operation', diffs: diffs)
@@ -166,7 +165,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 				new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange, type: ptmName)
 			]
 		def lDiffs = compareDocumentation(aPTM, bPTM)
-		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.prefix}:${aPTM.message.name} to ${bPTM.message.prefix}:${bPTM.message.name}.", type: 'message', breaks : true, exchange:exchange)
+		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: 'message', breaks : true, exchange:exchange)
 		else lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
 		if(lDiffs) return [
 				new Difference(description:"${ptmName.capitalize()} has changed:", diffs: lDiffs, exchange:exchange, type: ptmName)
@@ -174,18 +173,17 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		[]
 	}
 
-	//TODO
 	private List<Difference> compareFaults(aFaults, bFaults, exchange) {
 		def diffs = []
-		def faults = aFaults.message.name.intersect(bFaults.message.name)
-		(aFaults - faults).each {
-			diffs << new Difference(description:"Fault with message ${it.message.name} removed. ", type: 'fault', diffs : diffs, exchange:exchange)
+		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
+		(aFaults.message.qname - faults).each {
+			diffs << new Difference(description:"Fault with message ${it} removed. ", type: 'fault', exchange:exchange)
 		}
-		(bFaults - faults).each {
-			diffs << new Difference(description:"Fault with message ${it.message.name} added. ", type: 'fault', diffs : diffs, exchange:exchange)
+		(bFaults.message.qname - faults).each {
+			diffs << new Difference(description:"Fault with message ${it} added. ", type: 'fault', exchange:exchange)
 		}
 		faults.each { f ->
-			diffs.addAll(comparePortTypeMessage(aFaults.find(it.message.name == f.message.name), bFaults.find(it.message.name == f.message.name), exchange))
+			diffs.addAll(comparePortTypeMessage(aFaults.find{it.message.name == f}, bFaults.find{it.message.name == f}, exchange))
 		}
 		diffs
 	}

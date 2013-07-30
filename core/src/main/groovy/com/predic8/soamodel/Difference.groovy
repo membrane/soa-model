@@ -23,11 +23,9 @@ class Difference {
   String type
   private boolean safe
   private boolean breaks
-//  def a
-//  def b
 	def exchange = [] as Set //For WSDL message direction.
 	
-  def dump(level = 0) {
+  String dump(level = 0) {
     def str = description + '\n'
     level++
     diffs.each{
@@ -37,7 +35,6 @@ class Difference {
   }
   
   public String toString(){    
-//    "${description} (type=$type, safe=$safe , breaks=$breaks\n${diffs.join('\n')})"
 		description
   }
   

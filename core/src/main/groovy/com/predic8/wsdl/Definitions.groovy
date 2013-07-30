@@ -164,6 +164,7 @@ class Definitions extends WSDLElement{
 	 * @return
 	 */
 	Element getElementForOperation(String operationName, portTypeName){
+		//Should return the element referenced in the soap:body instead of the first one! 
 		getOperation(operationName,portTypeName).input.message.parts.flatten()[0]?.element
 	}
 
