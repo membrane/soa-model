@@ -117,8 +117,8 @@ class Definitions extends WSDLElement{
 		(portTypes.operations).flatten().unique()
 	}
 
-	Operation getOperation(String name, String portType) {
-		getPortType(portType).operations.find{ name == it.name }
+	Operation getOperation(String operationName, String portTypeName) {
+		getPortType(portTypeName).operations.find{ operationName == it.name }
 	}
 
 	Operation getOperation(String name, GQName portType) {
@@ -139,8 +139,8 @@ class Definitions extends WSDLElement{
 
 	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item"?.flatten().find{it.name == qname.localPart}}
 	
-	Element getElement(String name) {
-		getElement(getQNameForPN(new PrefixedName(name)))
+	Element getElement(String elementPN) {
+		getElement(getQNameForPN(new PrefixedName(elementPN)))
 	}
 
 	Element getElement(GQName qname) {
@@ -158,8 +158,13 @@ class Definitions extends WSDLElement{
 		schemas.find{ it.getType(qname) }?.getType(qname) 
 	}
 
-	Element getElementForOperation(String operation, portType){
-		getOperation(operation,portType).input.message.parts.flatten()[0]?.element
+	/**
+	 * @param portTypeName Can be the portType name as a String or 
+	 * the fully qualified name as a QName
+	 * @return
+	 */
+	Element getElementForOperation(String operationName, portTypeName){
+		getOperation(operationName,portTypeName).input.message.parts.flatten()[0]?.element
 	}
 
 	List<Binding> getBindings(protocol) {

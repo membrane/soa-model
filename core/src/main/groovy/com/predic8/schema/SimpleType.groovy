@@ -43,7 +43,6 @@ class SimpleType extends TypeDefinition {
       case 'restriction' :
       def base = getTypeQName(token.getAttributeValue( null , 'base'))
       def type = base.localPart
-//      if(schema.getNamespace(base.prefix) == SCHEMA_NS){
     	if(base.namespaceURI == SCHEMA_NS){
         restriction = RestrictionUtil.getRestriction(type, [base: base, simpleType : this])
       } else {

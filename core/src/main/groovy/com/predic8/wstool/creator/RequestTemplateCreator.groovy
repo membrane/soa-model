@@ -15,16 +15,16 @@
 
 package com.predic8.wstool.creator;
 
-import com.predic8.schema.creator.SchemaCreatorContext;
 import groovy.xml.*
 
-import com.predic8.soamodel.Consts
+import org.apache.commons.logging.*
+
 import com.predic8.schema.*
 import com.predic8.schema.creator.*
-import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
-import com.predic8.wsdl.Part
-import org.apache.commons.logging.*
+import com.predic8.schema.restriction.facet.*
+import com.predic8.soamodel.Consts
+import com.predic8.soamodel.ModelAccessException
 
 class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreatorContext> {
   
@@ -109,6 +109,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
           res[attr.name] = TemplateUtil.getTemplateValue(attr.simpleType.restriction.base)
         }
       } else {
+	//TODO If attr is referenced from another namespace, the prefix should be created also and not only 'attr.name'.
         res[attr.name] = TemplateUtil.getTemplateValue(attr.type)
       }
     }
@@ -170,7 +171,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       return
     }
     def baseType = extension.schema.getType(extension.base)
-    if(!baseType) throw new Exception("BaseType: $baseType of extension: $extension not found!")
+    if(!baseType) throw new ModelAccessException("Could not find the referenced type '${extension.basePN}' in schema '${extension.schema.targetNamespace}'.")
     if(baseType instanceof SimpleType) return
     baseType.model?.create(this, ctx)
     extension.anyAttribute?.create(this,ctx)

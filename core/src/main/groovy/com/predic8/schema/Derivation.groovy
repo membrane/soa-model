@@ -14,6 +14,9 @@ package com.predic8.schema
 import java.util.List;
 
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.xml.util.PrefixedName;
+
 import groovy.xml.QName
 
 abstract class Derivation extends SchemaComponent{
@@ -23,9 +26,10 @@ abstract class Derivation extends SchemaComponent{
   List<AttributeGroup> attributeGroups = []
   SchemaComponent model
   AnyAttribute anyAttribute
+	PrefixedName basePN
 
   protected parseAttributes(token, params){
-    base = getTypeQName(token.getAttributeValue( null , 'base'))
+    basePN = new PrefixedName(token.getAttributeValue( null , 'base'))
   }
 
   protected parseChildren(token, child, params) {
@@ -61,6 +65,11 @@ abstract class Derivation extends SchemaComponent{
         anyAttribute.parse(token, params) ; break
     }
   }
+	
+	QName getBase() {
+		if(base) return base
+		base = getQNameForPN(basePN)
+	}
 
   List<Attribute> getAllAttributes(){
     def attrs = []
@@ -70,5 +79,9 @@ abstract class Derivation extends SchemaComponent{
     }
     attrs
   }
+	
+	String toString() {
+		"Extension{ name: $name, base: $basePN}"	
+	}
 }
 

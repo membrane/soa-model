@@ -19,6 +19,7 @@ import groovy.xml.*
 import com.predic8.schema.creator.*
 import com.predic8.wstool.creator.*
 import com.predic8.soamodel.*
+
 import org.apache.commons.logging.*
 
 abstract class SchemaComponent extends XMLElement{
@@ -69,6 +70,12 @@ abstract class SchemaComponent extends XMLElement{
 
   def create(creator,CreatorContext ctx){
     throw new RuntimeException("missing method create(creator,CreatorContext ctx) for class $elementName !")
+  }
+  
+  String getAsString(){
+    StringWriter writer = new StringWriter();
+    create(new SchemaCreator(builder:new MarkupBuilder(writer)), new SchemaCreatorContext());
+    writer.toString()
   }
   
   String getRequestTemplate(){

@@ -97,7 +97,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   
   //TODO 
   void createComplexContentRestriction(Restriction restriction, Context ctx){
-    throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
+//    throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
   }
   
   void createAnnotation(Annotation annotation, Context ctx){}

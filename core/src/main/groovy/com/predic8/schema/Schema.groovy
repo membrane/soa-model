@@ -164,7 +164,7 @@ class Schema extends SchemaComponent{
   }
 
   Attribute getAttribute(QName ref){
-    attributes.find{it.name == ref.localPart}
+		allSchemas.attributes.flatten().find{it.qname == ref}
   }
   
   Attribute getAttribute(String name){
@@ -299,12 +299,6 @@ class Schema extends SchemaComponent{
     if(obj.elements && obj.elements.name != elements.name)
     return false
     true
-  }
-  
-  String getAsString(){
-    StringWriter writer = new StringWriter();
-    create(new SchemaCreator(builder:new MarkupBuilder(writer)), new SchemaCreatorContext());
-    writer.toString()
   }
   
   String toString(){

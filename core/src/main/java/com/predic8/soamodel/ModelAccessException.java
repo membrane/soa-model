@@ -14,30 +14,28 @@
 
 package com.predic8.soamodel;
 
-@groovy.transform.CompileStatic
-
 class ModelAccessException extends RuntimeException {
 
   private static final long serialVersionUID = 5405085246506357279L;
 
 	public ModelAccessException() {
 	  super();
-	  // TODO Auto-generated constructor stub
   }
 
 	public ModelAccessException(String message, Throwable cause,
       boolean enableSuppression, boolean writableStackTrace) {
 	  super(message, cause, enableSuppression, writableStackTrace);
-	  // TODO Auto-generated constructor stub
   }
 
 	public ModelAccessException(String message, Throwable cause) {
 	  super(message, cause);
-	  // TODO Auto-generated constructor stub
   }
 
 	public ModelAccessException(Throwable cause) {
 	  super(cause);
-	  // TODO Auto-generated constructor stub
+  }
+	
+	public ModelAccessException(String message) {
+	  super(message);
   }
 }

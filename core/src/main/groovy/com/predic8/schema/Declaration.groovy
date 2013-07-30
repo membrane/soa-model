@@ -27,8 +27,8 @@ abstract class Declaration extends SchemaComponent {
    */
   String arrayType 
   
-	JQName getQname() {
-		new JQName(namespaceUri, name)
+	QName getQname() {
+		new QName(namespaceUri, name)
 	}
 	
   void setType(QName type){ //without this groovy 1.8.5 tries to cast QName to JQName and throws ClassCastException
