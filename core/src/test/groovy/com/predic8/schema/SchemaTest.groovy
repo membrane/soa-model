@@ -14,7 +14,6 @@
 
 package com.predic8.schema
 
-import junit.framework.TestCase
 import javax.xml.stream.*
 
 import groovy.xml.*

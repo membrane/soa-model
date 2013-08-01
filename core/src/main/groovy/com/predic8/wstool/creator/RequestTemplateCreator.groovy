@@ -99,6 +99,11 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def res = [:]
     def attrs = obj.allAttributes
     attrs.each{
+			
+			/*TODO A method in class Attribute should resolve the attribute object
+			* from ref or it self. There should the object be checked and an error
+			* should be added to SchemaValidator if attribute object is null.
+			*/
       def attr = it.ref ? obj.schema.getAttribute(it.ref) : it
       if(attr.fixedValue) {
         res[attr.name] = attr.fixedValue

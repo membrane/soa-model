@@ -43,7 +43,7 @@ class SchemaParser extends AbstractParser{
           schema.parse(token, ctx)
         }
 				else {
-					throw new WrongGrammerException("Expected root element '{http://www.w3.org/2001/XMLSchema}schema' for the schema document but was '${token.name}'.", token.name)
+					throw new WrongGrammerException("Expected root element '{http://www.w3.org/2001/XMLSchema}schema' for the schema document but was '${token.name}'.", token.name, token.location)
 				}
       }
       if(token.hasNext()) token.next()

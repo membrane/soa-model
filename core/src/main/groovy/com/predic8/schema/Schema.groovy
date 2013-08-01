@@ -14,17 +14,18 @@
 
 package com.predic8.schema;
 
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 import groovy.xml.*
-import org.apache.commons.logging.*
+
 import javax.xml.namespace.QName as JQName
 
-import java.io.StringWriter
+import org.apache.commons.logging.*
 
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.*
 import com.predic8.wsdl.Definitions
 import com.predic8.xml.util.PrefixedName
-import static com.predic8.soamodel.Consts.SCHEMA_NS
+import com.predic8.xml.util.ResourceResolver
 
 class Schema extends SchemaComponent{
   
@@ -42,7 +43,7 @@ class Schema extends SchemaComponent{
    * WSDL document.
    */
   Definitions definitions
-  def resourceResolver
+  ResourceResolver resourceResolver
   
   String baseDir = ''
   String targetNamespace = ''

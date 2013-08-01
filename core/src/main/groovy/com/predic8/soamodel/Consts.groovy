@@ -35,6 +35,8 @@ class Consts {
   public static final String WSP15_NS = "http://www.w3.org/ns/ws-policy"
   public static final String SP_NS = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
   public static final String WSAM_NS = "http://www.w3.org/2007/05/addressing/metadata"
-  public static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd	"
+  public static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
 	
+	//WADL namespaces
+	public static final String WADL_NS = "http://wadl.dev.java.net/2009/02"
 }

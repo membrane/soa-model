@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema for the SOAP/1.1 encoding
+
+Portions © 2001 DevelopMentor. 
+© 2001 W3C (Massachusetts Institute of Technology, Institut National de Recherche en Informatique et en Automatique, Keio University). All Rights Reserved.  
+ 
+This document is governed by the W3C Software License [1] as described in the FAQ [2].
+[1] http://www.w3.org/Consortium/Legal/copyright-software-19980720
+[2] http://www.w3.org/Consortium/Legal/IPR-FAQ-20000620.html#DTD 
+By obtaining, using and/or copying this work, you (the licensee) agree that you have read, understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, modify, and distribute this software and its documentation, with or without modification,  for any purpose and without fee or royalty is hereby granted, provided that you include the following on ALL copies of the software and documentation or portions thereof, including modifications, that you make:
+
+1.  The full text of this NOTICE in a location viewable to users of the redistributed or derivative work. 
+
+2.  Any pre-existing intellectual property disclaimers, notices, or terms and conditions. If none exist, a short notice of the following form (hypertext is preferred, text is permitted) should be used within the body of any redistributed or derivative code: "Copyright © 2001 World Wide Web Consortium, (Massachusetts Institute of Technology, Institut National de Recherche en Informatique et en Automatique, Keio University). All Rights Reserved. http://www.w3.org/Consortium/Legal/" 
+
+3.  Notice of any changes or modifications to the W3C files, including the date changes were made. (We recommend you provide URIs to the location from which the code is derived.)   
+
+Original W3C files; http://www.w3.org/2001/06/soap-encoding
+Changes made: 
+     - reverted namespace to http://schemas.xmlsoap.org/soap/encoding/
+     - reverted root to only allow 0 and 1 as lexical values
+	 - removed default value from root attribute declaration
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or publicity pertaining to the software without specific, written prior permission. Title to copyright in this software and any associated documentation will at all times remain with copyright holders.
+
+--><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://schemas.xmlsoap.org/soap/encoding/">
+        
+ <xs:attribute name="root">
+   <xs:annotation>
+     <xs:documentation>
+	   'root' can be used to distinguish serialization roots from other
+       elements that are present in a serialization but are not roots of
+       a serialized value graph 
+	 </xs:documentation>
+   </xs:annotation>
+   <xs:simpletype>
+     <xs:restriction base="xs:boolean">
+	   <xs:pattern value="0|1" />
+	 </xs:restriction>
+   </xs:simpletype>
+ </xs:attribute>
+
+  <xs:attributegroup name="commonAttributes">
+    <xs:annotation>
+	  <xs:documentation>
+	    Attributes common to all elements that function as accessors or 
+        represent independent (multi-ref) values.  The href attribute is
+        intended to be used in a manner like CONREF.  That is, the element
+        content should be empty iff the href attribute appears
+	  </xs:documentation>
+	</xs:annotation>
+    <xs:attribute name="id" type="xs:ID" />
+    <xs:attribute name="href" type="xs:anyURI" />
+    <xs:anyattribute namespace="##other" processContents="lax" />
+  </xs:attributegroup>
+
+  <!-- Global Attributes.  The following attributes are intended to be usable via qualified attribute names on any complex type referencing them. -->
+       
+  <!-- Array attributes. Needed to give the type and dimensions of an array's contents, and the offset for partially-transmitted arrays. -->
+   
+  <xs:simpletype name="arrayCoordinate">
+    <xs:restriction base="xs:string" />
+  </xs:simpletype>
+          
+  <xs:attribute name="arrayType" type="xs:string" />
+  <xs:attribute name="offset" type="tns:arrayCoordinate" />
+  
+  <xs:attributegroup name="arrayAttributes">
+    <xs:attribute ref="tns:arrayType" />
+    <xs:attribute ref="tns:offset" />
+  </xs:attributegroup>    
+  
+  <xs:attribute name="position" type="tns:arrayCoordinate" /> 
+  
+  <xs:attributegroup name="arrayMemberAttributes">
+    <xs:attribute ref="tns:position" />
+  </xs:attributegroup>    
+
+  <xs:group name="Array">
+    <xs:sequence>
+      <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+	</xs:sequence>
+  </xs:group>
+
+  <xs:element name="Array" type="tns:Array" />
+  <xs:complextype name="Array">
+    <xs:annotation>
+	  <xs:documentation>
+	   'Array' is a complex type for accessors identified by position 
+	  </xs:documentation>
+	</xs:annotation>
+    <xs:group ref="tns:Array" minOccurs="0" />
+    <xs:attributegroup ref="tns:arrayAttributes" />
+    <xs:attributegroup ref="tns:commonAttributes" />
+  </xs:complextype> 
+
+  <!-- 'Struct' is a complex type for accessors identified by name. 
+       Constraint: No element may be have the same name as any other,
+       nor may any element have a maxOccurs > 1. -->
+   
+  <xs:element name="Struct" type="tns:Struct" />
+
+  <xs:group name="Struct">
+    <xs:sequence>
+      <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+	</xs:sequence>
+  </xs:group>
+
+  <xs:complextype name="Struct">
+    <xs:group ref="tns:Struct" minOccurs="0" />
+    <xs:attributegroup ref="tns:commonAttributes" />
+  </xs:complextype> 
+
+  <!-- 'Base64' can be used to serialize binary data using base64 encoding
+       as defined in RFC2045 but without the MIME line length limitation. -->
+
+  <xs:simpletype name="base64">
+    <xs:restriction base="xs:base64Binary" />
+  </xs:simpletype>
+
+ <!-- Element declarations corresponding to each of the simple types in the 
+      XML Schemas Specification. -->
+
+  <xs:element name="duration" type="tns:duration" />
+  <xs:complextype name="duration">
+    <xs:simplecontent>
+      <xs:extension base="xs:duration">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="dateTime" type="tns:dateTime" />
+  <xs:complextype name="dateTime">
+    <xs:simplecontent>
+      <xs:extension base="xs:dateTime">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+
+
+  <xs:element name="NOTATION" type="tns:NOTATION" />
+  <xs:complextype name="NOTATION">
+    <xs:simplecontent>
+      <xs:extension base="xs:QName">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+  
+
+  <xs:element name="time" type="tns:time" />
+  <xs:complextype name="time">
+    <xs:simplecontent>
+      <xs:extension base="xs:time">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="date" type="tns:date" />
+  <xs:complextype name="date">
+    <xs:simplecontent>
+      <xs:extension base="xs:date">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="gYearMonth" type="tns:gYearMonth" />
+  <xs:complextype name="gYearMonth">
+    <xs:simplecontent>
+      <xs:extension base="xs:gYearMonth">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="gYear" type="tns:gYear" />
+  <xs:complextype name="gYear">
+    <xs:simplecontent>
+      <xs:extension base="xs:gYear">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="gMonthDay" type="tns:gMonthDay" />
+  <xs:complextype name="gMonthDay">
+    <xs:simplecontent>
+      <xs:extension base="xs:gMonthDay">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="gDay" type="tns:gDay" />
+  <xs:complextype name="gDay">
+    <xs:simplecontent>
+      <xs:extension base="xs:gDay">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="gMonth" type="tns:gMonth" />
+  <xs:complextype name="gMonth">
+    <xs:simplecontent>
+      <xs:extension base="xs:gMonth">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+  
+  <xs:element name="boolean" type="tns:boolean" />
+  <xs:complextype name="boolean">
+    <xs:simplecontent>
+      <xs:extension base="xs:boolean">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="base64Binary" type="tns:base64Binary" />
+  <xs:complextype name="base64Binary">
+    <xs:simplecontent>
+      <xs:extension base="xs:base64Binary">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="hexBinary" type="tns:hexBinary" />
+  <xs:complextype name="hexBinary">
+    <xs:simplecontent>
+     <xs:extension base="xs:hexBinary">
+       <xs:attributegroup ref="tns:commonAttributes" />
+     </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="float" type="tns:float" />
+  <xs:complextype name="float">
+    <xs:simplecontent>
+      <xs:extension base="xs:float">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="double" type="tns:double" />
+  <xs:complextype name="double">
+    <xs:simplecontent>
+      <xs:extension base="xs:double">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="anyURI" type="tns:anyURI" />
+  <xs:complextype name="anyURI">
+    <xs:simplecontent>
+      <xs:extension base="xs:anyURI">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="QName" type="tns:QName" />
+  <xs:complextype name="QName">
+    <xs:simplecontent>
+      <xs:extension base="xs:QName">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  
+  <xs:element name="string" type="tns:string" />
+  <xs:complextype name="string">
+    <xs:simplecontent>
+      <xs:extension base="xs:string">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="normalizedString" type="tns:normalizedString" />
+  <xs:complextype name="normalizedString">
+    <xs:simplecontent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="token" type="tns:token" />
+  <xs:complextype name="token">
+    <xs:simplecontent>
+      <xs:extension base="xs:token">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="language" type="tns:language" />
+  <xs:complextype name="language">
+    <xs:simplecontent>
+      <xs:extension base="xs:language">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="Name" type="tns:Name" />
+  <xs:complextype name="Name">
+    <xs:simplecontent>
+      <xs:extension base="xs:Name">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="NMTOKEN" type="tns:NMTOKEN" />
+  <xs:complextype name="NMTOKEN">
+    <xs:simplecontent>
+      <xs:extension base="xs:NMTOKEN">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="NCName" type="tns:NCName" />
+  <xs:complextype name="NCName">
+    <xs:simplecontent>
+      <xs:extension base="xs:NCName">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="NMTOKENS" type="tns:NMTOKENS" />
+  <xs:complextype name="NMTOKENS">
+    <xs:simplecontent>
+      <xs:extension base="xs:NMTOKENS">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="ID" type="tns:ID" />
+  <xs:complextype name="ID">
+    <xs:simplecontent>
+      <xs:extension base="xs:ID">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="IDREF" type="tns:IDREF" />
+  <xs:complextype name="IDREF">
+    <xs:simplecontent>
+      <xs:extension base="xs:IDREF">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="ENTITY" type="tns:ENTITY" />
+  <xs:complextype name="ENTITY">
+    <xs:simplecontent>
+      <xs:extension base="xs:ENTITY">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="IDREFS" type="tns:IDREFS" />
+  <xs:complextype name="IDREFS">
+    <xs:simplecontent>
+      <xs:extension base="xs:IDREFS">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="ENTITIES" type="tns:ENTITIES" />
+  <xs:complextype name="ENTITIES">
+    <xs:simplecontent>
+      <xs:extension base="xs:ENTITIES">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="decimal" type="tns:decimal" />
+  <xs:complextype name="decimal">
+    <xs:simplecontent>
+      <xs:extension base="xs:decimal">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="integer" type="tns:integer" />
+  <xs:complextype name="integer">
+    <xs:simplecontent>
+      <xs:extension base="xs:integer">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="nonPositiveInteger" type="tns:nonPositiveInteger" />
+  <xs:complextype name="nonPositiveInteger">
+    <xs:simplecontent>
+      <xs:extension base="xs:nonPositiveInteger">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="negativeInteger" type="tns:negativeInteger" />
+  <xs:complextype name="negativeInteger">
+    <xs:simplecontent>
+      <xs:extension base="xs:negativeInteger">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="long" type="tns:long" />
+  <xs:complextype name="long">
+    <xs:simplecontent>
+      <xs:extension base="xs:long">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="int" type="tns:int" />
+  <xs:complextype name="int">
+    <xs:simplecontent>
+      <xs:extension base="xs:int">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="short" type="tns:short" />
+  <xs:complextype name="short">
+    <xs:simplecontent>
+      <xs:extension base="xs:short">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="byte" type="tns:byte" />
+  <xs:complextype name="byte">
+    <xs:simplecontent>
+      <xs:extension base="xs:byte">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="nonNegativeInteger" type="tns:nonNegativeInteger" />
+  <xs:complextype name="nonNegativeInteger">
+    <xs:simplecontent>
+      <xs:extension base="xs:nonNegativeInteger">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="unsignedLong" type="tns:unsignedLong" />
+  <xs:complextype name="unsignedLong">
+    <xs:simplecontent>
+      <xs:extension base="xs:unsignedLong">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="unsignedInt" type="tns:unsignedInt" />
+  <xs:complextype name="unsignedInt">
+    <xs:simplecontent>
+      <xs:extension base="xs:unsignedInt">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="unsignedShort" type="tns:unsignedShort" />
+  <xs:complextype name="unsignedShort">
+    <xs:simplecontent>
+      <xs:extension base="xs:unsignedShort">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="unsignedByte" type="tns:unsignedByte" />
+  <xs:complextype name="unsignedByte">
+    <xs:simplecontent>
+      <xs:extension base="xs:unsignedByte">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="positiveInteger" type="tns:positiveInteger" />
+  <xs:complextype name="positiveInteger">
+    <xs:simplecontent>
+      <xs:extension base="xs:positiveInteger">
+        <xs:attributegroup ref="tns:commonAttributes" />
+      </xs:extension>
+    </xs:simplecontent>
+  </xs:complextype>
+
+  <xs:element name="anyType" />
+</xs:schema>

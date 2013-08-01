@@ -1,2 +1,3 @@
 eclipse.preferences.version=1
 encoding//src/test/resources/log4j.properties=Cp1252
+encoding//src/test/resources/wadl/yahoo.wadl=UTF-8

@@ -17,10 +17,11 @@ package com.predic8.xml.util
 import java.io.IOException;
 import java.io.InputStream;
 
-
+import com.predic8.soamodel.KnownSchemas;
 
 abstract class ResourceResolver {
 	
+	Map knownDocs = KnownSchemas.docs
 	
 	protected InputStream fixUtf8BOM(InputStream is) throws IOException {
 		PushbackInputStream pis = new PushbackInputStream(new BufferedInputStream(is), 3)
