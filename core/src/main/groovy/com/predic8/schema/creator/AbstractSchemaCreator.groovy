@@ -63,7 +63,6 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   
   void createLengthFacet(LengthFacet facet, ctx){}
   
-  //TODO
   void createList(SchemaList list,Context ctx){
     throw new Exception("List not supported!")
     //list.simpleType.create(this, ctx)
@@ -73,7 +72,6 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   
   void createMinLengthFacet(MinLengthFacet facet, Context ctx){}
   
-  //TODO
   void createUnion(Union union, Context ctx) {
     union.simpleTypes[0]?.create(this, ctx)
   }
@@ -90,19 +88,16 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
     createSimpleRestriction(res, ctx)
   }
   
-  //TODO
   void createExtension(Extension extension, Context ctx){
     throw new RuntimeException("createExtension not implemented yet in ${this.class}")
   }
   
-  //TODO 
   void createComplexContentRestriction(Restriction restriction, Context ctx){
-//    throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
+    throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
   }
   
   void createAnnotation(Annotation annotation, Context ctx){}
   
-  //TODO
   void createSimpleContent(SimpleContent simpleContent, Context ctx){
      throw new RuntimeException("createSimpleContent in ${this.class} not implemented yet!")
   }

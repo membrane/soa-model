@@ -21,7 +21,7 @@ import com.predic8.xml.util.*
 import groovy.xml.*
 class CyclicIncludeTest extends GroovyTestCase{
   
-  def schema
+  Schema schema
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -29,7 +29,7 @@ class CyclicIncludeTest extends GroovyTestCase{
   }
   
   void test() {
-//      TODO: implement the test
-  }  
+		assert 2 == schema.includes.size()
+	}
 
 }

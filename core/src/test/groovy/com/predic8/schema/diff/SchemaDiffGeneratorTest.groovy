@@ -60,10 +60,6 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     assertEquals(1, diffs.findAll{it.type == 'element'}.size())
     assertTrue(diffs[0].breaks())
     assertFalse(diffs[0].safe())
-//    println "***********" + diffs.findAll{it.type == 'complexType' && it.a?.qname?.localPart == 'EmployeeType'}
-//    assertEquals(["Sequence has changed:"], diffs.findAll{it.type == 'complexType' && it.a?.qname?.localPart == 'EmployeeType'}.diffs.diffs.description.flatten())
-//    TODO
-//    assertEquals(["element shoesize added.", "element age added."] ,diffs.findAll{it.type == 'complexType' && it.a?.qname?.localPart == 'EmployeeType'}.diffs.diffs.diffs.description.flatten())
   }
   
   void testSchema2WithSchema3(){

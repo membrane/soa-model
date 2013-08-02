@@ -207,9 +207,14 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     yield("\n<!-- This element can be extended by any element from ${any.namespace ?: 'any'} namespace -->")
   }
   
-  void createAnyAttribute(AnyAttribute anyAttribute, RequestTemplateCreatorContext  ctx){
+  void createAnyAttribute(AnyAttribute anyAttribute, RequestTemplateCreatorContext ctx){
     yield("\n<!-- This element can be extended by any attribute from ${anyAttribute.namespace ?: 'any'} namespace -->")
   }
+	
+	//TODO createComplexContentRestriction has to be implemented.
+	void createComplexContentRestriction(Restriction restriction, RequestTemplateCreatorContext ctx){
+		//throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
+	}
   
   private yield(s) {
     new MarkupBuilderHelper(builder).yieldUnescaped(s)
