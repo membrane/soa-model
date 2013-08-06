@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+	<doc jersey:generatedBy="Jersey: 1.17 01/17/2013 03:31 PM"
+		xmlns:jersey="http://jersey.java.net/" />
+	<doc title="A message in the WADL" xml:lang="en"><![CDATA[This is added to the start of the generated application.wadl]]></doc>
+	<grammars>
+		<include href="xsd0.xsd" />
+	</grammars>
+	<resources base="http://example.com:8080/rest">
+		<resource path="test">
+			<method id="foo" name="GET">
+				<request>
+					<param name="q" style="query" type="xs:string" default=""
+						xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+					<param name="limit" style="query" type="xs:int" default="1"
+						xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+				</request>
+				<response>
+					<ns2:representation element="barList" mediaType="application/xml"
+						xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+					<ns2:representation element="barList" mediaType="application/json"
+						xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+				</response>
+			</method>
+			<method id="createAuktion" name="POST">
+				<request>
+					<ns2:representation element="bar" mediaType="application/xml"
+						xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+					<ns2:representation element="bar" mediaType="application/json"
+						xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+				</request>
+			</method>
+			<resource path="featured">
+				<method id="getFeatured" name="GET">
+					<response>
+						<ns2:representation element="bar" mediaType="*/*"
+							xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+					</response>
+				</method>
+				<method id="setFeatured" name="PUT">
+					<request>
+						<ns2:representation element="bar" mediaType="*/*"
+							xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+					</request>
+				</method>
+			</resource>
+			<resource path="{id}">
+				<param name="id" style="template" type="xs:int"
+					xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+				<method id="delete" name="DELETE" />
+				<method id="getById" name="GET">
+					<response>
+						<ns2:representation element="bar" mediaType="*/*"
+							xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" />
+					</response>
+				</method>
+				<resource path="bild">
+					<method id="setBild2" name="POST">
+						<request>
+							<representation mediaType="multipart/form-data" />
+						</request>
+					</method>
+				</resource>
+			</resource>
+		</resource>
+	</resources>
+</application>

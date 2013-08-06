@@ -77,7 +77,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 
 					Operation('name':opName){
 						
-						Difference change = findOperationChanges(diffs.diffs.flatten(), opName)
+						Difference change = findOperationChanges(diffs, opName)
 						if(change) {
 							if(change.safe()){
 								safe()
