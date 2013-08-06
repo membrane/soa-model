@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	 xmlns:tns="http://predic8.com/wsdl/material/ArticleService/1/"
+	 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	name="article" targetNamespace="http://predic8.com/wsdl/material/ArticleService/1/"
+	xmlns:pty="http://predic8.com/wsdl/material/ArticleService/1/portType/">
+	<documentation>ArticleService in Version 1</documentation>
+	
+	<import namespace="http://predic8.com/wsdl/material/ArticleService/1/portType/"
+		location="ArticleServicePortTypes.wsdl" />
+	
+	<binding name="ArticleServicePTBinding" type="pty:ArticleService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="create">
+			<soap:operation soapAction="create_action" />
+			<input name="input1">
+				<soap:body use="literal" />
+			</input>
+			<output name="output1">
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="get">
+			<soap:operation soapAction="get_action" />
+			<input name="input2">
+				<soap:body use="literal" />
+			</input>
+			<output name="output2">
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getAll">
+			<soap:operation soapAction="getAll_action" />
+			<input name="input3">
+				<soap:body use="literal" />
+			</input>
+			<output name="output3">
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="ArticleService">
+		<port name="ArticleServicePTPort" binding="tns:ArticleServicePTBinding">
+			<soap:address location="REPLACE_WITH_ACTUAL_URL" />
+		</port>
+	</service>
+</definitions>
