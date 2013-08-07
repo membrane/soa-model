@@ -54,7 +54,6 @@ abstract class XMLElement {
 				parseText(token.getText())
 			}
 			if(isEndTagReached(token)){
-//				if(token.hasNext()) token.next()
 				break
 			}
 			if(token.hasNext()) token.next()

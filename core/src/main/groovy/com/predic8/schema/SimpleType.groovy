@@ -53,8 +53,10 @@ class SimpleType extends TypeDefinition {
   }
 	
 	List<QName> getSuperTypes(){
-		if(restriction && restriction.base.namespaceURI != SCHEMA_NS) 
-			return [restriction.base] + schema.getType(restriction.base)?.superTypes
+		if(!restriction) return []
+		if(restriction && schema.getType(restriction.base)){
+			return [restriction.base] + schema.getType(restriction.base).superTypes
+		}
 		[restriction?.base] ?: []
 	}
 

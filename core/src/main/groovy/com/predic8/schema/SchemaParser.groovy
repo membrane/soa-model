@@ -49,6 +49,8 @@ class SchemaParser extends AbstractParser{
       if(token.hasNext()) token.next()
     }
 		if(!schema) throw new RuntimeException("The parsed document ${ctx.input} is not a valid schema document.")
+		//Validating schemas using SchemaParser
+		new SchemaValidator().validate(schema, ctx)
     schema
   }
   

@@ -57,6 +57,10 @@
 			<xsd:enumeration value="3" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	
+	<xsd:simpleType name="duration">
+		<xsd:union memberTypes="season1" />
+	</xsd:simpleType>
 
 	<xsd:simpleType name='SQL-Year-Month-Interval'>
 		<xsd:restriction base='tns:duration'>

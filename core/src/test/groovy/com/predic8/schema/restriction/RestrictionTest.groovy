@@ -43,7 +43,7 @@ class RestrictionTest extends GroovyTestCase{
     schema.create(creator, new SchemaCreatorContext())
     createdSchema = new XmlSlurper().parseText(strWriter.toString())
     schema.simpleTypes.each{ sT ->
-      assertEquals("${sT.restriction.base.prefix}:${sT.restriction.base.localPart}", createdSchema.simpleType.find{it.@name == sT.name}.restriction.@base.toString()) 
+			if(sT.restriction) assertEquals("${sT.restriction.base.prefix}:${sT.restriction.base.localPart}", createdSchema.simpleType.find{it.@name == sT.name}.restriction.@base.toString()) 
     }
   }
   

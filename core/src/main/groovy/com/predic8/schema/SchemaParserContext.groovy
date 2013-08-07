@@ -15,7 +15,8 @@
 package com.predic8.schema
 
 import com.predic8.soamodel.AbstractParserContext;
+import com.predic8.wsdl.WSDLParserContext;
 
 class SchemaParserContext extends AbstractParserContext{
-
+	
 }

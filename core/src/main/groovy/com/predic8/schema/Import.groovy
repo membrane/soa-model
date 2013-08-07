@@ -44,7 +44,9 @@ class Import extends SchemaComponent {
 			knownDocs = schema.resourceResolver.knownDocs
 			return
 		}
-		importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(input:this, importedSchemas:ctx.importedSchemas)
+		importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+		//Validating imported schemas
+		 new SchemaValidator().validate(schema, ctx)
 	}
 
 	def getImportSchema() {
@@ -58,7 +60,8 @@ class Import extends SchemaComponent {
 		if(namespace in knownDocs.keySet()){
 			log.debug("Well-known schema [$namespace] import resolving from the class path.")
 			//TODO It should be possible to use other resourceResolvers expect than ClasspathResolver.
-			return importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
+			importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
+			 return importSchema
 		}
 	}
 

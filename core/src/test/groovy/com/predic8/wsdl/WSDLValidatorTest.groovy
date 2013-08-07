@@ -16,6 +16,7 @@ package com.predic8.wsdl
 
 import groovy.xml.MarkupBuilder
 
+import com.predic8.soamodel.ValidationError;
 import com.predic8.wsdl.creator.WSDLCreator
 import com.predic8.wsdl.creator.WSDLCreatorContext
 import com.predic8.xml.util.ClasspathResolver
