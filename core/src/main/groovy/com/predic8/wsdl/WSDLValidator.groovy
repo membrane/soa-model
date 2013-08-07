@@ -11,6 +11,8 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.ValidationError;
+
 class WSDLValidator {
 
 	void validate(Definitions wsdl, WSDLParserContext ctx) {

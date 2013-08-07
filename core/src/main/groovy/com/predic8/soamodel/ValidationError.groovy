@@ -12,14 +12,16 @@
 		See the License for the specific language governing permissions and
 		limitations under the License. */
 
-package com.predic8.wsdl
+package com.predic8.soamodel
+
+import com.predic8.wsdl.WSDLElement;
 
 class ValidationError {
 
-	WSDLElement invalidElement
+	def invalidElement
 	
 	//Parent is necessary e.g. to find the right part if the part name is not unique.
-	WSDLElement parent
+	def parent
 	
 	String message
 }

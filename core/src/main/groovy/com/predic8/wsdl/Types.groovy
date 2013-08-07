@@ -37,6 +37,8 @@ class Types extends WSDLElement {
       log.debug("$definitions")
       def schema = new Schema(baseDir: definitions.baseDir, definitions: definitions, resourceResolver : definitions.resourceResolver)
       schema.parse(token, ctx)
+			//Validating embeded schemas in WSDL
+			 new SchemaValidator().validate(schema, ctx)
       schemas << schema ; break
     }
   }
