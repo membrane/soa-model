@@ -1,3 +1,5 @@
+
+
 /* Copyright 2012 predic8 GmbH, www.predic8.com
  
 		Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +29,12 @@ class BuiltInSchemaType extends TypeDefinition {
 	  'built-in-schema-type'
   }
 	
+	List<QName> getSuperTypes(){
+		[]
+	}
+	
 	def create(creator, CreatorContext ctx) {
+		println creator
 		throw new RuntimeException('BuiltInSchemaType have to be created by the given creator itself.')
 	}
 	

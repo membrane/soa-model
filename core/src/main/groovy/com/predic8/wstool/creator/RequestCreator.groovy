@@ -47,7 +47,8 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
     }
     
     def refType = element.schema.getType(element.type)
-    if(refType){
+		//If refType is a built-in schema type, the value of the element has to be created using the createBuildInElement()
+    if(refType && !(refType instanceof BuiltInSchemaType)){
       log.debug "refType : $refType"
       refType.create(this, ctx.clone(element))
       return

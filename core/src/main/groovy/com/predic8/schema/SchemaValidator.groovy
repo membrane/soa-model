@@ -36,10 +36,10 @@ class SchemaValidator {
 			else if(it.ref) {
 				try {
 					if(!schema.getElement(it.ref)) {
-						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.ref}' as its reference, which is not defined in this schema.")
+						ctx.errors << new ValidationError(invalidElement : it, message : "Some element in this document uses '${it.ref}' as its reference, which is not defined in this schema.")
 					}
 				} catch (Exception e) {
-					ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} is invalid!")
+					ctx.errors << new ValidationError(invalidElement : it, message : "Element with ref '${it.ref}' is invalid!")
 				}
 			}
 		}

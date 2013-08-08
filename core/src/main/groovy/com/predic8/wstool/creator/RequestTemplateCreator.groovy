@@ -67,11 +67,11 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       return
     }
     def refType = element.schema.getType(element.type)
-    if(refType){
+    if(refType && !(refType instanceof BuiltInSchemaType)){
 			refType.create(this, ctx)
       return
     }
-    if(element.type && element.type.namespaceURI.equals(Consts.SCHEMA_NS)){
+    if(refType && (refType instanceof BuiltInSchemaType)){
       def attrs = [:]
       declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
       if(element.type.localPart=='dateTime') new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
@@ -81,6 +81,15 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       builder."${getElementTagName(element, ctx)}"()
     }
   }
+	
+//	void createBuiltInSchemaType(BuiltInSchemaType type, RequestTemplateCreatorContext ctx){
+//		if(type.namespaceURI.equals(Consts.SCHEMA_NS)){
+//			def attrs = [:]
+//			declNSifNeeded('xsd',Consts.SCHEMA_NS,attrs,ctx)
+//			if(type.localPart=='dateTime') new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
+//			builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(type),attrs)
+//		}
+//	}
   
   void createComplexType(ComplexType complexType, RequestTemplateCreatorContext ctx){
     log.debug "ComplexType ${complexType?.name}"
@@ -188,6 +197,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createPart(part, RequestTemplateCreatorContext ctx){
+		if(!part.type) throw new ModelAccessException("There is no type information for the part '${part.name}' although the referencing operation was declared as RPC style.")
     if(part.type instanceof ComplexType || part.type instanceof SimpleType){
       part.type.create(this, ctx)
       return

@@ -52,7 +52,7 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
   
   void createElement(Element element, FormCreatorContext ctx) {
     def type = element.schema.getType(element.type) ?: element.embeddedType 
-    if(type){
+    if(type && !(type instanceof BuiltInSchemaType)){
       def newCtx = ctx.clone()
       newCtx.element = element
       type.create(this, newCtx)

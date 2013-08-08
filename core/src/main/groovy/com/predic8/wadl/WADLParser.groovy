@@ -35,7 +35,7 @@ class WADLParser extends AbstractParser{
 					application.parse(token, ctx)
 				}
 				else {
-					throw new WrongGrammerException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WADL document but was '${token.name}'.", token.name, token.location)
+					throw new WrongGrammerException("Expected root element '{http://wadl.dev.java.net/2009/02}application' for the WADL document but was '${token.name}'.", token.name, token.location)
 				}
 			}
 			if(token.hasNext()) token.next()

@@ -16,8 +16,6 @@ import groovy.xml.QName as GQName
 
 import javax.xml.namespace.QName as JQName
 
-import sun.org.mozilla.classfile.internal.SuperBlock;
-
 import com.predic8.policy.*
 import com.predic8.schema.*
 import com.predic8.soamodel.Consts
@@ -26,6 +24,8 @@ import com.predic8.wsdl.creator.WSDLCreatorContext
 import com.predic8.wsdl.http.HTTPBinding
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
+import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
+import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.xml.util.*
 
 
@@ -161,11 +161,14 @@ class Definitions extends WSDLElement{
 	/**
 	 * @param portTypeName Can be the portType name as a String or 
 	 * the fully qualified name as a QName
-	 * @return
+	 * @return The part element of the soap:body in the soap11 binding for the given operation, if there is one.
 	 */
 	Element getElementForOperation(String operationName, portTypeName){
-		//Should return the element referenced in the soap:body instead of the first one! 
-		getOperation(operationName,portTypeName).input.message.parts.flatten()[0]?.element
+		try {
+			return bindings.find{it.protocol == 'SOAP11'}.operations.find{it.name == operationName}.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
+		} catch (Exception e) {
+			return
+		}
 	}
 
 	List<Binding> getBindings(protocol) {

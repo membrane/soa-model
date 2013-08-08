@@ -181,6 +181,7 @@ class Schema extends SchemaComponent{
   }
   
   TypeDefinition getType(QName qname){
+		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
     (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
       it.qname == qname
     }
