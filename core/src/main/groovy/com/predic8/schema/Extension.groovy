@@ -15,7 +15,9 @@
 package com.predic8.schema
 
 import com.predic8.soamodel.CreatorContext 
+
 import javax.xml.namespace.QName as JQName
+
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Extension extends Derivation {
@@ -27,5 +29,9 @@ class Extension extends Derivation {
   def create(creator, CreatorContext ctx){
     creator.createExtension(this, ctx)
   }
+	
+	String toString() {
+		"Extension{ name: $name, base: $basePN}"
+	}
 }
 

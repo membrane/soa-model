@@ -154,6 +154,7 @@ class Definitions extends WSDLElement{
 	}
 	
 	TypeDefinition getSchemaType(GQName qname) {
+		//BuiltInSchemaTypes should be returned here, because Definitions maybe contains no schema!
 		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
 		schemas.find{ it.getType(qname) }?.getType(qname) 
 	}

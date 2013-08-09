@@ -25,7 +25,6 @@ class SchemaValidator {
 		elements.each {
 			if(it.type) {
 				try {
-					if(it.type.namespaceURI == Consts.SCHEMA_NS) return
 					if(!schema.getType(it.type)) {
 						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.type}' as its type, which is not defined in this schema.")
 					}
@@ -44,26 +43,38 @@ class SchemaValidator {
 			}
 		}
 	}
-	
+
 	void validateComplexTypes(complexTypes, schema, ctx) {
 		complexTypes.each { ct ->
 			if(ct.superTypes) {
 				ct.superTypes.each {
-					if(it.namespaceURI == Consts.SCHEMA_NS) return 
 					if(!schema.getType(it)) {
 						ctx.errors << new ValidationError(invalidElement : ct, message : "ComplexType ${ct.name} inherits from '${it}', which is not definded in this schema.")
 					}
 				}
 			}
+			
+			//TODO Validating Attributes has to be refactored. Otherwise tests fail!
+//			if(ct.allAttributes){
+//				ct.allAttributes.each {attr ->
+//					try {
+//						//An attribute should have either a ref or a type.
+//						if(ct.schema.getAttribute(attr.ref) || ct.schema.getType(attr.type)) { return }
+//						ctx.errors << new ValidationError(invalidElement : ct, message : "ComplexType ${ct.name} defines an attribute, which is not valid in this schema.")
+//					} catch (Exception e) {
+//						ctx.errors << new ValidationError(invalidElement : ct, message : "ComplexType ${ct.name} defines an attribute, which is not valid in this schema.")
+//					}
+//				}
+//			}
+			
 			if(ct.model?.hasProperty("particles")) validateElements(ct.model.particles.grep(Element), ct.schema, ctx)
 		}
 	}
-	
+
 	void validateSimpleTypes(simpleTypes, schema, ctx) {
 		simpleTypes.each { st ->
 			if(st.superTypes) {
 				st.superTypes.each {
-					if(it.namespaceURI == Consts.SCHEMA_NS) return
 					if(!schema.getType(it)) {
 						ctx.errors << new ValidationError(invalidElement : st, message : "SimpleType ${st.name} inherits from '${it}', which is not definded in this schema.")
 					}

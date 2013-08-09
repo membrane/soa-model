@@ -81,7 +81,7 @@ class Attribute extends Declaration {
   }
   
   String toString(){
-    "attribute[name= $name, ref=$ref]"
+    "attribute[name= $name, ref=$ref, type=$type]"
   }
   
 }

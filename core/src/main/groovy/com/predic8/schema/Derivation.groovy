@@ -80,8 +80,5 @@ abstract class Derivation extends SchemaComponent{
     attrs
   }
 	
-	String toString() {
-		"Extension{ name: $name, base: $basePN}"	
-	}
 }
 

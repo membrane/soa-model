@@ -74,7 +74,7 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     if(refType && (refType instanceof BuiltInSchemaType)){
       def attrs = [:]
       declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
-      if(element.type.localPart=='dateTime') new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
+      if(element.type.localPart=='dateTime') yield('<!--dateTime-->')
       builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(element.type),attrs)
     }
     if(!element.type && !element.embeddedType) {
@@ -82,19 +82,17 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     }
   }
 	
-//	void createBuiltInSchemaType(BuiltInSchemaType type, RequestTemplateCreatorContext ctx){
-//		if(type.namespaceURI.equals(Consts.SCHEMA_NS)){
-//			def attrs = [:]
-//			declNSifNeeded('xsd',Consts.SCHEMA_NS,attrs,ctx)
-//			if(type.localPart=='dateTime') new MarkupBuilderHelper(builder).yieldUnescaped('<!--dateTime-->')
-//			builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(type),attrs)
-//		}
-//	}
-  
   void createComplexType(ComplexType complexType, RequestTemplateCreatorContext ctx){
     log.debug "ComplexType ${complexType?.name}"
     def schema = complexType.schema
     ctx.path = "${ctx.path}${ctx.element.name}/"
+		
+		if(complexType.model instanceof ComplexContent && complexType.model.hasRestriction()){
+			complexType.model?.create(this, ctx)
+			complexType.anyAttribute?.create(this, ctx)
+			return
+		}
+		
     def attrs = [:]
 		declNSifNeeded(getNSPrefix(ctx.element, ctx),ctx.element.namespaceUri,attrs,ctx)
     attrs.putAll(createAttributes(complexType, ctx))
@@ -108,11 +106,6 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     def res = [:]
     def attrs = obj.allAttributes
     attrs.each{
-			
-			/*TODO A method in class Attribute should resolve the attribute object
-			* from ref or it self. There should the object be checked and an error
-			* should be added to SchemaValidator if attribute object is null.
-			*/
       def attr = it.ref ? obj.schema.getAttribute(it.ref) : it
       if(attr.fixedValue) {
         res[attr.name] = attr.fixedValue
@@ -123,8 +116,8 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
           res[attr.name] = TemplateUtil.getTemplateValue(attr.simpleType.restriction.base)
         }
       } else {
-	//TODO If attr is referenced from another namespace, the prefix should be created also and not only 'attr.name'.
-        res[attr.name] = TemplateUtil.getTemplateValue(attr.type)
+			declNSifNeeded(getNSPrefix(attr, ctx),attr.namespaceUri,res,ctx)
+			res["${getNSPrefix(attr, ctx)}:${attr.name}"] = TemplateUtil.getTemplateValue(attr.type)
       }
     }
     res
@@ -214,16 +207,19 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createAny(Any any, RequestTemplateCreatorContext  ctx){
-    yield("\n<!-- This element can be extended by any element from ${any.namespace ?: 'any'} namespace -->")
+		/*TODO
+		 * Change the yield calls to comment, like the followin:
+		 * yield("<!-- This element can be extended by any element from ${any.namespace ?: 'any'} namespace -->")
+		 */
+		builder.mkp.comment "This element can be extended by any element from ${any.namespace ?: 'any'} namespace"
   }
   
   void createAnyAttribute(AnyAttribute anyAttribute, RequestTemplateCreatorContext ctx){
-    yield("\n<!-- This element can be extended by any attribute from ${anyAttribute.namespace ?: 'any'} namespace -->")
+    yield("<!-- This element can be extended by any attribute from ${anyAttribute.namespace ?: 'any'} namespace -->")
   }
 	
-	//TODO createComplexContentRestriction has to be implemented.
 	void createComplexContentRestriction(Restriction restriction, RequestTemplateCreatorContext ctx){
-		//throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
+		if(restriction.base) restriction.schema.getType(restriction.base).create(this, ctx)
 	}
   
   private yield(s) {
