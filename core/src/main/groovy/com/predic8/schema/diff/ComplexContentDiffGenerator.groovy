@@ -59,7 +59,7 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
       return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', 
 				diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true, exchange: a.exchange)], exchange: a.exchange)]
     } 
-		def lDiffs = a.derivation.model?.compare(generator, b.derivation.model)
+		def lDiffs = a.derivation.model?.compare(generator, b.derivation.model, ctx.clone())
 		if(lDiffs){
 			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
 		}

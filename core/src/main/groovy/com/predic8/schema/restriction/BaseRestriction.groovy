@@ -15,12 +15,14 @@
 package com.predic8.schema.restriction;
 
 import javax.xml.namespace.QName as JQName
+
 import groovy.xml.QName as GQName
 
 import com.predic8.wstool.creator.*
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.*
 import com.predic8.soamodel.*
+
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class BaseRestriction  extends SchemaComponent {
@@ -137,8 +139,8 @@ class BaseRestriction  extends SchemaComponent {
     creator.createSimpleRestriction(this, ctx)
   }
   
-  def compare(generator, other ) {
-    generator.compareSimpleRestriction(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareSimpleRestriction(this, other, ctx)
   }
 	
   def createXML(builder,element, path, formParams){}

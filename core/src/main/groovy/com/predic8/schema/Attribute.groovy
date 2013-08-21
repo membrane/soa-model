@@ -14,8 +14,12 @@
 
 package com.predic8.schema;
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
+
 import groovy.xml.*
+
 import javax.xml.namespace.QName as JQName
 
 class Attribute extends Declaration {
@@ -72,8 +76,8 @@ class Attribute extends Declaration {
     creator.createAttribute(this, ctx)
   }
 
-  def compare(generator, other){
-    generator.compareAttribute(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareAttribute(this, other, ctx)
   }
 
   def getElementName(){

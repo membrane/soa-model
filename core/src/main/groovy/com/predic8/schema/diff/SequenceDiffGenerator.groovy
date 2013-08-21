@@ -55,7 +55,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         bPs << bP
 				aP.exchange.addAll(a.exchange)
 				bP.exchange.addAll(b.exchange)
-        def lDiffs = aP.compare(generator, bP)
+        def lDiffs = aP.compare(generator, bP, ctx.clone())
         diffs.addAll(lDiffs)
         return
       }

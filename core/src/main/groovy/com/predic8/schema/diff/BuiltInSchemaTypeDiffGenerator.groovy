@@ -14,10 +14,9 @@
 
 package com.predic8.schema.diff
 
-import java.util.List;
 import com.predic8.soamodel.*
 
-class BuiltInSchemaTypeDiffGenerator {
+class BuiltInSchemaTypeDiffGenerator extends AbstractDiffGenerator {
 	
 	def generator
 	def a,b
@@ -35,5 +34,11 @@ class BuiltInSchemaTypeDiffGenerator {
 //		}
 		[]
 	}
+
+
+	@Override
+  protected Object updateLabels() {
+	  return null;
+  }
 }
 

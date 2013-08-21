@@ -13,10 +13,13 @@
    limitations under the License. */
 
 package com.predic8.schema
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
-
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.schema.restriction.*
+
 import javax.xml.namespace.QName as JQName
+
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class ComplexContent extends SchemaComponent {
@@ -55,8 +58,8 @@ class ComplexContent extends SchemaComponent {
     creator.createComplexContent(this, ctx)
   }
 
-  def compare(generator, other){
-    generator.compareComplexContent(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareComplexContent(this, other, ctx)
   }
   
    

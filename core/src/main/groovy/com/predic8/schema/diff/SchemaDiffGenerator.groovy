@@ -37,6 +37,7 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     updateLabels()
   }
   
+	//ctx
   public SchemaDiffGenerator(Schema a, Schema b){
     this.a = a
     this.b = b
@@ -73,44 +74,44 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     new ComplexTypesDiffGenerator(a: a.complexTypes, b: b.complexTypes, generator: this).compare()
   }
 
-  private def compareComplexType(a, b){
-    new ComplexTypeDiffGenerator(a: a, b: b, generator: this).compare()
+  private def compareComplexType(a, b, ctx){
+    new ComplexTypeDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
-  def compareSequence(a, b) {
-    new SequenceDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareSequence(a, b, ctx) {
+    new SequenceDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
-  def compareChoice(a, b) {
-    new ChoiceDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareChoice(a, b, ctx) {
+    new ChoiceDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
   
-  def compareAll(a, b) {
-    new AllDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareAll(a, b, ctx) {
+    new AllDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
   def compareGroups(groupA, groupB ) {
     throw new RuntimeException('compareGroups() not implemented yet!')
   }
   
-  def compareGroupRef( groupRefA, groupRefB ) {
-    new GroupRefDiffGenerator(a: groupRefA, b: groupRefB, generator: this).compare()
+  def compareGroupRef( groupRefA, groupRefB, ctx) {
+    new GroupRefDiffGenerator(a: groupRefA, b: groupRefB, generator: this, ctx: ctx).compare()
   }
   
   private def compareSimpleTypes(){
     new SimpleTypesDiffGenerator(a: a.simpleTypes, b: b.simpleTypes, generator: this).compare()
   }
 
-  private def compareSimpleType(a, b){
-    new SimpleTypeDiffGenerator(a: a, b: b, generator: this).compare()
+  private def compareSimpleType(a, b, ctx){
+    new SimpleTypeDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
   private def compareElements(){
     new ElementsDiffGenerator(a: a?.elements ?: [], b: b?.elements ?: [], generator: this).compare()
   }
 
-  def compareElement(a, b){
-    new ElementDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareElement(a, b, ctx){
+    new ElementDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
   
   private def compareImports(){
@@ -122,32 +123,32 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     new AttributesDiffGenerator(a: a.attributes, b: b.attributes, generator: this).compare()
   }
   
-  def compareAttribute(a,b){
-    new AttributeDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareAttribute(a,b, ctx){
+    new AttributeDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
   def compareAnnotation(a, b){
     new AnnotationDiffGenerator(a: a, b: b, generator: this).compare()
   }
 
-  def compareAny(a, b) {
-    new AnyDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareAny(a, b, ctx) {
+    new AnyDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
   
-  def compareComplexContent(a, b){
-    new ComplexContentDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareComplexContent(a, b, ctx){
+    new ComplexContentDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
   
-  def compareSimpleContent(a, b) {
-    new SimpleContentDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareSimpleContent(a, b, ctx) {
+    new SimpleContentDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 
-  def compareSimpleRestriction(a, b){
-    new SimpleRestrictionDiffGenerator(a: a, b: b, generator: this).compare()
+  def compareSimpleRestriction(a, b, ctx){
+    new SimpleRestrictionDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
 	
-	def compareBuiltInSchemaType(a, b){
-    new BuiltInSchemaTypeDiffGenerator(a: a, b: b, generator: this).compare()
+	def compareBuiltInSchemaType(a, b, ctx){
+    new BuiltInSchemaTypeDiffGenerator(a: a, b: b, generator: this, ctx: ctx).compare()
   }
   
   protected def updateLabels(){

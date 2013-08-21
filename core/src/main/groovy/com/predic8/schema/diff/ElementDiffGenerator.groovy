@@ -45,8 +45,8 @@ class ElementDiffGenerator extends UnitDiffGenerator {
   }
 
   List<Difference> compareUnit(){
-    log.debug("compareElement")
-    def lDiffs = []
+  	log.debug("compareElement")
+		def lDiffs = []
     lDiffs.addAll(generator.compareAnnotation(a.annotation, b.annotation))
     lDiffs.addAll(compareType())
     lDiffs.addAll(compareMinMaxOccurs())
@@ -73,20 +73,24 @@ class ElementDiffGenerator extends UnitDiffGenerator {
     lDiffs
   }
 
+	//Recursion is possible if an element in the embedded type references a complexType, which returns to the wrapping element of the embedded type.
   private List<Difference> compareEmbeddedType() {
 		a.embeddedType?.exchange.addAll(a.exchange)
 		b.embeddedType?.exchange.addAll(b.exchange)
-    a.embeddedType?.compare(generator, b.embeddedType) ?: []
+    a.embeddedType?.compare(generator, b.embeddedType, ctx.clone()) ?: []
   }
 	
+	//Recursion is possible if an element references a type, which returns to the element in further steps.
 	List<Difference> compare4WSDL() {
 		def diffs = []
 		def aT = a.schema.getType(a.type)
 		def bT = b.schema.getType(b.type)
-		if(aT && bT &&a.type == b.type){
+		if(aT && bT && a.type == b.type){
+			//exchange marks the message direction in the using wsdl:operation 
 			aT?.exchange.addAll(a.exchange)
 			bT?.exchange.addAll(b.exchange)
-			diffs.addAll(aT.compare(generator, bT))
+			
+			diffs.addAll(aT.compare(generator, bT, ctx.clone()))
 		}
 		diffs
 	}

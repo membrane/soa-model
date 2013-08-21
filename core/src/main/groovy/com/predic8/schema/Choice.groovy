@@ -14,7 +14,9 @@
 
 package com.predic8.schema
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.wstool.creator.*
 
 
@@ -29,8 +31,8 @@ class Choice extends ModelGroup{
     creator.createChoice(this, ctx.clone())
   }
 
-  def compare(generator, other){
-    generator.compareChoice(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareChoice(this, other, ctx)
   }
   
   String toString(){

@@ -16,7 +16,9 @@
  
 package com.predic8.schema
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext;
+import com.predic8.soamodel.DiffGeneratorContext;
 
 import groovy.xml.QName
 
@@ -38,7 +40,7 @@ class BuiltInSchemaType extends TypeDefinition {
 		throw new RuntimeException('BuiltInSchemaType have to be created by the given creator itself.')
 	}
 	
-	def compare(generator, other){
-		generator.compareBuiltInSchemaType(this, other)
+	def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+		generator.compareBuiltInSchemaType(this, other, ctx)
 	}
 }

@@ -18,11 +18,13 @@ import groovy.xml.QName;
 
 import java.util.List;
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.wstool.creator.*
 import com.predic8.schema.restriction.*
-import static com.predic8.soamodel.Consts.SCHEMA_NS
 
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 import groovy.xml.*
 
 class SimpleType extends TypeDefinition {
@@ -81,8 +83,8 @@ class SimpleType extends TypeDefinition {
     creator.createSimpleType(this, ctx.clone())
   }
 
-  def compare(generator, other){
-    generator.compareSimpleType(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareSimpleType(this, other, ctx)
   }
   
   String toString(){

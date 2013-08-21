@@ -23,8 +23,15 @@ abstract class UnitDiffGenerator extends AbstractDiffGenerator{
   public List<Difference> compare() {
     if(a && !b) return [removed()]
     if(!a && b) return [added()]
-    if(a && b && compareUnit()) {
-      return [changed(compareUnit())]
+		
+		//If the unit is already visited, return to avoid recursion.
+		if(ctx.visited.contains(a)) return []
+		ctx.visited << a
+		
+    def lDiffs = compareUnit()
+		
+		if(a && b && lDiffs) {
+      return [changed(lDiffs)]
     }
     []
   }

@@ -33,7 +33,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   }
 
   List<Difference> compareUnit(){
-    def lDiffs = new AnnotationDiffGenerator(a: a.annotation, b: b.annotation, generator: generator).compare()
+		def lDiffs = new AnnotationDiffGenerator(a: a.annotation, b: b.annotation, generator: generator).compare()
     lDiffs.addAll( compareModel())
     lDiffs
   }
@@ -45,7 +45,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
     } else if(a.model) {
 			a.model.exchange.addAll(a.exchange)
 			b.model?.exchange?.addAll(b.exchange)
-      lDiffs.addAll(a.model.compare(generator, b.model ))
+      lDiffs.addAll(a.model.compare(generator, b.model, ctx.clone()))
     }
     
     lDiffs.addAll(generator.compareAttributes(a, b))

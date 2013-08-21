@@ -14,8 +14,11 @@
 
 package com.predic8.schema;
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.wstool.creator.*
+
 import javax.xml.namespace.QName as JQName
 
 class Any extends SchemaComponent {
@@ -48,8 +51,8 @@ class Any extends SchemaComponent {
     creator.createAny(this, ctx.clone())
   }
 
-  def compare(generator, other){
-    generator.compareAny(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareAny(this, other, ctx)
   }
 
   String toString(){

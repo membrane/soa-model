@@ -22,7 +22,9 @@ import org.apache.commons.logging.*
 
 import com.predic8.wstool.creator.*
 import com.predic8.schema.creator.*;
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.xml.util.*
 
 class Element extends Declaration {
@@ -81,8 +83,8 @@ class Element extends Declaration {
     creator.createElement(this, ctx.clone())
   }
   
-  def compare(generator, other){
-    generator.compareElement(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareElement(this, other, ctx)
   }
   
   String getRequest(formParams){

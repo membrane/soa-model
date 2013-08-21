@@ -14,13 +14,10 @@
 
 package com.predic8.soamodel
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import groovy.xml.QName
 
 import com.predic8.schema.*
-import com.predic8.schema.restriction.facet.*;
-
-import groovy.xml.QName
+import com.predic8.schema.restriction.facet.*
 
 abstract class AbstractDiffGenerator {
   
@@ -28,6 +25,7 @@ abstract class AbstractDiffGenerator {
   
   def generator
   def a,b
+	DiffGeneratorContext ctx = new DiffGeneratorContext()
   
   def abstract compare()
   

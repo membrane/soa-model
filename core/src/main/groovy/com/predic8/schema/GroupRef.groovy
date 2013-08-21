@@ -15,8 +15,12 @@
 package com.predic8.schema;
 
 import groovy.xml.*
+
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.wstool.creator.*
+
 import javax.xml.stream.*
 
 class GroupRef extends SchemaComponent{
@@ -27,8 +31,8 @@ class GroupRef extends SchemaComponent{
     creator.createGroupRef(this, ctx)
   }
 
-  def compare( generator, other ) {
-    generator.compareGroupRef( this, other )
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareGroupRef( this, other, ctx)
   }
   
   public boolean equals(obj) {

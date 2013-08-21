@@ -12,10 +12,14 @@
 package com.predic8.schema
 
 import java.util.List
+
 import javax.xml.namespace.QName as JQName
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.schema.restriction.*
+
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class SimpleContent extends SchemaComponent {
@@ -53,8 +57,8 @@ class SimpleContent extends SchemaComponent {
     creator.createSimpleContent(this, ctx)
   }
 
-  def compare(generator, other){
-    generator.compareSimpleContent(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareSimpleContent(this, other, ctx)
   }
 }
 

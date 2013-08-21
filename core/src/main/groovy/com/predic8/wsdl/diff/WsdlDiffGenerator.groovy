@@ -25,8 +25,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 
 	private Log log = LogFactory.getLog(this.class)
 
-	public WsdlDiffGenerator(){
-	}
+	public WsdlDiffGenerator(){	}
 
 	public WsdlDiffGenerator(Definitions a, Definitions b){
 		this.a = a

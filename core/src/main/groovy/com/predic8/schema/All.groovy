@@ -14,7 +14,9 @@
 
 package com.predic8.schema;
 
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext 
+import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.wstool.creator.*
 
 class All extends ModelGroup {
@@ -30,8 +32,8 @@ class All extends ModelGroup {
     creator.createAll(this, ctx.clone())
   }
 
-  def compare(generator, other){
-    generator.compareAll(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareAll(this, other, ctx)
   }
 
   String toString(){

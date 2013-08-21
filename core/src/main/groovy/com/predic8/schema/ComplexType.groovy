@@ -15,12 +15,15 @@
 package com.predic8.schema;
 
 import groovy.xml.*
+
 import javax.xml.namespace.QName as JQName;
 
 import sun.org.mozilla.classfile.internal.SuperBlock;
 
 import com.predic8.wstool.creator.*
+import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext;
+import com.predic8.soamodel.DiffGeneratorContext;
 
 class ComplexType extends TypeDefinition {
   
@@ -91,8 +94,8 @@ class ComplexType extends TypeDefinition {
     creator.createComplexType(this, ctx.clone())
   }
 
-  def compare(generator, other){
-    generator.compareComplexType(this, other)
+  def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
+    generator.compareComplexType(this, other, ctx)
   }
   
   Sequence getSequence(){
