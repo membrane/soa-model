@@ -32,8 +32,6 @@ class DocumentLiteralStyle extends BindingStyle {
 		
 		def value = value.capitalize()
 		
-		//??? style == mixed ==> Error ???
-			
 		def usages = (([operations.input]+ [operations.output]).bindingElements.use).flatten().unique()
 		def err = [:]
 
@@ -97,30 +95,61 @@ class DocumentLiteralStyle extends BindingStyle {
 		}
 		result
 	}
-
-	private checkDocLitErrors(List<BindingOperation> operations, PortType portType) {
+	
+	private checkDocLitErrors(List<BindingOperation> operations, PortType	portType) {
 		def errors = []
 		operations.each {op ->
-			//Check if every message in an operation uses only one part and if the part references an element.
-			def opMessages = ([portType.getOperation(op.name).input] + [portType.getOperation(op.name).output]).message
-			errors.addAll(checkPartErrors(op, opMessages))
+			//Check input soap body
+			def inputSoapBodyParts = op.input.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
+			if(inputSoapBodyParts.size() == 1) {
+				return
+			}
+			if(inputSoapBodyParts.size() > 1) {
+				def err = [:]
+				err['message'] = "The operation '${op.name}' uses more than one part in soap body of the input element."
+				err['operation'] = op
+				err['element'] = op.input
+				err['type'] = "moreThanOnePart"
+				errors << err
+			} else {
+				//Check if the referenced message in the operation uses only one part and if the part references an element.
+				def opInputMessage = (portType.getOperation(op.name).input).message
+				errors.addAll(checkMessageParts(op, opInputMessage))
+			}
+			
+			//Check output soap body
+			def outputSoapBodyParts = op.output.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
+			if(outputSoapBodyParts.size() == 1) {
+				return
+			}
+			if(outputSoapBodyParts.size() > 1) {
+				def err = [:]
+				err['message'] = "The operation '${op.name}' uses more than one part in soap body of the output element."
+				err['operation'] = op
+				err['element'] = op.output
+				err['type'] = "moreThanOnePart"
+				errors << err
+			} else {
+				//Check if the referenced message in the operation uses only one part and if the part references an element.
+				def opOutputMessage = (portType.getOperation(op.name).output).message
+				errors.addAll(checkMessageParts(op, opOutputMessage))
+			}
+			
 		}
 		errors
 	}
-
-	private checkPartErrors(BindingOperation op, List<Message> messages){
+	
+	private checkMessageParts(BindingOperation op, Message message){
 		def errors = []
-		messages.each { msg ->
-			if(msg.parts?.size() > 1) {
-				def err = [:]
-				err['message'] = "The operation '${op.name}' uses the message '${msg.name}' which has more than one part."
-				err['operation'] = op
-				err['element'] = msg
-				err['type'] = "moreThanOnePart"
-				errors << err
-			}
-			errors.addAll(checkElementInPart(msg))
+		if(message.parts?.size() > 1) {
+			def err = [:]
+			err['message'] = "The operation '${op.name}' uses the message '${message.name}' which has more than one part."
+			err['operation'] = op
+			err['element'] = message
+			err['type'] = "moreThanOnePart"
+			errors << err
 		}
+		errors.addAll(checkElementInPart(message))
 		errors
 	}
 
