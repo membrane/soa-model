@@ -19,7 +19,14 @@ import com.predic8.soamodel.*
 
 class ExactlyOne extends PolicyOperator{
 
-  public static final QName ELEMENTNAME = new QName(Consts.WSP15_NS, 'ExactlyOne')
+	/**
+	 * ELEMENTNAME will be set at runtime. Depending on the used version,
+	 * it should be the one from the XML document cause it will be used
+	 * to find the end tag of the XML element.
+	 */
+  public QName ELEMENTNAME 
+  public static final QName VERSION12 = new QName(Consts.WSP12_NS, 'ExactlyOne')
+  public static final QName VERSION15 = new QName(Consts.WSP15_NS, 'ExactlyOne')
 
   QName getElementName() {
     ELEMENTNAME

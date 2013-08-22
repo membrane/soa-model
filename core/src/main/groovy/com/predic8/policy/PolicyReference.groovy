@@ -20,8 +20,10 @@ import com.predic8.soamodel.*
 
 class PolicyReference extends XMLElement{
 
-  public static final QName ELEMENTNAME = new QName(Consts.WSP15_NS, 'PolicyReference')
-
+	QName ELEMENTNAME
+	static final QName VERSION12 = new QName(Consts.WSP12_NS, 'PolicyReference')
+	static final QName VERSION15 = new QName(Consts.WSP15_NS, 'PolicyReference')
+	
   String uri
   String Digest
 
@@ -30,10 +32,6 @@ class PolicyReference extends XMLElement{
     digest = token.getAttributeValue(null , 'Digest')
   }
 
-  def parse(token, ctx){
-//    println "PolicyReference parse method!"
-  }
-	
 	String getNamespaceUri() {
 		definitions.targetNamespace
 	}

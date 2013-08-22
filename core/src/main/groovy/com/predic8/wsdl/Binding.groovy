@@ -40,6 +40,7 @@ class Binding extends WSDLElement{
 	String typePN
 	QName type
 	AbstractBinding binding
+	PolicyReference policyReference
 
 	Binding(){
 		// Default constructor
@@ -59,9 +60,11 @@ class Binding extends WSDLElement{
 		log.debug "found binding: ${token.name}"
 		super.parseChildren(token, child, params)
 		switch (token.name ){
-			case Policy.ELEMENTNAME :
-				def policy = new Policy()
-					policy.parse(token, params) ; break
+			
+			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
+				policyReference = new PolicyReference(ELEMENTNAME: token.name)
+				policyReference.parse(token, params) ; break
+					
 			case SOAP11Binding.ELEMENTNAME :
 				log.debug "is soap11"
 				binding = new SOAP11Binding(definitions: definitions, binding: this)

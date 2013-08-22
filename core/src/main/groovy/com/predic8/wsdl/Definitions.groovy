@@ -11,6 +11,8 @@
 
 package com.predic8.wsdl
 
+import java.util.List;
+
 import groovy.xml.MarkupBuilder
 import groovy.xml.QName as GQName
 
@@ -47,8 +49,10 @@ class Definitions extends WSDLElement{
 	List<PortType> localPortTypes = []
 	List<Binding> localBindings = []
 	List<Service> localServices = []
-
 	List<Import> imports = []
+	
+	//List of policy items with Id as key and the policy object as value.
+	Map<String, Policy> policies = [:]
 
 	/**
 	 * If there are imported WSDLs, the complete information about the WSDL elements 
@@ -201,10 +205,11 @@ class Definitions extends WSDLElement{
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
-			case Policy.ELEMENTNAME :
-				def policy = new Policy(wsdlElement: this, parent : parent)
+		//Need to check for Policy defined in other namespace
+			case {it == Policy.VERSION12 || it == Policy.VERSION15 }:
+				def policy = new Policy(wsdlElement: this, parent : parent, ELEMENTNAME: token.name)
 				policy.parse(token, ctx)
-					policies << policy ; break
+				policies[policy.id] = policy ; break
 			case Import.ELEMENTNAME :
 				def imp = new Import(definitions : this)
 				imp.parse(token, ctx)
@@ -230,7 +235,7 @@ class Definitions extends WSDLElement{
 					localServices << service; break
 
 			default :
-				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.ELEMENTNAME )
+				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.VERSION12 && token.name != Policy.VERSION15)
 					ctx.errors << "${token.name} in a wsdl is not supported yet!"
 				break
 		}

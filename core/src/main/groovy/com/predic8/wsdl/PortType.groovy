@@ -32,9 +32,6 @@ class PortType extends WSDLElement{
   protected parseChildren(token, child, ctx){
     super.parseChildren(token, child, ctx)
     switch (token.name ){
-      case Policy.ELEMENTNAME :
-      def policy = new Policy()
-      policy.parse(token, ctx) ; break
       case Operation.ELEMENTNAME:
       def operation = new Operation(definitions : definitions)
       operation.parse(token, ctx)

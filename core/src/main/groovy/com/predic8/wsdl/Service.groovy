@@ -31,9 +31,6 @@ class Service extends WSDLElement{
   protected parseChildren(token, child, params){
     super.parseChildren(token, child, params)
     switch (token.name ){
-      case Policy.ELEMENTNAME :
-      def policy = new Policy()
-      policy.parse(token, params) ; break
       case Port.ELEMENTNAME :
       def port = new Port(definitions : definitions)
       port.parse(token, params)

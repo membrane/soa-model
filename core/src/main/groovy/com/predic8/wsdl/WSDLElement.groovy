@@ -31,7 +31,6 @@ abstract class WSDLElement extends XMLElement {
 	String name
 	Definitions definitions
 	Documentation documentation
-	List<Policy> policies = []
 
 	def abstract create(creator , context)
 

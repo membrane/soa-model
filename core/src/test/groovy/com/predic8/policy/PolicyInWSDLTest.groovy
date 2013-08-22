@@ -10,12 +10,13 @@ class PolicyInWSDLTest extends GroovyTestCase {
 	
 	void setUp() {
 		def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-		wsdl = parser.parse('policy/BLZService-with-policy.wsdl')
+//		wsdl = parser.parse('policy/BLZService-with-policy.wsdl')
+		wsdl = parser.parse('extern/usernameauthwithsymmkeydevelopmentdefault.wsdl')
 	}
 	
 	void testParser() {
-		assert wsdl.policies
-//		println "Policy Test in WSDL:"
-//		println wsdl.policies
+		assert wsdl.bindings[0].policyReference.uri == '#StockQuoteBindingPolicy'
+		assert wsdl.policies.values().allPolicyItems.flatten().size() == 3
+		assert wsdl.policies.size() == 3
 	}
 }

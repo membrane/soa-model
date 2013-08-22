@@ -12,16 +12,31 @@
 package com.predic8.policy
 
 import javax.xml.namespace.QName
+
 import com.predic8.soamodel.*
 
 class Policy extends PolicyOperator{
 
-	static final QName ELEMENTNAME = new QName(Consts.WSP15_NS, 'Policy')
+	/**
+	 * ELEMENTNAME will be set at runtime. Depending on the used version, 
+	 * it should be the one from the XML document cause it will be used 
+	 * to find the end tag of the XML element.
+	 */
+	QName ELEMENTNAME
+	static final QName VERSION12 = new QName(Consts.WSP12_NS, 'Policy')
+	static final QName VERSION15 = new QName(Consts.WSP15_NS, 'Policy')
 
+	String id
+	
+	protected def parseAttributes( token,  ctx) {
+		//From ws-policy spec: /wsp:Policy/(@wsu:Id | @xml:id)
+		id = token.getAttributeValue( null , 'Id') ?: token.getAttributeValue( null , 'id')
+	}
+	
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)
 	}
-
+	
 	@Override
 	public Object create(Object creator, Object context) {
 		// TODO Auto-generated method stub

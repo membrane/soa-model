@@ -19,11 +19,13 @@ import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
+import com.predic8.schema.Element;
 import com.predic8.soamodel.Consts
 import com.predic8.soamodel.XMLElement
 import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.WSDLElement;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Otherwise;
+import com.sun.xml.internal.ws.org.objectweb.asm.Item;
 
 abstract class PolicyOperator extends XMLElement {
 
@@ -36,18 +38,35 @@ abstract class PolicyOperator extends XMLElement {
 	All all
 	ExactlyOne eOne
 	
+	//TODO List of policy items e.g. addressing, symetricbinding
+	def policyItems = []
+	
 	protected parseChildren(token, child, ctx){
 		switch (token.name){
-			case All.ELEMENTNAME:
-				all = new All()
+			case {it == All.VERSION12 || it == All.VERSION15}:
+				all = new All(ELEMENTNAME: token.name)
 				all.parse(token, ctx) ; break
-			case ExactlyOne.ELEMENTNAME:
-				eOne = new ExactlyOne()
+			case {it == ExactlyOne.VERSION12 || it == ExactlyOne.VERSION15}:
+				eOne = new ExactlyOne(ELEMENTNAME: token.name)
 				eOne.parse(token, ctx) ; break
+			case {it == UsingAddressing.VERSION1 || it == UsingAddressing.VERSION2}:
+				def adr = new UsingAddressing(ELEMENTNAME: token.name)
+			policyItems << adr
+			case {it == SymmetricBinding.VERSION1 || it == SymmetricBinding.VERSION2}:
+				def sb = new SymmetricBinding(ELEMENTNAME: token.name)
+				policyItems << sb
 			default:
 				ctx.errors << "Parsing ${token.name} not implemented yet!"
 				break
 		}
+	}
+
+	def getAllPolicyItems() {
+		def result = []
+		if(policyItems) result = policyItems
+		if(all) result.addAll(all.allPolicyItems) 
+		if(eOne) result.addAll(eOne.allPolicyItems) 
+		result
 	}
   
 	String getNamespaceUri() {
