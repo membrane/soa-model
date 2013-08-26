@@ -23,7 +23,4 @@ class SOAPHeader extends AbstractSOAPHeader{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP11_NS, 'header')
 
-  def create(creator, ctx) {
-    creator.createSOAP11Header(this, ctx)
-  }
 }

@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package com.predic8.schema.creator
+package com.predic8.wsdl.usage
 
 import groovy.xml.*
 
@@ -42,10 +42,9 @@ class OperationUseVisitorTest extends GroovyTestCase{
 			visitor.visitSchema4Operation(op, ctx)
 		}
 		assert 16 == ctx.elementsInfo.keySet().name.size()
-//		println ctx.elementsInfo.keySet().name
-		ctx.elementsInfo.each { k,v ->
-			println k.name + ' is used in ' + v.operation.name
-		}
+//		ctx.elementsInfo.each { k,v ->
+//			println k.name + ' is used in ' + v.operation.name
+//		}
 	}
 	
 	void testOperationUsageAnalyzer() {
