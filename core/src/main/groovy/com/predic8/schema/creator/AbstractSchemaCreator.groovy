@@ -15,11 +15,11 @@
 package com.predic8.schema.creator;
 
 import com.predic8.schema.*
-import com.predic8.schema.Sequence as SchemaSequence
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
 import com.predic8.schema.restriction.StringRestriction;
 import com.predic8.soamodel.AbstractCreator
+import com.predic8.wsdl.usage.OperationUseVisitorContext;
 
 abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> extends AbstractCreator{
   
@@ -27,19 +27,33 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   
   void createImport(Import imp, Context ctx){}
   
-  abstract void createElement(Element element, Context ctx)
+  void createElement(Element element, Context ctx) {
+		def refType = element.schema.getType(element.type)
+		if(refType && !(refType instanceof BuiltInSchemaType)) {
+			refType.create(this, ctx)
+		}
+		else if(element.ref) {
+			Element e = element.schema.getElement(ref)
+			e.create(this, ctx)
+		}
+	}
   
-  abstract void createComplexType(ComplexType complexType, Context ctx)
+  void createComplexType(ComplexType complexType, Context ctx) {
+		if(complexType.model) {
+			complexType.model.create(this, ctx)
+		}
+	}
   
   void createGroup(Group group, Context ctx){
     group.model.create(this, ctx)
   }
   
   void createGroupRef(GroupRef groupRef, ctx) {
-    groupRef.schema.getGroup(groupRef.ref).create(this, ctx)
+		Group group = groupRef.schema.getGroup(groupRef.ref)
+    group.create(this, ctx)
   }
   
-  void createSequence(SchemaSequence sequence, Context ctx){
+  void createSequence(Sequence sequence, Context ctx){
     sequence.particles.each {
       it.create(this, ctx)
     }
@@ -81,8 +95,10 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
     else if ( simpleType.list ) simpleType.list.create(this, ctx)
     else simpleType.restriction.create(this, ctx)
   }
-  
-  abstract void createSimpleRestriction(BaseRestriction restriction, Context ctx)
+	
+	void createSimpleRestriction(BaseRestriction restriction, OperationUseVisitorContext ctx) {
+		// Overwrite this method in the concrete creator class.
+	}
   
   public void createStringRestriction(StringRestriction res, Context  ctx) {
     createSimpleRestriction(res, ctx)
@@ -103,7 +119,9 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
   }
   
   void createComplexContent(ComplexContent complexContent, Context ctx){
-    complexContent.derivation?.create(this, ctx)
+		if(complexContent.derivation) {
+			complexContent.derivation.create(this, ctx)
+		}
   }
   
   void createAny(Any any, Context  ctx){

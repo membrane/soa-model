@@ -14,10 +14,12 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
-import com.predic8.xml.util.*
 import javax.xml.namespace.QName as JQName
+
 import com.predic8.soamodel.Consts
+import com.predic8.wsdl.usage.OperationUseVisitor;
+import com.predic8.wsdl.usage.OperationUseVisitorContext;
+import com.predic8.xml.util.*
 
 class Operation extends WSDLElement{
 
