@@ -14,20 +14,19 @@
 
 package com.predic8.wsdl.usage
 
-import com.predic8.schema.ComplexType
-import com.predic8.schema.Element
-import com.predic8.schema.SimpleType
 import com.predic8.schema.creator.SchemaCreatorContext
 import com.predic8.wsdl.Operation
+import com.predic8.wsdl.PortType
 
 class OperationUsage extends SchemaCreatorContext implements Cloneable {
 
 	Operation operation
+	PortType portType
 	boolean input
 	boolean output
 	
 	String toString() {
-		"Operation: ${operation.name} (input: $input, output: $output)"
+		"PortType: ${portType.name}, Operation: ${operation.name} (input: $input, output: $output)"
 	}
 }
 

@@ -26,7 +26,7 @@ import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
 
-class OperationUseVisitorTest extends GroovyTestCase{
+class OperationUsageAnalyzerTest extends GroovyTestCase{
   
 	Definitions wsdl
 	
@@ -38,17 +38,23 @@ class OperationUseVisitorTest extends GroovyTestCase{
 	void testVisitor() {
 		OperationUseVisitorContext ctx = new OperationUseVisitorContext()
 		OperationUseVisitor visitor = new OperationUseVisitor()
-		wsdl.operations.each {op ->
-			visitor.visitSchema4Operation(op, ctx)
+		wsdl.portTypes.each { pt ->
+			pt.operations.each {op ->
+				visitor.visitSchema4Operation(op, pt, ctx)
+			}
 		}
 		assert 16 == ctx.elementsInfo.keySet().name.size()
-//		ctx.elementsInfo.each { k,v ->
-//			println k.name + ' is used in ' + v.operation.name
-//		}
 	}
 	
-	void testOperationUsageAnalyzer() {
+	void testAnalyzeOperationUsage() {
+		assert 16 ==  OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
+		assert 7 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
+		assert 2 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
+	}
+	
+	void testGetOperationUsageInfos4Element() {
 		assert 'create' in OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:create'), wsdl).operation.name
+		assert 'ArticleServicePT' in OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:create'), wsdl).portType.name
 		assert OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:create'), wsdl)[0].input
 		assert !OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:create'), wsdl)[0].output
 		assert 'create' in OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:createResponse'), wsdl).operation.name

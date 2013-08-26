@@ -33,8 +33,6 @@ class Operation extends WSDLElement{
   Operation(String name, Definitions definitions){
     this.name = name
     this.definitions = definitions
-//    this.input = new Input(definitions:definitions, message:definitions.newMessage(name))
-//    this.output = new Output(definitions:definitions, message:definitions.newMessage("${name}Response"))
   }
   
   protected parseAttributes(token, params){

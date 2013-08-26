@@ -21,17 +21,18 @@ import com.predic8.schema.restriction.facet.*
 import com.predic8.wsdl.AbstractPortTypeMessage
 import com.predic8.wsdl.Message;
 import com.predic8.wsdl.Operation
+import com.predic8.wsdl.PortType;
 
 class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorContext> {
 	
-  public OperationUseVisitorContext visitSchema4Operation(Operation op, OperationUseVisitorContext ctx) {
+  public OperationUseVisitorContext visitSchema4Operation(Operation op, PortType portType, OperationUseVisitorContext ctx) {
 		op.input.message.parts.each {part ->
-			ctx.opUsage = new OperationUsage(operation: op, input: true)
+			ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
 			part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
 		}
 		
 		op.output.message.parts.each {part ->
-			ctx.opUsage = new OperationUsage(operation: op, output: true)
+			ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
 			part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
 		}
 		ctx
