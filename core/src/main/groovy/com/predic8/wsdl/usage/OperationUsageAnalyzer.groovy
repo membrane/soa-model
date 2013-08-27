@@ -26,7 +26,7 @@ class OperationUsageAnalyzer {
 	}
 
 	public static List<OperationUsage> getOperationUsageInfos(SimpleType st, Definitions wsdl) {
-			analyzeOperationUsage(wsdl).simpleTypesInfoT[st]
+			analyzeOperationUsage(wsdl).simpleTypesInfo[st]
 	}
 	
 	/**

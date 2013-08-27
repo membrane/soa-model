@@ -24,17 +24,20 @@ class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorConte
 
 	public OperationUseVisitorContext visitSchema4Operation(Operation op, PortType portType, OperationUseVisitorContext ctx) {
 		op.input.message.parts.each {part ->
+			ctx.visited = []
 			ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
 			part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
 		}
 
 		op.output.message.parts.each {part ->
+			ctx.visited = []
 			ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
 			part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
 		}
 
 		op.faults.each {fault ->
 			fault.message.parts.each {part ->
+				ctx.visited = []
 				ctx.opUsage = new OperationUsage(operation: op, portType: portType, fault: true)
 				part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
 			}
@@ -44,17 +47,23 @@ class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorConte
 	}
 
 	public void createElement(Element element, OperationUseVisitorContext ctx) {
-		ctx.updateElements(element)
+		if(ctx.visited.contains(element)) return
+		ctx.visited << element
+		if(element.name) ctx.updateElements(element)
 		super.createElement(element, ctx)
 	}
 
 	public void createComplexType(ComplexType complexType, OperationUseVisitorContext ctx) {
-		ctx.updateCompexTypes(complexType)
+		if(ctx.visited.contains(complexType)) return
+		ctx.visited << complexType
+		if(complexType.name) ctx.updateCompexTypes(complexType)
 		super.createComplexType(complexType, ctx)
 	}
 
 	public void createSimpleType(SimpleType simpleType, OperationUseVisitorContext ctx) {
-		ctx.updateSimpleTypes(simpleType)
+		if(ctx.visited.contains(simpleType)) return
+		ctx.visited << simpleType
+		if(simpleType.name) ctx.updateSimpleTypes(simpleType)
 		if(! simpleType.restriction?.base instanceof BuiltInSchemaType)
 			simpleType.schema.getType(simpleType.restriction.base).create(this, ctx)
 	}

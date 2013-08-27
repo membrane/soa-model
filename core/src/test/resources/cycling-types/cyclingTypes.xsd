@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://predic8.com/cyclingType"
+	xmlns:tns="http://predic8.com/cyclingType" elementFormDefault="qualified">
+
+	<complexType name="TestType">
+		<sequence>
+			<element name="SecondElement" type="tns:SecondType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="SecondType">
+		<sequence>
+			<element name="TestElement" type="tns:ThirdType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ThirdType">
+		<sequence>
+			<element name="ThirdElement" type="tns:TestType" />
+		</sequence>
+	</complexType>
+
+</schema>

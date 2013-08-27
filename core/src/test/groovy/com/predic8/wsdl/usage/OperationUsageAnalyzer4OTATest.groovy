@@ -19,9 +19,6 @@ import groovy.xml.*
 import com.predic8.schema.*
 import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.WSDLParser
-import com.predic8.wsdl.usage.OperationUsageAnalyzer
-import com.predic8.wsdl.usage.OperationUseVisitor
-import com.predic8.wsdl.usage.OperationUseVisitorContext
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
@@ -36,20 +33,33 @@ class OperationUsageAnalyzer4OTATest extends GroovyTestCase{
   }
 	
 	void testAnalyzeOperationUsage() {
-		assert 475 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
-		assert 170 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
-		assert 8 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
+		assert 150 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
+		assert 55 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
+		assert 5 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
+		
 //		OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.each { k,v ->
-//			print k.name + ' is used in '
-//			println v.operation.name
+//			if(v.input && v.output) {
+//				print k.name + ' is used in '
+//				println v.operation.name + "( ${v.input} , ${v.output}, ${v.fault})" 
+//			}
 //		}
 //		OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.each { k,v ->
-//			print k.name + ' is used in '
-//			println v.operation.name
+//			if(v.input && v.output) {
+//				print k.name + ' is used in '
+//				println v.operation.name + "( ${v.input} , ${v.output}, ${v.fault})" 
+//			}
 //		}
 //		OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.each { k,v ->
-//			print k.name + ' is used in '
-//			println v.operation.name
+//			if(v.input && v.output) {
+//				print k.name + ' is used in '
+//				println v.operation.name + "( ${v.input} , ${v.output}, ${v.fault})" 
+//			}
 //		}
 	}
+	
+	void testGetOperationUsageInfos() {
+		Element element = wsdl.getElement('ota:TPA_Extensions')
+		assert 2 == OperationUsageAnalyzer.getOperationUsageInfos(element, wsdl).operation.size()
+	}
+	
 }

@@ -52,7 +52,7 @@ class OperationUsageAnalyzerTest extends GroovyTestCase{
 //			println v.operation.name
 //		}
 		assert 16 ==  OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
-		assert 8 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
+		assert 7 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
 		assert 2 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
 	}
 	
@@ -65,7 +65,4 @@ class OperationUsageAnalyzerTest extends GroovyTestCase{
 		assert !OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:createResponse'), wsdl)[0].input
 		assert OperationUsageAnalyzer.getOperationUsageInfos(wsdl.getElement('tns:createResponse'), wsdl)[0].output
 	}
-	
-	
-    
 }

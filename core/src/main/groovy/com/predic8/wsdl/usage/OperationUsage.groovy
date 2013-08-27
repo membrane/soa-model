@@ -27,7 +27,7 @@ class OperationUsage extends SchemaCreatorContext implements Cloneable {
 	boolean fault
 	
 	String toString() {
-		"PortType: ${portType.name}, Operation: ${operation.name} (input: $input, output: $output)"
+		"PortType: ${portType.name}, Operation: ${operation.name} (input: $input, output: $output, fault: $fault)"
 	}
 }
 
