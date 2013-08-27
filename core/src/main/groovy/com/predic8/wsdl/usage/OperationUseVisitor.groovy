@@ -1,16 +1,13 @@
 /* Copyright 2012 predic8 GmbH, www.predic8.com
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License. */
 
 package com.predic8.wsdl.usage;
 
@@ -24,35 +21,60 @@ import com.predic8.wsdl.Operation
 import com.predic8.wsdl.PortType;
 
 class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorContext> {
-	
-  public OperationUseVisitorContext visitSchema4Operation(Operation op, PortType portType, OperationUseVisitorContext ctx) {
+
+	public OperationUseVisitorContext visitSchema4Operation(Operation op, PortType portType, OperationUseVisitorContext ctx) {
 		op.input.message.parts.each {part ->
 			ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
 			part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
 		}
-		
+
 		op.output.message.parts.each {part ->
 			ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
 			part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
 		}
+
+		op.faults.each {fault ->
+			fault.message.parts.each {part ->
+				ctx.opUsage = new OperationUsage(operation: op, portType: portType, fault: true)
+				part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
+			}
+		}
+
 		ctx
 	}
-	
-  public void createElement(Element element, OperationUseVisitorContext ctx) {
-		ctx.elementsInfo[element]? (ctx.elementsInfo[element] << ctx.opUsage) : (ctx.elementsInfo[element] = [ctx.opUsage]) 
-		super.createElement(element, ctx)
-  }
 
-  public void createComplexType(ComplexType complexType, OperationUseVisitorContext ctx) {
-		ctx.complexTypesInfo[complexType]? (ctx.complexTypesInfo[complexType] << ctx.opUsage) : (ctx.complexTypesInfo[complexType] = [ctx.opUsage])
+	public void createElement(Element element, OperationUseVisitorContext ctx) {
+		ctx.updateElements(element)
+		super.createElement(element, ctx)
+	}
+
+	public void createComplexType(ComplexType complexType, OperationUseVisitorContext ctx) {
+		ctx.updateCompexTypes(complexType)
 		super.createComplexType(complexType, ctx)
-  }
+	}
 
 	public void createSimpleType(SimpleType simpleType, OperationUseVisitorContext ctx) {
-		ctx.simpleTypesInfo[simpleType]? (ctx.simpleTypesInfo[simpleType] << ctx.opUsage) : (ctx.simpleTypesInfo[simpleType] = [ctx.opUsage])
-		/**Most of the time a simpleType refers to a buil-in schema type.
-		 * In other cases the following types will be ignored. 
-		 */
+		ctx.updateSimpleTypes(simpleType)
+		if(! simpleType.restriction?.base instanceof BuiltInSchemaType)
+			simpleType.schema.getType(simpleType.restriction.base).create(this, ctx)
 	}
-	
+
+	void createExtension(Extension extension, OperationUseVisitorContext ctx){
+		extension.schema.getType(extension.base).create(this, ctx)
+	}
+
+	void createComplexContentRestriction(Restriction restriction, OperationUseVisitorContext ctx){
+		restriction.schema.getType(restriction.base).create(this, ctx)
+	}
+
+	void createSimpleRestriction(BaseRestriction restriction, OperationUseVisitorContext ctx){
+		restriction.schema.getType(restriction.base).create(this, ctx)
+	}
+
+	private void update() {
+	}
+
+	public void createBuiltInSchemaType(BuiltInSchemaType bist, OperationUseVisitorContext ctx) {
+		//Not needed!
+	}
 }

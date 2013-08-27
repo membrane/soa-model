@@ -35,9 +35,11 @@ class BuiltInSchemaType extends TypeDefinition {
 		[]
 	}
 	
+	/**
+	 * Some creators use their own create method for built-in-types. 
+	 */
 	def create(creator, CreatorContext ctx) {
-		println creator
-		throw new RuntimeException('BuiltInSchemaType have to be created by the given creator itself.')
+		creator.createBuiltInSchemaType(this, ctx)
 	}
 	
 	def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){

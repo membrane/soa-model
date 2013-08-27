@@ -47,8 +47,12 @@ class OperationUsageAnalyzerTest extends GroovyTestCase{
 	}
 	
 	void testAnalyzeOperationUsage() {
+//		OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.each { k,v ->
+//			print k.name + ' is used in '
+//			println v.operation.name
+//		}
 		assert 16 ==  OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
-		assert 7 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
+		assert 8 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
 		assert 2 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
 	}
 	
