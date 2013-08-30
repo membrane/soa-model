@@ -16,18 +16,22 @@ package com.predic8.wsdl;
 
 import groovy.xml.*
 
+import com.predic8.policy.Policy;
+import com.predic8.policy.PolicyReference
 import com.predic8.soamodel.ModelAccessException
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap11.SOAPFault as SOAP11Fault
 import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
-import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.wsdl.soap12.SOAPFault as SOAP12Fault
+import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
 
 abstract class BindingMessage extends WSDLElement{
   
   BindingOperation bindingOperation
   List<BindingElement> bindingElements = []
+	
+	PolicyReference policyReference
 
   protected parseAttributes(token, ctx){
     name = token.getAttributeValue(null , 'name')
@@ -49,6 +53,11 @@ abstract class BindingMessage extends WSDLElement{
       be = new SOAP12Body(definitions : definitions, parent : this); break
       case SOAP12Fault.ELEMENTNAME :
       be = new SOAP12Fault(definitions : definitions, parent : this); break
+			
+			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
+			policyReference = new PolicyReference(ELEMENTNAME: token.name)
+			policyReference.parse(token, ctx) ; break
+			
     }
     be?.parse(token, ctx)
     if(be) bindingElements << be
@@ -57,6 +66,10 @@ abstract class BindingMessage extends WSDLElement{
   List<AbstractSOAPHeader> getSOAPHeaders(){
     bindingElements.findAll {it instanceof AbstractSOAPHeader}
   }
+	
+	Policy getPolicy() {
+		definitions.policies[policyReference?.uri - '#']
+	}
   
   SOAP11Header newSOAP11Header(){
     BindingElement be = new SOAP11Header(definitions : definitions, parent : this)

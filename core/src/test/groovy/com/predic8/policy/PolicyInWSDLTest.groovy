@@ -16,7 +16,21 @@ class PolicyInWSDLTest extends GroovyTestCase {
 	
 	void testParser() {
 		assert wsdl.bindings[0].policyReference.uri == '#StockQuoteBindingPolicy'
-		assert wsdl.policies.values().allPolicyItems.flatten().size() == 3
+		assert wsdl.bindings[0].policy
+		wsdl.bindings[0].policy.allPolicyItems.each {
+			println it.ELEMENTNAME
+		}
+		wsdl.bindings[0].policy.allSecurityPolicies.each {
+			println it
+		}
+		
+		assert wsdl.bindings.operations.input.flatten().policyReference.uri
+		assert wsdl.bindings.operations.input.flatten().policy
+	
+		assert wsdl.bindings.operations.output.flatten().policyReference.uri
+		assert wsdl.bindings.operations.output.flatten().policy
+
+		assert wsdl.policies['StockQuoteBindingPolicy'].allPolicyItems.size() == 14
 		assert wsdl.policies.size() == 3
 	}
 }

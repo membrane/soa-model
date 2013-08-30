@@ -50,35 +50,35 @@ class Binding extends WSDLElement{
 		this.name = name
 	}
 
-	protected parseAttributes(token, params){
+	protected parseAttributes(token, ctx){
 		name = token.getAttributeValue(null , 'name')
 		typePN = token.getAttributeValue(null , 'type')
 		//TODO: parse style attribute.
 	}
 
-	protected parseChildren(token, child, params){
+	protected parseChildren(token, child, ctx){
 		log.debug "found binding: ${token.name}"
-		super.parseChildren(token, child, params)
+		super.parseChildren(token, child, ctx)
 		switch (token.name ){
 			
 			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
 				policyReference = new PolicyReference(ELEMENTNAME: token.name)
-				policyReference.parse(token, params) ; break
+				policyReference.parse(token, ctx) ; break
 					
 			case SOAP11Binding.ELEMENTNAME :
 				log.debug "is soap11"
 				binding = new SOAP11Binding(definitions: definitions, binding: this)
-					binding.parse(token, params) ;   break
+					binding.parse(token, ctx) ;   break
 			case SOAP12Binding.ELEMENTNAME :
 				binding = new SOAP12Binding(definitions: definitions, binding: this)
-					binding.parse(token, params) ; break
+					binding.parse(token, ctx) ; break
 			case Operation.ELEMENTNAME:
 				def operation = new BindingOperation(definitions : definitions, binding: this)
-				operation.parse(token, params)
+				operation.parse(token, ctx)
 					operations << operation ; break
 			case HTTPBinding.ELEMENTNAME :
 				binding = new HTTPBinding(definitions : definitions)
-					binding.parse(token, params) ; break
+					binding.parse(token, ctx) ; break
 		}
 	}
 
@@ -114,6 +114,10 @@ class Binding extends WSDLElement{
 	 */
 	List<Map> getStyleErrors() {
 		binding.checkStyle()['errors']
+	}
+	
+	Policy getPolicy() {
+		definitions.policies[policyReference?.uri - '#']
 	}
 	
 	SOAP11Binding newSOAP11Binding(){
