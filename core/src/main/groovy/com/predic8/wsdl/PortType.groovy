@@ -15,8 +15,9 @@
 package com.predic8.wsdl;
 
 import javax.xml.namespace.QName as JQName
-import com.predic8.soamodel.Consts
+
 import com.predic8.policy.*
+import com.predic8.soamodel.*
 
 class PortType extends WSDLElement{
 
@@ -39,7 +40,7 @@ class PortType extends WSDLElement{
     }
   }
   
-  def create(creator, ctx){
+  void create(AbstractCreator creator, CreatorContext ctx){
     creator.createPortType(this, ctx)
   }
   

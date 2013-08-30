@@ -14,13 +14,15 @@
 
 package com.predic8.wsdl
 
-import java.util.List;
-import com.predic8.schema.*
-import com.predic8.xml.util.*
 import groovy.xml.QName
+
 import javax.xml.namespace.QName as JQName
+
 import org.apache.commons.logging.*
-import com.predic8.soamodel.Consts
+
+import com.predic8.schema.*
+import com.predic8.soamodel.*
+import com.predic8.xml.util.*
 
 class Types extends WSDLElement {
 
@@ -47,7 +49,7 @@ class Types extends WSDLElement {
 		(schemas + schemas.importedSchemas.flatten()).unique()
   }
 
-  def create(creator, ctx){
+  void create(AbstractCreator creator, CreatorContext ctx){
     creator.createTypes(this, ctx)
   }
 	

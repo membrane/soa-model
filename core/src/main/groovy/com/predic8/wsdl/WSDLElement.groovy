@@ -18,9 +18,7 @@ import javax.xml.stream.*
 
 import org.apache.commons.logging.*
 
-import com.predic8.policy.Policy
-import com.predic8.soamodel.Consts
-import com.predic8.soamodel.XMLElement
+import com.predic8.soamodel.*
 import com.predic8.xml.util.*
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.HeaderTokenizer.Token;
 
@@ -32,7 +30,7 @@ abstract class WSDLElement extends XMLElement {
 	Definitions definitions
 	Documentation documentation
 
-	def abstract create(creator , context)
+	abstract void create(AbstractCreator creator, CreatorContext ctx)
 
 	protected parseChildren(token, child, ctx) {
 		switch (token.name) {

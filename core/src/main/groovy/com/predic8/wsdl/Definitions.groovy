@@ -11,8 +11,6 @@
 
 package com.predic8.wsdl
 
-import java.util.List;
-
 import groovy.xml.MarkupBuilder
 import groovy.xml.QName as GQName
 
@@ -20,13 +18,13 @@ import javax.xml.namespace.QName as JQName
 
 import com.predic8.policy.*
 import com.predic8.schema.*
-import com.predic8.soamodel.Consts
+import com.predic8.soamodel.*
 import com.predic8.wsdl.creator.WSDLCreator
 import com.predic8.wsdl.creator.WSDLCreatorContext
 import com.predic8.wsdl.http.HTTPBinding
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
-import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
+import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.xml.util.*
 
@@ -257,7 +255,7 @@ class Definitions extends WSDLElement{
 		lookup("services", qname)
 	}
 
-	def create(creator, ctx){
+	void create(AbstractCreator creator, CreatorContext ctx){
 		creator.createDefinitions(this, ctx)
 	}
 

@@ -14,7 +14,7 @@
 
 package com.predic8.wsdl
 
-import javax.xml.namespace.QName as JQName
+import com.predic8.soamodel.*
 import com.predic8.xml.util.*
 
 abstract class AbstractSOAPHeader extends BindingElement{
@@ -45,7 +45,7 @@ abstract class AbstractSOAPHeader extends BindingElement{
 		part = getMessage().parts.find{it.name == partName}
   }
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createSOAPHeader(this, ctx)
   }
 }

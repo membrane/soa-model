@@ -47,5 +47,10 @@ class PolicyReference extends XMLElement{
   QName getElementName() {
     ELEMENTNAME
   }
+	
+	void create(AbstractCreator creator, CreatorContext ctx){
+		creator.createPolicyReference(this, ctx)
+	}
+	
 }
 

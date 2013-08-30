@@ -14,6 +14,8 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.*
+
 abstract class AbstractSOAPBody extends BindingElement {
 
   List<Part> parts = []
@@ -41,7 +43,7 @@ abstract class AbstractSOAPBody extends BindingElement {
 		parts = parent.message.parts
 	}
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createSOAPBody(this, ctx)
   }
 

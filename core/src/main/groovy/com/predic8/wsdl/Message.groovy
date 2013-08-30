@@ -15,9 +15,11 @@
 package com.predic8.wsdl;
 
 import groovy.xml.QName
+
 import javax.xml.namespace.QName as JQName
+
 import com.predic8.schema.Element
-import com.predic8.soamodel.Consts
+import com.predic8.soamodel.*
 
 class Message extends WSDLElement {
 
@@ -48,7 +50,7 @@ class Message extends WSDLElement {
     parts.find{it.name == name}
   }
   
-  def create(creator, ctx){
+  void create(AbstractCreator creator, CreatorContext ctx){
     creator.createMessage(this, ctx)
   }
   

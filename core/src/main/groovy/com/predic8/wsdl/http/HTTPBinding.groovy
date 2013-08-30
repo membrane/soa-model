@@ -15,8 +15,9 @@
 package com.predic8.wsdl.http
 
 import javax.xml.namespace.QName as JQName
+
+import com.predic8.soamodel.*
 import com.predic8.wsdl.*
-import com.predic8.soamodel.Consts
 
 class HTTPBinding extends AbstractBinding{
 
@@ -36,7 +37,7 @@ public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'bindin
 		[result:'This binding uses the HTTP protocol and has no style information',errors:[]]
 	}
 
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createHTTPBinding(this, ctx)
   }
 }

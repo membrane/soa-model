@@ -11,23 +11,18 @@
 
 package com.predic8.wsdl;
 
-import com.predic8.xml.util.*
-
 import groovy.xml.QName
-
-import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
-import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
-import com.predic8.wsdl.http.HTTPBinding   as HTTPBinding
 
 import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
-import sun.org.mozilla.javascript.internal.ast.SwitchStatement;
-
-import com.predic8.soamodel.Consts
 import com.predic8.policy.*
-import com.sun.xml.internal.ws.org.objectweb.asm.Item;
+import com.predic8.soamodel.*
+import com.predic8.wsdl.http.HTTPBinding
+import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
+import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
+import com.predic8.xml.util.*
 
 class Binding extends WSDLElement{
 
@@ -155,7 +150,7 @@ class Binding extends WSDLElement{
 		type = new QName(pt.definitions.targetNamespace, pt.name)
 	}
 
-	def create(creator, ctx) {
+	void create(AbstractCreator creator, CreatorContext ctx) {
 		creator.createBinding(this, ctx)
 	}
 

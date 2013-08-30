@@ -14,9 +14,11 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.*
+
 abstract class AbstractSOAPFault extends BindingElement {
 
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createSOAPFault(this, ctx)
   }
 }

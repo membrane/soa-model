@@ -16,9 +16,9 @@ package com.predic8.wsdl;
 
 import groovy.xml.*
 
-import com.predic8.policy.Policy;
+import com.predic8.policy.Policy
 import com.predic8.policy.PolicyReference
-import com.predic8.soamodel.ModelAccessException
+import com.predic8.soamodel.*
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap11.SOAPFault as SOAP11Fault
 import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
@@ -55,8 +55,8 @@ abstract class BindingMessage extends WSDLElement{
       be = new SOAP12Fault(definitions : definitions, parent : this); break
 			
 			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
-			policyReference = new PolicyReference(ELEMENTNAME: token.name)
-			policyReference.parse(token, ctx) ; break
+				policyReference = new PolicyReference(ELEMENTNAME: token.name)
+				policyReference.parse(token, ctx) ; break
 			
     }
     be?.parse(token, ctx)
@@ -116,7 +116,7 @@ abstract class BindingMessage extends WSDLElement{
     }
   }
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createBindingMessage(this, ctx)
   }
 }

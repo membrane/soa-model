@@ -14,8 +14,9 @@
 
 package com.predic8.wsdl;
 
-import com.predic8.soamodel.Consts;
 import groovy.xml.QName
+
+import com.predic8.soamodel.*
 import com.predic8.wsi.*
 
 abstract class BindingElement extends WSDLElement{

@@ -14,6 +14,7 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.*
 import com.predic8.wsdl.style.*
 
 abstract class AbstractSOAPBinding extends AbstractBinding{
@@ -46,7 +47,7 @@ abstract class AbstractSOAPBinding extends AbstractBinding{
   
   abstract String getProtocol()
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createSoapBinding(this, ctx)
   }
 }

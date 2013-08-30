@@ -14,12 +14,12 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
 import javax.xml.namespace.QName as JQName
-import com.predic8.wsdl.http.HTTPOperation as HTTPOperation
+
+import com.predic8.soamodel.*
+import com.predic8.wsdl.http.HTTPOperation
 import com.predic8.wsdl.soap11.SOAPOperation as SOAP11Operation
 import com.predic8.wsdl.soap12.SOAPOperation as SOAP12Operation
-import com.predic8.soamodel.Consts
 
 
 class BindingOperation extends WSDLElement{
@@ -60,7 +60,7 @@ class BindingOperation extends WSDLElement{
     }
   }
 	
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createBindingOperation(this, ctx)
   }
   

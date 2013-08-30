@@ -4,6 +4,7 @@
   xmlns:tns="http://thomas-bayer.com/blz/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
   targetNamespace="http://thomas-bayer.com/blz/" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
   <wsdl:documentation>
     This documentation contains <test name="bloob" id="1" foo="bar">mixed</test> content.

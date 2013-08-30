@@ -15,11 +15,13 @@
 package com.predic8.wsdl;
 
 import groovy.xml.*
+
 import javax.xml.namespace.QName as JQName
-import com.predic8.wsi.*
-import com.predic8.xml.util.PrefixedName;
+
 import com.predic8.schema.*
-import com.predic8.soamodel.Consts
+import com.predic8.soamodel.*
+import com.predic8.wsi.*
+import com.predic8.xml.util.PrefixedName
 
 class Part extends WSDLElement{
 
@@ -49,7 +51,7 @@ class Part extends WSDLElement{
 		type = definitions.getSchemaType(getQNameForPN(typePN))
 	}
 	
-	def create(creator, ctx) {
+	void create(AbstractCreator creator, CreatorContext ctx) {
 		creator.createPart(this, ctx)
 	}
 	

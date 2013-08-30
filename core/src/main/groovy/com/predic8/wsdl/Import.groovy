@@ -16,8 +16,8 @@ package com.predic8.wsdl
 
 import javax.xml.namespace.QName as JQName
 
+import com.predic8.soamodel.*
 import com.predic8.xml.util.*
-import com.predic8.soamodel.Consts
 
 class Import extends WSDLElement {
 
@@ -39,7 +39,7 @@ class Import extends WSDLElement {
 		
   }
 
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createImport(this, ctx.clone())
   }
 }

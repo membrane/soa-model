@@ -15,7 +15,8 @@
 package com.predic8.wsdl.http
 
 import javax.xml.namespace.QName as JQName
-import com.predic8.soamodel.Consts
+
+import com.predic8.soamodel.*
 import com.predic8.wsdl.*
 
 class HTTPOperation extends ExtensibilityOperation{
@@ -28,7 +29,7 @@ class HTTPOperation extends ExtensibilityOperation{
     location = token.getAttributeValue(null , 'location')
   }
 
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createHTTPOperation(this, ctx)
   }
 }

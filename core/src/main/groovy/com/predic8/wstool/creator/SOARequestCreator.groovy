@@ -12,15 +12,16 @@
 package com.predic8.wstool.creator;
 
 import groovy.xml.*
-import com.predic8.schema.creator.AbstractSchemaCreator
-import com.predic8.soamodel.*
-import com.predic8.wsdl.Definitions;
-import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
-import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
-import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
-import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
-import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
+
 import org.apache.commons.logging.*
+
+import com.predic8.soamodel.*
+import com.predic8.wsdl.Definitions
+import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
+import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
+import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
+import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
+import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 
 /**
  * Not threadsafe

@@ -14,18 +14,16 @@
 
 package com.predic8.wsdl;
 
-import com.predic8.xml.util.*
-import com.predic8.wsdl.soap11.Address as SOAP11Address;
-import com.predic8.wsdl.soap12.Address as SOAP12Address;
-import com.predic8.wsdl.http.Address as HttpAddress;
-import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
-import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
-
 import groovy.xml.QName
 
 import javax.xml.namespace.QName as JQName
 
-import com.predic8.soamodel.Consts
+import com.predic8.soamodel.*
+import com.predic8.wsdl.http.Address as HttpAddress
+import com.predic8.wsdl.soap11.Address as SOAP11Address
+import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
+import com.predic8.wsdl.soap12.Address as SOAP12Address
+import com.predic8.xml.util.*
 //import com.sun.xml.internal.ws.fault.SOAP11Fault;
 
 class Port extends WSDLElement{
@@ -66,7 +64,7 @@ class Port extends WSDLElement{
     binding.binding instanceof SOAP11Binding
   }
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createPort(this, ctx)
   }
   

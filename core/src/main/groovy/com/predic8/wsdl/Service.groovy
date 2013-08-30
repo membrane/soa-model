@@ -15,9 +15,11 @@
 package com.predic8.wsdl;
 
 import groovy.xml.QName
+
 import javax.xml.namespace.QName as JQName
-import com.predic8.soamodel.Consts
+
 import com.predic8.policy.*
+import com.predic8.soamodel.*
 
 class Service extends WSDLElement{
 
@@ -38,7 +40,7 @@ class Service extends WSDLElement{
     }
   }
 
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createService(this, ctx)
   }
   

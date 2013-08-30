@@ -15,8 +15,9 @@
 package com.predic8.wsdl
 
 import javax.xml.namespace.QName as JQName
-import com.predic8.soamodel.Consts
 import javax.xml.stream.*
+
+import com.predic8.soamodel.*
 
 class Documentation extends WSDLElement {
   
@@ -53,7 +54,7 @@ class Documentation extends WSDLElement {
     str +=">"
   }
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createDocumentation(this, ctx.clone())
   }
   

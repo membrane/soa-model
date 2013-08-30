@@ -14,6 +14,8 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.*
+
 abstract class AbstractAddress extends WSDLElement {
   
   String location
@@ -22,7 +24,7 @@ abstract class AbstractAddress extends WSDLElement {
     location = token.getAttributeValue(null , 'location')
   }
   
-  def create(creator, ctx) {
+  void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createAddress(this, ctx)
   }
   

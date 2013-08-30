@@ -16,11 +16,12 @@ package com.predic8.wsdl.creator;
 
 import groovy.xml.MarkupBuilderHelper
 
+import com.predic8.policy.Policy
+import com.predic8.policy.PolicyReference;
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.Consts
 import com.predic8.wsdl.*
-import com.predic8.wsdl.http.HTTPBinding;
-import com.predic8.wsdl.soap11.SOAPHeader
+import com.predic8.wsdl.http.HTTPBinding
 
 class WSDLCreator extends AbstractWSDLCreator{
 	
@@ -52,6 +53,10 @@ class WSDLCreator extends AbstractWSDLCreator{
       definitions.services.each {
         it.create(this, ctx)
       }
+			
+			definitions.policies.values().each {
+				it.create(this, ctx)
+			}
     }
   }
 
@@ -107,6 +112,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   
   def createBinding(Binding binding, WSDLCreatorContext ctx){
     builder.binding([name : binding.name, type: binding.getTypeString(binding.type)] + getNamespaceAttributes(binding)){
+			binding.policyReference?.create(this, ctx)
       binding.documentation?.create(this, ctx)
       binding.binding?.create(this, ctx)
       binding.operations.each {
@@ -207,7 +213,15 @@ class WSDLCreator extends AbstractWSDLCreator{
   def createAddress(AbstractAddress address, WSDLCreatorContext ctx){
     builder."${address.prefix}:address"([location : address.location] + getNamespaceAttributes(address))
   }
-
+	
+	void createPolicy(Policy policy, WSDLCreatorContext ctx){
+		builder."${policy.prefix}:Policy"("${policy.getPrefix(Consts.WSU_NS)}:ID":policy.id)
+	}
+	
+	void createPolicyReference(PolicyReference policyRef, WSDLCreatorContext ctx){
+		builder."${policyRef.prefix}:PolicyReference"(URI:policyRef.uri)
+	}
+	
   private createDocumentation(Documentation doc, WSDLCreatorContext ctx){
     builder.documentation{new MarkupBuilderHelper(builder).yieldUnescaped(doc)}
   }
