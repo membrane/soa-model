@@ -102,7 +102,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   def createOperation(Operation operation, WSDLCreatorContext ctx) {
     builder.operation([name : getDisplayName(operation.name, 'definitions.operations.name', ctx.error)] + getNamespaceAttributes(operation)){
       operation.documentation?.create(this, ctx)
-      operation.input.create(this, ctx)
+      operation.input?.create(this, ctx)
       operation.output?.create(this, ctx)
       operation.faults.each {
         it.create(this, ctx)
@@ -215,7 +215,12 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
 	
 	void createPolicy(Policy policy, WSDLCreatorContext ctx){
-		builder."${policy.prefix}:Policy"("${policy.getPrefix(Consts.WSU_NS)}:ID":policy.id)
+		def attrs = [:]
+		def prefix = policy.getPrefix(Consts.WSU_NS)
+		attrs["$prefix:ID"] = policy.id
+		//TODO refactore this with 'declNSifNeeded' from AbstractSchemaCreator
+		attrs["xmlns:${prefix}"] = Consts.WSU_NS
+		builder."${policy.prefix}:Policy"(attrs)
 	}
 	
 	void createPolicyReference(PolicyReference policyRef, WSDLCreatorContext ctx){

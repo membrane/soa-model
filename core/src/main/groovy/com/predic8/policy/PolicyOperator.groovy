@@ -112,7 +112,6 @@ abstract class PolicyOperator extends XMLElement {
 				securityPolicies << token.name ; break
 				
 			default:
-				println "Parsing ${token.name} not implemented yet!"
 				ctx.errors << "Parsing ${token.name} not implemented yet!"
 				break
 		}

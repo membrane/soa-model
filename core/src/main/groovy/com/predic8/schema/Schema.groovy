@@ -223,7 +223,8 @@ class Schema extends SchemaComponent{
     imports.each { imp ->
       def schema
       if(definitions) {
-        schema = definitions.localSchemas.find{ it.targetNamespace == imp.namespace}
+				if(!imp.namespace) schema = definitions.localSchemas.find{ it.targetNamespace == ''}
+				else schema = definitions.localSchemas.find{ it.targetNamespace == imp.namespace}
       }
       if(imp.importSchema) {
         schema = imp.importSchema

@@ -40,7 +40,7 @@ class Union extends SchemaComponent{
 
   public boolean equals(obj) {
     obj && ( this.is(obj) ||
-             getClass() == obj.getClass &&
+             getClass() == obj.class &&
              simpleTypes == obj.simpleTypes )
   }
   

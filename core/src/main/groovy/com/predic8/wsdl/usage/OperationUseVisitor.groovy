@@ -23,16 +23,20 @@ import com.predic8.wsdl.PortType;
 class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorContext> {
 
 	public OperationUseVisitorContext visitSchema4Operation(Operation op, PortType portType, OperationUseVisitorContext ctx) {
-		op.input.message.parts.each {part ->
-			ctx.visited = []
-			ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
-			part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
+		if(op.input) {
+			op.input.message.parts.each {part ->
+				ctx.visited = []
+				ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
+				part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
+			}
 		}
-
-		op.output.message.parts.each {part ->
-			ctx.visited = []
-			ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
-			part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
+		
+		if(op.output) {
+			op.output.message.parts.each {part ->
+				ctx.visited = []
+				ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
+				part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
+			}
 		}
 
 		op.faults.each {fault ->

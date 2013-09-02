@@ -18,10 +18,10 @@ class PolicyInWSDLTest extends GroovyTestCase {
 		assert wsdl.bindings[0].policyReference.uri == '#StockQuoteBindingPolicy'
 		assert wsdl.bindings[0].policy
 		wsdl.bindings[0].policy.allPolicyItems.each {
-			println it.ELEMENTNAME
+//			println it.ELEMENTNAME
 		}
 		wsdl.bindings[0].policy.allSecurityPolicies.each {
-			println it
+//			println it
 		}
 		
 		assert wsdl.bindings.operations.input.flatten().policyReference.uri

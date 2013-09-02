@@ -20,7 +20,7 @@ class PolicyCreatorTest extends GroovyTestCase {
 		def strWriter = new StringWriter()
 		def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
 		creator.createDefinitions(wsdl, new WSDLCreatorContext())
-		println strWriter
+//		println strWriter
 	}
 
 }

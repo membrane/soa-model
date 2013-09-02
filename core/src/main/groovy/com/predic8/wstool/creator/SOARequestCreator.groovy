@@ -22,6 +22,7 @@ import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
+import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
 
 /**
  * Not threadsafe
@@ -105,7 +106,7 @@ class SOARequestCreator extends AbstractCreator{
 
   }
   private isHeaderExisting() {
-    bindingOperation.input.bindingElements.find{it instanceof SOAP11Header}
+    bindingOperation.input.bindingElements.find{it instanceof SOAP11Header || it instanceof SOAP12Header}
   }
 
   private getSoapNamespace() {
@@ -134,7 +135,7 @@ class SOARequestCreator extends AbstractCreator{
   }
 
   private getHeaderBindingElements(bindingOperation){
-    bindingOperation.input.bindingElements.findAll{it instanceof SOAP11Header}
+    bindingOperation.input.bindingElements.findAll{it instanceof SOAP11Header || it instanceof SOAP12Header}
   }
 
   private getBodyElement() {

@@ -54,7 +54,7 @@ class BindingOperation extends WSDLElement{
       output = new BindingOutput(definitions : definitions, bindingOperation : this)
       output.parse(token, params) ; break
       case BindingFault.ELEMENTNAME :
-      def fault = new BindingFault(definitions : definitions)
+      def fault = new BindingFault(definitions : definitions, bindingOperation : this)
       fault.parse(token, params)
       faults << fault ; break
     }
