@@ -14,11 +14,10 @@
 
 package com.predic8.xml.namespace
 
-import junit.framework.TestCase
-
 import javax.xml.stream.*
 
 import com.predic8.soamodel.*
+import com.predic8.wsdl.WSDLParserContext
 
 class A extends XMLElement {
   def b
@@ -115,7 +114,7 @@ class NamespaceTest extends GroovyTestCase {
     def token = XMLInputFactory.newInstance().createXMLStreamReader(this.class.getResourceAsStream("/namespaces/a.xml"))    
     a = new A()
     token.nextTag()
-    a.parse(token, [:])
+    a.parse(token, new WSDLParserContext())
   }
   void testA(){    
     assertEquals('ns1',a.getPrefix("uri:a"))

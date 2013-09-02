@@ -42,13 +42,13 @@ class RPCRequestTemplateCreatorTest extends AbstractWSDLTest {
   
                        
   void testDocumentation() {
-//    def strWriter = new StringWriter()
-//    def creator = new RPCRequestTemplateCreator(builder : new MarkupBuilder(strWriter),definitions: definitions)
-//    creator.createRequest('NewsSearchPort', 'doNewsSearch')
-//    def testXML = new XmlSlurper().parseText(strWriter.toString())
-//    assertEquals(3, testXML.children().size())
-//     def elementsNames =[]
-//    testXML.childNodes().each{ elementsNames << it.name() }
-//    assertEquals(["username", "password", "query"], elementsNames)
+    def strWriter = new StringWriter()
+    def creator = new RPCRequestTemplateCreator(builder : new MarkupBuilder(strWriter),definitions: definitions)
+    creator.createRequest('NewsSearchPort', 'doNewsSearch')
+    def testXML = new XmlSlurper().parseText(strWriter.toString())
+    assertEquals(3, testXML.children().size())
+     def elementsNames =[]
+    testXML.childNodes().each{ elementsNames << it.name() }
+    assertEquals(["username", "password", "query"], elementsNames)
   }
 }

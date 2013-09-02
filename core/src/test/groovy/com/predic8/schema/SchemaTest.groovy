@@ -55,7 +55,7 @@ class SchemaTest extends GroovyTestCase{
       if(token.startElement) {
         if(token.name.getLocalPart() == 'schema') {
           schema1 = new Schema()
-          schema1.parse(token, [:])
+          schema1.parse(token, new SchemaParserContext())
         }
       }
       if(token.hasNext()) token.next()
@@ -65,7 +65,7 @@ class SchemaTest extends GroovyTestCase{
       if(token.startElement) {
         if(token.name.getLocalPart() == 'schema') {
           schema2 = new Schema()
-          schema2.parse(token, [:])
+          schema2.parse(token, new SchemaParserContext())
         }
       }
       if(token.hasNext()) token.next()

@@ -172,6 +172,14 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     yield("MinInclusiveFacet: ${facet.value}")
   }
   
+  void createMaxExclusiveFacet(MaxExclusiveFacet facet, RequestTemplateCreatorContext ctx){
+  	yield("MaxExclusiveFacet: ${facet.value}")
+  }
+  
+  void createMinExclusiveFacet(MinExclusiveFacet facet, RequestTemplateCreatorContext ctx){
+  	yield("MinExclusiveFacet: ${facet.value}")
+  }
+  
   void createExtension(Extension extension, RequestTemplateCreatorContext ctx){
     if(extension.base.namespaceURI.equals(Consts.SCHEMA_NS)){
       yield("${TemplateUtil.getTemplateValue(extension.base)}")

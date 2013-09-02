@@ -14,11 +14,10 @@
 
 package com.predic8.xml.namespace
 
-import junit.framework.TestCase
-
 import javax.xml.stream.*
 
 import com.predic8.soamodel.*
+import com.predic8.wsdl.WSDLParserContext
 
 class A2 extends XMLElement {
 	static final String NAMESPACE = ''
@@ -118,7 +117,7 @@ class DefaultNamespaceTest extends GroovyTestCase {
     def token = XMLInputFactory.newInstance().createXMLStreamReader(this.class.getResourceAsStream("/namespaces/defaultNS.xml"))    
     a = new A2()
     token.nextTag()
-    a.parse(token, [:])
+    a.parse(token, new WSDLParserContext())
   }
 	
   void testA(){    

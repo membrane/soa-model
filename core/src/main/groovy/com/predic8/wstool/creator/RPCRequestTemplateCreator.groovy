@@ -14,6 +14,8 @@
 
 package com.predic8.wstool.creator;
 
+import com.predic8.schema.BuiltInSchemaType;
+
 import groovy.xml.*
 
 class RPCRequestTemplateCreator {
@@ -26,11 +28,12 @@ class RPCRequestTemplateCreator {
     def attrs = ['xmlns:ns0':definitions.targetNamespace]
     attrs['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
     builder."ns0:${operation.input.name}"(attrs){
-      operation.input.parts.each {
+      operation.input.message.parts.each {
         def elemAttrs = ['xmlns:soapenv': "http://schemas.xmlsoap.org/soap/envelope/"]
         elemAttrs['soapenv:encodingStyle'] = "http://schemas.xmlsoap.org/soap/encoding/"
         elemAttrs['xsi:type'] = "xsd:string"
-        builder."${it.name}"(elemAttrs, TemplateUtil.getTemplateValue(it.type)) 
+				if(it.type instanceof BuiltInSchemaType) builder."${it.name}"(elemAttrs, TemplateUtil.getTemplateValue(it.type.type))
+				else  builder."${it.name}"(elemAttrs, TemplateUtil.getTemplateValue(it.type))
       }
     }
   }

@@ -25,7 +25,7 @@ class Documentation extends WSDLElement {
   
   String content = ''
   
-  def parse(token, ctx){
+  def parse(token, WSDLParserContext ctx){
     token.next()
     while(token.hasNext()) {
       if(token.startElement) {

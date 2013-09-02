@@ -13,6 +13,7 @@ package com.predic8.wadl
 
 import javax.xml.namespace.QName
 
+import com.predic8.soamodel.AbstractParserContext;
 import com.predic8.soamodel.Consts
 
 import javax.xml.stream.*
@@ -31,7 +32,7 @@ class Doc extends WADLElement {
 		title = token.getAttributeValue( null , 'title')
 	}
 	
-	def parse(token, ctx){
+	def parse(token, AbstractParserContext ctx){
 		parseAttributes(token, ctx)
 		token.next()
 		while(token.hasNext()) {

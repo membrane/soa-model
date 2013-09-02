@@ -23,7 +23,8 @@ class WSDLValidator {
 		validatePortTypeMessages(wsdl.operations.input, ctx)
 		validatePortTypeMessages(wsdl.operations.output, ctx)
 		wsdl.messages.each { msg ->
-			validateMessageParts(msg , ctx)
+			if(! msg.parts) ctx.errors << new ValidationError(invalidElement : msg, parent: wsdl, message : "There is no part defined in message ${msg.name} in this WSDL.")
+			else validateMessageParts(msg , ctx)
 		}
 	}
 
@@ -65,7 +66,7 @@ class WSDLValidator {
 		}
 	}
 
-	void validateMessageParts(msg, ctx) {
+	void validateMessageParts(Message msg, ctx) {
 		msg.parts.each {
 			try {
 				if(it.elementPN && !it.element)

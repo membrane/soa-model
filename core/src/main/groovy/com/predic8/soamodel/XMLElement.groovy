@@ -34,7 +34,7 @@ abstract class XMLElement {
 
 	XMLElement parent
 
-	def parse(token, ctx){
+	def parse(token, AbstractParserContext ctx){
 		parent = ctx.parent
 		parseNamespaces(token)
 		parseAttributes(token, ctx)

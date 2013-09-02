@@ -16,8 +16,8 @@ import javax.xml.stream.*
 
 class PortTypeTest extends GroovyTestCase{
 
-  def definitions
-  def portType
+  Definitions definitions
+  PortType portType
   def token
 
   def static wsdl = '''<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
