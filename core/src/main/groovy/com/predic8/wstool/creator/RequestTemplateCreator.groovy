@@ -157,27 +157,31 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
   }
   
   void createMaxLengthFacet(MaxLengthFacet facet, RequestTemplateCreatorContext ctx){
-    yield("MaxLength: ${facet.value}")
+    yield("Max Length: ${facet.value}")
   }
   
   void createMinLengthFacet(MinLengthFacet facet, RequestTemplateCreatorContext ctx){
-    yield("MinLenght: ${facet.value}")
+    yield("Min Lenght: ${facet.value}")
   }
   
   void createMaxInclusiveFacet(MaxInclusiveFacet facet, RequestTemplateCreatorContext ctx){
-    yield("MaxInclusiveFacet: ${facet.value}")
+    yield("Max Inclusive: ${facet.value}")
   }
   
   void createMinInclusiveFacet(MinInclusiveFacet facet, RequestTemplateCreatorContext ctx){
-    yield("MinInclusiveFacet: ${facet.value}")
+    yield("Min Inclusive: ${facet.value}")
   }
   
   void createMaxExclusiveFacet(MaxExclusiveFacet facet, RequestTemplateCreatorContext ctx){
-  	yield("MaxExclusiveFacet: ${facet.value}")
+  	yield("Max Exclusive: ${facet.value}")
   }
   
   void createMinExclusiveFacet(MinExclusiveFacet facet, RequestTemplateCreatorContext ctx){
-  	yield("MinExclusiveFacet: ${facet.value}")
+  	yield("Min Exclusive: ${facet.value}")
+  }
+  
+  void createWhiteSpaceFacet(WhiteSpaceFacet facet, RequestTemplateCreatorContext ctx){
+  	yield("White Space: ${facet.value}")
   }
   
   void createExtension(Extension extension, RequestTemplateCreatorContext ctx){

@@ -72,17 +72,11 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 		}
 	}
 
-	void createPatternFacet(PatternFacet facet, ctx) {
+	void createPatternFacet(PatternFacet facet, ctx) {}
 
-	}
+	void createEnumerationFacet(EnumerationFacet enumerationFacet, ctx){}
 
-	void createEnumerationFacet(EnumerationFacet enumerationFacet, ctx){
-
-	}
-
-	void createLengthFacet(LengthFacet facet, ctx){
-
-	}
+	void createLengthFacet(LengthFacet facet, ctx){}
 
 	void createList(SchemaList list,Context ctx){
 		throw new Exception("List not supported!")

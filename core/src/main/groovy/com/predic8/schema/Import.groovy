@@ -22,6 +22,10 @@ import com.predic8.xml.util.*
 //import com.predic8.soamodel.KnownSchemas
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
+/**
+ * 	SOAP Encoding schema with the namespace 'http://www.w3.org/2003/05/soap-encoding' will 
+ * 	not be parsed from the schemaLocation. Instead the copy from Classpath will be used.
+ */
 class Import extends SchemaComponent {
 
 	String namespace
@@ -44,9 +48,13 @@ class Import extends SchemaComponent {
 			knownDocs = schema.resourceResolver.knownDocs
 			return
 		}
-		importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+		
+		// SOAP Encoding schema will not be parsed from the schemaLocation. Instead the copy from Classpath will be used.
+		if(namespace == 'http://www.w3.org/2003/05/soap-encoding') importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
+		else importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+		
 		//Validating imported schemas
-		 new SchemaValidator().validate(schema, ctx)
+		new SchemaValidator().validate(schema, ctx)
 	}
 
 	def getImportSchema() {
@@ -61,7 +69,7 @@ class Import extends SchemaComponent {
 			log.debug("Well-known schema [$namespace] import resolving from the class path.")
 			//TODO It should be possible to use other resourceResolvers expect than ClasspathResolver.
 			importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
-			 return importSchema
+			return importSchema
 		}
 	}
 
