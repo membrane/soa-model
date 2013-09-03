@@ -33,11 +33,11 @@ abstract class BindingMessage extends WSDLElement{
 	
 	PolicyReference policyReference
 
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
   }
 
-  protected parseChildren(token, child, ctx){
+  protected parseChildren(token, child, WSDLParserContext ctx){
     super.parseChildren(token, child, ctx)
     def be
     switch (token.name){
@@ -112,7 +112,6 @@ abstract class BindingMessage extends WSDLElement{
 			String ptm = ELEMENTNAME.localPart == 'fault' ? 'faults' : ELEMENTNAME.localPart
 			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ptm".message.qname)
     } catch (Exception e) {
-			e.printStackTrace();
 	    throw new ModelAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", e)
     }
   }

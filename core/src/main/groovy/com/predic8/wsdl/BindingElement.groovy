@@ -25,10 +25,10 @@ abstract class BindingElement extends WSDLElement{
   String encodingStyle
   String namespace
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
     use = token.getAttributeValue(null , 'use')
-    if(use != 'literal') params.wsiResults << new WSIResult(rule : 'R2706')
+    if(use != 'literal') ctx.wsiResults << new WSIResult(rule : 'R2706')
     encodingStyle = token.getAttributeValue(null , 'encodingStyle')
     namespace = token.getAttributeValue(null , 'namespace')
   }

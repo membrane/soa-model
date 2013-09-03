@@ -26,16 +26,16 @@ class Service extends WSDLElement{
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'service')
   List<Port> ports = []
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, WSDLParserContext ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name ){
       case Port.ELEMENTNAME :
       def port = new Port(definitions : definitions)
-      port.parse(token, params)
+      port.parse(token, ctx)
       ports << port ; break
     }
   }

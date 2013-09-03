@@ -73,8 +73,8 @@ class ElementTest extends GroovyTestCase{
 		def strWriter = new StringWriter()
 		def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
 		schema.create(creator, new SchemaCreatorContext())
-		def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-		def createdSchema = parser.parse(new StringReader(strWriter.toString()))
+		def parser = new SchemaParser()
+		Schema createdSchema = parser.parse(new ByteArrayInputStream(strWriter.toString().bytes))
 		assertEquals('This is the default value!', createdSchema.getElement('elementWithDefault').defaultValue)
 		assertEquals('This value is fixed and can not be changed!', createdSchema.getElement('elementWithFixed').fixedValue)
 	}

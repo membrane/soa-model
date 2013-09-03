@@ -24,7 +24,7 @@ abstract class AbstractSOAPBinding extends AbstractBinding{
   String transport = "http://schemas.xmlsoap.org/soap/http"
 	
 
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     String tempStyle = token.getAttributeValue(null , 'style')
 		if(tempStyle == 'rpc') bindingStyle = new RPCStyle()
 		else{

@@ -22,7 +22,7 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
 	PrefixedName messagePrefixedName
 	Message message
 
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
     messagePrefixedName = new PrefixedName(token.getAttributeValue(null , 'message'))
   }

@@ -194,43 +194,50 @@ class Definitions extends WSDLElement{
 		bindings.binding.find { it instanceof HTTPBinding && it.name == name }
 	}
 
-	protected parseAttributes(token, ctx){
+	protected parseAttributes(token, WSDLParserContext ctx){
 		targetNamespace = ctx.targetNamespace ?: token.getAttributeValue( null , 'targetNamespace')
 		registry.add(this)
 		name = token.getAttributeValue( null , 'name')
 	}
 
-	protected parseChildren(token, child, ctx){
+	protected parseChildren(token, child, WSDLParserContext ctx){
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 		//Need to check for Policy defined in other namespace
 			case {it == Policy.VERSION12 || it == Policy.VERSION15 }:
 				def policy = new Policy(wsdlElement: this, parent : parent, ELEMENTNAME: token.name)
+				ctx.wsdlElementOrder << policy
 				policy.parse(token, ctx)
 				policies[policy.id] = policy ; break
 			case Import.ELEMENTNAME :
 				def imp = new Import(definitions : this)
+				ctx.wsdlElementOrder << imp
 				imp.parse(token, ctx)
-					imports << imp ; break
+				imports << imp ; break
 			case Types.ELEMENTNAME :
 				localTypes = new Types(definitions : this)
-					localTypes.parse(token, ctx) ; break
+				ctx.wsdlElementOrder << localTypes
+				localTypes.parse(token, ctx) ; break
 			case Message.ELEMENTNAME :
 				def message = new Message(definitions: this)
+				ctx.wsdlElementOrder << message
 				message.parse(token, ctx)
-					localMessages << message ; break
+				localMessages << message ; break
 			case PortType.ELEMENTNAME:
 				def portType = new PortType(definitions:this)
+				ctx.wsdlElementOrder << portType
 				portType.parse(token, ctx)
-					localPortTypes << portType ; break
+				localPortTypes << portType ; break
 			case Binding.ELEMENTNAME :
 				def binding = new Binding(definitions: this)
+				ctx.wsdlElementOrder << binding
 				binding.parse(token, ctx)
-					localBindings << binding; break
+				localBindings << binding; break
 			case Service.ELEMENTNAME :
 				def service = new Service(definitions : this)
+				ctx.wsdlElementOrder << service
 				service.parse(token, ctx)
-					localServices << service; break
+				localServices << service; break
 
 			default :
 				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.VERSION12 && token.name != Policy.VERSION15)

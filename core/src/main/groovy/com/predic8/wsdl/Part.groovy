@@ -32,7 +32,7 @@ class Part extends WSDLElement{
 	PrefixedName typePN
 	PrefixedName elementPN
 	
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue( null , 'name')
     if(token.getAttributeValue(null , 'element')) elementPN = new PrefixedName(token.getAttributeValue(null , 'element'))
     if(token.getAttributeValue( null , 'type')) typePN = new PrefixedName(token.getAttributeValue( null , 'type'))

@@ -28,8 +28,8 @@ abstract class AbstractSOAPHeader extends BindingElement{
   Part part
 	
 
-  protected parseAttributes(token, params){
-    super.parseAttributes(token, params)
+  protected parseAttributes(token, WSDLParserContext ctx){
+    super.parseAttributes(token, ctx)
 		messageName = token.getAttributeValue(null , 'message')
     partName = token.getAttributeValue(null , 'part')
   }

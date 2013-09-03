@@ -32,7 +32,7 @@ abstract class WSDLElement extends XMLElement {
 
 	abstract void create(AbstractCreator creator, CreatorContext ctx)
 
-	protected parseChildren(token, child, ctx) {
+	protected parseChildren(token, child, WSDLParserContext ctx) {
 		switch (token.name) {
 			case Documentation.ELEMENTNAME :
 				documentation = new Documentation(definitions: definitions, parent : parent)

@@ -32,7 +32,7 @@ class WSDLParser extends AbstractParser{
 		super.parse(ctx)
 	}
 	
-	protected Definitions parseLocal(XMLStreamReader token, ctx){
+	protected Definitions parseLocal(XMLStreamReader token, WSDLParserContext ctx){
 		def encoding = token.getCharacterEncodingScheme()
 		if( !encoding || (encoding != 'UTF-8' && encoding != 'UTF-16')) ctx.wsiResults << new WSIResult(rule : 'R4003')
 		def definitions
@@ -40,6 +40,7 @@ class WSDLParser extends AbstractParser{
 			if (token.startElement) {
 				if(token.name == Definitions.ELEMENTNAME) {
 					definitions = new Definitions(baseDir : ctx.newBaseDir, resourceResolver: ctx.resourceResolver, registry : registry ?: new Registry())
+					ctx.wsdlElementOrder << definitions
 					definitions.parse(token, ctx)
 				}
 				else if(token.name.namespaceURI == Consts.WSDL20_NS) {

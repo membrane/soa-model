@@ -45,16 +45,16 @@ class Binding extends WSDLElement{
 		this.name = name
 	}
 
-	protected parseAttributes(token, ctx){
+	protected parseAttributes(token, WSDLParserContext ctx){
 		name = token.getAttributeValue(null , 'name')
 		typePN = token.getAttributeValue(null , 'type')
 		//TODO: parse style attribute.
 	}
 
-	protected parseChildren(token, child, ctx){
+	protected parseChildren(token, child, WSDLParserContext ctx) {
 		log.debug "found binding: ${token.name}"
 		super.parseChildren(token, child, ctx)
-		switch (token.name ){
+		switch (token.name ) {
 			
 			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
 				policyReference = new PolicyReference(ELEMENTNAME: token.name)

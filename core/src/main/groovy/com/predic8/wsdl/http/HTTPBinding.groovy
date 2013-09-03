@@ -25,7 +25,7 @@ public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'bindin
 
   def verb
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     verb = token.getAttributeValue(null , 'verb')
   }
 

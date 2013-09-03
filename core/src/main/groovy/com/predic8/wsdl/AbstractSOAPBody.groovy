@@ -22,8 +22,8 @@ abstract class AbstractSOAPBody extends BindingElement {
 	
 	protected List<String> partNames = []
 
-  protected parseAttributes(token, params){
-    super.parseAttributes(token, params)
+  protected parseAttributes(token, WSDLParserContext ctx){
+    super.parseAttributes(token, ctx)
     if(token.getAttributeValue(null , 'parts')){
       token.getAttributeValue(null , 'parts').split().each {
         partNames << it

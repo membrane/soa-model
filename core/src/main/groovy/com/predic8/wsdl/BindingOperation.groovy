@@ -31,31 +31,31 @@ class BindingOperation extends WSDLElement{
   List<BindingFault> faults = []
   Binding binding
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, WSDLParserContext ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name) {
       case HTTPOperation.ELEMENTNAME :
       operation = new HTTPOperation(definitions : definitions)
-      operation.parse(token, params) ; break
+      operation.parse(token, ctx) ; break
       case SOAP11Operation.ELEMENTNAME :
       operation = new SOAP11Operation(definitions : definitions)
-      operation.parse(token, params) ; break
+      operation.parse(token, ctx) ; break
       case SOAP12Operation.ELEMENTNAME :
       operation = new SOAP12Operation(definitions : definitions)
-      operation.parse(token, params) ; break
+      operation.parse(token, ctx) ; break
       case BindingInput.ELEMENTNAME :
       input = new BindingInput(definitions : definitions, bindingOperation : this)
-      input.parse(token, params) ; break
+      input.parse(token, ctx) ; break
       case BindingOutput.ELEMENTNAME :
       output = new BindingOutput(definitions : definitions, bindingOperation : this)
-      output.parse(token, params) ; break
+      output.parse(token, ctx) ; break
       case BindingFault.ELEMENTNAME :
       def fault = new BindingFault(definitions : definitions, bindingOperation : this)
-      fault.parse(token, params)
+      fault.parse(token, ctx)
       faults << fault ; break
     }
   }

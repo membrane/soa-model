@@ -19,6 +19,7 @@ import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
+import com.predic8.soamodel.AbstractParserContext;
 import com.predic8.soamodel.Consts
 import com.predic8.soamodel.XMLElement
 import com.predic8.wsdl.WSDLElement
@@ -31,16 +32,12 @@ abstract class PolicyOperator extends XMLElement {
 	
 	String name
 	WSDLElement wsdlElement
-//	Policy policy
-//	All all
-//	ExactlyOne eOne
 	
-	//TODO List of policy items e.g. addressing, symetricbinding
 	List<PolicyOperator> policyItems = []
 	
 	def securityPolicies = []
 	
-	protected parseChildren(token, child, ctx){
+	protected parseChildren(token, child, AbstractParserContext ctx){
 		switch (token.name){
 			case {it == Policy.VERSION12 || it == Policy.VERSION15 }:
 				def pi = new Policy(ELEMENTNAME: token.name)
@@ -141,6 +138,4 @@ abstract class PolicyOperator extends XMLElement {
     ELEMENTNAME
   }
 	
-  def abstract create(creator , context)
-
 }

@@ -39,7 +39,7 @@ class SchemaCreatorTest extends GroovyTestCase{
     def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
     schema.create(creator, new SchemaCreatorContext())
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(new StringReader(strWriter.toString()))
+    schema = parser.parse(new ByteArrayInputStream(strWriter.toString().bytes))
     assertNotNull(schema.getNamespace('ct'))
   }
   
@@ -56,7 +56,7 @@ class SchemaCreatorTest extends GroovyTestCase{
     def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
     schema.create(creator, new SchemaCreatorContext())
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(new StringReader(strWriter.toString()))
+    schema = parser.parse(new ByteArrayInputStream(strWriter.toString().bytes))
     assertEquals('0', schema.getComplexType('EmployeeListType').getModel().getElement('employee').minOccurs)
     assertEquals('unbounded', schema.getComplexType('EmployeeListType').getModel().getElement('employee').maxOccurs)
 //    println strWriter

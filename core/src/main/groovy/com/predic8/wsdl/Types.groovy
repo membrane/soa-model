@@ -31,7 +31,7 @@ class Types extends WSDLElement {
   
   List<Schema> schemas = []
   
-  protected parseChildren(token, child, ctx){
+  protected parseChildren(token, child, WSDLParserContext ctx){
     super.parseChildren(token, child, ctx)
     switch (token.name ){
       case Schema.ELEMENTNAME :

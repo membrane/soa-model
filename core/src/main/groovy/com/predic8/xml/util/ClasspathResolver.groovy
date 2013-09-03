@@ -36,9 +36,9 @@ class ClasspathResolver extends ResourceResolver {
     			input = input.location
     }
 		
-    if ( input instanceof Reader ) {
-      return input
-    }
+		if (input instanceof InputStream )  {
+			return fixUtf8BOM(input);
+		}
 		
 		if(input.matches("^([A-Z]|[a-z]):/.*\$")){
 			return fixUtf8BOM(new FileInputStream(new File(input)))

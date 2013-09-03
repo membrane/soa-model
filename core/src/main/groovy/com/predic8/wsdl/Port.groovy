@@ -34,24 +34,24 @@ class Port extends WSDLElement{
   AbstractAddress address
 	PrefixedName bindingPN
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue(null , 'name')
     bindingPN = new PrefixedName(token.getAttributeValue(null , 'binding'))
     
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, WSDLParserContext ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name ){
       case SOAP11Address.ELEMENTNAME:
       address = new SOAP11Address(definitions: definitions)
-      address.parse(token, params) ; break
+      address.parse(token, ctx) ; break
       case SOAP12Address.ELEMENTNAME:
       address = new SOAP12Address(definitions: definitions)
-      address.parse(token, params) ; break
+      address.parse(token, ctx) ; break
       case HttpAddress.ELEMENTNAME:
       address = new HttpAddress(definitions: definitions)
-      address.parse(token, params) ; break
+      address.parse(token, ctx) ; break
     }
   }
 	

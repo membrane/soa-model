@@ -113,11 +113,12 @@ class DocumentLiteralStyle extends BindingStyle {
 				errors << err
 			} else {
 				//Check if the referenced message in the operation uses only one part and if the part references an element.
-				def opInputMessage = (portType.getOperation(op.name).input).message
+				def opInputMessage = op.input.message
 				errors.addAll(checkMessageParts(op, opInputMessage))
 			}
 			
 			//Check output soap body
+			if(!op.output) return
 			def outputSoapBodyParts = op.output.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
 			if(outputSoapBodyParts.size() == 1) {
 				return
@@ -131,7 +132,7 @@ class DocumentLiteralStyle extends BindingStyle {
 				errors << err
 			} else {
 				//Check if the referenced message in the operation uses only one part and if the part references an element.
-				def opOutputMessage = (portType.getOperation(op.name).output).message
+				def opOutputMessage = op.output.message
 				errors.addAll(checkMessageParts(op, opOutputMessage))
 			}
 			

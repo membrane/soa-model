@@ -39,8 +39,8 @@ class SchemaWithXMLPrefixTest extends GroovyTestCase{
     schema.create(creator, new SchemaCreatorContext())
     assertEquals('base', schema.attributeGroups[0].attributes[0].ref.localPart)
     assertEquals('http://www.w3.org/XML/1998/namespace', schema.attributeGroups[0].attributes[0].ref.namespaceURI)
-    def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
-    schema = parser.parse(new StringReader(strWriter.toString()))
+    def parser = new SchemaParser()
+    schema = parser.parse(new ByteArrayInputStream(strWriter.toString().bytes))
 //    println strWriter
   }
 }

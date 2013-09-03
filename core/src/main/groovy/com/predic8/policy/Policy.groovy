@@ -28,20 +28,14 @@ class Policy extends PolicyOperator{
 
 	String id
 	
-	protected def parseAttributes( token,  ctx) {
+	protected def parseAttributes( token,  AbstractParserContext ctx) {
 		name = token.getAttributeValue( null , 'Name')
 		//From ws-policy spec: /wsp:Policy/(@wsu:Id | @xml:id)
 		id = token.getAttributeValue( Consts.WSU_NS, 'Id') ?: token.getAttributeValue( null , 'id')
 	}
 	
-	protected parseChildren(token, child, ctx){
+	protected parseChildren(token, child, AbstractParserContext ctx){
 		super.parseChildren(token, child, ctx)
-	}
-	
-	@Override
-	public Object create(Object creator, Object context) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	void create(AbstractCreator creator, CreatorContext ctx){

@@ -33,22 +33,22 @@ class Operation extends WSDLElement{
     this.definitions = definitions
   }
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue( null , 'name')
   }
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
+  protected parseChildren(token, child, WSDLParserContext ctx){
+    super.parseChildren(token, child, ctx)
     switch (token.name){
       case Input.ELEMENTNAME :
       input = new Input(definitions : definitions)
-      input.parse(token, params) ; break
+      input.parse(token, ctx) ; break
       case Output.ELEMENTNAME:
       output = new Output(definitions: definitions)
-      output.parse(token, params) ; break
+      output.parse(token, ctx) ; break
       case Fault.ELEMENTNAME:
       def fault = new Fault(definitions: definitions)
-      fault.parse(token, params)
+      fault.parse(token, ctx)
       faults << fault ; break
     }
   }

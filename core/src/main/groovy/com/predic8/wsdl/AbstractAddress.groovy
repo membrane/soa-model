@@ -20,7 +20,7 @@ abstract class AbstractAddress extends WSDLElement {
   
   String location
   
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     location = token.getAttributeValue(null , 'location')
   }
   

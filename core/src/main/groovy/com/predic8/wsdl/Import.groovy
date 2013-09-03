@@ -26,13 +26,13 @@ class Import extends WSDLElement {
   String location
   Definitions importedWSDL
 
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     namespace = token.getAttributeValue(null , 'namespace')
     location = token.getAttributeValue(null , 'location')
     parseImport(token, ctx)
   }
 
-  private parseImport(token, ctx){
+  private parseImport(token, WSDLParserContext ctx){
     ctx.input = this
     ctx.baseDir = definitions.baseDir
     importedWSDL = (new WSDLParser(resourceResolver: definitions.resourceResolver, registry: definitions.registry )).parse(ctx)

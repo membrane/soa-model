@@ -17,6 +17,8 @@ package com.predic8.wsdl
 import com.predic8.soamodel.AbstractParserContext;
 
 class WSDLParserContext extends AbstractParserContext{
+	
+	List<WSDLElement>	wsdlElementOrder = []
 
 }
 

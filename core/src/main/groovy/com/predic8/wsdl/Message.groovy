@@ -28,11 +28,11 @@ class Message extends WSDLElement {
 
   List<Part> parts = []
   
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, WSDLParserContext ctx){
     name = token.getAttributeValue( null , 'name')
   }
 
-  protected parseChildren(token, child, ctx){
+  protected parseChildren(token, child, WSDLParserContext ctx){
     super.parseChildren(token, child, ctx)
     switch(token.name) {
       case Part.ELEMENTNAME :

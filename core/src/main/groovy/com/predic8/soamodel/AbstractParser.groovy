@@ -27,16 +27,7 @@ abstract class AbstractParser{
 	def resourceResolver = new ExternalResolver()
 
 	
-	//ctx should not be typed! Otherwise method calls using hash map don't work any more!
-
-		protected parse(ctx) {
-		if ( ctx instanceof Reader) {
-			/**
-			 * TODO There are test classes using StringReader as input in schema package.
-			 * 			Change those inputs to InputStreame and eliminate the following condition.
-			 */
-			return this.parse(new SchemaParserContext(input: ctx))
-		}
+		protected parse(AbstractParserContext ctx) {
 		updatectx(ctx)
 		log.debug("AbstractParser: ctx.newBaseDir: ${ctx.newBaseDir} , ctx.input: " + ctx.input)
 		log.debug("parsing " + ctx.input + " input from baseDir: ${ctx.baseDir}")

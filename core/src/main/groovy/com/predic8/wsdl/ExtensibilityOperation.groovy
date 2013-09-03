@@ -21,7 +21,7 @@ abstract class ExtensibilityOperation extends WSDLElement{
   String soapAction =''
   String style = 'document'
 
-  protected parseAttributes(token, params){
+  protected parseAttributes(token, WSDLParserContext ctx){
     soapAction = token.getAttributeValue(null , 'soapAction')
     style = token.getAttributeValue(null , 'style')
   }

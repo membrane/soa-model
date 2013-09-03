@@ -27,7 +27,7 @@ class PolicyReference extends XMLElement{
   String uri
   String Digest
 
-  protected parseAttributes(token, ctx){
+  protected parseAttributes(token, AbstractParserContext ctx){
     uri = token.getAttributeValue(null , 'URI')
     digest = token.getAttributeValue(null , 'Digest')
   }
