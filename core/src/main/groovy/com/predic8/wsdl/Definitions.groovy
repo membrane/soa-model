@@ -304,6 +304,10 @@ class Definitions extends WSDLElement{
 		create(new WSDLCreator(builder: new MarkupBuilder(writer)), new WSDLCreatorContext())
 		writer.toString()
 	}
+	
+	List<ValidationError> validate(WSDLParserContext ctx) {
+		new WSDLValidator().validate(this, ctx)
+	}
 
 	String toString() {
 		"defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$localServices, documentation=$documentation, schemas=$localSchemas, bindings=$localBindings, messages=$localMessages, portTypes=$localPortTypes]"

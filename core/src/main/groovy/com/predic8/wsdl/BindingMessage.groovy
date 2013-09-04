@@ -109,8 +109,7 @@ abstract class BindingMessage extends WSDLElement{
   
   protected Message getMessage(){
 		try {
-			String ptm = ELEMENTNAME.localPart == 'fault' ? 'faults' : ELEMENTNAME.localPart
-			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ptm".message.qname)
+			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
     } catch (Exception e) {
 	    throw new ModelAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", e)
     }

@@ -28,5 +28,6 @@ abstract class AbstractParserContext {
   def token
   def wsiResults = []
 	def errors = []
+	def validated = []
 }
 

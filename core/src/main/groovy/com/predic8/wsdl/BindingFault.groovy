@@ -15,11 +15,20 @@
 package com.predic8.wsdl
 
 import javax.xml.namespace.QName as JQName
+
 import com.predic8.soamodel.*
 
 class BindingFault extends BindingMessage {
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'fault')
+	
+	protected Message getMessage(){
+		try {
+			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name).faults.find(it.name == name).message.qname)
+		} catch (Exception e) {
+			throw new ModelAccessException("Could not find the definition for at least one message in the fault '$name' of the operation '${bindingOperation.name}' in the WSDL.", e)
+		}
+	}
 
 }
 

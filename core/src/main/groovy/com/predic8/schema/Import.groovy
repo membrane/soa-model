@@ -52,9 +52,6 @@ class Import extends SchemaComponent {
 		// SOAP Encoding schema will not be parsed from the schemaLocation. Instead the copy from Classpath will be used.
 		if(namespace == 'http://www.w3.org/2003/05/soap-encoding') importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
 		else importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
-		
-		//Validating imported schemas
-		new SchemaValidator().validate(schema, ctx)
 	}
 
 	def getImportSchema() {

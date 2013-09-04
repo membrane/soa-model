@@ -15,6 +15,9 @@
 package com.predic8.schema;
 
 import static com.predic8.soamodel.Consts.SCHEMA_NS
+
+import java.util.List;
+
 import groovy.xml.*
 
 import javax.xml.namespace.QName as JQName
@@ -24,6 +27,7 @@ import org.apache.commons.logging.*
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.*
 import com.predic8.wsdl.Definitions
+import com.predic8.wsdl.WSDLParserContext;
 import com.predic8.xml.util.PrefixedName
 import com.predic8.xml.util.ResourceResolver
 
@@ -251,7 +255,7 @@ class Schema extends SchemaComponent{
         schemas.addAll(schema.getImportedSchemas(schemas+importedSchemas))
       }
     }
-    schemas
+    schemas.unique()
   }
   
   public void add(ComplexType ct){
@@ -306,6 +310,10 @@ class Schema extends SchemaComponent{
   def create(creator, CreatorContext ctx) {
     creator.createSchema(this, ctx.clone())
   }
+	
+	List<ValidationError> validate(AbstractParserContext ctx) {
+		new SchemaValidator().validate(this, ctx)
+	}
   
   boolean equals(obj){
     if(!(obj instanceof Schema)) 

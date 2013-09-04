@@ -33,6 +33,7 @@ class WSDLValidatorTest extends GroovyTestCase{
   }
 	
 	void testValidation() {
+		wsdl.validate(ctx) 
 //		ctx.errors.grep(ValidationError).invalidElement.each{
 //			if(it instanceof Port){
 //				def strWriter = new StringWriter()

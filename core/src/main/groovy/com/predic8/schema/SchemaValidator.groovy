@@ -11,14 +11,20 @@
 
 package com.predic8.schema
 
+import java.util.List;
+
 import com.predic8.soamodel.*
 
 class SchemaValidator {
 
-	void validate(Schema schema, AbstractParserContext ctx) {
+	List<ValidationError> validate(Schema schema, AbstractParserContext ctx) {
+		if(ctx.validated.contains(schema)) return
+		schema.importedSchemas*.validate(ctx)
 		validateElements(schema.elements, schema, ctx)
 		validateComplexTypes(schema.complexTypes, schema, ctx)
 		validateSimpleTypes(schema.simpleTypes, schema, ctx)
+		ctx.validated << schema
+		return ctx.errors.grep(ValidationError)
 	}
 
 	void validateElements(elements, schema, ctx) {
@@ -26,20 +32,20 @@ class SchemaValidator {
 			if(it.type) {
 				try {
 					if(!schema.getType(it.type)) {
-						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.type}' as its type, which is not defined in this schema.")
+						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.type}' as its type, which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} is invalid!")
+					ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} is invalid!", schemaTNS: schema.targetNamespace)
 				}
 			}
 			else if(it.ref) {
 				try {
 					if(!schema.getElement(it.ref)) {
-						ctx.errors << new ValidationError(invalidElement : it, message : "Some element in this document uses '${it.ref}' as its reference, which is not defined in this schema.")
+						ctx.errors << new ValidationError(invalidElement : it, message : "An element references '${it.ref}', which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
 				} catch (Exception e) {
-					ctx.errors << new ValidationError(invalidElement : it, message : "Element with ref '${it.ref}' is invalid!")
+					ctx.errors << new ValidationError(invalidElement : it, message : "Element with ref '${it.ref}' is invalid!", schemaTNS: schema.targetNamespace)
 				}
 			}
 		}
@@ -50,7 +56,7 @@ class SchemaValidator {
 			if(ct.superTypes) {
 				ct.superTypes.each {
 					if(!schema.getType(it)) {
-						ctx.errors << new ValidationError(invalidElement : ct, message : "ComplexType ${ct.name} inherits from '${it}', which is not definded in this schema.")
+						ctx.errors << new ValidationError(invalidElement : ct, message : "ComplexType ${ct.name} inherits from '${it}', which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
 				}
 			}
@@ -77,7 +83,7 @@ class SchemaValidator {
 			if(st.superTypes) {
 				st.superTypes.each {
 					if(!schema.getType(it)) {
-						ctx.errors << new ValidationError(invalidElement : st, message : "SimpleType ${st.name} inherits from '${it}', which is not definded in this schema.")
+						ctx.errors << new ValidationError(invalidElement : st, message : "SimpleType ${st.name} inherits from '${it}', which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
 				}
 			}

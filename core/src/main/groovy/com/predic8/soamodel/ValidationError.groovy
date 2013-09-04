@@ -14,9 +14,15 @@
 
 package com.predic8.soamodel
 
-import com.predic8.wsdl.WSDLElement;
+import groovy.xml.QName
 
 class ValidationError {
+	
+	/**Gives the targetNamespace of the validated document.
+	 * Either wsdl or schema is set. The other one is null. 
+	 */
+	String wsdlTNS
+	String schemaTNS
 
 	def invalidElement
 	
