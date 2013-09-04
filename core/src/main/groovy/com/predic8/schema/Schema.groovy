@@ -144,13 +144,20 @@ class Schema extends SchemaComponent{
     (elements + importedSchemas.elements).flatten()
   }
   
+	/**
+	 * Resolves the element object for the given qname from the known schemas.
+	 * If the schema is embedded in a WSDL document, all other schemas in the
+	 * WSDl will be checked, even if there are no imports of them in this schema.
+	 * @param groovy.xml.QName
+	 * @return Element
+	 */
   Element getElement(QName qname){
+		if(!qname) return
     allSchemas.elements.flatten().find {
       it.name == qname.localPart && it.schema.targetNamespace == qname.namespaceURI
-    }
+    } ?: definitions?.localSchemas.find{it.targetNamespace== qname.namespaceURI}?.getElement(qname.localPart)
   }
   
-  // Achtung: QName wird nicht verwendet
   Element getElement(String elementName){
     def prefixedName = new PrefixedName(elementName)
     def uri
@@ -180,15 +187,25 @@ class Schema extends SchemaComponent{
     attributeGroups.find{it.name == name}
   }
   
+	/**
+	 * Resolves the type object for the given qname from the known schemas.
+	 * If the schema is embedded in a WSDL document, all other schemas in the 
+	 * WSDl will be checked, even if there are no imports of them in this schema.
+	 * @param groovy.xml.QName
+	 * @return TypeDefinition
+	 */
   TypeDefinition getType(QName qname){
-		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
+		if(!qname) return
+		if(qname.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
     (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
       it.qname == qname
-    }
+    } ?: definitions?.localSchemas.find{it.targetNamespace == qname.namespaceURI}?.getType(qname.localPart)
   }
   
   TypeDefinition getType(String typeName){
-    getType(new QName(targetNamespace,typeName))
+		(complexTypes + simpleTypes + groups).flatten().find{
+			it.name == typeName
+		}
   }
   
   ComplexType getComplexType(String typeName){

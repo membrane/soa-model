@@ -29,6 +29,7 @@ class SchemaValidator {
 						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.type}' as its type, which is not defined in this schema.")
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} is invalid!")
 				}
 			}

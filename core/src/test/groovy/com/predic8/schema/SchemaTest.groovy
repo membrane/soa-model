@@ -38,7 +38,7 @@ class SchemaTest extends GroovyTestCase{
                                  </xsd:schema>'''
                           
   def static xsdPrefixed = '''<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://thomas-bayer.com/blz/" xmlns:tns="http://thomas-bayer.com/blz/">
-                                <xsd:complexType name="tns:getBankType">
+                                <xsd:complexType name="getBankType">
                                   <xsd:annotation>
                                     <xsd:documentation>Comp Docu</xsd:documentation>
                                   </xsd:annotation>

@@ -11,11 +11,15 @@
 
 package com.predic8.wsdl
 
-import com.predic8.soamodel.ValidationError;
+import com.predic8.schema.SchemaValidator
+import com.predic8.soamodel.ValidationError
 
 class WSDLValidator {
 
 	void validate(Definitions wsdl, WSDLParserContext ctx) {
+		wsdl.localSchemas.each { schema ->
+			new SchemaValidator().validate(schema, ctx)
+		}
 		wsdl.services.each {
 			validateServicePorts(it.ports, ctx)
 		}
@@ -26,6 +30,7 @@ class WSDLValidator {
 			if(! msg.parts) ctx.errors << new ValidationError(invalidElement : msg, parent: wsdl, message : "There is no part defined in message ${msg.name} in this WSDL.")
 			else validateMessageParts(msg , ctx)
 		}
+		ctx.errors.grep(ValidationError)
 	}
 
 	void validateServicePorts(ports, ctx) {

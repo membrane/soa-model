@@ -27,11 +27,7 @@ abstract class AbstractSOAPBinding extends AbstractBinding{
   protected parseAttributes(token, WSDLParserContext ctx){
     String tempStyle = token.getAttributeValue(null , 'style')
 		if(tempStyle == 'rpc') bindingStyle = new RPCStyle()
-		else{
-			//If not RPC, bindingStyle should be Document Literal as default.
-			bindingStyle = new DocumentLiteralStyle()
-    	if(tempStyle != 'document') ctx.errors << "The style of binding '${binding.name}' should be 'rpc' or 'document'."
-		}
+    //If not RPC, bindingStyle should be Document Literal as default.
     transport = token.getAttributeValue(null , 'transport')
   }
 	
