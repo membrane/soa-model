@@ -20,48 +20,47 @@ import org.apache.commons.httpclient.*
 import com.predic8.schema.Import as SchemaImport
 import com.predic8.schema.Include;
 import com.predic8.wsdl.Import as WsdlImport
-import com.predic8.io.*
 import com.predic8.util.*
 
 class ClasspathResolver extends ResourceResolver {
-  
 
-  def resolve(input, baseDir) {
-    if ( input instanceof SchemaImport || input instanceof Include ) {
-      input = input.schemaLocation
+
+    def resolve(input, baseDir) {
+        if (input instanceof SchemaImport || input instanceof Include) {
+            input = input.schemaLocation
+        }
+
+        if (input instanceof WsdlImport) {
+            if (!input.location) return
+            input = input.location
+        }
+
+        if (input instanceof InputStream) {
+            return fixUtf(input);
+        }
+
+        if (input.matches("^([A-Z]|[a-z]):/.*\$")) {
+            return fixUtf(new FileInputStream(new File(input)))
+        }
+
+        if (baseDir.matches("^([A-Z]|[a-z]):/.*\$")) {
+            return fixUtf(new FileInputStream(new File(baseDir, input)))
+        }
+
+        def resource
+        try {
+            resource = fixUtf(this.class.getResourceAsStream(getLocation(input, baseDir)))
+        } catch (Exception e) {
+            throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
+        }
+        resource
     }
-    
-    if(input instanceof WsdlImport) {
-    	if ( !input.location ) return
-    			input = input.location
+
+    def private getLocation(input, baseDir) {
+        if (input.startsWith('/') || input.startsWith('\\')) {
+            return input
+        }
+        HTTPUtil.normalize("/$baseDir/$input")
     }
-		
-		if (input instanceof InputStream )  {
-			return fixUtf8BOM(input);
-		}
-		
-		if(input.matches("^([A-Z]|[a-z]):/.*\$")){
-			return fixUtf8BOM(new FileInputStream(new File(input)))
-		}
-		
-		if(baseDir.matches("^([A-Z]|[a-z]):/.*\$")){
-			return fixUtf8BOM(new FileInputStream(new File(baseDir, input)))
-		}
-		
-		def resource
-		try {
-			resource = fixUtf8BOM(this.class.getResourceAsStream(getLocation(input, baseDir)))
-    } catch (Exception e) {
-			throw new FileNotFoundException("Could not get resource for ${getLocation(input, baseDir)}")
-    }
-    resource
-  }
-  
-  def private getLocation(input, baseDir) {
-    if(input.startsWith('/') || input.startsWith('\\')){
-      return input
-    }
-    HTTPUtil.normalize("/$baseDir/$input")
-  }
-  
+
 }

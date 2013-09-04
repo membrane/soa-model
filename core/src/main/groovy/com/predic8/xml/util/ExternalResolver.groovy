@@ -11,8 +11,6 @@
 
 package com.predic8.xml.util
 
-import java.net.ConnectException;
-
 import org.apache.commons.logging.*
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -27,8 +25,6 @@ import org.apache.http.util.EntityUtils;
 import com.predic8.schema.Import as SchemaImport
 import com.predic8.schema.Include;
 import com.predic8.wsdl.Import as WsdlImport
-import com.predic8.soamodel.Consts;
-import com.predic8.io.*
 
 class ExternalResolver extends ResourceResolver {
 
@@ -52,20 +48,20 @@ class ExternalResolver extends ResourceResolver {
 
 		if (input instanceof InputStream )  {
 			log.debug("resolving from reader, baseDir: $baseDir")
-			return fixUtf8BOM(input);
+			return fixUtf(input);
 		}
 
 		log.debug("resolving: $input, baseDir: $baseDir")
 
 		if(input instanceof File){
-			return fixUtf8BOM(new FileInputStream(input))
+			return fixUtf(new FileInputStream(input))
 		}
 
 		if (! input instanceof String)
 			throw new RuntimeException("Do not know how to resolve $input")
 
 		if(input.startsWith('file')) {
-			return fixUtf8BOM(new FileInputStream(new URL(input).getPath()))
+			return fixUtf(new FileInputStream(new URL(input).getPath()))
 		}
 
 		if(input.startsWith('http') || input.startsWith('https')) {
@@ -84,9 +80,9 @@ class ExternalResolver extends ResourceResolver {
 
 	public InputStream resolveAsFile(java.lang.String filename, java.lang.String baseDir) {
 		if(baseDir) {
-			return fixUtf8BOM(new FileInputStream(new File(baseDir,filename)))
+			return fixUtf(new FileInputStream(new File(baseDir,filename)))
 		}
-		fixUtf8BOM(new FileInputStream(new File(filename)))
+		fixUtf(new FileInputStream(new File(filename)))
 	}
 
 	protected resolveViaHttp(url) {
