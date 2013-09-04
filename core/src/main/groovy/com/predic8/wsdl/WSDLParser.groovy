@@ -53,7 +53,6 @@ class WSDLParser extends AbstractParser{
 			if(token.hasNext()) token.next()
 		}
 		if(!definitions) throw new RuntimeException("The parsed document ${ctx.input} is not a valid WSDL document.")
-		new WSDLValidator().validate(definitions, ctx)
 		definitions
 	}
 }
