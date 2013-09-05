@@ -125,6 +125,18 @@ class BindingStyleTest extends AbstractWSDLTest {
 	  </wsdl:operation>
   </wsdl:binding>
 
+  <wsdl:binding name="NoStyleInSOAPBinding" type="tns:BLZServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="getBank">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
 
   <wsdl:service name="BLZService">
     <wsdl:port name="BLZServiceSOAP11port_http" binding="tns:BLZServiceSOAP11Binding">
@@ -141,12 +153,9 @@ class BindingStyleTest extends AbstractWSDLTest {
 '''
 	
   void testBinding() {
-  	definitions.bindings.styleErrors.flatten().each{
-  		println it.message
-  	}
   	assert definitions.bindings.styleErrors
 		assert definitions.bindings[3].styleErrors == []
 		assert definitions.getBinding('DocumentLiteralBinding').binding.checkStyle()['result'] == 'Document/Literal'
-		assert definitions.bindings.styleErrors.flatten().size() == 5
+		assert definitions.bindings.styleErrors.flatten().size() == 6
   }
 }

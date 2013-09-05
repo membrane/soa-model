@@ -20,23 +20,33 @@ import com.predic8.wsdl.style.*
 abstract class AbstractSOAPBinding extends AbstractBinding{
   
 	Binding binding
-	BindingStyle bindingStyle = new DocumentLiteralStyle()
+	private String style 
   String transport = "http://schemas.xmlsoap.org/soap/http"
 	
 
   protected parseAttributes(token, WSDLParserContext ctx){
-    String tempStyle = token.getAttributeValue(null , 'style')
-		if(tempStyle == 'rpc') bindingStyle = new RPCStyle()
-    //If not RPC, bindingStyle should be Document Literal as default.
+    style = token.getAttributeValue(null , 'style')
     transport = token.getAttributeValue(null , 'transport')
   }
 	
+	BindingStyle getBindingStyle() {
+		if(style == 'document') return new DocumentLiteralStyle()
+		if(style == 'rpc') return new RPCStyle()
+		/**If bindingStyle is not defined in SOAP Binding, 
+		 * it should be looked up in binding operation.
+		 * As default it should be 'document'
+		 */
+		def opStyle = binding.operations.operation.style.unique()
+		if(opStyle.contains('rpc') || 1 < opStyle.size()) return new RPCStyle()
+		return new DocumentLiteralStyle()
+	}
+	
 	public getStyle() {
-		bindingStyle.value
+		getBindingStyle().value
 	}
 	
 	Map checkStyle() {
-		bindingStyle.check(binding)
+		getBindingStyle().check(binding)
 	}
   
   abstract String getContentType()

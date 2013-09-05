@@ -18,7 +18,6 @@ class RPCStyle extends BindingStyle {
 	String value = 'rpc'
 
 	Map check(Binding binding) {
-		
 		def operations = binding.operations
 		operations.operation.style.each {
 			if(it && it != value) {
@@ -26,12 +25,9 @@ class RPCStyle extends BindingStyle {
 				return
 			}
 		}
-		
 		def value = value.capitalize()
-			
 		def usages = (([operations.input]+ [operations.output]).bindingElements.use).flatten().unique()
 		def err = [:]
-
 		if(usages.size() > 1) {
 			//Error! More than one use in operation
 			err['message'] = "The value of the 'use' attribute is mixed."
@@ -44,7 +40,12 @@ class RPCStyle extends BindingStyle {
 		}
 		
 		if(usages[0] == 'literal') {
-			return [result : "$value/Literal"]
+			if(value == 'Mixed') {
+				err['message'] = "The style in binding ${binding.name} has mixed values."
+				err['type'] = "MixedStyle"
+				return [result : "$value/Literal", errors : [err]]
+			}
+			return [result : "$value/Literal", errors : []]
 		}
 		
 		err['message'] = "Could not detect the 'use' for the operations of binding ${binding.name}"
