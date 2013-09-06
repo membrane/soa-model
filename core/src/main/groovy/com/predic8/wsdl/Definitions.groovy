@@ -42,13 +42,13 @@ class Definitions extends WSDLElement{
 	 * The local-prefix indicates that the elements are defined in this WSDL document. 
 	 * Calling e.g. getBindings will return all the bindings in an wsdl:import hierarchy
 	 */
-	Types localTypes 
+	Types localTypes
 	List<Message> localMessages = []
 	List<PortType> localPortTypes = []
 	List<Binding> localBindings = []
 	List<Service> localServices = []
 	List<Import> imports = []
-	
+
 	//List of policy items with Id as key and the policy object as value.
 	Map<String, Policy> policies = [:]
 
@@ -56,7 +56,7 @@ class Definitions extends WSDLElement{
 	 * If there are imported WSDLs, the complete information about the WSDL elements 
 	 * should be collected from the WSDLs in the registry.
 	 */
-	Registry registry = new Registry() 
+	Registry registry = new Registry()
 
 	public Definitions() {
 		registry.add(this)
@@ -98,11 +98,11 @@ class Definitions extends WSDLElement{
 	String getTargetNamespacePrefix() {
 		getPrefix(targetNamespace)
 	}
-	
+
 	public void setTypes(Types types){
 		localTypes = types
 	}
-	
+
 	Boolean isConcrete() {
 		getBindings("SOAP11")[0]
 	}
@@ -134,13 +134,13 @@ class Definitions extends WSDLElement{
 	Message getMessage(GQName qname) {
 		lookup("messages", qname)
 	}
-	
+
 	Binding getBinding(GQName qname) {
 		lookup("bindings", qname)
 	}
 
 	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item"?.flatten().find{it.name == qname.localPart}}
-	
+
 	Element getElement(String elementPN) {
 		getElement(getQNameForPN(new PrefixedName(elementPN)))
 	}
@@ -150,15 +150,15 @@ class Definitions extends WSDLElement{
 			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
 		}
 	}
-	
+
 	TypeDefinition getSchemaType(String name) {
 		getSchemaType(getQNameForPN(new PrefixedName(name)))
 	}
-	
+
 	TypeDefinition getSchemaType(GQName qname) {
 		//BuiltInSchemaTypes should be returned here, because Definitions maybe contains no schema!
 		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
-		schemas.find{ it.getType(qname) }?.getType(qname) 
+		schemas.find{ it.getType(qname) }?.getType(qname)
 	}
 
 	/**
@@ -203,41 +203,41 @@ class Definitions extends WSDLElement{
 	protected parseChildren(token, child, WSDLParserContext ctx){
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
-		//Need to check for Policy defined in other namespace
+			//Need to check for Policy defined in other namespace
 			case {it == Policy.VERSION12 || it == Policy.VERSION15 }:
 				def policy = new Policy(wsdlElement: this, parent : parent, ELEMENTNAME: token.name)
 				ctx.wsdlElementOrder << policy
 				policy.parse(token, ctx)
-				policies[policy.id] = policy ; break
+					policies[policy.id] = policy ; break
 			case Import.ELEMENTNAME :
 				def imp = new Import(definitions : this)
 				ctx.wsdlElementOrder << imp
 				imp.parse(token, ctx)
-				imports << imp ; break
+					imports << imp ; break
 			case Types.ELEMENTNAME :
 				localTypes = new Types(definitions : this)
 				ctx.wsdlElementOrder << localTypes
-				localTypes.parse(token, ctx) ; break
+					localTypes.parse(token, ctx) ; break
 			case Message.ELEMENTNAME :
 				def message = new Message(definitions: this)
 				ctx.wsdlElementOrder << message
 				message.parse(token, ctx)
-				localMessages << message ; break
+					localMessages << message ; break
 			case PortType.ELEMENTNAME:
 				def portType = new PortType(definitions:this)
 				ctx.wsdlElementOrder << portType
 				portType.parse(token, ctx)
-				localPortTypes << portType ; break
+					localPortTypes << portType ; break
 			case Binding.ELEMENTNAME :
 				def binding = new Binding(definitions: this)
 				ctx.wsdlElementOrder << binding
 				binding.parse(token, ctx)
-				localBindings << binding; break
+					localBindings << binding; break
 			case Service.ELEMENTNAME :
 				def service = new Service(definitions : this)
 				ctx.wsdlElementOrder << service
 				service.parse(token, ctx)
-				localServices << service; break
+					localServices << service; break
 
 			default :
 				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.VERSION12 && token.name != Policy.VERSION15)
@@ -249,13 +249,21 @@ class Definitions extends WSDLElement{
 	List<Schema> getLocalSchemas(){
 		localTypes?.schemas
 	}
-	
+
 	List<Schema> getSchemas(){
 		types.allSchemas.flatten()
 	}
 
-	Schema getSchema(String targetNamespace){
-		schemas.find{ it.targetNamespace == targetNamespace }
+
+	Schema getSchemaLoadKnownSchemaIfNeeded(String ns) {
+		if(! getSchema(ns) && ns in KnownSchemas.docs.keySet()) {
+			addSchema(new SchemaParser(resourceResolver: new ClasspathResolver()).parse(KnownSchemas.docs[ns]))
+		}
+		getSchema(ns)
+	}
+
+	Schema getSchema(String ns){
+		schemas.find{ it.targetNamespace == ns }
 	}
 
 	def getService(GQName qname){
@@ -304,7 +312,7 @@ class Definitions extends WSDLElement{
 		create(new WSDLCreator(builder: new MarkupBuilder(writer)), new WSDLCreatorContext())
 		writer.toString()
 	}
-	
+
 	List<ValidationError> validate(WSDLParserContext ctx) {
 		new WSDLValidator().validate(this, ctx)
 	}

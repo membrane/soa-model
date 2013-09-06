@@ -48,7 +48,6 @@ class Binding extends WSDLElement{
 	protected parseAttributes(token, WSDLParserContext ctx){
 		name = token.getAttributeValue(null , 'name')
 		typePN = token.getAttributeValue(null , 'type')
-		//TODO: parse style attribute.
 	}
 
 	protected parseChildren(token, child, WSDLParserContext ctx) {

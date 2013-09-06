@@ -46,7 +46,7 @@ abstract class Declaration extends SchemaComponent {
   
   String getBuildInTypeName(){
     if(type?.namespaceURI == SCHEMA_NS) return type.localPart
-    if(schema.getType(type)) return schema.getType(type).buildInTypeName
+    if(type && schema.getType(type)) return schema.getType(type).buildInTypeName
     buildInTypeNameLocal
   }
 }

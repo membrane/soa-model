@@ -20,7 +20,11 @@ class WSDLValidator {
 
 	List<ValidationError> validate(Definitions wsdl, WSDLParserContext ctx) {
 		if(ctx.validated.contains(wsdl)) return
-		wsdl.localSchemas*.validate(ctx)
+		/* During validation of schemas, the list of localSchemas may be expanded by implicit schemas.
+		 * So for the validator a clone should be created, which will not change in middle of the precess.
+		 */
+		def schemas = wsdl.localSchemas.clone()
+		schemas*.validate(ctx)
 		wsdl.services.each {
 			validateServicePorts(it.ports, ctx)
 		}

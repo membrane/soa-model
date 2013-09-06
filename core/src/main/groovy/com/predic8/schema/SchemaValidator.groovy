@@ -35,7 +35,6 @@ class SchemaValidator {
 						ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} uses '${it.type}' as its type, which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 					ctx.errors << new ValidationError(invalidElement : it, message : "Element ${it.name} is invalid!", schemaTNS: schema.targetNamespace)
 				}
 			}

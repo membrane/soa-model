@@ -155,11 +155,11 @@ class Schema extends SchemaComponent{
 	 * @param groovy.xml.QName
 	 * @return Element
 	 */
-  Element getElement(QName qname){
-		if(!qname) return
+  Element getElement(QName elementRef){
+		if(!elementRef) return
     allSchemas.elements.flatten().find {
-      it.name == qname.localPart && it.schema.targetNamespace == qname.namespaceURI
-    } ?: definitions?.localSchemas.find{it.targetNamespace== qname.namespaceURI}?.getElement(qname.localPart)
+      it.name == elementRef.localPart && it.schema.targetNamespace == elementRef.namespaceURI
+		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(elementRef.namespaceURI)?.getElement(elementRef.localPart)
   }
   
   Element getElement(String elementName){
@@ -198,12 +198,11 @@ class Schema extends SchemaComponent{
 	 * @param groovy.xml.QName
 	 * @return TypeDefinition
 	 */
-  TypeDefinition getType(QName qname){
-		if(!qname) return
-		if(qname.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
+  TypeDefinition getType(QName type){
+		if(type.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: type)
     (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
-      it.qname == qname
-    } ?: definitions?.localSchemas.find{it.targetNamespace == qname.namespaceURI}?.getType(qname.localPart)
+      it.qname == type
+		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(type.namespaceURI)?.getType(type.localPart)
   }
   
   TypeDefinition getType(String typeName){

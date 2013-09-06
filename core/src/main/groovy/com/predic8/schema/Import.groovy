@@ -11,16 +11,16 @@
 
 package com.predic8.schema
 
-import com.predic8.soamodel.CreatorContext
-import com.predic8.soamodel.KnownSchemas
+
+import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
+import com.predic8.soamodel.CreatorContext
+import com.predic8.soamodel.KnownSchemas
 import com.predic8.xml.util.*
-//import com.predic8.soamodel.KnownSchemas
-import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 /**
  * 	SOAP Encoding schema with the namespace 'http://www.w3.org/2003/05/soap-encoding' will 
@@ -32,41 +32,30 @@ class Import extends SchemaComponent {
 	String schemaLocation
 	Schema importSchema
 
-	/**
-	 * Maps the imported schema documents with well-known namespaces
-	 * to the corresponding xsd file from the class path. 
-	 */
-	Map knownDocs
-
 	private Log log = LogFactory.getLog(this.class)
 
 	protected parseAttributes(token, ctx){
 		namespace = token.getAttributeValue( null , 'namespace')
 		schemaLocation = token.getAttributeValue( null , 'schemaLocation')
 		log.debug("import: $schemaLocation , ns: $namespace , schema.basedir: ${schema.baseDir}")
-		if(!schemaLocation){
-			knownDocs = schema.resourceResolver.knownDocs
-			return
+		
+		// Known schemas will not be parsed from the schemaLocation. Instead the copy from Classpath will be used.
+		if(namespace in KnownSchemas.docs.keySet()){
+			log.info("Loading schema '$namespace' provided by SOA Model instead of user-provided document.")
+			return importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(KnownSchemas.docs[namespace])
 		}
 		
-		// SOAP Encoding schema will not be parsed from the schemaLocation. Instead the copy from Classpath will be used.
-		if(namespace == 'http://www.w3.org/2003/05/soap-encoding') importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
-		else importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+		if(!schemaLocation)	return
+		
+		importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
 	}
 
 	def getImportSchema() {
 		if(importSchema) return importSchema
 
-		if(schema.definitions?.localSchemas.find{it.targetNamespace==namespace}) {
+		if(schema.definitions?.localSchemas.find{it.targetNamespace == namespace}) {
 			log.debug("Inlined schema [$namespace] import resolving from the WSDL.")
 			return importSchema = schema.definitions?.localSchemas.find{it.targetNamespace==namespace}
-		}
-
-		if(namespace in knownDocs.keySet()){
-			log.debug("Well-known schema [$namespace] import resolving from the class path.")
-			//TODO It should be possible to use other resourceResolvers expect than ClasspathResolver.
-			importSchema = (new SchemaParser(resourceResolver: new ClasspathResolver())).parse(knownDocs[namespace])
-			return importSchema
 		}
 	}
 

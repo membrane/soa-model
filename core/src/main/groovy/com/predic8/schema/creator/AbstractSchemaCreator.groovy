@@ -29,9 +29,11 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 	}
 
 	void createElement(Element element, Context ctx) {
-		def refType = element.schema.getType(element.type)
-		if(refType && !(refType instanceof BuiltInSchemaType)) {
-			refType.create(this, ctx)
+		if(element.type) {
+			def refType = element.schema.getType(element.type)
+			if(refType && !(refType instanceof BuiltInSchemaType)) {
+				refType.create(this, ctx)
+			}
 		}
 		else if(element.ref) {
 			element.schema.getElement(element.ref).create(this, ctx)

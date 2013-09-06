@@ -66,17 +66,19 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
       element.embeddedType.create(this, ctx)
       return
     }
-    def refType = element.schema.getType(element.type)
-    if(refType && !(refType instanceof BuiltInSchemaType)){
-			refType.create(this, ctx)
-      return
-    }
-    if(refType && (refType instanceof BuiltInSchemaType)){
-      def attrs = [:]
-      declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
-      if(element.type.localPart=='dateTime') yield('<!--dateTime-->')
-      builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(element.type),attrs)
-    }
+		if(element.type) {
+			def refType = element.schema.getType(element.type)
+	    if(refType && !(refType instanceof BuiltInSchemaType)){
+				refType.create(this, ctx)
+	      return
+	    }
+	    if(refType && (refType instanceof BuiltInSchemaType)){
+	      def attrs = [:]
+	      declNSifNeeded(getNSPrefix(element, ctx),element.namespaceUri,attrs,ctx)
+	      if(element.type.localPart=='dateTime') yield('<!--dateTime-->')
+	      builder."${getElementTagName(element, ctx)}"(TemplateUtil.getTemplateValue(element.type),attrs)
+	    }
+		}
     if(!element.type && !element.embeddedType) {
       builder."${getElementTagName(element, ctx)}"()
     }
