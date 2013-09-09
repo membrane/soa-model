@@ -46,7 +46,7 @@ abstract class Derivation extends SchemaComponent{
       case 'group' :
         def ref = token.getAttributeValue( null , 'ref')
         if(ref){
-          model = new GroupRef(schema : schema, ref : getTypeQName(ref, token))
+          model = new GroupRef(schema : schema, ref : getTypeQName(ref))
         }else{
           model = new Group(schema:schema)
         }

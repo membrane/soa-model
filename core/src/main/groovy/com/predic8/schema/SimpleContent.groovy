@@ -19,6 +19,7 @@ import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext
 import com.predic8.soamodel.DiffGeneratorContext;
 import com.predic8.schema.restriction.*
+import com.predic8.schema.restriction.Restriction as SimpleTypeRestriction
 
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
@@ -35,13 +36,17 @@ class SimpleContent extends SchemaComponent {
           extension.parse(token, params) ; break
       case 'restriction' :
         def base = getTypeQName(token.getAttributeValue( null , 'base'))
-        def type = base.localPart
-        if(schema.getNamespace(base.prefix) == SCHEMA_NS){
-          restriction = RestrictionUtil.getRestriction(type, [base: base])
-        } else {
-          restriction = new BaseRestriction(base : base)
-        }
-          restriction.parse(token, params) ; break
+				if(base) {
+					def type = base.localPart
+					if(base.namespaceURI == SCHEMA_NS){
+						restriction = RestrictionUtil.getRestriction(type, [base: base])
+					} else {
+						restriction = new BaseRestriction(base : base)
+					}
+				} else {
+					restriction = new SimpleTypeRestriction()
+				}
+        restriction.parse(token, params) ; break
     }
   }
 

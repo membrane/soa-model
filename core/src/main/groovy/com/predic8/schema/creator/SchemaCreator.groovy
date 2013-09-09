@@ -207,7 +207,6 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     declNSifNeeded('xsd',SCHEMA_NS,attrs,ctx)
 
     if(simpleType.qname) {
-//      declNSifNeeded(simpleType.getPrefix(simpleType.schema.targetNamespace),simpleType.schema.targetNamespace,attrs,ctx)
       attrs['name'] = getDisplayName(simpleType.qname.localPart, 'definitions.allSchemas.simpleTypes.qname.localPart', ctx.error)
     } else if(simpleType.name){
 			attrs['name'] = simpleType.name
@@ -221,12 +220,21 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createSimpleRestriction(BaseRestriction restriction, SchemaCreatorContext  ctx){
-    def prefix = restriction.base.namespaceURI == SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI) 
-    builder.'xsd:restriction'(base : "$prefix${prefix?':':''}${restriction.base.localPart}"){
-      restriction.facets.each{
-        it.create(this, ctx)
-      }
-    }
+		if(!restriction.base && restriction.childSimpleType) {
+			builder.'xsd:restriction'{
+				restriction.childSimpleType.create(this, ctx)
+				restriction.facets.each{
+					it.create(this, ctx)
+				}
+			}
+		} else {
+	    def prefix = restriction.base.namespaceURI == SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI) 
+	    builder.'xsd:restriction'(base : "$prefix${prefix?':':''}${restriction.base.localPart}"){
+	      restriction.facets.each{
+	        it.create(this, ctx)
+	      }
+	    }
+		}
   }
 
   void createExtension(Extension extension, SchemaCreatorContext  ctx){

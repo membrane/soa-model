@@ -27,7 +27,9 @@ import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class BaseRestriction  extends SchemaComponent {
   
-  SimpleType simpleType
+  SimpleType parentSimpleType
+  SimpleType childSimpleType
+	
   
   GQName base
   List<Facet> facets = []
@@ -37,7 +39,10 @@ class BaseRestriction  extends SchemaComponent {
   protected parseChildren(token, child, ctx){
     super.parseAttributes(token, ctx)
     switch (child ){
-      case 'enumeration':
+			case 'simpleType' :
+			childSimpleType = new SimpleType(schema: schema)
+			childSimpleType.parse(token, ctx) ; break
+      case 'enumeration' :
 		  def facet = new EnumerationFacet(schema: schema)
 		  facet.parse(token, ctx)
 		  facets << facet ; break
@@ -92,7 +97,7 @@ class BaseRestriction  extends SchemaComponent {
   }
   
   public boolean equals(obj) {
-    obj && getClass() == obj.getClass() && base == obj.base && facets == obj.facets
+    obj && getClass() == obj.getClass() && facets == obj.facets && base == obj.base &&  childSimpleType == obj.childSimpleType
   }
   
   protected getElementName(){
@@ -132,7 +137,7 @@ class BaseRestriction  extends SchemaComponent {
 	}
   
   String getBuildInTypeName(){
-    base.localPart  
+    base?.localPart 
   }
   
   def create(creator, CreatorContext ctx){
@@ -148,6 +153,6 @@ class BaseRestriction  extends SchemaComponent {
   def createXML(builder, path, formParams){}
 
   def String toString() {
-    "[base=$base,facets=$facets]"
+    "Restriction[base=$base,facets=$facets]"
   }
 }

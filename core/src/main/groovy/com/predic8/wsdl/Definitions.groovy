@@ -76,23 +76,23 @@ class Definitions extends WSDLElement{
 	 * WSDLs with the same namespace. 
 	 */
 	public List<Types> getTypes() {
-		registry.getWsdls(targetNamespace)*.localTypes.flatten()
+		registry.getWsdls(targetNamespace)*.localTypes.flatten() ?: []
 	}
 
 	public List<Message> getMessages() {
-		allWSDLs.localMessages.flatten()
+		allWSDLs.localMessages.flatten() ?: []
 	}
 
 	public List<PortType> getPortTypes() {
-		allWSDLs.localPortTypes.flatten()
+		allWSDLs.localPortTypes.flatten() ?: []
 	}
 
 	public List<Binding> getBindings() {
-		allWSDLs.localBindings.flatten()
+		allWSDLs.localBindings.flatten() ?: []
 	}
 
 	public List<Service> getServices() {
-		allWSDLs.localServices.flatten()
+		allWSDLs.localServices.flatten() ?: []
 	}
 
 	String getTargetNamespacePrefix() {
@@ -168,7 +168,7 @@ class Definitions extends WSDLElement{
 	 */
 	Element getElementForOperation(String operationName, portTypeName){
 		try {
-			return bindings.find{it.protocol == 'SOAP11'}.operations.find{it.name == operationName}.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
+			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
 		} catch (Exception e) {
 			return
 		}
@@ -247,11 +247,11 @@ class Definitions extends WSDLElement{
 	}
 
 	List<Schema> getLocalSchemas(){
-		localTypes?.schemas
+		localTypes.schemas ?: []
 	}
 
 	List<Schema> getSchemas(){
-		types.allSchemas.flatten()
+		types.allSchemas.flatten() ?: []
 	}
 
 

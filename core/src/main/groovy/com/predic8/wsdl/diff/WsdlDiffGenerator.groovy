@@ -40,7 +40,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			diffs << new Difference(description:"TargetNamespace changed from ${a.targetNamespace} to ${b.targetNamespace}.", breaks:true)
 
 		if ( a.services[0] && b.services[0] && a.services[0].name != b.services[0].name )
-			diffs << new Difference(description:"Servicename changed from ${a.services[0].name} to ${b.services[0].name}.", breaks:true)
+			diffs << new Difference(description:"Servicename changed from ${a.services[0].name} to ${b.services[0].name}.", breaks:false)
 		else {
 
 			diffs.addAll(comparePortTypes())

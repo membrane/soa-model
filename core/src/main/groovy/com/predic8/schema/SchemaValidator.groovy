@@ -19,11 +19,11 @@ class SchemaValidator {
 
 	List<ValidationError> validate(Schema schema, AbstractParserContext ctx) {
 		if(ctx.validated.contains(schema)) return
+		ctx.validated << schema
 		schema.importedSchemas*.validate(ctx)
 		validateElements(schema.elements, schema, ctx)
 		validateComplexTypes(schema.complexTypes, schema, ctx)
 		validateSimpleTypes(schema.simpleTypes, schema, ctx)
-		ctx.validated << schema
 		return ctx.errors.grep(ValidationError)
 	}
 

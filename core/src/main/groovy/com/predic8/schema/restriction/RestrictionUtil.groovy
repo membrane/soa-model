@@ -18,121 +18,130 @@ import com.predic8.schema.Schema
 
 class RestrictionUtil {
 
-  static def getRestriction(type, map) {
+  static def getRestriction(type, ctx) {
     switch(type) {
       case "string" :
-      return new StringRestriction(map)
+      return new StringRestriction(ctx)
       case "normalizedString" :
-      return new NormalizedStringRestriction(map)
+      return new NormalizedStringRestriction(ctx)
       case "token" :
-      return new TokenRestriction(map)
+      return new TokenRestriction(ctx)
       case "base64Binary" :
-      return new Base64BinaryRestriction(map)
+      return new Base64BinaryRestriction(ctx)
       case "hexBinary" :
-      return new HexBinaryRestriction(map)
+      return new HexBinaryRestriction(ctx)
       case "integer" :
-      return new IntegerRestriction(map)
+      return new IntegerRestriction(ctx)
       case "positiveInteger" :
-      return new PositiveIntegerRestriction(map)
+      return new PositiveIntegerRestriction(ctx)
       case "negativeInteger" :
-      return new NegativeIntegerRestriction(map)
+      return new NegativeIntegerRestriction(ctx)
       case "nonNegativeInteger" :
-      return new NonNegativeIntegerRestriction(map)
+      return new NonNegativeIntegerRestriction(ctx)
       case "nonPositiveInteger" :
-      return new NonPositiveIntegerRestriction(map)
+      return new NonPositiveIntegerRestriction(ctx)
       case "long" :
-      return new LongRestriction(map)
+      return new LongRestriction(ctx)
       case "unsignedLong" :
-      return new UnsignedLongRestriction(map)
+      return new UnsignedLongRestriction(ctx)
       case "int" :
-      return new IntRestriction(map)
+      return new IntRestriction(ctx)
       case "unsignedInt" :
-      return new UnsignedIntRestriction(map)
+      return new UnsignedIntRestriction(ctx)
       case "short" :
-      return new ShortRestriction(map)
+      return new ShortRestriction(ctx)
       case "unsignedShort" :
-      return new UnsignedShortRestriction(map)
+      return new UnsignedShortRestriction(ctx)
       case "byte" :
-      return new ByteRestriction(map)
+      return new ByteRestriction(ctx)
       case "unsignedByte" :
-      return new UnsignedByteRestriction(map)
+      return new UnsignedByteRestriction(ctx)
       case "decimal" :
-      return new DecimalRestriction(map)
+      return new DecimalRestriction(ctx)
       case "float" :
-      return new FloatRestriction(map)
+      return new FloatRestriction(ctx)
       
       case "double" :
-      return new DoubleRestriction(map)
+      return new DoubleRestriction(ctx)
       
       case "boolean" :
-      return new BooleanRestriction(map)
+      return new BooleanRestriction(ctx)
       
       case "duration" :
-      return new DurationRestriction(map)
+      return new DurationRestriction(ctx)
       
       case "dateTime" :
-      return new DateTimeRestriction(map)
+      return new DateTimeRestriction(ctx)
       
       case "date" :
-      return new DateRestriction(map)
+      return new DateRestriction(ctx)
       
       case "time" :
-      return new TimeRestriction(map)
+      return new TimeRestriction(ctx)
       
       case "gYear" :
-      return new GYearRestriction(map)
+      return new GYearRestriction(ctx)
       
       case "gYearMonth" :
-      return new GYearMonthRestriction(map)
+      return new GYearMonthRestriction(ctx)
       
       case "gMonth" :
-      return new GMonthRestriction(map)
+      return new GMonthRestriction(ctx)
       
       case "gMonthDay" :
-      return new GMonthDayRestriction(map)
+      return new GMonthDayRestriction(ctx)
       
       case "gDay" :
-      return new GDayRestriction(map)
+      return new GDayRestriction(ctx)
       
       case "Name" :
-      return new NameRestriction(map)
+      return new NameRestriction(ctx)
       
       case "QName" :
-      return new QNameRestriction(map)
+      return new QNameRestriction(ctx)
       
       case "NCName" :
-      return new NCNameRestriction(map)
+      return new NCNameRestriction(ctx)
       
       case "anyURI" :
-      return new AnyURIRestriction(map)
+      return new AnyURIRestriction(ctx)
       
       case "language" :
-      return new LanguageRestriction(map)
+      return new LanguageRestriction(ctx)
       
       case "ID" :
-      return new IDRestriction(map)
+      return new IDRestriction(ctx)
       
       case "IDREF" :
-      return new IDREFRestriction(map)
+      return new IDREFRestriction(ctx)
       
       case "IDREFS" :
-      return new IDREFSRestriction(map)
+      return new IDREFSRestriction(ctx)
       
       case "ENTITY" :
-      return new ENTITYRestriction(map)
+      return new ENTITYRestriction(ctx)
       
       case "ENTITIES" :
-      return new ENTITIESRestriction(map)
+      return new ENTITIESRestriction(ctx)
       
       case "NOTATION" :
-      return new NOTATIONRestriction(map)
+      return new NOTATIONRestriction(ctx)
       
       case "NMTOKEN" :
-      return new NMTOKENRestriction(map)
+      return new NMTOKENRestriction(ctx)
       
       case "NMTOKENS" :
-      return new NMTOKENSRestriction(map)
-      
+      	return new NMTOKENSRestriction(ctx)
+      	
+      case "anySimpleType" :
+      	return new AnySimpleTypeRestriction(ctx)
+      	
+      case "derivationControl" :
+      	return new DerivationControlRestriction(ctx)
+      	
+      case "allNNI" :
+      	return new AllNNIRestriction(ctx)
+      	
       default : throw new Exception("Restriction $type not implemented yet")
     }
   }
