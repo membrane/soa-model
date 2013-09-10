@@ -16,6 +16,7 @@
         <xsd:sequence>
           <xsd:element name="name" type="xsd:string" minOccurs="0"/>
           <xsd:element name="id" type="tns:idType"/>
+          <xsd:element name="newElementRequest" type="xsd:string" minOccurs="0"/>
         </xsd:sequence>
       </xsd:complexType>
     
@@ -23,6 +24,7 @@
         <xsd:sequence>
           <xsd:element name="feedback" type="xsd:string"/>
           <xsd:element name="id" type="tns:idType"/>
+          <xsd:element name="newElementResponse" type="xsd:string" minOccurs="0"/>
         </xsd:sequence>
       </xsd:complexType>
       

@@ -84,7 +84,8 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         if(a.elements.find{it.name == bP.name}) {
         diffs << new Difference(description:"${labelPositionElement} ${bP.name ? bP.name +' ' : ''}${labelChanged}." , type: 'sequence', breaks: true, safe: false)
       } else {
-				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${labelAdded}." , type: 'sequence', breaks: bP.minOccurs > '0', safe: bP.minOccurs == '0')
+				boolean isSafe = (bP.minOccurs == '0' && !(b.exchange.contains('response') || b.exchange.contains('fault')))
+				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${bP.elementName == 'element'? 'with minoccurs ' + bP?.minOccurs+' ' : ''}${labelAdded}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
       }
     }
     diffs

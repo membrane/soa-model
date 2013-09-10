@@ -27,8 +27,24 @@ class ReqResAwareDiffGeneratorTest extends GroovyTestCase {
 
 	void testDocumentationInDefinitions() {
 		def diffs = compare(oldWSDL, newWSDL)
-//		print diffs*.dump().toString()
+		//Definitions -> Types -> Schema -> CType -> Seq  -> Element
+		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 'Element newElementRequest with minoccurs 0 added.'
+		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].safe()
+		assert diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].description == 'Element newElementResponse with minoccurs 0 added.'
+		assert !diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].safe()
+//		dump(diffs)
 	}
+	
+//	void dump(diffs) {
+//		diffs.each {
+//			println ''
+//			println it.description
+//			println it.exchange
+//			println it.safe()
+//			println it.breaks()
+//			dump(it.diffs)
+//		}
+//	}
 
 	private def compare(a, b) {
 		new WsdlDiffGenerator(a: a, b: b).compare()
