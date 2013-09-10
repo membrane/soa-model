@@ -18,9 +18,9 @@ import com.predic8.soamodel.*
 import com.predic8.schema.*
 import groovy.xml.QName
 
-class ComplexTypesDiffGenerator extends ListDiffGenerator{
+class ComplexTypesDiffGenerator extends ListDiffGenerator {
 	
-	public ComplexTypesDiffGenerator(){
+	public ComplexTypesDiffGenerator() {
 		updateLabels()
 	}
 

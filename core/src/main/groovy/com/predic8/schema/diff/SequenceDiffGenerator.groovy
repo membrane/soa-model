@@ -22,8 +22,6 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def labelSequenceRemoved, labelSequenceAdded, labelSequenceChanged, labelParticle, labelReplacedWith, 
   			  labelPositionElement, labelChanged, labelElement, labelRemoved, labelAdded
 
-  def generator
-
   def removed = {new Difference(description:"${labelSequenceRemoved}.", type: 'sequence', breaks: true, safe:false, exchange: a.exchange)}
 
   def added = { new Difference(description:"${labelSequenceAdded}.", type: 'sequence', breaks: true, safe:false, exchange: b.exchange)}

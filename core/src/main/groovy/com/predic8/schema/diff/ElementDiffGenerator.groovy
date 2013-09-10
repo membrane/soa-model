@@ -22,7 +22,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 
 	private Log log = LogFactory.getLog(this.class)
 
-	public ElementDiffGenerator(){
+	public ElementDiffGenerator() {
 		updateLabels()
 	}
 

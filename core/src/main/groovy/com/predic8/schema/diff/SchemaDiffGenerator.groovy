@@ -56,7 +56,7 @@ class SchemaDiffGenerator extends AbstractDiffGenerator{
     log.debug("compare schema")
     
     if ( a.targetNamespace != b.targetNamespace ){
-      return diffs << new Difference(description:"${labelTN} ${a.targetNamespace} ${labelTo} ${b.targetNamespace}", type: 'targetNamespace', breaks:true)
+      diffs << new Difference(description:"${labelTN} ${a.targetNamespace} ${labelTo} ${b.targetNamespace}", type: 'targetNamespace', breaks:true)
     }
     if ( alreadyImportedNamespaces?.contains(a.targetNamespace)){
       return diffs

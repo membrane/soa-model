@@ -39,7 +39,7 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
 
   void testCompareSchema1WithSchema2() {
     def diffs = compare(schema1, schema2)
-    assertEquals(1, diffs.size())
+    assertEquals(16, diffs.size())
     assertTrue(diffs[0].breaks())
   }
   
