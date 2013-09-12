@@ -21,6 +21,7 @@ import com.predic8.schema.*
 import com.predic8.wsdl.Part
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
+
 import groovy.xml.MarkupBuilderHelper
 
 class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
@@ -28,6 +29,8 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   def log = LogFactory.getLog(this.class)
   
   void createElement(Element element, RequestCreatorContext ctx){
+		
+  	ctx.elements.add(element)
 		
     if(element.fixedValue){
 			yield("\n<!-- The value of this element is fixed and can not be modified. -->")
@@ -142,7 +145,18 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   void createPart(Part part, RequestCreatorContext ctx){
     builder."${part.name}"(ctx.formParams["${ctx.path}${part.name}"])
   }
-
+	
+	@Override
+	protected getElementTagName(Element element, ctx){
+		/*Only if the element is from the same namespace as the
+		* top-level-element of the request, it doesn't need a prefix.
+		*/
+		if(!element.toplevel && element.schema.elementFormDefault=="unqualified" && ctx.elements[0].namespaceUri == element.namespaceUri)
+			return element.name
+		else
+			return "${getNSPrefix(element, ctx)}:${element.name}"
+	}
+	
   private getFormParamValue(ctx) {
     ctx.formParams["${ctx.path}${ctx.element.name}"]
   }

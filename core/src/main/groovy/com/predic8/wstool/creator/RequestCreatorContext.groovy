@@ -22,9 +22,12 @@ class RequestCreatorContext extends SchemaCreatorContext implements Cloneable{
   def path = "xpath:/"
   def formParams = [:]
   def element
+	
+	//Helps to detect if a ns prefix for the element is needed. 
+	def elements = []
   
   public Object clone() {
-    new RequestCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId, path:path, element: element, formParams: formParams)
+    new RequestCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId, path:path, element: element, formParams: formParams, elements: elements)
   }
   
   public RequestCreatorContext clone(Element e) {

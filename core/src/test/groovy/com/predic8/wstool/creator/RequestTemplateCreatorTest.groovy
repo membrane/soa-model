@@ -31,8 +31,7 @@ class RequestTemplateCreatorTest extends GroovyTestCase {
   }
 
   void testElementRequestTemplate() {
-    def operation = definitions.getOperation(operationName, portType)
-    def element = definitions.getElementForOperation(operationName, portType)
+		def element = definitions.getInputElementForOperation(operationName)
     def requestTemplate = new XmlSlurper().parseText(element.requestTemplate)
     assertEquals('?XXX?', requestTemplate.blz.text())
     assertEquals('?999?', requestTemplate.@testAttribute.toString())

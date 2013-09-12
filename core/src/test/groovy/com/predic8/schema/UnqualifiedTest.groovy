@@ -42,8 +42,8 @@ class UnqualifiedTest extends GroovyTestCase{
     assert request =~ /<city/
     assert request =~ /<phone/    
     assert request =~ /<numbers/
-    
   }
+	
   void testRequestCreatorQualified() {
     def strWriter = new StringWriter()
     def creator = new RequestCreator(builder: new MarkupBuilder(strWriter))
@@ -57,7 +57,6 @@ class UnqualifiedTest extends GroovyTestCase{
     assert request =~ /<.*?:city/
     assert request =~ /<.*?:phone/    
     assert request =~ /<.*?:numbers/
-    
   }
 
   void testRequestTemplateCreatorQualified() {

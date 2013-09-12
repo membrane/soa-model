@@ -235,6 +235,17 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
 	void createComplexContentRestriction(Restriction restriction, RequestTemplateCreatorContext ctx){
 		if(restriction.base) restriction.schema.getType(restriction.base).create(this, ctx)
 	}
+	
+	@Override
+	protected getElementTagName(Element element, ctx){
+		/*Only if the element is from the same namespace as the 
+		* top-level-element of the request, it doesn't need a prefix.
+		*/
+		if(!element.toplevel && element.schema.elementFormDefault=="unqualified" && ctx.elements[0].namespaceUri == element.namespaceUri)
+			return element.name
+		else
+			return "${getNSPrefix(element, ctx)}:${element.name}"
+	}
   
   private yield(s) {
     new MarkupBuilderHelper(builder).yieldUnescaped(s)

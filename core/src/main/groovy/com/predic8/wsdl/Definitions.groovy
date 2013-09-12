@@ -161,15 +161,34 @@ class Definitions extends WSDLElement{
 		schemas.find{ it.getType(qname) }?.getType(qname)
 	}
 
-	/**
-	 * @param portTypeName Can be the portType name as a String or 
-	 * the fully qualified name as a QName
-	 * @return The part element of the soap:body in the soap11 binding for the given operation, if there is one.
-	 */
+	//TODO to be removed! Use getInputElementForOperation instead!
 	Element getElementForOperation(String operationName, portTypeName){
 		try {
 			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
 		} catch (Exception e) {
+			return
+		}
+	}
+	
+	/**
+	 * @return The part element of the soap:body in the soap11 binding for the input of the given operation, if there is one.
+	 */
+	Element getInputElementForOperation(String operationName){
+		getElementforOperationExchange(operationName, 'input')
+	}
+	
+	/**
+	 * @return The part element of the soap:body in the soap11 binding for the output of the given operation, if there is one.
+	 */
+	Element getOutputElementForOperation(String operationName){
+		getElementforOperationExchange(operationName, 'output')
+	}
+	
+	Element getElementforOperationExchange(String operationName, String exchange) {
+		try {
+			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}."$exchange".bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
+		} catch (Exception e) {
+			e.printStackTrace();
 			return
 		}
 	}
@@ -247,7 +266,7 @@ class Definitions extends WSDLElement{
 	}
 
 	List<Schema> getLocalSchemas(){
-		localTypes.schemas ?: []
+		localTypes?.schemas ?: []
 	}
 
 	List<Schema> getSchemas(){
