@@ -173,7 +173,8 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 					
 					
 					h2 "${exchange.capitalize()} Template"
-					p "This is the template request for the $exchange message"
+					p '''The message templates below show how an original message   
+						and a message based on the modified WSDL will look like.'''
 					table('class' : "table table-striped table-bordered")  {
 						thead{
 							tr{
@@ -195,7 +196,8 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 						}
 					}
 					h2 "Schema Definition"
-					p "This is a generated schema definition for the element, that is used as the operation ${exchange}."
+					p '''The following schemas are only showing definitions that are 
+						relevant to the message. The real schemas might be bigger.'''
 					table('class' : "table table-striped table-bordered")  {
 						thead{
 							tr{
