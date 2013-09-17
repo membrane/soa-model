@@ -31,13 +31,14 @@ abstract class AbstractDiffCLI {
   def doc2
   String url1
   String url2
+	List<Difference> diffs
   String reportFolder
   def builder
 
   public start(args){
     setUp(args)
-    List<Difference> lst = getDiffGenerator(doc1, doc2).compare()
-    Diff2Xml(lst)
+    diffs = getDiffGenerator(doc1, doc2).compare()
+    Diff2Xml(diffs)
 		System.out.println("Report generated in $reportFolder");
   }
   

@@ -32,7 +32,7 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
       return [new Difference(description:"SimpleContent changed from 'extension' to 'restriction'", type: 'simpleContent', breaks:true)]
     }
     if(compareChild()){
-      return [new Difference(description:"SimpleContent has changed: " , type: 'simpleContent', diffs: compareChild())]
+      return [new Difference(description:"SimpleContent: " , type: 'simpleContent', diffs: compareChild())]
     }
     []
   }

@@ -40,11 +40,12 @@ class SimpleContent extends SchemaComponent {
 					def type = base.localPart
 					if(base.namespaceURI == SCHEMA_NS){
 						restriction = RestrictionUtil.getRestriction(type, [base: base])
+						restriction.schema = schema
 					} else {
-						restriction = new BaseRestriction(base : base)
+						restriction = new BaseRestriction(base : base, schema: schema)
 					}
 				} else {
-					restriction = new SimpleTypeRestriction()
+					restriction = new SimpleTypeRestriction(schema: schema)
 				}
         restriction.parse(token, params) ; break
     }

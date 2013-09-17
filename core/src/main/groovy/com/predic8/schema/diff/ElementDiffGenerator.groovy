@@ -34,7 +34,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 	def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false, exchange: b.exchange)}
 
 	def changed = { diffs ->
-		new Difference(description:"${labelElement} ${a.name} ${labelHasChanged}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
+		new Difference(description:"${labelElement} ${a.name}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
 	}
 
 	protected getTypeAndName() {

@@ -29,7 +29,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: true, safe:false, exchange: b.exchange)}
 
   def changed = { diffs ->
-    new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''} ${labelHasChanged}:" , type: 'complexType' ,  diffs : diffs, exchange: a.exchange)
+    new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''}:" , type: 'complexType' ,  diffs : diffs, exchange: a.exchange)
   }
 
   List<Difference> compareUnit(){

@@ -14,7 +14,7 @@
 
 package com.predic8.schema.creator
 
-import java.util.Map;
+import com.predic8.schema.Schema
 import com.predic8.soamodel.*
 
 class SchemaCreatorContext extends CreatorContext implements Cloneable {
@@ -29,8 +29,10 @@ class SchemaCreatorContext extends CreatorContext implements Cloneable {
   
   def getSchemaId = {1}
 	
+	Schema subSchema
+	
   public Object clone() {
-    new SchemaCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId)
+    new SchemaCreatorContext(error:error,declNS:copyDeclNS(),createLinks:createLinks,getSchemaId:getSchemaId,subSchema:subSchema)
   }
 }
 

@@ -63,7 +63,7 @@ class SequenceDiffGeneratorTest extends GroovyTestCase{
     def diffs = diffGen.compare()
     assertEquals(1, diffs.size())
     assertEquals(1, diffs[0].diffs.size())
-    assert diffs.diffs.description.toString().contains('changed')
+    assert diffs.diffs.description.toString().contains('Element number:')
   }
 
   void testElementRemoved(){

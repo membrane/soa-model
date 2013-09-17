@@ -48,7 +48,7 @@ class SimpleContentTest extends GroovyTestCase {
     b.extension.base = new QName('http://www.w3.org/2001/XMLSchema','int')
     def diffs = a.compare(diffGen, b)
     assertEquals(1, diffs.size())
-    assertTrue(diffs.toString().contains("SimpleContent has changed"))
+    assertTrue(diffs.toString().contains("SimpleContent:"))
     assertTrue(diffs[0].dump().contains("Extension base has changed from {http://www.w3.org/2001/XMLSchema}decimal to {http://www.w3.org/2001/XMLSchema}int."))
   }
 }

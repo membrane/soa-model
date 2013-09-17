@@ -49,7 +49,7 @@ class ImportsDiffGenerator extends AbstractDiffGenerator{
     def schemaDiffGenerator = new SchemaDiffGenerator(a:aSchema, b:bSchema, alreadyImportedNamespaces: alreadyImportedNamespaces)
     def lDiffs = schemaDiffGenerator.compare()
     if(lDiffs) {
-      return [new Difference(description:"${labelImportedSchema} ${ns} ${labelHasChanged}:" , type: 'import', diffs : lDiffs)]
+      return [new Difference(description:"${labelImportedSchema} ${ns}:" , type: 'import', diffs : lDiffs)]
     }
     []
   }

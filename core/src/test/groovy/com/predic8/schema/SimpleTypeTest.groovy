@@ -79,7 +79,7 @@ class SimpleTypeTest extends GroovyTestCase{
     def diffGen = new SchemaDiffGenerator(a: schemaA, b: schemaB)
     def diffs = diffGen.compare()
 		assert diffs[0].dump().contains('SimpleType {http://predic8.com}Sprache added.')
-		assert diffs[1].dump().contains('SimpleType Language has changed.')
+		assert diffs[1].dump().contains('SimpleType Language:')
 		assert diffs[1].diffs[0].dump().contains('Content of annotation has changed.')
 		assert diffs[1].diffs[1].dump().contains('Enumerartion with value: EnglishTOSpanish added.')
   }

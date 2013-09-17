@@ -29,7 +29,7 @@ class AllDiffGenerator extends AbstractModelDiffGenerator{
   
   
   def changed = { diffs ->
-    new Difference(description:"'All' ${labelHasChanged}:" , type: 'all' ,  diffs : diffs, a: a, b:b, exchange: a.exchange)
+    new Difference(description:"'All':" , type: 'all' ,  diffs : diffs, a: a, b:b, exchange: a.exchange)
   }
   
   public AllDiffGenerator(){

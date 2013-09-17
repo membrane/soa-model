@@ -89,7 +89,7 @@ class ComplexContentTest extends GroovyTestCase{
     def diffGen = new SchemaDiffGenerator(a: schemaA, b: schemaB)
     def msgs = diffGen.compare()
     assertEquals(3, msgs.size())
-    assertTrue(msgs[1].dump().contains("Extension has changed"))
+    assertTrue(msgs[1].dump().contains("Extension"))
     assertTrue(msgs[2].dump().contains("Content model of complexContent changed from 'mixed' to 'element-only'"))
     assertTrue(msgs[2].dump().contains("ComplexContent changed from 'restriction' to 'extension'"))
   }

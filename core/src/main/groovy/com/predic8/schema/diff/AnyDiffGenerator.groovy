@@ -40,7 +40,7 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 
 	// changes may be breaking depend on their nature.  processing of attributes will determine...
 	def changed = { diffs ->
-		new Difference(description:"${labelAnyElement} ${bundle.getString("com.predic8.schema.diff.labelHasChanged")}:" , type: 'any' ,  diffs : diffs, safe: true, breaks: false, exchange: a.exchange)
+		new Difference(description:"${labelAnyElement}:" , type: 'any' ,  diffs : diffs, safe: true, breaks: false, exchange: a.exchange)
 	}
 
 	// array of processContents values in order of stringency from most leniant to most strict

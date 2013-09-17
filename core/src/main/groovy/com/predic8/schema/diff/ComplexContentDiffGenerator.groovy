@@ -24,8 +24,8 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
 
   def generator
 
-  private def labelContentModelElement, labelContentModelElementMixed, labelComplexContextChangeExtension, 
-  			  labelComplexContextChangeRestriction, labelComplexContextChange, labelHasChanged
+  private def labelContentModelElement, labelContentModelElementMixed, labelComplexContentChangeExtension, 
+  			  labelComplexContentChangeRestriction, labelComplexContentChange, labelHasChanged
   
   def compare(){
     def diffs = compareMixed()
@@ -41,27 +41,27 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
 
   private compareDerivation(){
     if(a.hasRestriction()  && b.hasExtension()) {
-      return [new Difference(description:"${labelComplexContextChangeExtension}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+      return [new Difference(description:"${labelComplexContentChangeExtension}", type: 'complexContent', breaks:true, exchange: a.exchange)]
     }
     if(a.hasExtension() && b.hasRestriction()) {
-      return [new Difference(description:"${labelComplexContextChangeRestriction}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+      return [new Difference(description:"${labelComplexContentChangeRestriction}", type: 'complexContent', breaks:true, exchange: a.exchange)]
 		  
     }
 		def lDiffs = compareModel() 
     if(lDiffs){
-      return [new Difference(description:"${labelComplexContextChange}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
+      return [new Difference(description:"${labelComplexContentChange}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
     }
     []
   }
 
   private compareModel(){
     if(a.derivation.model?.class != b.derivation.model?.class){
-      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', 
+      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()}: " , type: 'complexContent', 
 				diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true, exchange: a.exchange)], exchange: a.exchange)]
     } 
 		def lDiffs = a.derivation.model?.compare(generator, b.derivation.model, ctx.clone())
 		if(lDiffs){
-			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()} ${labelHasChanged}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
+			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
 		}
 		[]
   }
@@ -69,9 +69,9 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   protected def updateLabels(){
 	  labelContentModelElement = bundle.getString("com.predic8.schema.diff.labelContentModelElement")
 	  labelContentModelElementMixed = bundle.getString("com.predic8.schema.diff.labelContentModelElementMixed")
-	  labelComplexContextChangeExtension = bundle.getString("com.predic8.schema.diff.labelComplexContextChangeExtension")
-	  labelComplexContextChangeRestriction = bundle.getString("com.predic8.schema.diff.labelComplexContextChangeRestriction")
-	  labelComplexContextChange = bundle.getString("com.predic8.schema.diff.labelComplexContextChange")
+	  labelComplexContentChangeExtension = bundle.getString("com.predic8.schema.diff.labelComplexContentChangeExtension")
+	  labelComplexContentChangeRestriction = bundle.getString("com.predic8.schema.diff.labelComplexContentChangeRestriction")
+	  labelComplexContentChange = bundle.getString("com.predic8.schema.diff.labelComplexContentChange")
 	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
 
   }

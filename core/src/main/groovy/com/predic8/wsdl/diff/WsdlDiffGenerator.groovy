@@ -52,16 +52,16 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		if ( a.services[0] && b.services[0] ) {
 			lDiffs.addAll(comparePorts())
 		}
-		if(lDiffs) diffs << new Difference(description:"Service ${a.services[0].name} has changed:", type : 'service', diffs: lDiffs)
+		if(lDiffs) diffs << new Difference(description:"Service ${a.services[0].name}:", type : 'service', diffs: lDiffs)
 		
-		if(diffs) return [new Difference(description:"Definitions has changed:", type : 'definitions', diffs: diffs)]
+		if(diffs) return [new Difference(description:"Definitions:", type : 'definitions', diffs: diffs)]
 		[]
 	}
 
 	private List<Difference> compareTypes(){
 		def diffs = compareDocumentation(a.localTypes, b.localTypes)
 		def lDiffs = compareSchemas()
-		if(lDiffs) diffs << new Difference(description:"Types has changed: ", breaks:false,  diffs: lDiffs, type: 'types')
+		if(lDiffs) diffs << new Difference(description:"Types: ", breaks:false,  diffs: lDiffs, type: 'types')
 		diffs
 	}
 
@@ -77,7 +77,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			Port aPort = aPorts.find{ it.name == portName}
 			Port bPort = bPorts.find{ it.name == portName}
 			def lDiffs = compareDocumentation(aPort, bPort)
-			if(lDiffs) diffs << new Difference(description:"Port $portName has changed:", diffs : lDiffs)
+			if(lDiffs) diffs << new Difference(description:"Port $portName:", diffs : lDiffs)
 			if(aPort.address.location != bPort.address.location)
 				diffs << new Difference(description:"The location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.", breaks:true, safe:false)
 		}
@@ -105,7 +105,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(aPT, bPT)
 		diffs.addAll(compareOperations(aPT.operations, bPT.operations))
 		if(diffs) return [
-				new Difference(description:"PortType ${aPT.name} has changed: " , type: 'portType' ,  diffs : diffs)
+				new Difference(description:"PortType ${aPT.name}:" , type: 'portType' ,  diffs : diffs)
 			]
 		[]
 	}
@@ -144,7 +144,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		}
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
 		if(diffs) return [
-				new Difference(description:"Operation ${aOperation.name} has changed: ", type: 'operation', diffs: diffs)
+				new Difference(description:"Operation ${aOperation.name}: ", type: 'operation', diffs: diffs)
 			]
 		[]
 	}
@@ -165,10 +165,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 				new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange, type: ptmName)
 			]
 		def lDiffs = compareDocumentation(aPTM, bPTM)
-		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: 'message', breaks : true, exchange:exchange)
+		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: ptmName, breaks : true, exchange:exchange)
 		else lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
 		if(lDiffs) return [
-				new Difference(description:"${ptmName.capitalize()} has changed:", diffs: lDiffs, exchange:exchange, type: ptmName)
+				new Difference(description:"${ptmName.capitalize()}:", diffs: lDiffs, exchange:exchange, type: ptmName)
 			]
 		[]
 	}
@@ -177,10 +177,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = []
 		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
 		(aFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} removed. ", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange)
 		}
 		(bFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} added. ", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange)
 		}
 		faults.each { f ->
 			diffs.addAll(comparePortTypeMessage(aFaults.find{it.message.name == f}, bFaults.find{it.message.name == f}, exchange))
@@ -192,7 +192,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(a, b)
 		diffs.addAll( compareParts(a.parts, b.parts, exchange))
 		if(diffs) return [
-				new Difference(description:"Message ${a.name} has changed: ", type: 'message', diffs : diffs, exchange:exchange)
+				new Difference(description:"Message ${a.name}:", type: 'message', diffs : diffs, exchange:exchange)
 			]
 		[]
 	}
@@ -240,7 +240,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange)
 			diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
-		if(diffs) return [new Difference(description:"Part ${a.name} has changed: ", type: 'part', diffs : diffs, exchange:exchange)]
+		if(diffs) return [new Difference(description:"Part ${a.name}: ", type: 'part', diffs : diffs, exchange:exchange)]
 		[]
 	}
 

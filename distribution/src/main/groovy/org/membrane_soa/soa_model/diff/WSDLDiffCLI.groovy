@@ -11,18 +11,23 @@
 
 package org.membrane_soa.soa_model.diff
 
-import javax.xml.transform.*
-import javax.xml.transform.stream.StreamResult
-import javax.xml.transform.stream.StreamSource
 import groovy.xml.MarkupBuilder
-import com.predic8.soamodel.Difference;
-import com.predic8.wsdl.WSDLParser;
-import com.predic8.wsdl.diff.WsdlDiffGenerator;
+
+import javax.xml.transform.*
+
+import com.predic8.schema.Element
+import com.predic8.schema.Schema
+import com.predic8.schema.creator.*
+import com.predic8.soamodel.Difference
+import com.predic8.wsdl.*
+import com.predic8.wsdl.diff.WsdlDiffGenerator
 
 class WSDLDiffCLI extends AbstractDiffCLI{
 
 	public static void main(String[] args) {
-		WSDLDiffCLI diffCLI = new WSDLDiffCLI().start(args)
+		WSDLDiffCLI diffCLI = new WSDLDiffCLI()
+		diffCLI.start(args)
+		diffCLI.createOperationPages()
 	}
 
 	void Diff2Xml(List<Difference> diffs){
@@ -76,28 +81,20 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 				ops.each { opName ->
 
 					Operation('name':opName){
-						
+
 						Difference change = findOperationChanges(diffs, opName)
 						if(change) {
-							if(change.safe()){
-								safe()
-							}
-							if(change.breaks()){
-								breaks()
-							}
-							
 							if(change.description.contains("Operation $opName added.")){
 								added()
+								createOperation(builder, doc2, opName, change)
 							}
-							if(change.description.contains("Operation $opName removed.")){
+							else if(change.description.contains("Operation $opName removed.")){
 								removed()
+								createOperation(builder, doc1, opName, change)
 							}
-							if(change.description.contains("Operation $opName has changed")){
-								change.diffs.each {
-									if(it.type in ['input', 'output', 'fault']) {
-										"${it.type}"()
-									}
-								}
+							else if(change.description.contains("Operation $opName:")){
+//								if(change.description.contains("Operation $opName has changed")){
+								createOperation(builder, doc1, opName, change)
 							}
 						}
 					}
@@ -114,16 +111,131 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		writer.writeTo(outputStream);
 		transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
 	}
-
+	
+	private createOperation(MarkupBuilder builder, Definitions wsdl, String opName, Difference change) {
+		Operation op = wsdl.operations.find{it.name == opName}
+		def inputDiff = change.diffs.find{it.type == 'input'}
+		builder.input(message: op.input?.message?.name , compatibility: computeCompatibility(inputDiff))
+		def outputDiff = change.diffs.find{it.type == 'output'}
+		builder.output(message: op.output?.message?.name , compatibility: computeCompatibility(outputDiff))
+		//TODO Faults are missing!
+	}
+	
+	private computeCompatibility(Difference diff){
+		if(!diff) return ''
+		diff.safe() ? 'safe' : (diff.breaks() ? 'breaking' : 'not clear')
+	}
+	
 	private findOperationChanges(diffs, opName) {
 		for(def diff in diffs) {
-			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName ")){
+			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName")){
 				return diff
 			}
 		}
 		if(diffs.diffs) findOperationChanges(diffs.diffs.flatten(), opName)
 	}
 
+	void createOperationPages() {
+		new File("$reportFolder/operations").mkdir()
+		def opNames = (doc1.operations.name + doc2.operations.name).unique().sort()
+		opNames.each { opName ->
+			generateOperationPages(opName, 'input')
+			generateOperationPages(opName, 'output')
+		}
+	}
+	
+	private generateOperationPages(String opName, exchange) {
+		def writer = new FileWriter(new File("$reportFolder/operations/$opName-${exchange}.html"))
+		builder = new MarkupBuilder(writer)
+		builder.html(xmlns:"http://www.w3.org/1999/xhtml",lang:"en",'xml:lang':"en"){
+			head {
+				title  "$opName($exchange)"
+				link(rel: "stylesheet", type:"text/css", href:"../web/a.css")
+				link(rel: "stylesheet", href: "../web/jquery.treeview.css" )
+				script( '', type: "text/javascript", src: "../web/jquery.js")
+				script( '', type:"text/javascript", src:"../web/jquery.treeview.js")
+				script( 'jQuery(document).ready(function(){jQuery("#diffs").treeview();});', type: "text/javascript")
+				script('' , src:"../web/run_prettify.js")
+			}
+			body {
+				div('class' : "container") {
+					h1 "${exchange.capitalize()} Message of Operation '$opName'"
+					Difference opChange = findOperationChanges(diffs, opName)
+					if(!opChange|| !opChange.diffs.type.contains(exchange)) h2 'There are no differences.'
+					else {
+						h2 "Differences:"
+						div {
+							opChange.diffs.findAll {it.type == exchange}.each { diff -> 
+								dumpOperationDiff(diff)
+							}
+						}
+					}
+					
+					
+					h2 "${exchange.capitalize()} Template"
+					p "This is the template request for the $exchange message"
+					table('class' : "table table-striped table-bordered")  {
+						thead{
+							tr{
+								th('Original')
+								th('Modified')
+							}
+						}
+						tbody{
+							tr{
+								td{
+									Element element = doc1.getElementforOperationExchange(opName, exchange)
+									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
+								}
+								td{
+									Element element = doc2.getElementforOperationExchange(opName, exchange)
+									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
+								}
+							}
+						}
+					}
+					h2 "Schema Definition"
+					p "This is a generated schema definition for the element, that is used as the operation ${exchange}."
+					table('class' : "table table-striped table-bordered")  {
+						thead{
+							tr{
+								th('Original')
+								th('Modified')
+							}
+						}
+						tbody{
+							tr{
+								td{
+									Element element = doc1.getElementforOperationExchange(opName, exchange)
+									if(element){
+										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element) )
+									}
+								}
+								td{
+									Element element = doc2.getElementforOperationExchange(opName, exchange)
+									if(element) {
+										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element))
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private dumpOperationDiff(Difference diff) {
+		builder.ul (id:"diffs" , 'class':"treeview") {
+			li {
+				div (diff.description) {
+					if(!diff.diffs && diff.breaks()) img( src: "../web/images/lightning.png",  title: "This change will invalidate the interface")
+					if(!diff.diffs && diff.safe()) img( src: "../web/images/tick.png",  title: "This change will not influence the interface")
+				}
+				diff.diffs.each { dumpOperationDiff(it) }
+			}
+		}
+	}
 
 	public String getCliUsage() {
 		'wsdldiff <first-wsdl> <second-wsdl> [report directory]'

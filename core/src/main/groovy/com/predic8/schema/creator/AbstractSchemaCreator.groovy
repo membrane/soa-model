@@ -12,11 +12,11 @@
 package com.predic8.schema.creator;
 
 import com.predic8.schema.*
-import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.restriction.BaseRestriction
-import com.predic8.schema.restriction.StringRestriction;
+import com.predic8.schema.restriction.StringRestriction
+import com.predic8.schema.restriction.facet.*
 import com.predic8.soamodel.AbstractCreator
-import com.predic8.wsdl.usage.OperationUseVisitorContext;
+import com.predic8.soamodel.Consts
 
 abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> extends AbstractCreator{
 
@@ -82,7 +82,6 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 
 	void createList(SchemaList list,Context ctx){
 		throw new Exception("List not supported!")
-		//list.simpleType.create(this, ctx)
 	}
 
 	void createMaxLengthFacet(MaxLengthFacet facet, Context ctx){
@@ -104,7 +103,9 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 	}
 
 	void createSimpleRestriction(BaseRestriction restriction, Context ctx) {
-		throw new RuntimeException("createExtension not implemented yet in ${this.class}")
+		if(restriction.base && restriction.base.namespaceURI != Consts.SCHEMA_NS) {
+			restriction.schema.getType(restriction.base)?.create(this, ctx)
+		}
 	}
 
 	public void createStringRestriction(StringRestriction res, Context  ctx) {
@@ -112,11 +113,15 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 	}
 
 	void createExtension(Extension extension, Context ctx){
-		throw new RuntimeException("createExtension not implemented yet in ${this.class}")
+		if(extension.base && extension.base.namespaceURI != Consts.SCHEMA_NS) {
+			extension.schema.getType(extension.base)?.create(this, ctx)
+		}
 	}
 
 	void createComplexContentRestriction(Restriction restriction, Context ctx){
-		throw new RuntimeException("createComplexContentRestriction not implemented yet in ${this.class}")
+		if(restriction.base && restriction.base.namespaceURI != Consts.SCHEMA_NS) {
+			restriction.schema.getType(restriction.base)?.create(this, ctx)
+		}
 	}
 
 	void createAnnotation(Annotation annotation, Context ctx){
@@ -124,7 +129,6 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 	}
 
 	void createSimpleContent(SimpleContent simpleContent, Context ctx){
-//		throw new RuntimeException("createSimpleContent in ${this.class} not implemented yet!")
 		simpleContent.extension?.create(this, ctx) 
 		simpleContent.restriction?.create(this, ctx) 
 	}

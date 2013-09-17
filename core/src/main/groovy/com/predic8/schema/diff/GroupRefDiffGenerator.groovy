@@ -32,7 +32,7 @@ class GroupRefDiffGenerator extends UnitDiffGenerator{
 
   List<Difference> compareUnit(){
     if(a.ref == b.ref) return []
-    [new Difference(description:"${labelRef} {labelGroup} ${labelHasChanged}:" , type: 'group', exchange: a.exchange)]
+    [new Difference(description:"${labelRef} {labelGroup}:" , type: 'group', exchange: a.exchange)]
   }
   
   protected def updateLabels(){
