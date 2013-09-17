@@ -83,21 +83,15 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 					Operation('name':opName){
 
 						Difference change = findOperationChanges(diffs, opName)
-//						if(change) {
-							if(change && change.description.contains("Operation $opName added.")){
-								added()
-								createOperation(builder, doc2, opName, change)
-							}
-							else {
-								if(change && change.description.contains("Operation $opName removed.")) builder.removed()
-								
-//								if(change.description.contains("Operation $opName:")){
-//								if(change.description.contains("Operation $opName has changed")){
-//									createOperation(builder, doc1, opName, change)
-//								}
-								createOperation(builder, doc1, opName, change)
-							}
-//						}
+						if(change && change.description.contains("Operation $opName added.")){
+							added()
+							createOperation(builder, doc2, opName, change)
+						}
+						else {
+							if(change && change.description.contains("Operation $opName removed.")) builder.removed()
+
+							createOperation(builder, doc1, opName, change)
+						}
 					}
 				}
 			}
@@ -112,7 +106,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		writer.writeTo(outputStream);
 		transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
 	}
-	
+
 	private createOperation(MarkupBuilder builder, Definitions wsdl, String opName, Difference change) {
 		Operation op = wsdl.operations.find{it.name == opName}
 		def inputDiff = change?.diffs?.find{it.type == 'input'}
@@ -121,12 +115,12 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		builder.output(message: op.output?.message?.name , compatibility: computeCompatibility(outputDiff))
 		//TODO Faults are missing!
 	}
-	
+
 	private computeCompatibility(Difference diff){
 		if(!diff) return ''
 		diff.safe() ? 'safe' : (diff.breaks() ? 'breaking' : 'not clear')
 	}
-	
+
 	private findOperationChanges(diffs, opName) {
 		for(def diff in diffs) {
 			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName")){
@@ -144,7 +138,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 			generateOperationPages(opName, 'output')
 		}
 	}
-	
+
 	private generateOperationPages(String opName, exchange) {
 		def writer = new FileWriter(new File("$reportFolder/operations/$opName-${exchange}.html"))
 		builder = new MarkupBuilder(writer)
@@ -166,13 +160,11 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 					else {
 						h2 "Differences:"
 						div {
-							opChange.diffs.findAll {it.type == exchange}.each { diff -> 
-								dumpOperationDiff(diff)
-							}
+							opChange.diffs.findAll {it.type == exchange}.each { diff ->  dumpOperationDiff(diff) }
 						}
 					}
-					
-					
+
+
 					h2 "${exchange.capitalize()} Template"
 					p '''The message templates below show how an original message   
 						and a message based on the modified WSDL will look like.'''
@@ -227,7 +219,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 			}
 		}
 	}
-	
+
 	private dumpOperationDiff(Difference diff) {
 		builder.ul (id:"diffs" , 'class':"treeview") {
 			li {

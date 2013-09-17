@@ -252,7 +252,14 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			def aSchemas = a.localSchemas
 			def bSchemas = b.localSchemas
 			def diffs = []
-	
+			(aSchemas.targetNamespace - bSchemas.targetNamespace).each { tns ->
+				diffs << new Difference(description:"Schema ${tns ? tns+' ' : ''}removed." , type: 'schema')
+			}
+			
+			(bSchemas.targetNamespace - aSchemas.targetNamespace).each { tns ->
+				diffs << new Difference(description:"Schema ${tns ? tns+' ' : ''}added." , type: 'schema')
+			}
+			
 			def schemas = aSchemas.targetNamespace.intersect(bSchemas.targetNamespace)
 			schemas.each{  tns ->
 				def aSchema = aSchemas.find{it.targetNamespace == tns}
