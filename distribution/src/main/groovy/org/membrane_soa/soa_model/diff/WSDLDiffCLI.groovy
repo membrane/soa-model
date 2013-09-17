@@ -83,20 +83,21 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 					Operation('name':opName){
 
 						Difference change = findOperationChanges(diffs, opName)
-						if(change) {
-							if(change.description.contains("Operation $opName added.")){
+//						if(change) {
+							if(change && change.description.contains("Operation $opName added.")){
 								added()
 								createOperation(builder, doc2, opName, change)
 							}
-							else if(change.description.contains("Operation $opName removed.")){
-								removed()
-								createOperation(builder, doc1, opName, change)
-							}
-							else if(change.description.contains("Operation $opName:")){
+							else {
+								if(change && change.description.contains("Operation $opName removed.")) builder.removed()
+								
+//								if(change.description.contains("Operation $opName:")){
 //								if(change.description.contains("Operation $opName has changed")){
+//									createOperation(builder, doc1, opName, change)
+//								}
 								createOperation(builder, doc1, opName, change)
 							}
-						}
+//						}
 					}
 				}
 			}
@@ -114,9 +115,9 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 	
 	private createOperation(MarkupBuilder builder, Definitions wsdl, String opName, Difference change) {
 		Operation op = wsdl.operations.find{it.name == opName}
-		def inputDiff = change.diffs.find{it.type == 'input'}
+		def inputDiff = change?.diffs?.find{it.type == 'input'}
 		builder.input(message: op.input?.message?.name , compatibility: computeCompatibility(inputDiff))
-		def outputDiff = change.diffs.find{it.type == 'output'}
+		def outputDiff = change?.diffs?.find{it.type == 'output'}
 		builder.output(message: op.output?.message?.name , compatibility: computeCompatibility(outputDiff))
 		//TODO Faults are missing!
 	}
