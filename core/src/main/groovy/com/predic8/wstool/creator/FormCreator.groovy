@@ -36,12 +36,11 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
     def operation = definitions.getOperation(operationName, portTypeName)
     def bindingOperation = definitions.getBinding(bindingName).getOperation(operationName)
     
-    def msg = operation.input.message
     getHeaderElements(bindingOperation).each{ header ->
-      msg.getPart(header.partName).element.create(this, new FormCreatorContext(formParams:'',path:"xpath:/"))
+      header.part.element.create(this, new FormCreatorContext(formParams:'',path:"xpath:/"))
     }
     def body = bindingOperation.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body}
-    msg.parts.findAll{it in body.parts}.each{
+  	body.parts.each{
       it.element.create(this, new FormCreatorContext(formParams:'',path:"xpath:/"))
     }
   }

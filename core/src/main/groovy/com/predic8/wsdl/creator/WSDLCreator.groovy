@@ -183,7 +183,8 @@ class WSDLCreator extends AbstractWSDLCreator{
   
   def createSOAPHeader(AbstractSOAPHeader header, WSDLCreatorContext ctx){
     def prefix = header.getPrefix(header.ELEMENTNAME.namespaceURI)
-    def attrs = [message : "${header.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use, part : header.partName]
+    def attrs = [message : "${header.message.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use]
+		attrs['part'] = "${header.part.definitions.targetNamespacePrefix}:${header.part.name}"
     if(header.encodingStyle) attrs['encodingStyle'] = header.encodingStyle
     if(header.namespace) attrs['namespace'] = header.namespace
     builder."${prefix}:header"(attrs + getNamespaceAttributes(header))

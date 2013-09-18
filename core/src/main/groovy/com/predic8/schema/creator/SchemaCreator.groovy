@@ -91,6 +91,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     builder.'xsd:element'(attrs){
       element.annotation?.create(this, ctx)
       element.embeddedType?.create(this, ctx)
+  		element.unique?.create(this, ctx)
     }
   }
 
@@ -390,6 +391,18 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
     if(anyAttr.id) attribs['id'] = anyAttr.id
     if(anyAttr.processContents) attribs['processContents'] = anyAttr.processContents
     builder.'xsd:anyAttribute'(attribs)
+  }
+  
+  void createUnique(Unique unique, SchemaCreatorContext  ctx){
+  	def attribs = [:]
+  	if(unique.name) attribs['name'] = unique.name
+  			if(unique.id) attribs['id'] = unique.id
+  			builder.'xsd:unique'(attribs) {
+  				if(unique.selector) builder.'xsd:selector'(xpath:unique.selector.xpath)
+  				unique.fields.each { 
+						 builder.'xsd:field'(xpath: it.xpath)
+  				}
+				}
   }
 
   /**

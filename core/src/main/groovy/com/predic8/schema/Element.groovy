@@ -40,6 +40,7 @@ class Element extends Declaration {
 	String defaultValue //can only be used if the element's content is a simple type or text only
 	String fixedValue //can only be used if the element's content is a simple type or text only
 	boolean nillable = false
+	Unique unique
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
@@ -66,6 +67,9 @@ class Element extends Declaration {
       case 'simpleType' :
         embeddedType = new SimpleType(schema:schema, parent: this)
           embeddedType.parse(token, params) ; break
+			case 'unique' :
+				unique = new Unique(schema:schema, parent: this)
+					unique.parse(token, params) ; break
     }
     log.debug "child [$child] of element [$name] parsed!"
   }
