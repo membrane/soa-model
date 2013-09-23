@@ -23,8 +23,9 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import com.predic8.schema.Import as SchemaImport
-import com.predic8.schema.Include;
+import com.predic8.schema.Include as SchemaInclude
 import com.predic8.wsdl.Import as WsdlImport
+import com.predic8.wadl.Include as WadlInclude
 
 class ExternalResolver extends ResourceResolver {
 
@@ -36,7 +37,7 @@ class ExternalResolver extends ResourceResolver {
 
 	def resolve(input, baseDir) {
 		
-		if ( input instanceof SchemaImport || input instanceof Include) {
+		if ( input instanceof SchemaImport || input instanceof SchemaInclude) {
 			if ( !input.schemaLocation ) return
 				input = input.schemaLocation
 		}

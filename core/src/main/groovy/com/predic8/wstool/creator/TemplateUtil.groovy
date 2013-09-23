@@ -15,7 +15,10 @@
 package com.predic8.wstool.creator;
 
 import groovy.xml.*
+
 import org.apache.commons.logging.*
+
+import com.predic8.schema.BuiltInSchemaType;
 
 class TemplateUtil {
 
@@ -24,6 +27,10 @@ class TemplateUtil {
     getTemplateValue(type.localPart)
   }
   
+	public static getTemplateValue(BuiltInSchemaType type){
+		getTemplateValue(type.type)
+	}
+	
   public static getTemplateValue(String type){
     switch (type) {
         case 'string' : return '?XXX?'

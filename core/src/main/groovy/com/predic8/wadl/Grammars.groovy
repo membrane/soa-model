@@ -13,6 +13,8 @@ package com.predic8.wadl
 
 import javax.xml.namespace.QName
 
+import com.predic8.schema.Element
+import com.predic8.schema.Schema
 import com.predic8.soamodel.Consts
 
 class Grammars extends WADLElement {
@@ -20,6 +22,7 @@ class Grammars extends WADLElement {
 	public static final QName ELEMENTNAME = new QName(Consts.WADL_NS, 'grammars')
 
 	List<Include> includes = []
+	List<Schema> schemas = []
 	
 	protected parseChildren(token, child, ctx) {
 		super.parseChildren(token, child, ctx)
@@ -29,7 +32,20 @@ class Grammars extends WADLElement {
 				inc.parse(token, ctx)
 				includes << inc
 				break
+			case Schema.ELEMENTNAME :
+				def schema = new Schema()
+				schema.parse(token, ctx)
+				schemas << schema
+				break
 		}
+	}
+	
+	List<Schema> getAllSchemas() {
+		schemas + includes.grep{it.schema}.schema
+	}
+	
+	public Element getElement(String name) {
+		allSchemas.find{it.getElement(name)}.getElement(name)
 	}
 	
 	String toString() {

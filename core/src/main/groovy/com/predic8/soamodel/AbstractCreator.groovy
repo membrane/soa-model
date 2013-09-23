@@ -18,7 +18,7 @@ import groovy.xml.MarkupBuilder;
 
 abstract class AbstractCreator {
 
-  MarkupBuilder builder
+  def builder
 
 
   protected getDisplayName(String name, target, error){

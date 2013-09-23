@@ -23,6 +23,11 @@
 			<version>2.0.4</version>
 		</dependency>
 		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-json</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2.2</version>
@@ -175,28 +180,41 @@
 
 	<scm>
 		<url>https://github.com/membrane/soa-model</url>
+		<developerConnection>Kaveh Keshavarzi</developerConnection>
 	</scm>
-	
+
 	<reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>cim</report>
-              <report>issue-tracking</report>
-              <report>license</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>cim</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+	<url>https://github.com/membrane/soa-model</url>
+	<name>Membrane SOA Model</name>
+	<description>Membrane SOA Model is an open-source toolkit and Java API for WSDL and XML Schema, licensed under ASF 2.0. that can:
+
+Parse, create or modify a WSDL or XML Schema Document from Java
+Compare two WSDL or XML Schema Documents
+Create a SOAP Request or Template
+Analyze a WSDL or Schema document and generate an HMTL report</description>
+	<organization>
+		<name>predic8 GmbH</name>
+		<url>http://predic8.com/</url>
+	</organization>
 </project>

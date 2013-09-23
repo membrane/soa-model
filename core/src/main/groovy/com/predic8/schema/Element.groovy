@@ -93,7 +93,7 @@ class Element extends Declaration {
   
   String getRequest(formParams){
     def writer = new StringWriter()
-    create(new RequestCreator(builder:new MarkupBuilder(writer)),[path:"xpath:/",formParams:formParams])
+    create(new RequestCreator(builder:new MarkupBuilder(writer)),new RequestCreatorContext(path:"xpath:/",formParams:formParams))
     writer.toString()
   }
   

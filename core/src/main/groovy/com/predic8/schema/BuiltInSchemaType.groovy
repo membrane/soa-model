@@ -16,6 +16,7 @@
  
 package com.predic8.schema
 
+import com.predic8.schema.restriction.QNameRestriction;
 import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext;
 import com.predic8.soamodel.DiffGeneratorContext;
@@ -33,6 +34,14 @@ class BuiltInSchemaType extends TypeDefinition {
 	
 	List<QName> getSuperTypes(){
 		[]
+	}
+	
+	String getType() {
+		qname.localPart
+	}
+	
+	String getNamespace() {
+		qname.namespaceURI
 	}
 	
 	/**

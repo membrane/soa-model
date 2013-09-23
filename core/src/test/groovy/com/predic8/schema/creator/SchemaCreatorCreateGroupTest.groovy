@@ -46,6 +46,5 @@ class SchemaCreatorCreateWSDLSchemaTest extends GroovyTestCase{
 		assert strWriter.toString().contains("<xsd:unique name='part'>")
 		assert strWriter.toString().contains("<xsd:selector xpath='wsdl:part' />")
 		assert strWriter.toString().contains("<xsd:field xpath='@name' />")
-		println strWriter
 	}
 }
