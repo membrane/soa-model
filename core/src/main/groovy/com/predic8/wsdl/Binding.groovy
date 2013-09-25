@@ -55,7 +55,7 @@ class Binding extends WSDLElement{
 		super.parseChildren(token, child, ctx)
 		switch (token.name ) {
 			
-			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
+			case {it.namespaceURI in Consts.POLICY_NAMESPACES && it.localPart == 'PolicyReference'}:
 				policyReference = new PolicyReference(ELEMENTNAME: token.name)
 				policyReference.parse(token, ctx) ; break
 					

@@ -223,7 +223,7 @@ class Definitions extends WSDLElement{
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			//Need to check for Policy defined in other namespace
-			case {it == Policy.VERSION12 || it == Policy.VERSION15 }:
+			case {it.namespaceURI in Consts.POLICY_NAMESPACES && it.localPart == 'Policy'}:
 				def policy = new Policy(wsdlElement: this, parent : parent, ELEMENTNAME: token.name)
 				ctx.wsdlElementOrder << policy
 				policy.parse(token, ctx)
@@ -259,7 +259,7 @@ class Definitions extends WSDLElement{
 					localServices << service; break
 
 			default :
-				if(token.name != Documentation.ELEMENTNAME && token.name != Policy.VERSION12 && token.name != Policy.VERSION15)
+				if(token.name != Documentation.ELEMENTNAME && !token.name.namespaceURI in Consts.POLICY_NAMESPACES)
 					ctx.errors << "${token.name} in a wsdl is not supported yet!"
 				break
 		}

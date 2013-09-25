@@ -23,8 +23,6 @@ class Policy extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
 	QName ELEMENTNAME
-	static final QName VERSION12 = new QName(Consts.WSP12_NS, 'Policy')
-	static final QName VERSION15 = new QName(Consts.WSP15_NS, 'Policy')
 
 	String id
 	

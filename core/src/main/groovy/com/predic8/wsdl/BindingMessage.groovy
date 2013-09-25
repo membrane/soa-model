@@ -54,7 +54,7 @@ abstract class BindingMessage extends WSDLElement{
       case SOAP12Fault.ELEMENTNAME :
       be = new SOAP12Fault(definitions : definitions, parent : this); break
 			
-			case {it == PolicyReference.VERSION12 || it == PolicyReference.VERSION15 }:
+			case {it.namespaceURI in Consts.POLICY_NAMESPACES && it.localPart == 'PolicyReference'}:
 				policyReference = new PolicyReference(ELEMENTNAME: token.name)
 				policyReference.parse(token, ctx) ; break
 			

@@ -25,8 +25,6 @@ class ExactlyOne extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
   public QName ELEMENTNAME 
-  public static final QName VERSION12 = new QName(Consts.WSP12_NS, 'ExactlyOne')
-  public static final QName VERSION15 = new QName(Consts.WSP15_NS, 'ExactlyOne')
 
   QName getElementName() {
     ELEMENTNAME

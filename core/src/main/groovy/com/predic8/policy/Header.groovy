@@ -23,9 +23,7 @@ class Header extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
 	QName ELEMENTNAME
-	static final QName VERSION1 = new QName(Consts.SP_NS, 'Header')
-	static final QName VERSION2 = new QName(Consts.SP_NS2, 'Header')
-	String name
+	String namespace
 	
 	protected parseAttributes( token,  ctx) {
 		name = token.getAttributeValue( null , 'Name')

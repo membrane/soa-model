@@ -22,8 +22,6 @@ class UsingAddressing extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
 	QName ELEMENTNAME
-	static final QName VERSION1 = new QName(Consts.WSAWS_NS, 'UsingAddressing')
-	static final QName VERSION2 = new QName(Consts.WSAWS_NS2, 'UsingAddressing')
 
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)

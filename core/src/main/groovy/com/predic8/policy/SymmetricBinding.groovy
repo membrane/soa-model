@@ -22,8 +22,6 @@ class SymmetricBinding extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
 	QName ELEMENTNAME
-	static final QName VERSION1 = new QName(Consts.SP_NS, 'SymmetricBinding')
-	static final QName VERSION2 = new QName(Consts.SP_NS2, 'SymmetricBinding')
 
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)

@@ -22,8 +22,6 @@ class AlgorithmSuite extends PolicyOperator{
 	 * to find the end tag of the XML element.
 	 */
 	QName ELEMENTNAME
-	static final QName VERSION1 = new QName(Consts.SP_NS, 'AlgorithmSuite')
-	static final QName VERSION2 = new QName(Consts.SP_NS2, 'AlgorithmSuite')
 
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)

@@ -17,23 +17,14 @@ package com.predic8.policy
 import javax.xml.namespace.QName
 import com.predic8.soamodel.*
 
-class UsernameToken extends PolicyOperator{
+class SignedSupportingTokens extends PolicyOperator{
 
   public QName ELEMENTNAME
-	String includeToken
-	
-	protected def parseAttributes( token,  ctx) {
-		includeToken = token.getAttributeValue( null , 'IncludeToken')
-	}
-	
-	protected parseChildren(token, child, ctx){
-		super.parseChildren(token, child, ctx)
-	}
-  
+
   QName getElementName() {
-  	ELEMENTNAME
+    ELEMENTNAME
   }
-	
+
 	@Override
   public Object create(Object creator, Object context) {
 	  // TODO Auto-generated method stub

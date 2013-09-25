@@ -30,7 +30,7 @@ class PolicyInWSDLTest extends GroovyTestCase {
 		assert wsdl.bindings.operations.output.flatten().policyReference.uri
 		assert wsdl.bindings.operations.output.flatten().policy
 
-		assert wsdl.policies['StockQuoteBindingPolicy'].allPolicyItems.size() == 14
+		assert wsdl.policies['StockQuoteBindingPolicy'].allPolicyItems.size() == 29
 		assert wsdl.policies.size() == 3
 	}
 }

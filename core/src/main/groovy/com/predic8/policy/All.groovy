@@ -20,8 +20,6 @@ import com.predic8.soamodel.*
 class All extends PolicyOperator{
 
   public QName ELEMENTNAME
-  public static final QName VERSION12 = new QName(Consts.WSP12_NS, 'All')
-  public static final QName VERSION15 = new QName(Consts.WSP15_NS, 'All')
 
   QName getElementName() {
     ELEMENTNAME

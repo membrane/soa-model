@@ -21,8 +21,6 @@ import com.predic8.soamodel.*
 class PolicyReference extends XMLElement{
 
 	QName ELEMENTNAME
-	static final QName VERSION12 = new QName(Consts.WSP12_NS, 'PolicyReference')
-	static final QName VERSION15 = new QName(Consts.WSP15_NS, 'PolicyReference')
 	
   String uri
   String Digest
