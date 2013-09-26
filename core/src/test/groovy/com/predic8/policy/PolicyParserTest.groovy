@@ -12,6 +12,6 @@ class PolicyParserTest extends GroovyTestCase {
 	}
 	
 	void testParser() {
-//		println policy
+		assert 7 == policy.allPolicyItems.size()
 	}
 }

@@ -54,11 +54,9 @@ class Binding extends WSDLElement{
 		log.debug "found binding: ${token.name}"
 		super.parseChildren(token, child, ctx)
 		switch (token.name ) {
-			
 			case {it.namespaceURI in Consts.POLICY_NAMESPACES && it.localPart == 'PolicyReference'}:
 				policyReference = new PolicyReference(ELEMENTNAME: token.name)
 				policyReference.parse(token, ctx) ; break
-					
 			case SOAP11Binding.ELEMENTNAME :
 				log.debug "is soap11"
 				binding = new SOAP11Binding(definitions: definitions, binding: this)
@@ -112,6 +110,10 @@ class Binding extends WSDLElement{
 	
 	Policy getPolicy() {
 		definitions.policies[policyReference?.uri - '#']
+	}
+	
+	List<String> getPolicyAssertions() {
+		policy?.assertions
 	}
 	
 	SOAP11Binding newSOAP11Binding(){

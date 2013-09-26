@@ -21,9 +21,5 @@ class WSDLCreatorContext extends CreatorContext {
   public Object clone() { 
     new WSDLCreatorContext(declNS:copyDeclNS())
   }
-  
-  CreatorContext getCreatorContext(){
-    new CreatorContext(declNS:copyDeclNS())
-  }
 }
 

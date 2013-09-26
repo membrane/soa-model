@@ -16,8 +16,8 @@ package com.predic8.wsdl.creator;
 
 import groovy.xml.MarkupBuilderHelper
 
-import com.predic8.policy.Policy
-import com.predic8.policy.PolicyReference;
+import com.predic8.policy.*
+import com.predic8.policy.creator.*
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.Consts
 import com.predic8.wsdl.*
@@ -55,7 +55,7 @@ class WSDLCreator extends AbstractWSDLCreator{
       }
 			
 			definitions.policies.values().each {
-				it.create(this, ctx)
+				it.create(new PolicyCreator(builder: builder), ctx)
 			}
     }
   }
@@ -68,7 +68,7 @@ class WSDLCreator extends AbstractWSDLCreator{
     builder.types(){
       types.documentation?.create(this, ctx)
       types.schemas.each{
-        it.create(new SchemaCreator(builder: builder), new SchemaCreatorContext(ctx.creatorContext))
+        it.create(new SchemaCreator(builder: builder), new SchemaCreatorContext(ctx.clone()))
       }
     }
   }
@@ -112,7 +112,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   
   def createBinding(Binding binding, WSDLCreatorContext ctx){
     builder.binding([name : binding.name, type: binding.getTypeString(binding.type)] + getNamespaceAttributes(binding)){
-			binding.policyReference?.create(this, ctx)
+			binding.policyReference?.create(new PolicyCreator(builder: builder), ctx)
       binding.documentation?.create(this, ctx)
       binding.binding?.create(this, ctx)
       binding.operations.each {
@@ -169,6 +169,7 @@ class WSDLCreator extends AbstractWSDLCreator{
       bindingMessage.bindingElements.each{
         it.create(this, ctx)
       }
+			bindingMessage.policyReference?.create(new PolicyCreator(builder: builder), ctx)
     }
   }
 
@@ -214,19 +215,6 @@ class WSDLCreator extends AbstractWSDLCreator{
   def createAddress(AbstractAddress address, WSDLCreatorContext ctx){
     builder."${address.prefix}:address"([location : address.location] + getNamespaceAttributes(address))
   }
-	
-	void createPolicy(Policy policy, WSDLCreatorContext ctx){
-		def attrs = [:]
-		def prefix = policy.getPrefix(Consts.WSU_NS)
-		attrs["$prefix:ID"] = policy.id
-		//TODO refactore this with 'declNSifNeeded' from AbstractSchemaCreator
-		attrs["xmlns:${prefix}"] = Consts.WSU_NS
-		builder."${policy.prefix}:Policy"(attrs)
-	}
-	
-	void createPolicyReference(PolicyReference policyRef, WSDLCreatorContext ctx){
-		builder."${policyRef.prefix}:PolicyReference"(URI:policyRef.uri)
-	}
 	
   private createDocumentation(Documentation doc, WSDLCreatorContext ctx){
     builder.documentation{new MarkupBuilderHelper(builder).yieldUnescaped(doc)}

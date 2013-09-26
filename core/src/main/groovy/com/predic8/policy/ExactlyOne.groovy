@@ -15,6 +15,7 @@
 package com.predic8.policy
 
 import javax.xml.namespace.QName
+
 import com.predic8.soamodel.*
 
 class ExactlyOne extends PolicyOperator{
@@ -30,10 +31,5 @@ class ExactlyOne extends PolicyOperator{
     ELEMENTNAME
   }
 
-	@Override
-  public Object create(Object creator, Object context) {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
 }
 

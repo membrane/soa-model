@@ -13,6 +13,7 @@ package com.predic8.policy
 
 import javax.xml.namespace.QName
 
+import com.predic8.policy.creator.PolicyCreator;
 import com.predic8.soamodel.*
 
 class Header extends PolicyOperator{
@@ -30,14 +31,8 @@ class Header extends PolicyOperator{
 		namespace = token.getAttributeValue( null , 'Namespace')
 	}
 	
-	protected parseChildren(token, child, ctx){
-		super.parseChildren(token, child, ctx)
-	}
-
-	@Override
-	public Object create(Object creator, Object context) {
-		// TODO Auto-generated method stub
-		return null;
+	void create(PolicyCreator creator, CreatorContext ctx){
+		creator.createHeader(this, ctx)
 	}
 	
 }

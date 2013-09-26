@@ -25,10 +25,5 @@ class MustSupportRefIssuerSerial extends PolicyOperator{
     ELEMENTNAME
   }
 
-	@Override
-  public Object create(Object creator, Object context) {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
 }
 

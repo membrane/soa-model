@@ -9,23 +9,16 @@
  See the License for the specific language governing permissions and
  limitations under the License. */
 
-package com.predic8.policy
+package com.predic8.policy.creator
 
-import javax.xml.namespace.QName
-import com.predic8.soamodel.*
+import com.predic8.policy.Policy
+import com.predic8.policy.PolicyReference
+import com.predic8.schema.creator.SchemaCreatorContext
+import com.predic8.soamodel.CreatorContext;
+import com.predic8.wsdl.WSDLElement
+import com.predic8.wsdl.creator.WSDLCreatorContext;
 
-class AlgorithmSuite extends PolicyOperator{
+class PolicyCreatorContext extends WSDLCreatorContext {
 
-	/**
-	 * ELEMENTNAME will be set at runtime. Depending on the used version,
-	 * it should be the one from the XML document cause it will be used
-	 * to find the end tag of the XML element.
-	 */
-	QName ELEMENTNAME
-
-	protected parseChildren(token, child, ctx){
-		super.parseChildren(token, child, ctx)
-	}
-	
 }
 

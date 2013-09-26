@@ -19,8 +19,10 @@ import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
-import com.predic8.soamodel.AbstractParserContext;
+import com.predic8.policy.creator.PolicyCreator
+import com.predic8.soamodel.AbstractParserContext
 import com.predic8.soamodel.Consts
+import com.predic8.soamodel.CreatorContext
 import com.predic8.soamodel.XMLElement
 import com.predic8.wsdl.WSDLElement
 
@@ -34,8 +36,6 @@ abstract class PolicyOperator extends XMLElement {
 	WSDLElement wsdlElement
 	
 	List<PolicyOperator> policyItems = []
-	
-	def securityPolicies = []
 	
 	protected parseChildren(token, child, AbstractParserContext ctx){
 		switch (token.name.namespaceURI){
@@ -55,10 +55,6 @@ abstract class PolicyOperator extends XMLElement {
 	def getAllPolicyItems() {
 		(policyItems + policyItems*.allPolicyItems).flatten()
 	}
-	
-	def getAllSecurityPolicies() {
-		(securityPolicies + allPolicyItems*.allSecurityPolicies).flatten()
-	}
   
 	String getNamespaceUri() {
 		definitions.targetNamespace
@@ -75,5 +71,9 @@ abstract class PolicyOperator extends XMLElement {
   JQName getElementName() {
     ELEMENTNAME
   }
+	
+	void create(PolicyCreator creator, CreatorContext ctx){
+		creator.createPolicyItem(this, ctx)
+	}
 	
 }

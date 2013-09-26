@@ -7,30 +7,33 @@ import com.predic8.xml.util.ClasspathResolver
 class PolicyInWSDLTest extends GroovyTestCase {
 
 	Definitions wsdl
-	
+
 	void setUp() {
 		def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-//		wsdl = parser.parse('policy/BLZService-with-policy.wsdl')
 		wsdl = parser.parse('extern/usernameauthwithsymmkeydevelopmentdefault.wsdl')
 	}
-	
+
 	void testParser() {
 		assert wsdl.bindings[0].policyReference.uri == '#StockQuoteBindingPolicy'
 		assert wsdl.bindings[0].policy
-		wsdl.bindings[0].policy.allPolicyItems.each {
-//			println it.ELEMENTNAME
-		}
-		wsdl.bindings[0].policy.allSecurityPolicies.each {
-//			println it
-		}
-		
-		assert wsdl.bindings.operations.input.flatten().policyReference.uri
+
+		assert wsdl.bindings.operations.input.flatten()[0].policyReference.uri == '#StockQuoteBinding_GetStockQuote_Input_Policy'
 		assert wsdl.bindings.operations.input.flatten().policy
-	
-		assert wsdl.bindings.operations.output.flatten().policyReference.uri
+
+		assert wsdl.bindings.operations.output.flatten()[0].policyReference.uri == '#StockQuoteBinding_GetStockQuote_Output_Policy'
 		assert wsdl.bindings.operations.output.flatten().policy
 
 		assert wsdl.policies['StockQuoteBindingPolicy'].allPolicyItems.size() == 29
 		assert wsdl.policies.size() == 3
+	}
+	
+	void testPolicyAssertions() {
+		assert 'UsingAddressing' in wsdl.bindings[0].policyAssertions
+		assert 'SymmetricBinding' in wsdl.bindings[0].policyAssertions
+		assert 'UsernameToken' in wsdl.bindings[0].policyAssertions
+		assert 'SignedParts' in wsdl.bindings[0].operations[0].input.policyAssertions
+		assert 'EncryptedParts' in wsdl.bindings[0].operations[0].input.policyAssertions
+		assert 'SignedParts' in wsdl.bindings[0].operations[0].output.policyAssertions
+		assert 'EncryptedParts' in wsdl.bindings[0].operations[0].output.policyAssertions
 	}
 }

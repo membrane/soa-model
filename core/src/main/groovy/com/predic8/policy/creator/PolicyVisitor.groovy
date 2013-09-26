@@ -17,7 +17,7 @@ import com.predic8.wsdl.*
 
 class PolicyVisitor extends AbstractCreator {
 
-	public static PolicyVisitorContext getWSDLPolicyInfos(Definitions wsdl, PolicyVisitorContext ctx = new PolicyVisitorContext()) {
+	public static PolicyVisitorContext getWSDLPolicyInfo(Definitions wsdl, PolicyVisitorContext ctx = new PolicyVisitorContext()) {
 		wsdl.bindings.each {
 			it.create(this, ctx)
 		}

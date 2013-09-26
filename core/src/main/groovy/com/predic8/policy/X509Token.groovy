@@ -15,20 +15,26 @@
 package com.predic8.policy
 
 import javax.xml.namespace.QName
+
+import com.predic8.policy.creator.PolicyCreator;
 import com.predic8.soamodel.*
 
 class X509Token extends PolicyOperator{
 
   public QName ELEMENTNAME
+	String includeToken
 
+	protected parseAttributes( token,  ctx) {
+		includeToken = token.getAttributeValue( null , 'IncludeToken')
+	}
+	
   QName getElementName() {
     ELEMENTNAME
   }
+	
+	void create(PolicyCreator creator, CreatorContext ctx){
+		creator.createX509Token(this, ctx)
+	}
 
-	@Override
-  public Object create(Object creator, Object context) {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
 }
 

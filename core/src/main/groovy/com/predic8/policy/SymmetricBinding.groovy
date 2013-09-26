@@ -26,12 +26,6 @@ class SymmetricBinding extends PolicyOperator{
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)
 	}
-
-	@Override
-	public Object create(Object creator, Object context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
 

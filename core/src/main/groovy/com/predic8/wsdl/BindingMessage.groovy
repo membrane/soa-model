@@ -14,6 +14,8 @@
 
 package com.predic8.wsdl;
 
+import java.util.List;
+
 import groovy.xml.*
 
 import com.predic8.policy.Policy
@@ -69,6 +71,10 @@ abstract class BindingMessage extends WSDLElement{
 	
 	Policy getPolicy() {
 		definitions.policies[policyReference?.uri - '#']
+	}
+	
+	List<String> getPolicyAssertions() {
+		policy?.assertions
 	}
   
   SOAP11Header newSOAP11Header(){

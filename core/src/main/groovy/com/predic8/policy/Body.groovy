@@ -27,11 +27,5 @@ class Body extends PolicyOperator{
 		super.parseChildren(token, child, ctx)
 	}
 
-	@Override
-	public Object create(Object creator, Object context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
 
