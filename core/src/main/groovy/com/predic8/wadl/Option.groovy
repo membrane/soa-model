@@ -27,10 +27,6 @@ class Option extends WADLElement {
 		mediaType = token.getAttributeValue( null , 'mediaType')
 	}
 	
-	protected parseChildren(token, child, ctx) {
-		super.parseChildren(token, child, ctx)
-	}
-	
 	String toString() {
 		"option[]"
 	}

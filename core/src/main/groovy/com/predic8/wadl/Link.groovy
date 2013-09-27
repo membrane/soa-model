@@ -29,10 +29,6 @@ class Link extends WADLElement {
 		rev = token.getAttributeValue( null , 'rev')
 	}
 	
-	protected parseChildren(token, child, ctx) {
-		super.parseChildren(token, child, ctx)
-	}
-	
 	String toString() {
 		"link[]"
 	}

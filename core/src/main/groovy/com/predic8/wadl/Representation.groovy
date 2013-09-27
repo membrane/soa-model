@@ -13,15 +13,16 @@ package com.predic8.wadl
 
 import javax.xml.namespace.QName
 
+import com.predic8.schema.Element
 import com.predic8.soamodel.Consts
-import com.predic8.xml.util.PrefixedName;
+import com.predic8.xml.util.PrefixedName
 
 class Representation extends WADLElement {
 
 	public static final QName ELEMENTNAME = new QName(Consts.WADL_NS, 'representation')
 	
 	String id // Type: xsd:id
-	PrefixedName elementPN
+	String refElementName
 	String mediaType
 	String href
 	String profile //List of URIs, separated with space
@@ -30,7 +31,7 @@ class Representation extends WADLElement {
 
 	protected parseAttributes(token, ctx){
 		id = token.getAttributeValue( null , 'id')
-		elementPN = new PrefixedName(token.getAttributeValue( null , 'element'))
+		refElementName = new PrefixedName(token.getAttributeValue( null , 'element'))
 		mediaType = token.getAttributeValue( null , 'mediaType')
 		href = token.getAttributeValue( null , 'href') 
 		profile = token.getAttributeValue( null , 'profile') 
@@ -40,14 +41,18 @@ class Representation extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Param.ELEMENTNAME :
-				def param = new Param()
+				def param = new Param(application: application)
 				param.parse(token, ctx)
 				params << param
 				break
 		}
 	}
 	
+	Element getElement() {
+		application.grammars.find{it.getElement(refElementName)}.getElement(refElementName)
+	}
+	
 	String toString() {
-		"representation[id: $id, element: $elementPN, href: $href]"
+		"representation[id: $id, element: $elementName, href: $href]"
 	}
 }

@@ -32,7 +32,7 @@ class Resources extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Resource.ELEMENTNAME :
-				def rsc = new Resource()
+				def rsc = new Resource(application: application)
 				rsc.parse(token, ctx)
 				resources << rsc
 				break

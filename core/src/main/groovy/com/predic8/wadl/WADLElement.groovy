@@ -19,6 +19,7 @@ import com.predic8.soamodel.XMLElement;
 
 abstract class WADLElement extends XMLElement {
 	
+	Application application
 	List<Doc> docs = []
 	
 	protected parseChildren(token, child, ctx) {

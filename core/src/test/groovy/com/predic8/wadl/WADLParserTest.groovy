@@ -27,7 +27,8 @@ class WADLParserTest extends GroovyTestCase {
 		assert wadl.rscss[0].resources[0].methods[0].response.representations.size() == 2
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[0].mediaType == 'application/xml'
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].mediaType == 'application/json'
-		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].elementPN.toString() == 'bar'
+		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].refElementName == 'bar'
+		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].element.name == 'bar'
 		assert wadl.rscss[0].resources[0].resources[0].path == 'featured'
 		assert wadl.rscss[0].resources[0].resources[1].path == '{id}'
 		assert wadl.rscss[0].resources[0].resources[0].methods.size() == 2 

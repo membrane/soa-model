@@ -36,11 +36,11 @@ class Method extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Request.ELEMENTNAME :
-				request = new Request()
+				request = new Request(application: application)
 				request.parse(token, ctx)
 				break
 			case Response.ELEMENTNAME :
-				response = new Response()
+				response = new Response(application: application)
 				response.parse(token, ctx)
 				break
 		}

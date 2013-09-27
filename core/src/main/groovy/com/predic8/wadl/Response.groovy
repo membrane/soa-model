@@ -37,12 +37,12 @@ class Response extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Param.ELEMENTNAME :
-				def param = new Param()
+				def param = new Param(application: application)
 				param.parse(token, ctx)
 				params << param
 				break
 			case Representation.ELEMENTNAME :
-				def representation = new Representation()
+				def representation = new Representation(application: application)
 				representation.parse(token, ctx)
 				representations << representation
 				break
