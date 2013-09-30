@@ -14,17 +14,17 @@
 
 package com.predic8.schema;
 
-import javax.xml.namespace.QName as JQName;
-
 import groovy.xml.*
 
 import org.apache.commons.logging.*
 
-import com.predic8.wstool.creator.*
-import com.predic8.schema.creator.*;
-import com.predic8.soamodel.AbstractDiffGenerator;
+import com.predic8.schema.creator.*
+import com.predic8.soamodel.AbstractDiffGenerator
 import com.predic8.soamodel.CreatorContext
-import com.predic8.soamodel.DiffGeneratorContext;
+import com.predic8.soamodel.DiffGeneratorContext
+import com.predic8.wadl.creator.JsonCreator
+import com.predic8.wadl.creator.JsonCreatorContext
+import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
 class Element extends Declaration {
@@ -74,11 +74,6 @@ class Element extends Declaration {
     log.debug "child [$child] of element [$name] parsed!"
   }
   
-  //TODO return the real object of ref! 
-	//	def getRef(){
-	//		schema.getElement(ref).name or qname!
-	//	}
-	
   protected getElementName(){
     'element'
   }
@@ -96,6 +91,10 @@ class Element extends Declaration {
     create(new RequestCreator(builder:new MarkupBuilder(writer)),new RequestCreatorContext(path:"xpath:/",formParams:formParams))
     writer.toString()
   }
+	
+	String getAsJson(JsonCreatorContext ctx = new JsonCreatorContext()) {
+		new JsonCreator().getElementAsJson(this)
+	}
   
   String getForm(){
     def writer = new StringWriter()

@@ -11,15 +11,26 @@
 
 package com.predic8.wadl.creator;
 
+import groovy.json.JsonBuilder
+
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 import org.apache.commons.logging.*
-
 import com.predic8.schema.*
 import com.predic8.schema.creator.*
 import com.predic8.wstool.creator.TemplateUtil
 
 class JsonCreator extends AbstractSchemaCreator <JsonCreatorContext>{
+
+	JsonBuilder builder
+	
+	String getElementAsJson(Element element, JsonCreatorContext ctx = new JsonCreatorContext()) {
+		createElement(element, ctx)
+		def map = ["${element.name}":ctx.jsonElements["${element.name}"]]
+		builder = new JsonBuilder()
+		builder map
+		builder.toPrettyString()
+	}
 
 	public void createElement(Element element, JsonCreatorContext ctx) {
 		if(element.ref) {

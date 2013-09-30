@@ -16,13 +16,7 @@ class JsonCreatorTest extends GroovyTestCase {
 	}
 	
 	void testJsonCreator() {
-		def e = schema.getElement('employee')
-		def ctx = new JsonCreatorContext()
-		def jsonBuilder = new JsonBuilder()
-		def creator = new JsonCreator(builder:jsonBuilder)
-		creator.createElement(e, ctx)
-		def map = ['employee':ctx.jsonElements['employee']]
-		jsonBuilder map
-		assert '{"employee":{"person":{"firstName":"?XXX?","lastName":"?XXX?"}}}' == jsonBuilder.toString()
+		def element = schema.getElement('employee')
+		assert '{"employee":{"person":{"firstName":"?XXX?","lastName":"?XXX?"}}}' == element.asJson.replaceAll("\\s","")
 	}
 }
