@@ -188,7 +188,6 @@ class Definitions extends WSDLElement{
 		try {
 			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}."$exchange".bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
 		} catch (Exception e) {
-			e.printStackTrace()
 			return
 		}
 	}

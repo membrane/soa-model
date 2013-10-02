@@ -53,12 +53,12 @@ class Param extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Option.ELEMENTNAME :
-				def option = new Option(application: application)
+				def option = new Option(application: application, parent: this)
 				option.parse(token, ctx)
 				options << option
 				break
 			case Link.ELEMENTNAME :
-				link = new Link(application: application)
+				link = new Link(application: application, parent: this)
 				link.parse(token, ctx)
 				break
 		}

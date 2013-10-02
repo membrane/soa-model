@@ -16,7 +16,8 @@ class WSDLImportWSDLTest extends GroovyTestCase {
 	}
 	
 	void testParser() {
-		assert 3 == wsdl.registry.getWsdls(wsdl.targetNamespace).size()
+		// There are three WSDL documents, but two have recursive imports, so registry has four WSDLs.
+		assert 4 == wsdl.registry.getWsdls(wsdl.targetNamespace).size()
 //		println wsdl.asString
 	}
 

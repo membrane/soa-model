@@ -142,7 +142,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		} else {
 			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : true, exchange:'response')
 		}
-		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
+		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
 		if(diffs) return [
 				new Difference(description:"Operation ${aOperation.name}: ", type: 'operation', diffs: diffs)
 			]
@@ -224,7 +224,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		}
 		else if(a.element?.name != b.element?.name) {
 			a.element?.exchange = b.element?.exchange = exchange
-			diffs << new Difference(description:"Element has changed from ${a.element.name} to ${b.element.name}.", type:'element', breaks : true, exchange:exchange)
+			diffs << new Difference(description:"Element has changed from ${a.element?.name} to ${b.element?.name}.", type:'element', breaks : true, exchange:exchange)
 		}
 		else if(a.element?.namespaceUri != b.element?.namespaceUri) {
 			a.element?.exchange = b.element?.exchange = exchange

@@ -15,11 +15,14 @@ class WADLParserTest extends GroovyTestCase {
 		assert wadl.docs[1].lang == 'en'
 		assert wadl.docs[1].content == 'This is added to the start of the generated application.wadl'
 		assert wadl.grammars.includes.size() == 1
+		assert wadl.grammars.includes.parent
 		assert wadl.grammars.includes[0].href == 'xsd0.xsd'
 		assert wadl.rscss.size() == 1
+		assert 'application' == wadl.rscss[0].parent.elementName.localPart 
 		assert wadl.rscss[0].base == "http://example.com:8080/rest"
 		assert wadl.rscss[0].resources.size() == 1
 		assert wadl.rscss[0].resources[0].path == 'test'
+		assert wadl.rscss[0].resources[0].parent
 		assert wadl.rscss[0].resources[0].methods.size() == 2 
 		assert wadl.rscss[0].resources[0].methods.name == ['GET', 'POST']
 		assert wadl.rscss[0].resources[0].methods.id == ['foo', 'createAuktion']
@@ -30,6 +33,7 @@ class WADLParserTest extends GroovyTestCase {
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].refElementName == 'bar'
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].element.name == 'bar'
 		assert wadl.rscss[0].resources[0].resources[0].path == 'featured'
+		println wadl.rscss[0].resources[0].resources[0].fullPath
 		assert wadl.rscss[0].resources[0].resources[1].path == '{id}'
 		assert wadl.rscss[0].resources[0].resources[0].methods.size() == 2 
 		assert wadl.rscss[0].resources[0].resources[1].params[0].name == 'id' 

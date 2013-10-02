@@ -32,11 +32,15 @@ class Resources extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Resource.ELEMENTNAME :
-				def rsc = new Resource(application: application)
+				def rsc = new Resource(application: application, parent: this)
 				rsc.parse(token, ctx)
 				resources << rsc
 				break
 		}
+	}
+	
+	public String getFullPath() {
+		base
 	}
 	
 	String toString() {

@@ -31,17 +31,17 @@ class ResourceType extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Param.ELEMENTNAME :
-				def param = new Param(application: application)
+				def param = new Param(application: application, parent: this)
 				param.parse(token, ctx)
 				params << param
 				break
 			case Method.ELEMENTNAME :
-				def method = new Method(application: application)
+				def method = new Method(application: application, parent: this)
 				method.parse(token, ctx)
 				methods << method
 				break
 			case Resource.ELEMENTNAME :
-				def resource = new Resource(application: application)
+				def resource = new Resource(application: application, parent: this)
 				resource.parse(token, ctx)
 				resources << resource
 				break

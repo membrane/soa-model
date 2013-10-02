@@ -28,7 +28,7 @@ class Grammars extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Include.ELEMENTNAME :
-				def inc = new Include(application: application)
+				def inc = new Include(application: application, parent: this)
 				inc.parse(token, ctx)
 				includes << inc
 				break

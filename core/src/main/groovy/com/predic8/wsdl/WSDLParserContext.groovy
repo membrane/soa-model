@@ -18,6 +18,9 @@ import com.predic8.soamodel.AbstractParserContext;
 
 class WSDLParserContext extends AbstractParserContext{
 	
+	Map<String, String> wsdlImports = [:]
+	Map<String, Definitions> importedWSDLs = [:]
+	
 	List<WSDLElement>	wsdlElementOrder = []
 
 }

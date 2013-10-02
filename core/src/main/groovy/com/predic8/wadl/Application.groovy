@@ -32,28 +32,28 @@ class Application extends WADLElement {
 		super.parseChildren(token, child, ctx)
 		switch (token.name) {
 			case Grammars.ELEMENTNAME :
-				grammars = new Grammars(application: this)
+				grammars = new Grammars(application: this, parent: this)
 				grammars.parse(token, ctx)
 				break
 			case Resources.ELEMENTNAME :
-				def rscs = new Resources(application: this)
+				def rscs = new Resources(application: this, parent: this)
 				rscs.parse(token, ctx)
 				rscss << rscs
 				break
 			case ResourceType.ELEMENTNAME :
-				choiceElement = new ResourceType(application: this)
+				choiceElement = new ResourceType(application: this, parent: this)
 				choiceElement.parse(token, ctx)
 				break
 			case Method.ELEMENTNAME :
-				choiceElement = new Method(application: this)
+				choiceElement = new Method(application: this, parent: this)
 				choiceElement.parse(token, ctx)
 				break
 			case Representation.ELEMENTNAME :
-				choiceElement = new Representation(application: this)
+				choiceElement = new Representation(application: this, parent: this)
 				choiceElement.parse(token, ctx)
 				break
 			case Param.ELEMENTNAME :
-				choiceElement = new Param(application: this)
+				choiceElement = new Param(application: this, parent: this)
 				choiceElement.parse(token, ctx)
 				break
 		}

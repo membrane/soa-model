@@ -21,6 +21,7 @@ abstract class WADLElement extends XMLElement {
 	
 	Application application
 	List<Doc> docs = []
+	WADLElement parent
 	
 	protected parseChildren(token, child, ctx) {
 		switch (token.name) {
@@ -40,12 +41,15 @@ abstract class WADLElement extends XMLElement {
 	  // TODO Auto-generated method stub
 	  return null;
   }
+	
+	public String getFullPath() {
+		parent.fullPath
+	}
 
 	@Override
   public String getPrefix() {
 	  // TODO Auto-generated method stub
 	  return null;
   }
-	
 	
 }

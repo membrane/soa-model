@@ -31,7 +31,7 @@ class Request extends WADLElement {
 				params << param
 				break
 			case Representation.ELEMENTNAME :
-				def representation = new Representation(application: application)
+				def representation = new Representation(application: application, parent: this)
 				representation.parse(token, ctx)
 				representations << representation
 				break
