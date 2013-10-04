@@ -11,21 +11,7 @@
 
 package com.predic8.policy
 
-import javax.xml.namespace.QName
-import com.predic8.soamodel.*
-
 class SymmetricBinding extends PolicyOperator{
 
-	/**
-	 * ELEMENTNAME will be set at runtime. Depending on the used version,
-	 * it should be the one from the XML document cause it will be used
-	 * to find the end tag of the XML element.
-	 */
-	QName ELEMENTNAME
-
-	protected parseChildren(token, child, ctx){
-		super.parseChildren(token, child, ctx)
-	}
-	
 }
 

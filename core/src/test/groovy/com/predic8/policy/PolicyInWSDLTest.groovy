@@ -28,6 +28,9 @@ class PolicyInWSDLTest extends GroovyTestCase {
 	}
 	
 	void testPolicyAssertions() {
+		wsdl.policies.values().each {
+			assert it.asString
+		}
 		assert 'UsingAddressing' in wsdl.bindings[0].policyAssertions
 		assert 'SymmetricBinding' in wsdl.bindings[0].policyAssertions
 		assert 'UsernameToken' in wsdl.bindings[0].policyAssertions

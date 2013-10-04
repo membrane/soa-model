@@ -32,6 +32,13 @@ abstract class PolicyOperator extends XMLElement {
 
 	static final String NAMESPACE = Consts.WSP15_NS
 	
+	/**
+	 * ELEMENTNAME will be set at runtime. Depending on the used version,
+	 * it should be the one from the XML document cause it will be used
+	 * to find the end tag of the XML element.
+	 */
+	JQName ELEMENTNAME
+
 	String name
 	WSDLElement wsdlElement
 	

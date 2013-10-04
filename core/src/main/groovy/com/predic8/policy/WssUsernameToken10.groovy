@@ -14,16 +14,7 @@
 
 package com.predic8.policy
 
-import javax.xml.namespace.QName
-import com.predic8.soamodel.*
-
 class WssUsernameToken10 extends PolicyOperator{
-
-  public QName ELEMENTNAME
-
-  QName getElementName() {
-    ELEMENTNAME
-  }
 
 }
 

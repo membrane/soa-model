@@ -14,16 +14,7 @@
 
 package com.predic8.policy
 
-import javax.xml.namespace.QName
-import com.predic8.soamodel.*
-
 class Wss11 extends PolicyOperator{
-
-  public QName ELEMENTNAME
-
-  QName getElementName() {
-    ELEMENTNAME
-  }
 
 }
 

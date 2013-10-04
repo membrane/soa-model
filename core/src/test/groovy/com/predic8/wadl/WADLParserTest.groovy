@@ -33,7 +33,7 @@ class WADLParserTest extends GroovyTestCase {
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].refElementName == 'bar'
 		assert wadl.rscss[0].resources[0].methods[1].request.representations[1].element.name == 'bar'
 		assert wadl.rscss[0].resources[0].resources[0].path == 'featured'
-		println wadl.rscss[0].resources[0].resources[0].fullPath
+		assert 'http://example.com:8080/rest/test/featured' == wadl.rscss[0].resources[0].resources[0].fullPath
 		assert wadl.rscss[0].resources[0].resources[1].path == '{id}'
 		assert wadl.rscss[0].resources[0].resources[0].methods.size() == 2 
 		assert wadl.rscss[0].resources[0].resources[1].params[0].name == 'id' 

@@ -11,28 +11,12 @@
 
 package com.predic8.policy
 
-import javax.xml.namespace.QName
-
-import com.predic8.policy.creator.PolicyCreator;
-import com.predic8.soamodel.*
-
 class Header extends PolicyOperator{
-
-	/**
-	 * ELEMENTNAME will be set at runtime. Depending on the used version,
-	 * it should be the one from the XML document cause it will be used
-	 * to find the end tag of the XML element.
-	 */
-	QName ELEMENTNAME
 	String namespace
 	
 	protected parseAttributes( token,  ctx) {
 		name = token.getAttributeValue( null , 'Name')
 		namespace = token.getAttributeValue( null , 'Namespace')
-	}
-	
-	void create(PolicyCreator creator, CreatorContext ctx){
-		creator.createHeader(this, ctx)
 	}
 	
 }

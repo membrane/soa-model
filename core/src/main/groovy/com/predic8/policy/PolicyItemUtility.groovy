@@ -48,6 +48,8 @@ class PolicyItemUtility {
 				case 'WssUsernameToken10' : return new WssUsernameToken10(ELEMENTNAME: qname) ; break
 				case 'EncryptedParts' : return new EncryptedParts(ELEMENTNAME: qname) ; break
 				case 'SignedParts' : return new SignedParts(ELEMENTNAME: qname) ; break
+				case 'TransportBinding' : return new TransportBinding(ELEMENTNAME: qname) ; break
+				case 'TransportToken' : return new TransportToken(ELEMENTNAME: qname) ; break
 		 }
 	}
 }

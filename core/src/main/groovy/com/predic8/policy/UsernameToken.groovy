@@ -14,14 +14,11 @@
 
 package com.predic8.policy
 
-import javax.xml.namespace.QName
-
-import com.predic8.policy.creator.PolicyCreator;
-import com.predic8.soamodel.*
+import com.predic8.policy.creator.PolicyCreator
+import com.predic8.soamodel.CreatorContext
 
 class UsernameToken extends PolicyOperator{
 
-  public QName ELEMENTNAME
 	String includeToken
 	
 	protected def parseAttributes( token,  ctx) {
@@ -31,10 +28,6 @@ class UsernameToken extends PolicyOperator{
 	protected parseChildren(token, child, ctx){
 		super.parseChildren(token, child, ctx)
 	}
-  
-  QName getElementName() {
-  	ELEMENTNAME
-  }
 	
 	void create(PolicyCreator creator, CreatorContext ctx){
 		creator.createUsernameToken(this, ctx)
