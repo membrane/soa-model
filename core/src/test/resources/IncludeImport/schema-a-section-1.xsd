@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:schema-a="SCHEMA-A" targetNamespace="SCHEMA-A" elementFormDefault="qualified">
+    <xs:include schemaLocation="schema-a.xsd"/>
     <xs:import namespace="SCHEMA-B" schemaLocation="schema-b.xsd" />
     <xs:complexType name="type-a-2">
         <xs:sequence>

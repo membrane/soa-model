@@ -66,7 +66,7 @@ class DocumentLiteralStyle extends BindingStyle {
 		String result = "Document/Literal-Wrapped"
 
 		operations.each {op ->
-			if(!portType.getOperation(op.name).input?.message) return
+			if(!portType.getOperation(op.name)?.input?.message) return
 			def inputParts = portType.getOperation(op.name).input.message.parts
 			//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
 			if(inputParts?.size() > 1) {

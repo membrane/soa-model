@@ -30,7 +30,8 @@ class Include extends SchemaComponent {
 
    protected parseAttributes(token, ctx){
     schemaLocation = token.getAttributeValue( null , 'schemaLocation')
-    if(schema.includedPaths.contains(HTTPUtil.getLocation(schema.baseDir,schemaLocation))) return
+		if(schema.includedPaths.contains(HTTPUtil.getLocation(schema.baseDir,schemaLocation))) return
+		schema.includedPaths << HTTPUtil.getLocation(schema.baseDir,schemaLocation)
     parseIncludedSchema(ctx)
   }
 
@@ -48,11 +49,10 @@ class Include extends SchemaComponent {
     }
     def origBaseDir = schema.baseDir
     schema.baseDir = HTTPUtil.updateBaseDir(schemaLocation , schema.baseDir)
-    log.debug("includedSchema.baseDir ${schema.baseDir} ")
+    log.debug("includedSchema.baseDir ${schema.baseDir}")
     schema.parse(incToken, new SchemaParserContext(targetNamespace:schema.targetNamespace, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
     schema.baseDir = origBaseDir
 
-    schema.includedPaths << HTTPUtil.getLocation(schema.baseDir,schemaLocation)
   }
 
   protected getElementName(){

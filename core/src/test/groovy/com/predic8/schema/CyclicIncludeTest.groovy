@@ -29,7 +29,9 @@ class CyclicIncludeTest extends GroovyTestCase{
   }
   
   void test() {
-		assert 2 == schema.includes.size()
+		// Element from an imported schema in the included schema
+		assert schema.getElement(new QName('SCHEMA-B', 'element-b-1'))
+		assert 5 == schema.includes.size()
 	}
 
 }

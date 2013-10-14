@@ -157,11 +157,6 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
 
   def createPortTypeMessage(AbstractPortTypeMessage portTypeMessage, WSDLCreatorContext ctx) {
-		println portTypeMessage
-		println portTypeMessage.definitions.targetNamespacePrefix
-		println portTypeMessage.name
-		println portTypeMessage.messagePrefixedName
-		println portTypeMessage.message
     def attrs = [message: "${portTypeMessage.definitions.targetNamespacePrefix}:${portTypeMessage.message.name}"]
     if(portTypeMessage.name) attrs['name'] = portTypeMessage.name
     builder."${portTypeMessage.ELEMENTNAME.localPart}"(attrs + getNamespaceAttributes(portTypeMessage))
