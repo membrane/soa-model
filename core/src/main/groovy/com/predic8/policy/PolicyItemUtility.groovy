@@ -50,6 +50,7 @@ class PolicyItemUtility {
 				case 'SignedParts' : return new SignedParts(ELEMENTNAME: qname) ; break
 				case 'TransportBinding' : return new TransportBinding(ELEMENTNAME: qname) ; break
 				case 'TransportToken' : return new TransportToken(ELEMENTNAME: qname) ; break
+				case 'Addressing' : return new Addressing(ELEMENTNAME: qname) ; break
 		 }
 	}
 }

@@ -66,7 +66,7 @@ class DocumentLiteralStyle extends BindingStyle {
 		String result = "Document/Literal-Wrapped"
 
 		operations.each {op ->
-			if(!portType.getOperation(op.name)?.input?.message) return
+			if(!(portType.getOperation(op.name)?.input?.message)) return "Document/Literal"
 			def inputParts = portType.getOperation(op.name).input.message.parts
 			//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
 			if(inputParts?.size() > 1) {
@@ -99,6 +99,16 @@ class DocumentLiteralStyle extends BindingStyle {
 	private checkDocLitErrors(List<BindingOperation> operations, PortType	portType) {
 		def errors = []
 		operations.each {op ->
+			//Check if the bindingOperation exists even in the portType
+			if(!portType.getOperation(op.name)) {
+				def err = [:]
+				err['message'] = "The operation '${op.name}' is missing in the portType '${portType.name}'."
+				err['operation'] = op
+				err['element'] = op
+				err['type'] = "missingPortTypeOperation"
+				errors << err
+				return
+			}
 			//Check input soap body
 			def inputSoapBodyParts = op.input.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
 			if(inputSoapBodyParts.size() == 1) {
