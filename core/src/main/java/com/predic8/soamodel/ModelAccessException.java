@@ -14,28 +14,52 @@
 
 package com.predic8.soamodel;
 
-class ModelAccessException extends RuntimeException {
+import com.predic8.wsdl.WSDLElement;
 
-  private static final long serialVersionUID = 5405085246506357279L;
+public class ModelAccessException extends RuntimeException {
+
+	private WSDLElement wsdlElement;
+
+	private static final long serialVersionUID = 5405085246506357279L;
 
 	public ModelAccessException() {
-	  super();
-  }
+		super();
+	}
 
 	public ModelAccessException(String message, Throwable cause,
-      boolean enableSuppression, boolean writableStackTrace) {
-	  super(message, cause, enableSuppression, writableStackTrace);
-  }
+	    boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
 
 	public ModelAccessException(String message, Throwable cause) {
-	  super(message, cause);
-  }
+		super(message, cause);
+	}
 
 	public ModelAccessException(Throwable cause) {
-	  super(cause);
-  }
-	
+		super(cause);
+	}
+
 	public ModelAccessException(String message) {
-	  super(message);
-  }
+		super(message);
+	}
+	
+	public ModelAccessException(String message, Throwable cause,
+			WSDLElement wsdlElement) {
+		super(message, cause);
+		this.wsdlElement = wsdlElement;
+	}
+	
+	public ModelAccessException(String message, WSDLElement wsdlElement) {
+		super(message);
+		this.wsdlElement = wsdlElement;
+	}
+
+	public WSDLElement getElement() {
+		return wsdlElement;
+	}
+
+	public void setElement(WSDLElement element) {
+		this.wsdlElement = element;
+	}
+
 }

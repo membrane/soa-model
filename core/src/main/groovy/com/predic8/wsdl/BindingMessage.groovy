@@ -27,6 +27,7 @@ import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.wsdl.soap12.SOAPFault as SOAP12Fault
 import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 abstract class BindingMessage extends WSDLElement{
   
@@ -114,10 +115,18 @@ abstract class BindingMessage extends WSDLElement{
   }
   
   protected Message getMessage(){
+		//Must be declared outside of the try block, because of use in catch block.
+		Operation pTOperation
 		try {
-			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name)."$ELEMENTNAME.localPart".message.qname)
+			PortType pT = bindingOperation.binding.portType
+			if(!pT)	throw new ModelAccessException("Could not find the portType definition for '${bindingOperation.binding.typePN}' in the binding'${bindingOperation.binding.name}'.", bindingOperation.binding)
+			pTOperation = pT.getOperation(bindingOperation.name)
+			if(!pTOperation) throw new ModelAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
+			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
+		} catch(ModelAccessException e) {
+			throw e
     } catch (Exception e) {
-	    throw new ModelAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", e)
+	    throw new ModelAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", e, pTOperation)
     }
   }
   
