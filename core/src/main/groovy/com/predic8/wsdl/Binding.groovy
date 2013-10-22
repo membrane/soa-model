@@ -35,6 +35,7 @@ class Binding extends WSDLElement{
 	String typePN
 	QName type
 	AbstractBinding binding
+	NoneSOAPBinding noneSOAPBinding
 	PolicyReference policyReference
 
 	Binding(){
@@ -71,6 +72,9 @@ class Binding extends WSDLElement{
 			case HTTPBinding.ELEMENTNAME :
 				binding = new HTTPBinding(definitions : definitions)
 					binding.parse(token, ctx) ; break
+					
+			case {it.localPart == 'binding'}:
+			noneSOAPBinding = new NoneSOAPBinding(namespace : token.name.namespaceURI); break
 		}
 	}
 

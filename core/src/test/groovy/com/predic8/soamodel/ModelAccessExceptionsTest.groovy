@@ -30,6 +30,9 @@ class ModelAccessExceptionsTest extends GroovyTestCase {
   }
 	
 	void testMissingOperation(){
+		shouldFail(ModelAccessException) {
+			wsdl.getBinding('BLZServiceSOAP11Binding').operations[1].input.message
+		}
 		try {
 			wsdl.getBinding('BLZServiceSOAP11Binding').operations[1].input.message
 		} catch (Exception e) {

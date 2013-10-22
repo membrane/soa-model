@@ -11,12 +11,19 @@
 
 package com.predic8.policy
 
+import com.predic8.policy.creator.PolicyCreator;
+import com.predic8.soamodel.CreatorContext;
+
 class Header extends PolicyOperator{
 	String namespace
 	
 	protected parseAttributes( token,  ctx) {
 		name = token.getAttributeValue( null , 'Name')
 		namespace = token.getAttributeValue( null , 'Namespace')
+	}
+	
+	void create(PolicyCreator creator, CreatorContext ctx){
+		creator.createHeader(this, ctx)
 	}
 	
 }
