@@ -15,7 +15,7 @@ class PolicyCreatorTest extends GroovyTestCase {
 		wsdl = parser.parse('extern/usernameauthwithsymmkeydevelopmentdefault.wsdl')
 	}
 	
-	void testPolicyCreator() {
+	void testPolicyCreatorFromWSDL() {
 		def strWriter = new StringWriter()
 		def creator = new WSDLCreator(builder : new MarkupBuilder(strWriter))
 		creator.createDefinitions(wsdl, new WSDLCreatorContext())
@@ -27,5 +27,5 @@ class PolicyCreatorTest extends GroovyTestCase {
 		assert '#StockQuoteBinding_GetStockQuote_Input_Policy' == generatedWSDL.bindings.operations.input.flatten()[0].policyReference.uri
 		assert '#StockQuoteBinding_GetStockQuote_Output_Policy' == generatedWSDL.bindings.operations.output.flatten()[0].policyReference.uri
 	}
-
+	
 }

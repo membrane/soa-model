@@ -92,7 +92,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="BLZService">
+  <wsdl:service name="BLZServiceWithExceptions">
     <wsdl:port name="BLZServiceSOAP11port_http" binding="tns:BLZServiceSOAP11Binding">
       <soap:address location="http://www.thomas-bayer.com:80/axis2/services/BLZService"/>
     </wsdl:port>

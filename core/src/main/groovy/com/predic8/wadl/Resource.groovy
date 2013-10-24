@@ -57,7 +57,7 @@ class Resource extends WADLElement {
 	}
 	
 	public String getFullPath() {
-		parent.fullPath + "/${path}"
+		parent.fullPath + (path.startsWith("/")? path : "/${path}")
 	}
 	
 	String toString() {

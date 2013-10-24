@@ -119,14 +119,14 @@ abstract class BindingMessage extends WSDLElement{
 		Operation pTOperation
 		try {
 			PortType pT = bindingOperation.binding.portType
-			if(!pT)	throw new ModelAccessException("Could not find the portType definition for '${bindingOperation.binding.typePN}' in the binding'${bindingOperation.binding.name}'.", bindingOperation.binding)
+			if(!pT)	throw new PortTypeAccessException("Could not find the portType definition for '${bindingOperation.binding.typePN}' in the binding'${bindingOperation.binding.name}'.", bindingOperation.binding)
 			pTOperation = pT.getOperation(bindingOperation.name)
-			if(!pTOperation) throw new ModelAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
+			if(!pTOperation) throw new OperationAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
 			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
-		} catch(ModelAccessException e) {
+		} catch(PortTypeAccessException | OperationAccessException e) {
 			throw e
     } catch (Exception e) {
-	    throw new ModelAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", pTOperation)
+	    throw new MessageAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", pTOperation)
     }
   }
   
