@@ -24,8 +24,9 @@ class ModelAccessExceptionsTest extends GroovyTestCase {
 		try {
 			wsdl.bindings[0].operations[0].input.message
 		} catch (Exception e) {
-			assert "Could not find the definition for at least one message in the input of the operation 'getBank' in the WSDL." == e.message
+			assert "Could not find the message 'tns:getBank', used in the input of the operation 'getBank'." == e.message
 			assert e.wsdlElement instanceof Operation
+			assert e.messageName == 'tns:getBank'
 		}
   }
 	

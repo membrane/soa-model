@@ -14,7 +14,7 @@ package com.predic8.wadl
 import javax.xml.stream.XMLStreamReader
 
 import com.predic8.soamodel.AbstractParser
-import com.predic8.soamodel.WrongGrammerException
+import com.predic8.soamodel.WrongGrammarException
 
 class WADLParser extends AbstractParser{
 	
@@ -35,7 +35,7 @@ class WADLParser extends AbstractParser{
 					application.parse(token, ctx)
 				}
 				else {
-					throw new WrongGrammerException("Expected root element '{http://wadl.dev.java.net/2009/02}application' for the WADL document but was '${token.name}'.", token.name, token.location)
+					throw new WrongGrammarException("Expected root element '{http://wadl.dev.java.net/2009/02}application' for the WADL document but was '${token.name}'.", token.name, token.location)
 				}
 			}
 			if(token.hasNext()) token.next()

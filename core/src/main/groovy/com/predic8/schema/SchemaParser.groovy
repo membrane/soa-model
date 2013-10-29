@@ -17,7 +17,7 @@ package com.predic8.schema
 import javax.xml.stream.XMLStreamReader
 
 import com.predic8.soamodel.AbstractParser
-import com.predic8.soamodel.WrongGrammerException
+import com.predic8.soamodel.WrongGrammarException
 
 class SchemaParser extends AbstractParser{
   
@@ -43,7 +43,7 @@ class SchemaParser extends AbstractParser{
           schema.parse(token, ctx)
         }
 				else {
-					throw new WrongGrammerException("Expected root element '{http://www.w3.org/2001/XMLSchema}schema' for the schema document but was '${token.name}'.", token.name, token.location)
+					throw new WrongGrammarException("Expected root element '{http://www.w3.org/2001/XMLSchema}schema' for the schema document but was '${token.name}'.", token.name, token.location)
 				}
       }
       if(token.hasNext()) token.next()

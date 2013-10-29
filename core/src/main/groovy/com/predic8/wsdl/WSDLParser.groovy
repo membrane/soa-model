@@ -47,7 +47,7 @@ class WSDLParser extends AbstractParser{
 					throw new WSDLVersion2NotSupportedException("WSDL 2.0 is not supported yet.")
 				}
 				else {
-					throw new WrongGrammerException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WSDL document but was '${token.name}'.", token.name, token.location)
+					throw new WrongGrammarException("Expected root element '{http://schemas.xmlsoap.org/wsdl/}definitions' for the WSDL document but was '${token.name}'.", token.name, token.location)
 				}
 			}
 			if(token.hasNext()) token.next()

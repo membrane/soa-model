@@ -126,7 +126,8 @@ abstract class BindingMessage extends WSDLElement{
 		} catch(PortTypeAccessException | OperationAccessException e) {
 			throw e
     } catch (Exception e) {
-	    throw new MessageAccessException("Could not find the definition for at least one message in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}' in the WSDL.", pTOperation)
+			def msgName = pTOperation."$ELEMENTNAME.localPart".messagePrefixedName.toString()
+	    throw new MessageAccessException("Could not find the message '$msgName', used in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}'.", pTOperation, msgName)
     }
   }
   

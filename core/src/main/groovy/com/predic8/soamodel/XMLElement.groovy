@@ -115,7 +115,8 @@ abstract class XMLElement {
 		if ( uri == '' && pn.prefix == '' ) return new QName('',pn.localName)
 		if ( uri == null ) {
 			log.debug "Can not find namespace uri for [${pn}]"
-			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for '${pn}'" + (name ? " in element '${name}'." : "."), pn, this)
+			String elementLocalName = elementName instanceof String? elementName : elementName.localPart
+			throw new NamespaceNotDeclaredForReferenceException("No namespace declared for prefix '${pn.prefix}'" + (name ? ", used to reference '${pn}' in ${elementLocalName} '${name}'." : "."), pn, this)
 		}
 		log.debug "resolving [$pn] as ${new QName(uri,pn.localName, pn.prefix)}"
 		return new QName(uri,pn.localName, pn.prefix)

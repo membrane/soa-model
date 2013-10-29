@@ -21,6 +21,16 @@ public class MessageAccessException extends RuntimeException {
 	private static final long serialVersionUID = -4189699847233028273L;
 	
 	private WSDLElement wsdlElement;
+	
+	private String messageName;
+
+	public String getMessageName() {
+		return messageName;
+	}
+
+	public void setMessageName(String messageName) {
+		this.messageName = messageName;
+	}
 
 	public MessageAccessException() {
 		super();
@@ -44,14 +54,16 @@ public class MessageAccessException extends RuntimeException {
 	}
 	
 	public MessageAccessException(String message, Throwable cause,
-			WSDLElement wsdlElement) {
+			WSDLElement wsdlElement, String messageName) {
 		super(message, cause);
 		this.wsdlElement = wsdlElement;
+		this.messageName = messageName;
 	}
 	
-	public MessageAccessException(String message, WSDLElement wsdlElement) {
+	public MessageAccessException(String message, WSDLElement wsdlElement, String messageName) {
 		super(message);
 		this.wsdlElement = wsdlElement;
+		this.messageName = messageName;
 	}
 
 	public WSDLElement getElement() {

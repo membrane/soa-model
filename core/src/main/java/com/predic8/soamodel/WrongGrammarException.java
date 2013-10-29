@@ -14,14 +14,14 @@ package com.predic8.soamodel;
 import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
 
-public class WrongGrammerException extends RuntimeException {
+public class WrongGrammarException extends RuntimeException {
 	
 	/**
 	 * 
 	 */
   private static final long serialVersionUID = -2200072011898720523L;
 
-	public WrongGrammerException(String message, QName rootElement, Location location) { 
+	public WrongGrammarException(String message, QName rootElement, Location location) { 
 		super(message);
 		this.rootElement = rootElement;
 		this.location = location;
