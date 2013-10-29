@@ -21,7 +21,7 @@ import com.predic8.schema.restriction.facet.*
 
 abstract class AbstractDiffGenerator {
   
- public ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
+ public ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"), this.class.classLoader)
   
   def generator
   def a,b

@@ -47,6 +47,7 @@ class SimpleType extends TypeDefinition {
 						restriction = new BaseRestriction(parentSimpleType : this , base : base)
 					}
 				} else {
+					//In case of restriction without base attribte!
 					restriction = new SimpleTypeRestriction(parentSimpleType: this)
 				}
 				restriction.parse(token, params)
