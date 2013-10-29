@@ -14,8 +14,6 @@
 
 package com.predic8.wsdl;
 
-import java.util.List;
-
 import groovy.xml.*
 
 import com.predic8.policy.Policy
@@ -27,7 +25,6 @@ import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.wsdl.soap12.SOAPFault as SOAP12Fault
 import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 abstract class BindingMessage extends WSDLElement{
   
@@ -123,7 +120,9 @@ abstract class BindingMessage extends WSDLElement{
 			pTOperation = pT.getOperation(bindingOperation.name)
 			if(!pTOperation) throw new OperationAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
 			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
-		} catch(PortTypeAccessException | OperationAccessException e) {
+		} catch(PortTypeAccessException e) {
+			throw e
+		} catch(OperationAccessException e) {
 			throw e
     } catch (Exception e) {
 			def msgName = pTOperation."$ELEMENTNAME.localPart".messagePrefixedName.toString()
