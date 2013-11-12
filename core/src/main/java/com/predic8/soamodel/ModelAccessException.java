@@ -14,11 +14,13 @@
 
 package com.predic8.soamodel;
 
+import com.predic8.schema.SchemaComponent;
 import com.predic8.wsdl.WSDLElement;
 
 public class ModelAccessException extends RuntimeException {
 
-	private WSDLElement wsdlElement;
+	protected WSDLElement wsdlElement;
+	protected SchemaComponent schemaComponent;
 
 	private static final long serialVersionUID = 5405085246506357279L;
 
@@ -53,6 +55,17 @@ public class ModelAccessException extends RuntimeException {
 		super(message);
 		this.wsdlElement = wsdlElement;
 	}
+	
+	public ModelAccessException(String message, Throwable cause,
+			SchemaComponent schemaComponent) {
+		super(message, cause);
+		this.schemaComponent = schemaComponent;
+	}
+	
+	public ModelAccessException(String message, SchemaComponent schemaComponent) {
+		super(message);
+		this.schemaComponent = schemaComponent;
+	}
 
 	public WSDLElement getElement() {
 		return wsdlElement;
@@ -60,6 +73,14 @@ public class ModelAccessException extends RuntimeException {
 
 	public void setElement(WSDLElement element) {
 		this.wsdlElement = element;
+	}
+	
+	public SchemaComponent getSchemaComponent() {
+		return schemaComponent;
+	}
+
+	public void setSchemaComponent(SchemaComponent schemaComponent) {
+		this.schemaComponent = schemaComponent;
 	}
 
 }

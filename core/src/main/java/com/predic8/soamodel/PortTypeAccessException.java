@@ -16,12 +16,10 @@ package com.predic8.soamodel;
 
 import com.predic8.wsdl.WSDLElement;
 
-public class PortTypeAccessException extends RuntimeException {
+public class PortTypeAccessException extends ModelAccessException {
 
   private static final long serialVersionUID = -5049330036052285461L;
   
-	private WSDLElement wsdlElement;
-
 	public PortTypeAccessException() {
 		super();
 	}
@@ -52,14 +50,6 @@ public class PortTypeAccessException extends RuntimeException {
 	public PortTypeAccessException(String message, WSDLElement wsdlElement) {
 		super(message);
 		this.wsdlElement = wsdlElement;
-	}
-
-	public WSDLElement getElement() {
-		return wsdlElement;
-	}
-
-	public void setElement(WSDLElement element) {
-		this.wsdlElement = element;
 	}
 
 }

@@ -23,6 +23,7 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
 //  protected ResourceBundle bundle = ResourceBundle.getBundle("LabelsBundle", new Locale("en", "US"))
   def generator
   protected def labelParticle, labelRemoved, labelAdded
+	
   List<Difference> compareUnit(){
     def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator).compare()
     def aPs = (a.particles-a.elements)

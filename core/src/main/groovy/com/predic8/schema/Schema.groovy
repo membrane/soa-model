@@ -155,13 +155,17 @@ class Schema extends SchemaComponent{
 	 * @param groovy.xml.QName
 	 * @return Element
 	 */
-  Element getElement(QName elementRef){
+  Element getElement(QName elementRef, String prefix = '') {
 		if(!elementRef) return
-    allSchemas.elements.flatten().find {
+    Element refElement = allSchemas.elements.flatten().find {
       it.name == elementRef.localPart && it.schema.targetNamespace == elementRef.namespaceURI
 		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(elementRef.namespaceURI)?.getElement(elementRef.localPart)
+		if(!refElement) throw new ElementRefAccessException(
+			"Could not find the referenced element '${elementRef.localPart}' from the namespace '${elementRef.namespaceURI}'.",
+			elementRef, prefix ?: getPrefix(elementRef.namespaceURI))
+		refElement
   }
-  
+	
   Element getElement(String elementName){
     def prefixedName = new PrefixedName(elementName)
     def uri

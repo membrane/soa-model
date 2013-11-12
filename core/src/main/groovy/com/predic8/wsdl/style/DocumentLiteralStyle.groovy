@@ -11,6 +11,8 @@
 
 package com.predic8.wsdl.style
 
+import com.predic8.soamodel.ModelAccessException
+import com.predic8.soamodel.PortTypeAccessException
 import com.predic8.wsdl.*
 
 class DocumentLiteralStyle extends BindingStyle {
@@ -53,6 +55,7 @@ class DocumentLiteralStyle extends BindingStyle {
 			return [result : "$value/Literal", errors : [err]]
 		}
 		if(value == 'Document' && usages[0] == 'literal') {
+			if(!binding.portType) throw new PortTypeAccessException("Could not find the portType '${binding.typePN}' referenced in binding '${binding.name}'.", binding)
 			return [result : checkWrapped(operations, binding.portType), errors : checkDocLitErrors(operations, binding.portType)]
 		}
 		err['message'] = "Could not detect the 'use' for the operations of binding ${binding.name}"
@@ -99,7 +102,7 @@ class DocumentLiteralStyle extends BindingStyle {
 	private checkDocLitErrors(List<BindingOperation> operations, PortType	portType) {
 		def errors = []
 		operations.each {op ->
-			//Check if the bindingOperation exists even in the portType
+			//Check if the bindingOperation exists also in the portType
 			if(!portType.getOperation(op.name)) {
 				def err = [:]
 				err['message'] = "The operation '${op.name}' is missing in the portType '${portType.name}'."
@@ -110,6 +113,7 @@ class DocumentLiteralStyle extends BindingStyle {
 				return
 			}
 			//Check input soap body
+			if(!op.input) throw new ModelAccessException("No input for binding operation '${op.name}'", op)
 			def inputSoapBodyParts = op.input.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
 			if(inputSoapBodyParts.size() == 1) {
 				return

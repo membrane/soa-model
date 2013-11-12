@@ -10,20 +10,20 @@ class PolicyInWSDLTest extends GroovyTestCase {
 
 	void setUp() {
 		def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
-		wsdl = parser.parse('extern/usernameauthwithsymmkeydevelopmentdefault.wsdl')
+		wsdl = parser.parse('policy/PolicyArticle.wsdl')
 	}
 
 	void testParser() {
-		assert wsdl.bindings[0].policyReference.uri == '#StockQuoteBindingPolicy'
+		assert wsdl.bindings[0].policyReference.uri == '#ArticleBindingPolicy'
 		assert wsdl.bindings[0].policy
 
-		assert wsdl.bindings.operations.input.flatten()[0].policyReference.uri == '#StockQuoteBinding_GetStockQuote_Input_Policy'
+		assert wsdl.bindings.operations.input.flatten()[0].policyReference.uri == '#ArticleBinding_GetArticle_Input_Policy'
 		assert wsdl.bindings.operations.input.flatten().policy
 
-		assert wsdl.bindings.operations.output.flatten()[0].policyReference.uri == '#StockQuoteBinding_GetStockQuote_Output_Policy'
+		assert wsdl.bindings.operations.output.flatten()[0].policyReference.uri == '#ArticleBinding_GetArticle_Output_Policy'
 		assert wsdl.bindings.operations.output.flatten().policy
 
-		assert wsdl.policies['StockQuoteBindingPolicy'].allPolicyItems.size() == 29
+		assert wsdl.policies['ArticleBindingPolicy'].allPolicyItems.size() == 29
 		assert wsdl.policies.size() == 3
 	}
 	

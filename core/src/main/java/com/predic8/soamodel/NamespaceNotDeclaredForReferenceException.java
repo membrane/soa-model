@@ -15,9 +15,6 @@ import com.predic8.xml.util.PrefixedName;
 
 public class NamespaceNotDeclaredForReferenceException extends RuntimeException {
 	
-	/**
-	 * 
-	 */
   private static final long serialVersionUID = -2200072011898720523L;
 
 	public NamespaceNotDeclaredForReferenceException(String message, Object reference, XMLElement element) { 

@@ -23,6 +23,7 @@ class ValidationError {
 	 */
 	String wsdlTNS
 	String schemaTNS
+	Exception cause
 
 	def invalidElement
 	

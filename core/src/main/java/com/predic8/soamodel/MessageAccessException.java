@@ -16,11 +16,9 @@ package com.predic8.soamodel;
 
 import com.predic8.wsdl.WSDLElement;
 
-public class MessageAccessException extends RuntimeException {
+public class MessageAccessException extends ModelAccessException {
 
 	private static final long serialVersionUID = -4189699847233028273L;
-	
-	private WSDLElement wsdlElement;
 	
 	private String messageName;
 
@@ -64,14 +62,6 @@ public class MessageAccessException extends RuntimeException {
 		super(message);
 		this.wsdlElement = wsdlElement;
 		this.messageName = messageName;
-	}
-
-	public WSDLElement getElement() {
-		return wsdlElement;
-	}
-
-	public void setElement(WSDLElement element) {
-		this.wsdlElement = element;
 	}
 
 }

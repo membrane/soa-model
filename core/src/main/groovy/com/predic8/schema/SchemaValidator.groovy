@@ -43,8 +43,10 @@ class SchemaValidator {
 					if(!schema.getElement(it.ref)) {
 						ctx.errors << new ValidationError(invalidElement : it, message : "An element references '${it.ref}', which could not be found in this schema.", schemaTNS: schema.targetNamespace)
 					}
+				} catch (ElementRefAccessException e) {
+					ctx.errors << new ValidationError(invalidElement : it, message : "An element references '${it.ref}', which could not be found in this schema.", schemaTNS: schema.targetNamespace, cause: e)
 				} catch (Exception e) {
-					ctx.errors << new ValidationError(invalidElement : it, message : "Element with ref '${it.ref}' is invalid!", schemaTNS: schema.targetNamespace)
+					ctx.errors << new ValidationError(invalidElement : it, message : "Element with ref '${it.ref}' is invalid!", schemaTNS: schema.targetNamespace, cause: e)
 				}
 			}
 		}
