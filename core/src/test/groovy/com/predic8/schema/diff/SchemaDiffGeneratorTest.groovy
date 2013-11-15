@@ -27,6 +27,8 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   def schema3
   def schema4
   def schemaKomplex
+  def commons1
+  def commons2
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -35,6 +37,8 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     schema3 = parser.parse("/diff/schema3.xsd")
     schema4 = parser.parse("/diff/schema4.xsd")
     schemaKomplex = parser.parse("/diff/PriceList.xsd")
+    commons1 = parser.parse("/diff/common1.xsd")
+    commons2 = parser.parse("/diff/common2.xsd")
   }
 
   void testCompareSchema1WithSchema2() {
@@ -71,6 +75,18 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   void testKomplex() {
     def diffs = compare(schemaKomplex,schemaKomplex)
     assertEquals(0,diffs.size())
+  }
+
+  void testCommons1WithCommons2() {
+    // Verify that an element replaced by a choice does not cause the comparison to fail
+    def diffs = compare(commons1, commons2)
+    assertTrue(diffs.find { it.breaks() } as boolean)
+  }
+
+  void testCommons2WithCommons1() {
+    // Verify that a choice replaced by an element does not cause the comparison to fail
+    def diffs = compare(commons2, commons1)
+    assertTrue(diffs.find { it.breaks()} as boolean)
   }
   
   private def compare(a, b) {
