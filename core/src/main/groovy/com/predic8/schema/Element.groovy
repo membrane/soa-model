@@ -41,8 +41,12 @@ class Element extends Declaration {
 	String fixedValue //can only be used if the element's content is a simple type or text only
 	boolean nillable = false
 	Unique unique
-  
-  protected parseAttributes(token, params){
+
+    String getName() {
+        super.getName() ?: ref
+    }
+
+    protected parseAttributes(token, params){
     super.parseAttributes(token, params)
     type = getTypeQName(token.getAttributeValue( null , 'type'))
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
