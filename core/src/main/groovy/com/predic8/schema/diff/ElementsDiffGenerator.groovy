@@ -22,9 +22,9 @@ class ElementsDiffGenerator extends ListDiffGenerator{
 
   def generator
 
-  def removed = { new Difference(description:"${labelElement} ${it.name} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
+  def removed = { new Difference(description:"${labelElement} ${it.identification} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
 
-  def added = { new Difference(description:"${labelElement} ${it.name} ${labelAdded}.", type : 'element', exchange: it.exchange)}
+  def added = { new Difference(description:"${labelElement} ${it.identification} ${labelAdded}.", type : 'element', exchange: it.exchange)}
   
 
   public ElementsDiffGenerator(){
@@ -32,12 +32,12 @@ class ElementsDiffGenerator extends ListDiffGenerator{
   }
   
   protected getIntersection(){
-    (a.name).intersect(b.name)
+    (a.identification).intersect(b.identification)
   }
 
-  List<Difference> compareUnit(name){
-    def aElement = a.find{ it.name == name}
-    def bElement = b.find{ it.name == name}
+  List<Difference> compareUnit(identification){
+    def aElement = a.find{ it.identification == identification}
+    def bElement = b.find{ it.identification == identification}
     aElement.compare(generator , bElement)
   }
   

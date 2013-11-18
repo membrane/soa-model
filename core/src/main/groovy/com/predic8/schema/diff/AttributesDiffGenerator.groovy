@@ -31,12 +31,12 @@ class AttributesDiffGenerator extends ListDiffGenerator{
   def added = { new Difference(description:"${labelAttribute} ${it.name} ${labelAdded}.", type : 'attribute') }
 
   protected getIntersection() {
-    (a.name).intersect(b.name)
+    (a.identification).intersect(b.identification)
   }
 
-  List<Difference> compareUnit(name){
-    def aAttr = a.find{ it.name == name}
-    def bAttr = b.find{ it.name == name}
+  List<Difference> compareUnit(identification){
+    def aAttr = a.find{ it.identification == identification}
+    def bAttr = b.find{ it.identification == identification}
     aAttr.compare(generator , bAttr)
   }
 

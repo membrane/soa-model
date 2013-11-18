@@ -31,8 +31,12 @@ abstract class SchemaComponent extends XMLElement{
   Schema schema
   String name
   Annotation annotation
-	
+
 	def exchange = [] as Set //For WSDL message direction.
+
+  String getIdentification() {
+      name
+  }
 
   protected parseAttributes(token, params){
     name = token.getAttributeValue( null , 'name')
@@ -45,7 +49,7 @@ abstract class SchemaComponent extends XMLElement{
 	      annotation.parse(token, params) ; break
     }
   }
-	
+
 	String getNamespaceUri() {
 		schema.targetNamespace
 	}

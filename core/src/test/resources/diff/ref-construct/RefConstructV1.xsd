@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="http://RefStructChanges/v001"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://RefStructChanges/v001">
+
+    <xsd:element name="PostpaidComplex" type="PostpaidComplexType"/>
+    <xsd:complexType name="PostpaidComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" ref="EnterpriseNumber"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="PrepaidComplex" type="PrepaidComplexType"/>
+    <xsd:complexType name="PrepaidComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" ref="EnterpriseNumber"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="SomepaidComplex" type="SomepaidComplexType"/>
+    <xsd:complexType name="SomepaidComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" ref="EnterpriseIdentification"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="AnotherComplex" type="AnotherComplexType"/>
+    <xsd:complexType name="AnotherComplexType">
+        <xsd:choice>
+            <xsd:element minOccurs="0" ref="EnterpriseNumber"/>
+            <xsd:element minOccurs="0" ref="EnterpriseIdentification"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:element name="AlternativeEnterpriseNumber" type="EnterpriseNumberType"> </xsd:element>
+    <xsd:element name="EnterpriseNumber" type="EnterpriseNumberType"> </xsd:element>
+
+    <xsd:simpleType name="EnterpriseNumberType">
+        <xsd:annotation><xsd:documentation>
+            The official identification of an organization This is the same as the
+            organization's nine digit VAT number preceded by a zero. In the format
+            nnnn.nnn.nnn.
+        </xsd:documentation></xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="EnterpriseIdentification" type="tns:EnterpriseIdentificationType"> </xsd:element>
+    <!-- Identical content wise to EnterpriseNumberType, only difference is name -->
+    <xsd:simpleType name="EnterpriseIdentificationType">
+        <xsd:annotation><xsd:documentation>
+            The official identification of an organization This is the same as the
+            organization's nine digit VAT number preceded by a zero. In the format
+            nnnn.nnn.nnn.
+        </xsd:documentation></xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="AlternativeEnterpriseIdentification" type="tns:AlternativeEnterpriseIdentificationType"> </xsd:element>
+    <!-- Identical content wise to EnterpriseNumberType, only difference is name -->
+    <xsd:simpleType name="AlternativeEnterpriseIdentificationType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="DeepComplex" type="DeepComplexType"/>
+    <xsd:complexType name="DeepComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="1" ref="SubDeepComplex"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="SubDeepComplex" type="SubDeepComplexType"/>
+    <xsd:complexType name="SubDeepComplexType">
+        <xsd:choice>
+            <xsd:element ref="SubSubDeepComplex"/>
+            <xsd:element ref="tns:EnterpriseNumber"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:element name="SubSubDeepComplex" type="SubSubDeepComplexType"/>
+    <xsd:complexType name="SubSubDeepComplexType">
+        <xsd:choice>
+            <xsd:element ref="tns:EnterpriseNumber"/>
+            <xsd:element ref="tns:AlternativeEnterpriseNumber"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+</xsd:schema>

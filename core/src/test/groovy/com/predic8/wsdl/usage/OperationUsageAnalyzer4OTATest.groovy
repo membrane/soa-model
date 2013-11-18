@@ -33,7 +33,7 @@ class OperationUsageAnalyzer4OTATest extends GroovyTestCase{
   }
 	
 	void testAnalyzeOperationUsage() {
-		assert 150 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
+		assert 155 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).elementsInfo.size()
 		assert 55 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).complexTypesInfo.size()
 		assert 5 == OperationUsageAnalyzer.analyzeOperationUsage(wsdl).simpleTypesInfo.size()
 		

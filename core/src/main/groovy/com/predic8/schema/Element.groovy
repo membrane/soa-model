@@ -41,7 +41,11 @@ class Element extends Declaration {
 	String fixedValue //can only be used if the element's content is a simple type or text only
 	boolean nillable = false
 	Unique unique
-  
+
+  String getIdentification () {
+      name ?: ref ?: null
+  }
+
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
     type = getTypeQName(token.getAttributeValue( null , 'type'))
