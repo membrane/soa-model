@@ -27,8 +27,6 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   def schema3
   def schema4
   def schemaKomplex
-  def refConstructV1
-  def refConstructV2
   
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -37,8 +35,6 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     schema3 = parser.parse("/diff/schema3.xsd")
     schema4 = parser.parse("/diff/schema4.xsd")
     schemaKomplex = parser.parse("/diff/PriceList.xsd")
-    refConstructV1 = parser.parse("/diff/ref-construct/RefConstructV1.xsd")
-    refConstructV2 = parser.parse("/diff/ref-construct/RefConstructV2.xsd")
   }
 
   void testCompareSchema1WithSchema2() {
@@ -77,16 +73,6 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     assertEquals(0,diffs.size())
   }
 
-  void testRefConstructDiff() {
-      def diffs = compare(refConstructV1, refConstructV2)
-      assertEquals(3, diffs.size())
-      assertTrue(diffs[0].breaks())
-      assertTrue(diffs[1].breaks())
-      assertTrue(diffs[2].breaks())
-      println diffs[0].diffs[0]
-      println diffs[0].diffs[0].diffs[0].description ==~ /Element .* removed.*/
-  }
-  
   private def compare(a, b) {
     new SchemaDiffGenerator(a: a, b: b).compare()
   }

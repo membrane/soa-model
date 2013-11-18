@@ -24,6 +24,15 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:element name="AnotherComplex" type="AnotherComplexType"/>
+    <xsd:complexType name="AnotherComplexType">
+        <xsd:choice>
+            <xsd:element minOccurs="0" ref="AlternativeEnterpriseNumber"/>
+            <xsd:element minOccurs="0" ref="AlternativeEnterpriseIdentification"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+
     <xsd:element name="AlternativeEnterpriseNumber" type="EnterpriseNumberType"> </xsd:element>
     <xsd:element name="EnterpriseNumber" type="EnterpriseNumberType"> </xsd:element>
 
@@ -58,5 +67,28 @@
             <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
         </xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:element name="DeepComplex" type="DeepComplexType"/>
+    <xsd:complexType name="DeepComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="1" ref="SubDeepComplex"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="SubDeepComplex" type="SubDeepComplexType"/>
+    <xsd:complexType name="SubDeepComplexType">
+        <xsd:choice>
+            <xsd:element ref="SubSubDeepComplex"/>
+            <xsd:element ref="tns:EnterpriseNumber"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:element name="SubSubDeepComplex" type="SubSubDeepComplexType"/>
+    <xsd:complexType name="SubSubDeepComplexType">
+        <xsd:choice>
+            <xsd:element ref="tns:EnterpriseIdentification"/>
+            <xsd:element ref="tns:AlternativeEnterpriseIdentification"/>
+        </xsd:choice>
+    </xsd:complexType>
 
 </xsd:schema>

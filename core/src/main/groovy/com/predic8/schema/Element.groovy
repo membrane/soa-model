@@ -42,11 +42,11 @@ class Element extends Declaration {
 	boolean nillable = false
 	Unique unique
 
-    String getName() {
-        super.getName() ?: ref
-    }
+  String getIdentification () {
+      name ?: ref ?: null
+  }
 
-    protected parseAttributes(token, params){
+  protected parseAttributes(token, params){
     super.parseAttributes(token, params)
     type = getTypeQName(token.getAttributeValue( null , 'type'))
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
