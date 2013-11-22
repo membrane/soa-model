@@ -47,7 +47,7 @@ abstract class AbstractDiffGenerator {
       case ComplexType: return {getFQN(it)}
       case SimpleType: return {getFQN(it)}
       case EnumerationFacet: return {it.value}
-//      case MaxLengthFacet: return {it.elementName}
+			case Element: return {it.name ?: it.ref}
     }
     return {it.name}
   }

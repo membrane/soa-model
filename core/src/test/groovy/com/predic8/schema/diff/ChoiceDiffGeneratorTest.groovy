@@ -23,11 +23,7 @@ import com.predic8.schema.*
 class ChoiceDiffGeneratorTest extends GroovyTestCase{
 
   def schema
-  def a
-  def b
-  def c
-  def d
-  def e
+  def a, b, c, d, e, f, g
 
   void setUp() {
     def parser = new SchemaParser(resourceResolver: new ClasspathResolver())
@@ -37,7 +33,8 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     c = schema.getType('contactC').model
     d = schema.getType('contactD').model
     e = schema.getType('contactE').model
-
+    f = schema.getType('Ref1').model
+    g = schema.getType('Ref2').model
   }
 
   void testEqual(){
@@ -77,5 +74,14 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
     assertEquals(1, diffs[0].diffs.size())
     assert diffs.diffs.description.toString().contains('removed')
   }
+	
+	void testElementRef(){
+		def diffGen = new ChoiceDiffGenerator(a: f , b: g, generator : new SchemaDiffGenerator())
+		def diffs = diffGen.compare()
+		assert diffs[0].diffs[0].description == 'Element ref to TEST1 removed.'
+		assert diffs[0].diffs[1].description == 'Element ref to TEST2 removed.'
+		assert diffs[0].diffs[2].description == 'Element ref to TEST4 added.'
+		assert diffs[0].diffs[3].description == 'Element ref to TEST5 added.'
+	}
 
 }

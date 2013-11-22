@@ -66,4 +66,24 @@
       <element name="icq" type="string"/>
     </choice>
   </complexType>
+
+  <!-- With Element Ref 1-->
+  <complexType name="Ref1">
+    <choice>
+<!--       <element name="E1" type="string"/> -->
+      <element ref="TEST1"/>
+      <element ref="TEST2"/>
+      <element ref="TEST3"/>
+    </choice>
+  </complexType>
+  
+  <!-- With Element Ref 2-->
+  <complexType name="Ref2">
+    <choice>
+<!--       <element name="E1" type="int"/> -->
+      <element ref="TEST3"/>
+      <element ref="TEST4"/>
+      <element ref="TEST5"/>
+    </choice>
+  </complexType>
 </schema>

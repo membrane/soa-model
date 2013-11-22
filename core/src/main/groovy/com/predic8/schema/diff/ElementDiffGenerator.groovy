@@ -34,7 +34,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 	def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false, exchange: b.exchange)}
 
 	def changed = { diffs ->
-		new Difference(description:"${labelElement} ${a.name}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
+		new Difference(description:"${labelElement} ${a.name ?: 'ref to ' + a.refValue}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
 	}
 
 	protected getTypeAndName() {
@@ -60,7 +60,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false, exchange: a.exchange)
 			]
         if (!b.metaClass.hasProperty(b, 'type')) return [
-                new Difference(description: "${labelTypeElement} '${a.name ?: a.ref}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)?:'xsd'}:${a.type?.localPart} ${labelTo} ${b.toString()}.", type: 'element', breaks: true, exchange: a.exchange)
+                new Difference(description: "${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)?:'xsd'}:${a.type?.localPart} ${labelTo} ${b.toString()}.", type: 'element', breaks: true, exchange: a.exchange)
             ]
 		if(a.type != b.type) return [
 				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)?:'xsd'}:${a.type.localPart} ${labelTo} ${b.schema.getPrefix(b.type.namespaceURI)?:'xsd'}:${b.type.localPart}.",
@@ -101,6 +101,9 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 				diffs.addAll(aT.compare(generator, bT, ctx.clone()))
 			}
 
+		}
+		if(a.ref && a.ref == b.ref) {
+			diffs.addAll(a.schema.getElement(a.ref).compare(generator, b.schema.getElement(b.ref)))
 		}
 		diffs
 	}

@@ -23,7 +23,10 @@
     <sequence>
       <any namespace="##any"/>
       <element name="CT3E2" type="string" />
-<!--       <element name="CT3E1" type="string" /> -->
+      <element name="CT3E1" type="string" />
+      <choice>
+        <element ref="tns:RefTestInChoice"/>
+      </choice>
     </sequence>
   </complexType>
   
@@ -39,5 +42,6 @@
     </sequence>
   </complexType>
   
+  <element name="RefTestInChoice" type="int" />
   <element name="bar" type="string" />
 </schema>

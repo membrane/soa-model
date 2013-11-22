@@ -38,7 +38,7 @@ class ChoiceDiffGenerator extends AbstractModelDiffGenerator{
 	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
 	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
 	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
-
+		labelParticle = bundle.getString("com.predic8.schema.diff.labelParticle")
   }
   
 }
