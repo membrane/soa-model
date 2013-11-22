@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="http://myservices.be/Common/v001"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://myservices.be/Common/v001">
+
+    <xsd:element name="PostpaidComplex" type="PostpaidComplexType"/>
+    <xsd:complexType name="PostpaidComplexType">
+        <xsd:sequence>
+            <xsd:choice minOccurs="0">
+                <xsd:element ref="EnterpriseNumber"/>
+                <xsd:element ref="BelgianVATNumber"/>
+                <xsd:element ref="ForeignVATNumber"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="EnterpriseNumber" type="EnterpriseNumberType"/>
+    <xsd:simpleType name="EnterpriseNumberType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The official identification of an organization This is the same as the
+                organization's nine digit VAT number preceded by a zero. In the format
+                nnnn.nnn.nnn.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:element name="ForeignVATNumber" type="ForeignVATNumberType">
+        <xsd:annotation>
+            <xsd:documentation>A non-Belgian VAT number.</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:simpleType name="ForeignVATNumberType">
+        <xsd:annotation>
+            <xsd:documentation>The type representing a Foreign VATNumber.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+
+    <xsd:element name="BelgianVATNumber" type="BelgianVATNumberType">
+        <xsd:annotation>
+            <xsd:documentation>A VATNumber of a Belgian Organization.</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:simpleType name="BelgianVATNumberType">
+        <xsd:annotation>
+            <xsd:documentation>The type representing a VATNumber for a Belgian Organization, including the allowed patterns.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="BE[0-9]{4}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

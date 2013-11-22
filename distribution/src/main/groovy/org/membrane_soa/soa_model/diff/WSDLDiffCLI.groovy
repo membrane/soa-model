@@ -123,7 +123,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 
 	private findOperationChanges(diffs, opName) {
 		for(def diff in diffs) {
-			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName")){
+			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName ")){
 				return diff
 			}
 		}

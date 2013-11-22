@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="http://myservices.be/Common/v001"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://myservices.be/Common/v001">
+
+    <xsd:element name="PostpaidComplex" type="PostpaidComplexType"/>
+    <xsd:complexType name="PostpaidComplexType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" ref="EnterpriseNumber"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="EnterpriseNumber" type="EnterpriseNumberType"> </xsd:element>
+    <xsd:simpleType name="EnterpriseNumberType">
+        <xsd:annotation><xsd:documentation>
+            The official identification of an organization This is the same as the
+            organization's nine digit VAT number preceded by a zero. In the format
+            nnnn.nnn.nnn.
+        </xsd:documentation></xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0,1][0-9]{3}\.[0-9]{3}\.[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
