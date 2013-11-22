@@ -40,64 +40,98 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     def bPs = []
     a.particles.eachWithIndex() { aP, i ->
       def bP = b.particles[i]
-      if(!bP){
-        diffs << particleChangedOrRemoved(bPs, aP, i)
+      if(!bP){														//Index of aP does not exist in bPs 
+				if(aP instanceof Element) {
+					int bi = getParticleBIndex(aP)	//for aP there is a bP with another index
+					if(bi != -1) {
+						bPs << b.particles[bi]
+						diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+						return
+					}
+					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} ${labelRemoved}." ,
+						type: 'sequence', safe: false, breaks: true)
+					return
+				}
+				if(aP instanceof Any && bPs.grep(Any).find{it.namespace == aP.namespace}) {
+					diffs << new Difference(description:"${labelPositionElement} 'any' ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
+					bPs << bPs.grep(Any).find{it.namespace == aP.namespace}
+					return
+				}
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved} from position ${i+1}." , type: 'sequence', safe: false, breaks: true)
         return
       }
-      if(!(aP instanceof Element || bP instanceof Element) && aP.class != bP.class) {
-        bPs << bP
-        diffs << new Difference(description:"${labelParticle} ${aP.elementName} ${labelReplacedWith} ${bP.elementName}." , type: 'sequence', exchange: a.exchange)
-        return
-      }
-      if(aP.name == bP.name) {
-        bPs << bP
+			if(aP instanceof Element){														//aP is an element
+				if(bP instanceof Element){													//bP is also an elements
+					if((aP.name ?: aP.ref) == (bP.name ?: bP.ref)) {	//Element names or refs are equal
+						bPs << bP
+						aP.exchange.addAll(a.exchange)
+						bP.exchange.addAll(b.exchange)
+		        def lDiffs = aP.compare(generator, bP, ctx.clone())
+		        diffs.addAll(lDiffs)
+		        return
+					}
+					int bi = getParticleBIndex(aP)
+					if(bi != -1) {													//element found on other position
+						bPs << b.particles[bi]
+						diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+						return
+					}																
+				}
+				int bi = getParticleBIndex(aP)
+				if(bi != -1) {														//element found on other position
+					bPs << b.particles[bi]
+					diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+					return
+				}																					//element not found (removed) or bP is not an element
+				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
+				return
+			}																						//aP is NOT an element
+			if(aP instanceof Any) {											//aP is an any
+				int bi = getParticleBIndex(aP)
+				if(bi != -1 && bi != i) {									//any found on other position
+					bPs << b.particles[bi]
+					diffs << new Difference(description:"Position of any changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+					return
+				}						
+			}
+			if(bP instanceof Element){									//aP is not an element and bP is an element
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved}  from position ${i+1}." , type: 'sequence', safe: false, breaks: true)
+				return
+			}																						//compare two none-Elements (also 'any')
+			if(aP.class == bP.class){
+				bPs << bP
 				aP.exchange.addAll(a.exchange)
 				bP.exchange.addAll(b.exchange)
-        def lDiffs = aP.compare(generator, bP, ctx.clone())
-        diffs.addAll(lDiffs)
-        return
-      }
-      diffs << particleChangedOrRemoved(bPs, aP, i)
-      return
+	      def lDiffs = aP.compare(generator, bP, ctx.clone())
+	      diffs.addAll(lDiffs)
+				return
+			}
+			bPs << bP
+			diffs << new Difference(description:"${labelParticle} ${aP.elementName} on position ${i+1} ${labelReplacedWith} ${bP.elementName}." , type: 'sequence', exchange: a.exchange)
+			return
     }
-    diffs.addAll(compareUnprocessedBPs(bPs))
+    diffs.addAll(compareUnprocessedBPs(b.particles - bPs))
     diffs
-  }
-
-  private particleChangedOrRemoved(bPs, aP, i){
-    if(getParticleB(aP)) {
-      int bi = b.particles.findIndexOf{ it.name == aP.name }
-      
-      bPs << getParticleB(aP)
-      if(aP instanceof Element) return new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
-      // "any" is not an element, so a different message here
-      return new Difference(description:"${labelPositionElement} ${aP.name ?: aP.elementName} ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
-    }
-    if(aP instanceof Element) return new Difference(description:"${labelElement} ${aP.name} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
-    // "any" is not an element, so a different message here
-    new Difference(description:"${aP.elementName} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
   }
 
   def compareUnprocessedBPs(bPs){
     def diffs = []
-    (b.particles-bPs).eachWithIndex() { bP, i ->
-        if(a.elements.find{it.name == bP.name}) {
-        diffs << new Difference(description:"${labelPositionElement} ${bP.name ? bP.name +' ' : ''}${labelChanged}." , type: 'sequence', breaks: true, safe: false)
-      } else {
-				boolean isSafe = (bP.minOccurs == '0' && !(b.exchange.contains('response') || b.exchange.contains('fault')))
-				diffs << new Difference(description:"${(bP.elementName).capitalize()} ${bP.name ? bP.name+' ' : ''}${bP.elementName == 'element'? 'with minoccurs ' + bP?.minOccurs+' ' : ''}${labelAdded}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
-      }
-    }
+    bPs.each { bP ->
+			boolean isSafe = (bP.minOccurs == '0' && !(b.exchange.contains('response') || b.exchange.contains('fault')))
+			if(bP instanceof Element) {
+				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
+			} else {
+				diffs << new Difference(description:"New ${bP.elementName} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
+			}
+		}
     diffs
   }
+	
+	private getParticleBIndex(aP) {
+		if(aP instanceof Element) return	b.particles.findIndexOf{it instanceof Element && (it.name ?: it.ref) == (aP.name ?: aP.ref)}
+		if(aP instanceof Any) return b.particles.findIndexOf{it instanceof Any && it.namespace == aP.namespace}
+	}
 
-  private getParticleB(aP) {
-		if(aP.elementName == 'any'){
-			return b.particles.find{it.elementName == 'any' && it.namespace == aP.namespace}
-		}
-    b.particles.find{it.name == aP.name}
-  }
-  
   protected def updateLabels(){
 	  labelSequenceRemoved = bundle.getString("com.predic8.schema.diff.labelSequenceRemoved")
 	  labelSequenceAdded = bundle.getString("com.predic8.schema.diff.labelSequenceAdded")

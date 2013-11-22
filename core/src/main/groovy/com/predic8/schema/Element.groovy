@@ -34,6 +34,7 @@ class Element extends Declaration {
   TypeDefinition embeddedType
   boolean toplevel = false
   Annotation annotation
+	String refValue
   QName ref
   String minOccurs = 1
   String maxOccurs = 1
@@ -47,7 +48,8 @@ class Element extends Declaration {
     type = getTypeQName(token.getAttributeValue( null , 'type'))
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
     maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1
-    ref = getTypeQName(token.getAttributeValue( null , 'ref'))
+    refValue = token.getAttributeValue( null , 'ref')
+		ref = getTypeQName(refValue)
 		// Element can have a default value OR a fixed value specified.
 		defaultValue = token.getAttributeValue( null , 'default')
 		fixedValue = token.getAttributeValue( null , 'fixed')

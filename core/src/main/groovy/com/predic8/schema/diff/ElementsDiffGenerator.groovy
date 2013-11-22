@@ -18,26 +18,26 @@ import com.predic8.soamodel.*
 
 class ElementsDiffGenerator extends ListDiffGenerator{
  
-   def labelElement, labelRemoved, labelAdded
+  def labelElement, labelRemoved, labelAdded
 
   def generator
 
-  def removed = { new Difference(description:"${labelElement} ${it.name} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
+  def removed = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.ref} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
 
-  def added = { new Difference(description:"${labelElement} ${it.name} ${labelAdded}.", type : 'element', exchange: it.exchange)}
+  def added = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} ${labelAdded}.", type : 'element', exchange: it.exchange)}
   
 
   public ElementsDiffGenerator(){
 	  updateLabels()
   }
-  
+	
   protected getIntersection(){
-    (a.name).intersect(b.name)
+		(a.name).intersect(b.name)  + (a.ref).intersect(b.ref) - null
   }
 
-  List<Difference> compareUnit(name){
-    def aElement = a.find{ it.name == name}
-    def bElement = b.find{ it.name == name}
+  List<Difference> compareUnit(identificator){
+    def aElement = a.find{ it.name == identificator} ?: a.find{it.ref == identificator}
+    def bElement = b.find{ it.name == identificator} ?: b.find{it.ref == identificator}
     aElement.compare(generator , bElement)
   }
   

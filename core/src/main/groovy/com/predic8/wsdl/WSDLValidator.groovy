@@ -11,9 +11,8 @@
 
 package com.predic8.wsdl
 
-import java.util.List;
-
-import com.predic8.schema.SchemaValidator
+import com.predic8.soamodel.MessageAccessException
+import com.predic8.soamodel.PortTypeAccessException
 import com.predic8.soamodel.ValidationError
 
 class WSDLValidator {
@@ -29,8 +28,12 @@ class WSDLValidator {
 			validateServicePorts(it.ports, ctx)
 		}
 		validateBindings(wsdl.bindings, ctx)
+		/*TODO Add validateBindingOperations
+		 * to check if there is also an equivalent operation in the portType.
+		 */
 		validatePortTypeMessages(wsdl.operations.input, ctx)
 		validatePortTypeMessages(wsdl.operations.output, ctx)
+		//TODO Implement validateFaults() for operations
 		wsdl.messages.each { msg ->
 			if(! msg.parts) ctx.errors << new ValidationError(invalidElement : msg, parent: wsdl, message : "There is no part defined in message ${msg.name} in this WSDL.", wsdlTNS: wsdl.targetNamespace)
 			else validateMessageParts(msg , ctx)
@@ -53,8 +56,11 @@ class WSDLValidator {
 	void validateBindings(bnds, ctx) {
 		bnds.each {
 			try {
-				if(!it.portType)
-					ctx.errors << new ValidationError(invalidElement : it, message : "Binding ${it.name} uses '${it.typePN}' as a type reference which is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
+				if(!it.portType){
+					def e = new PortTypeAccessException("Could not find the portType definition for '${it.typePN}' in the binding'${it.name}'.", it)
+					ctx.errors << new ValidationError(invalidElement : it, message : "Binding ${it.name} uses '${it.typePN}' as a type reference which is not defined in this WSDL.", 
+						wsdlTNS: it.definitions.targetNamespace, cause: e)
+				}
 			} catch (Exception e) {
 				ctx.errors << new ValidationError(invalidElement : it, message : (e.message ?: "Binding ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace)
 			}
@@ -66,10 +72,12 @@ class WSDLValidator {
 			def err
 			try {
 				if(it && !it.message){
-					err = new ValidationError(invalidElement : it, message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
+					def e = new MessageAccessException("Could not find the message '${it.messagePrefixedName.toString()}', used in the ${it.ELEMENTNAME.localPart} of an operation.", it, it.messagePrefixedName.toString())
+					err = new ValidationError(invalidElement : it, wsdlTNS: it.definitions.targetNamespace, cause: e,
+						message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.")
 				}
 			} catch (Exception e) {
-				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.ELEMENTNAME.localPart} ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace)
+				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.ELEMENTNAME.localPart} ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace, cause: e)
 			}
 			if(err) {
 				ctx.errors << err

@@ -14,11 +14,9 @@
 
 package com.predic8.wsdl
 
-import groovy.xml.MarkupBuilder
-
-import com.predic8.soamodel.ValidationError;
-import com.predic8.wsdl.creator.WSDLCreator
-import com.predic8.wsdl.creator.WSDLCreatorContext
+import com.predic8.soamodel.MessageAccessException
+import com.predic8.soamodel.NamespaceNotDeclaredForReferenceException
+import com.predic8.soamodel.ValidationError
 import com.predic8.xml.util.ClasspathResolver
 
 class WSDLValidatorTest extends GroovyTestCase{
@@ -34,19 +32,19 @@ class WSDLValidatorTest extends GroovyTestCase{
 	
 	void testValidation() {
 		wsdl.validate(ctx) 
-//		ctx.errors.grep(ValidationError).invalidElement.each{
-//			if(it instanceof Port){
-//				def strWriter = new StringWriter()
-//				new WSDLCreator(builder : new MarkupBuilder(strWriter)).createPort(it, new WSDLCreatorContext())
-//				println strWriter
-//			}
-//		}
-//		ctx.errors.grep(ValidationError).each { println it.message}
-		assert 4 == ctx.errors.grep(ValidationError).size()
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Binding}.cause.message ==
+		"Could not find the portType definition for 'tns:ArticleServicePTTEST' in the binding'ArticleServicePTBinding'."
+		assert 5 == ctx.errors.grep(ValidationError).size()
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Binding)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Port)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Part)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Output)
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Output}.cause instanceof NamespaceNotDeclaredForReferenceException
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Output}.cause.message ==
+		"No namespace declared for prefix 'TEST', used to reference 'TEST:getAllResponse1' in output 'output3'."
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Input}.cause instanceof MessageAccessException
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Input}.cause.message ==
+		"Could not find the message 'tns:getRequestTest', used in the input of an operation."
 		assert !ctx.errors.grep(ValidationError).invalidElement.grep(BindingOperation)
 	}
   

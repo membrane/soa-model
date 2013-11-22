@@ -26,7 +26,7 @@ class BindingFault extends BindingMessage {
 		try {
 			definitions.getMessage(bindingOperation.binding.portType.getOperation(bindingOperation.name).faults.find{it.name == name}.message.qname)
 		} catch (Exception e) {
-			throw new ModelAccessException("Could not find the definition for at least one message in the fault '$name' of the operation '${bindingOperation.name}' in the WSDL.", e)
+			throw new MessageAccessException("Could not find the message for fault '$name' of the operation '${bindingOperation.name}' in the WSDL.", bindingOperation, '')
 		}
 	}
 

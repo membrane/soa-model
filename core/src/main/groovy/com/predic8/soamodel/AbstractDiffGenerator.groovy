@@ -60,13 +60,13 @@ abstract class AbstractDiffGenerator {
     def aNames = aObjs.collect{getID(it)}
     def bNames = bObjs.collect{getID(it)}
     def diffs = []
-    if(aNames[0]){
+    if(aNames){
       def removed  = aNames - bNames
       removed.each{ name ->
         diffs << rm(aObjs.find{getID(it) == name})
       }
     }
-    if(bNames[0]){
+    if(bNames){
       def added = bNames - aNames
       added.each{ name ->
         diffs << add(bObjs.find{getID(it) == name})
