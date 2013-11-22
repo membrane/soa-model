@@ -30,10 +30,12 @@
   <complexType name="CT4">
     <sequence>
       <element name="E5" type="string" />
-      <element name="E3" type="string" />
+      <element name="E3" type="int" />
       <element name="E4" type="string" />
       <element name="E6" type="string" />
       <element ref="tns:bar"/>
+      <any namespace="##any"/>
+      <any namespace="##local"/>
     </sequence>
   </complexType>
   

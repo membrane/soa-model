@@ -60,10 +60,11 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false, exchange: a.exchange)
 			]
         if (!b.metaClass.hasProperty(b, 'type')) return [
-                new Difference(description: "${labelTypeElement} '${a.name ?: a.ref}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)}:${a.type?.localPart} ${labelTo} ${b.toString()}.", type: 'element', breaks: true, exchange: a.exchange)
+                new Difference(description: "${labelTypeElement} '${a.name ?: a.ref}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)?:'xsd'}:${a.type?.localPart} ${labelTo} ${b.toString()}.", type: 'element', breaks: true, exchange: a.exchange)
             ]
 		if(a.type != b.type) return [
-				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)}:${a.type.localPart} ${labelTo} ${b.schema.getPrefix(b.type.namespaceURI)}:${b.type.localPart}.", type: 'element', breaks:true, exchange: a.exchange)
+				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)?:'xsd'}:${a.type.localPart} ${labelTo} ${b.schema.getPrefix(b.type.namespaceURI)?:'xsd'}:${b.type.localPart}.",
+					 type: 'element', breaks:true, exchange: a.exchange)
 			]
 		[]
 	}

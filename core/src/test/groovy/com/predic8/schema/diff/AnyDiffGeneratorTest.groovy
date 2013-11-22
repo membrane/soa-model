@@ -77,7 +77,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=1")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs.diffs.description.toString().contains('New any added to position 2.')
+        assert diffs.diffs.description.toString().contains('any added to position 2.')
 
         // adding an 'any' with minOccurs > 0 breaks compatibility, old messages without content there will be rejected
         assertTrue(diffs[0].breaks())
@@ -90,7 +90,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=0")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs.diffs.description.toString().contains('New any added to position 2.')
+        assert diffs.diffs.description.toString().contains('any added to position 2.')
 
         // adding an 'any' with minOccurs == 0 is safe, old messages without content there will be accepted
         assertTrue(diffs[0].safe() && !diffs[0].breaks() )

@@ -38,26 +38,22 @@ class ElementRefDiffTest extends GroovyTestCase {
 		assert diffs[0].description == 'Element foo removed.'
 	}
 	
-	void testElemensInSequence() {
+	void testSequnceDiff() {
 		def diffs = compare(schemaWithRef, schemaWithName)
-		assert diffs[1].dump().contains('Element S1E1 removed.')
+		assert diffs[6].description == 'ComplexType CT4:'
+		assert diffs[6].diffs[0].type == 'sequence'
+		assert diffs[6].diffs[0].diffs[0].description == 'Element E1 removed.'
+		assert diffs[6].diffs[0].diffs[1].description == 'Element E2 removed.'
+		assert diffs[6].diffs[0].diffs[2].description == 'Position of element E3 changed from 3 to 2.'
+		assert diffs[6].diffs[0].diffs[3].description == 'Position of element E4 changed from 4 to 3.'
+		assert diffs[6].diffs[0].diffs[4].description == 'Element ref to tns:foo removed.'
+		assert diffs[6].diffs[0].diffs[5].description == 'Particle choice on position 6 replaced with any.'
+		assert diffs[6].diffs[0].diffs[6].description == 'Element E5 with minoccurs 1 added to position 1.'
+		assert diffs[6].diffs[0].diffs[7].description == 'Element E6 with minoccurs 1 added to position 4.'
+		assert diffs[6].diffs[0].diffs[8].description == 'Element ref to tns:bar with minoccurs 1 added to position 5.'
+		assert diffs[6].diffs[0].diffs[9].description == 'any added to position 7.'
 	}
 	
-	void testAll() {
-		def diffs = compare(schemaWithRef, schemaWithName)
-//		println diffs*.dump()
-	}
-	
-	
-
-//	void testCompareRef2Name() {
-//		def diffs = compare(schemaWithRef, schemaWithName)
-//		assert diffs.size() == 2
-//		println diffs*.dump()
-//		assert diffs[1].dump().contains('Element FirstElement with minoccurs 1 added.')
-//		assert diffs[1].dump().contains('Element ref to FirstElement with minoccurs 0 removed.')
-//	}
-
 	private def compare(a, b) {
 		new SchemaDiffGenerator(a: a, b: b).compare()
 	}
