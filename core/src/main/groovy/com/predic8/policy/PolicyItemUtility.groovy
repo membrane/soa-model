@@ -51,6 +51,13 @@ class PolicyItemUtility {
 				case 'TransportBinding' : return new TransportBinding(ELEMENTNAME: qname) ; break
 				case 'TransportToken' : return new TransportToken(ELEMENTNAME: qname) ; break
 				case 'Addressing' : return new Addressing(ELEMENTNAME: qname) ; break
+				case 'Basic256' : return new Basic256(ELEMENTNAME: qname) ; break
+				case 'EndorsingSupportingTokens' : return new EndorsingSupportingTokens(ELEMENTNAME: qname) ; break
+				case 'RequireThumbprintReference' : return new RequireThumbprintReference(ELEMENTNAME: qname) ; break
+				case 'Trust13' : return new Trust13(ELEMENTNAME: qname) ; break
+				case 'MustSupportIssuedTokens' : return new MustSupportIssuedTokens(ELEMENTNAME: qname) ; break
+				case 'RequireClientEntropy' : return new RequireClientEntropy(ELEMENTNAME: qname) ; break
+				case 'RequireServerEntropy' : return new RequireServerEntropy(ELEMENTNAME: qname) ; break
 		 }
 	}
 }
