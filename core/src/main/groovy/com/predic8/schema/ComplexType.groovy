@@ -18,8 +18,6 @@ import groovy.xml.*
 
 import javax.xml.namespace.QName as JQName;
 
-import sun.org.mozilla.classfile.internal.SuperBlock;
-
 import com.predic8.wstool.creator.*
 import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext;
