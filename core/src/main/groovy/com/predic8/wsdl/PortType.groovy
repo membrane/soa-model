@@ -44,7 +44,7 @@ class PortType extends WSDLElement{
     creator.createPortType(this, ctx)
   }
   
-  Operation getOperation(name) {
+  Operation getOperation(String name) {
     operations.find { it.name == name}
   }
   

@@ -40,12 +40,14 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   
   private compareModel(){
     def lDiffs = []
-    if(a.model?.class != b.model?.class){
+    if(a.model && b.model && a.model?.class != b.model?.class){
       lDiffs << new Difference(description:"${labelModelGroupChange} ${a.model?.class?.simpleName} ${labelTo} ${b.model?.class?.simpleName}." , type: 'model', breaks:true, exchange: a.exchange)
     } else if(a.model) {
-			a.model.exchange.addAll(a.exchange)
-			b.model?.exchange?.addAll(b.exchange)
+			a.model.exchange = a.exchange
+			b.model.exchange = b.exchange
       lDiffs.addAll(a.model.compare(generator, b.model, ctx.clone()))
+    } else if(b.model){ //a has no model
+		lDiffs << new Difference(description:"${b.model.elementName} ${labelAdded}." , type: 'model', breaks:true, exchange: a.exchange)
     }
     
     lDiffs.addAll(generator.compareAttributes(a, b))

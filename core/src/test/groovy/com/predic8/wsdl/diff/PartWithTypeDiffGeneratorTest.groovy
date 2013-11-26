@@ -28,7 +28,7 @@ class PartWithTypeDiffGeneratorTest extends GroovyTestCase {
 
 	void testPartTypeChanges() {
 		def diffs = compare(wsdl1, wsdl2)
-		assert diffs*.dump().toString().contains('ModelGroup has changed from null to All.')
+		assert diffs*.dump().toString().contains('all added.')
 		assert diffs*.dump().toString().contains('Type has changed from {http://www.w3.org/2001/XMLSchema}string to {http://www.w3.org/2001/XMLSchema}anySimpleType.')
 		assert diffs*.dump().toString().contains('Type has changed from {urn:PessoaJuridicaSimplificada}Serialization to {urn:PessoaFisicaSimplificada}Serialization.')
 	}

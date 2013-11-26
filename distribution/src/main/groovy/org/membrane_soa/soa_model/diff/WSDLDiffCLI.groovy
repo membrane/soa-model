@@ -76,23 +76,29 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 					doc2.messages.each { Message(it.name) }
 				}
 			}
-			OperationChanges{
-				def ops = (doc1.operations.name + doc2.operations.name).unique().sort()
-				ops.each { opName ->
-
-					Operation('name':opName){
-
-						Difference change = findOperationChanges(diffs, opName)
-						if(change && change.description.contains("Operation $opName added.")){
-							added()
-							createOperation(builder, doc2, opName, change)
-						}
-						else {
-							if(change && change.description.contains("Operation $opName removed.")) builder.removed()
-
-							createOperation(builder, doc1, opName, change)
+			def jointPortTypes = doc1.portTypes.name.intersect(doc2.portTypes.name)
+			jointPortTypes.each {ptName ->
+				OperationChangesInPortType('name':ptName){
+					def (aPt, bPt) = [doc1.getPortType(ptName), doc2.getPortType(ptName)]
+					def jointOpNames = aPt.operations.name.intersect(bPt.operations.name)
+					jointOpNames.each { opName ->
+						Operation('name':opName){
+							Difference change = findOperationChanges(diffs, aPt.getOperation(opName))
+							createOperation(builder, aPt.getOperation(opName), change)
 						}
 					}
+					(aPt.operations.name - jointOpNames).each {opName ->  //removed operations
+						Operation('name':opName){
+							removed()
+							createOperation(builder, aPt.getOperation(opName), null)
+						}
+					} 
+					(bPt.operations.name - jointOpNames).each {opName ->   //added operations
+						Operation('name':opName){
+								added()
+								createOperation(builder, bPt.getOperation(opName), null)
+							}
+						}
 				}
 			}
 			Diffs{
@@ -107,8 +113,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		transform(new ByteArrayInputStream(writer.toByteArray()), 'html')
 	}
 
-	private createOperation(MarkupBuilder builder, Definitions wsdl, String opName, Difference change) {
-		Operation op = wsdl.operations.find{it.name == opName}
+	private createOperation(MarkupBuilder builder, Operation op, Difference change) {
 		def inputDiff = change?.diffs?.find{it.type == 'input'}
 		builder.input(message: op.input?.message?.name , compatibility: computeCompatibility(inputDiff))
 		def outputDiff = change?.diffs?.find{it.type == 'output'}
@@ -121,13 +126,15 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		diff.safe() ? 'safe' : (diff.breaks() ? 'breaking' : 'not clear')
 	}
 
-	private findOperationChanges(diffs, opName) {
+	private findOperationChanges(diffs, op) {
+//		Operation aOp = doc1.operations.find{it.name == opName}
+//		Operation bOp = doc2.operations.find{it.name == opName}
 		for(def diff in diffs) {
-			if(diff.type?.contains("operation") && diff.description.contains("Operation $opName ")){
+			if(diff.original == op | diff.modified == op){
 				return diff
 			}
 		}
-		if(diffs.diffs) findOperationChanges(diffs.diffs.flatten(), opName)
+		if(diffs.diffs) findOperationChanges(diffs.diffs.flatten(), op)
 	}
 
 	void createOperationPages() {
@@ -177,11 +184,11 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 						}
 						tbody{
 							tr{
-								td{
+								td(width:"50%"){
 									Element element = doc1.getElementforOperationExchange(opName, exchange)
 									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
 								}
-								td{
+								td(width:"50%"){
 									Element element = doc2.getElementforOperationExchange(opName, exchange)
 									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
 								}
@@ -200,13 +207,13 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 						}
 						tbody{
 							tr{
-								td{
+								td(width:"50%"){
 									Element element = doc1.getElementforOperationExchange(opName, exchange)
 									if(element){
 										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element) )
 									}
 								}
-								td{
+								td(width:"50%"){
 									Element element = doc2.getElementforOperationExchange(opName, exchange)
 									if(element) {
 										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element))

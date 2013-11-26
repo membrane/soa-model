@@ -21,6 +21,7 @@ class Difference {
   String description
   List<Difference> diffs = []
   String type
+	XMLElement original, modified
   private boolean safe
   private boolean breaks
 	def exchange = [] as Set //For WSDL message direction.

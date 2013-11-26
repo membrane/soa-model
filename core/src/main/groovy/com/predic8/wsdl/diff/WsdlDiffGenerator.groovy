@@ -113,8 +113,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareOperations(aOperations, bOperations) {
 		def diffs = []
 		diffs.addAll(compare(aOperations, bOperations,
-				{ new Difference(description:"Operation ${it.name} removed.", breaks:true, type:'operation') },
-				{ new Difference(description:"Operation ${it.name} added.", safe:true, type:'operation') }))
+				{ new Difference(description:"Operation ${it.name} removed.", original: it, breaks:true, type:'operation') },
+				{ new Difference(description:"Operation ${it.name} added.", modified: it, safe:true, type:'operation') }))
 
 		def opNames = aOperations.name.intersect(bOperations.name)
 		opNames.each{ opName ->
@@ -144,7 +144,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		}
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
 		if(diffs) return [
-				new Difference(description:"Operation ${aOperation.name}: ", type: 'operation', diffs: diffs)
+				new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
 			]
 		[]
 	}
@@ -158,18 +158,13 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			case "fault" : exchange = ['fault'] ; break 
 		}
 		if(!aPTM && !bPTM) return []
-		if(aPTM && !bPTM) return [
-				new Difference(description:"${ptmName.capitalize()} removed.", exchange:exchange, type: ptmName)
-			]
-		if(!aPTM && bPTM) return [
-				new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange, type: ptmName)
-			]
+		if(aPTM && !bPTM) return [new Difference(description:"${ptmName.capitalize()} removed.", exchange:exchange.clone(), type: ptmName)]
+		if(!aPTM && bPTM) return [new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange.clone(), type: ptmName)]
 		def lDiffs = compareDocumentation(aPTM, bPTM)
-		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: ptmName, breaks : true, exchange:exchange)
+		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) 
+			lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: ptmName, breaks : true, exchange:exchange.clone())
 		else lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
-		if(lDiffs) return [
-				new Difference(description:"${ptmName.capitalize()}:", diffs: lDiffs, exchange:exchange, type: ptmName)
-			]
+		if(lDiffs) return [ new Difference(description:"${ptmName.capitalize()}:", diffs: lDiffs, exchange:exchange.clone(), type: ptmName)]
 		[]
 	}
 
@@ -177,10 +172,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = []
 		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
 		(aFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange.clone())
 		}
 		(bFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange.clone())
 		}
 		faults.each { f ->
 			diffs.addAll(comparePortTypeMessage(aFaults.find{it.message.name == f}, bFaults.find{it.message.name == f}, exchange))
@@ -192,7 +187,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(a, b)
 		diffs.addAll( compareParts(a.parts, b.parts, exchange))
 		if(diffs) return [
-				new Difference(description:"Message ${a.name}:", type: 'message', diffs : diffs, exchange:exchange)
+				new Difference(description:"Message ${a.name}:", type: 'message', diffs : diffs, exchange:exchange.clone())
 			]
 		[]
 	}
@@ -200,8 +195,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareParts(aParts, bParts, exchange) {
 		def diffs = []
 		diffs.addAll( compare(aParts, bParts,
-				{ new Difference(description:"Part ${it.name} removed." , breaks:true, exchange:exchange) },
-				{ new Difference(description:"Part ${it.name} added." , breaks:true, exchange:exchange) }))
+				{ new Difference(description:"Part ${it.name} removed." , breaks:true, exchange:exchange.clone()) },
+				{ new Difference(description:"Part ${it.name} added." , breaks:true, exchange:exchange.clone()) }))
 		def partNames = aParts.name.intersect(bParts.name)
 		partNames.each{ ptName ->
 			Part a = aParts.find{ it.name == ptName}
@@ -215,32 +210,36 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
 		if(a.element && b.type) {
-			a.element.exchange = b.type.exchange = exchange
-			diffs << new Difference(description:"Element ${a.element.name} has changed to type ${b.type.qname}.", type:'element2type', breaks : true, exchange:exchange)
+			a.element.exchange = exchange.clone()
+			b.type.exchange = exchange.clone()
+			diffs << new Difference(description:"Element ${a.elementPN} has changed to type ${b.typePN}.", type:'element2type', breaks : true, exchange:exchange.clone())
 		}
 		else if(b.element && a.type) {
-			a.type.exchange = b.element.exchange = exchange
-			diffs << new Difference(description:"Type ${a.type} has changed to element ${b.element.name}.", type:'type2element', breaks : true, exchange:exchange)
-		}
-		else if(a.element?.name != b.element?.name) {
-			a.element?.exchange = b.element?.exchange = exchange
-			diffs << new Difference(description:"Element has changed from ${a.element?.name} to ${b.element?.name}.", type:'element', breaks : true, exchange:exchange)
+			a.type.exchange = exchange.clone()
+			b.element.exchange = exchange.clone()
+			diffs << new Difference(description:"Type ${a.typePN} has changed to element ${b.elementPN}.", type:'type2element', breaks : true, exchange:exchange.clone())
 		}
 		else if(a.element?.namespaceUri != b.element?.namespaceUri) {
-			a.element?.exchange = b.element?.exchange = exchange
+			a.element?.exchange = exchange.clone()
+			b.element?.exchange = exchange.clone()
 			diffs << new Difference(description:"Element namespace has changed from ${a.element.namespaceUri} to ${b.element.namespaceUri}.", type:'element', breaks : true, exchange:exchange)
 		}
+		else if(a.element?.name != b.element?.name) {
+			a.element?.exchange = exchange.clone()
+			b.element?.exchange = exchange.clone()
+					diffs << new Difference(description:"Element has changed from ${a.elementPN} to ${b.elementPN}.", type:'element', breaks : true, exchange:exchange.clone())
+		}
 		else if(a.element && b.element) {
-			a.element.exchange += exchange
-			b.element.exchange += exchange
+			a.element.exchange += exchange.clone()
+			b.element.exchange += exchange.clone()
 			diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
 		}
 		else if(a.type && b.type) {
 			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needed.
-			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange)
+			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange.clone())
 			diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
-		if(diffs) return [new Difference(description:"Part ${a.name}: ", type: 'part', diffs : diffs, exchange:exchange)]
+		if(diffs) return [new Difference(description:"Part ${a.name}: ", type: 'part', diffs : diffs, exchange:exchange.clone())]
 		[]
 	}
 
