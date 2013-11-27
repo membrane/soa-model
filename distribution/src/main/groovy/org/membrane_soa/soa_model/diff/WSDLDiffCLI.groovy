@@ -27,7 +27,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 	public static void main(String[] args) {
 		WSDLDiffCLI diffCLI = new WSDLDiffCLI()
 		diffCLI.start(args)
-		diffCLI.createOperationPages()
+		//		diffCLI.createOperationPages()
 	}
 
 	void Diff2Xml(List<Difference> diffs){
@@ -77,33 +77,45 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 				}
 			}
 			def jointPortTypes = doc1.portTypes.name.intersect(doc2.portTypes.name)
+			def operationPages = []
 			jointPortTypes.each {ptName ->
 				OperationChangesInPortType('name':ptName){
-					def (aPt, bPt) = [doc1.getPortType(ptName), doc2.getPortType(ptName)]
+					def (aPt, bPt) = [
+						doc1.getPortType(ptName),
+						doc2.getPortType(ptName)
+					]
 					def jointOpNames = aPt.operations.name.intersect(bPt.operations.name)
 					jointOpNames.each { opName ->
 						Operation('name':opName){
-							Difference change = findOperationChanges(diffs, aPt.getOperation(opName))
-							createOperation(builder, aPt.getOperation(opName), change)
+							def aOp = aPt.getOperation(opName)
+							def bOp = bPt.getOperation(opName)
+							Difference change = findOperationChanges(diffs, aOp)
+							createOperation(builder, aOp, change)
+							if(change?.diffs?.find{it.type == 'input'}) operationPages << [ptName, aOp, bOp, change, 'input']
+							if(change?.diffs?.find{it.type == 'output'}) operationPages << [ptName, aOp, bOp, change, 'output']
+							//TODO operationPage for faults
 						}
 					}
-					(aPt.operations.name - jointOpNames).each {opName ->  //removed operations
+					(aPt.operations.name - jointOpNames).each {opName ->						//removed operations
 						Operation('name':opName){
 							removed()
 							createOperation(builder, aPt.getOperation(opName), null)
 						}
-					} 
-					(bPt.operations.name - jointOpNames).each {opName ->   //added operations
+					}
+					(bPt.operations.name - jointOpNames).each {opName ->						//added operations
 						Operation('name':opName){
-								added()
-								createOperation(builder, bPt.getOperation(opName), null)
-							}
+							added()
+							createOperation(builder, bPt.getOperation(opName), null)
 						}
+					}
 				}
 			}
+			(doc1.portTypes.name - jointPortTypes).each { RemovedPortType('name':it) }
+			(doc2.portTypes.name - jointPortTypes).each { AddedPortType('name':it) }
 			Diffs{
 				diffs.each{ diff -> dump(diff) }
 			}
+			operationPages.each { createOperationPage(it) }
 		}
 
 		new File(reportFolder).mkdir()
@@ -127,8 +139,6 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 	}
 
 	private findOperationChanges(diffs, op) {
-//		Operation aOp = doc1.operations.find{it.name == opName}
-//		Operation bOp = doc2.operations.find{it.name == opName}
 		for(def diff in diffs) {
 			if(diff.original == op | diff.modified == op){
 				return diff
@@ -137,17 +147,10 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 		if(diffs.diffs) findOperationChanges(diffs.diffs.flatten(), op)
 	}
 
-	void createOperationPages() {
-		new File("$reportFolder/operations").mkdir()
-		def opNames = (doc1.operations.name + doc2.operations.name).unique().sort()
-		opNames.each { opName ->
-			generateOperationPages(opName, 'input')
-			generateOperationPages(opName, 'output')
-		}
-	}
-
-	private generateOperationPages(String opName, exchange) {
-		def writer = new FileWriter(new File("$reportFolder/operations/$opName-${exchange}.html"))
+	private createOperationPage(String ptName, Operation aOp, Operation bOp,Difference opChange, String exchange) {
+		def opName = aOp.name ?: bOp.name
+		new File("$reportFolder/$ptName/").mkdirs()
+		def writer = new FileWriter(new File("$reportFolder/$ptName/$opName-${exchange}.html"))
 		builder = new MarkupBuilder(writer)
 		builder.html(xmlns:"http://www.w3.org/1999/xhtml",lang:"en",'xml:lang':"en"){
 			head {
@@ -162,8 +165,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 			body {
 				div('class' : "container") {
 					h1 "${exchange.capitalize()} Message of Operation '$opName'"
-					Difference opChange = findOperationChanges(diffs, opName)
-					if(!opChange|| !opChange.diffs.type.contains(exchange)) h2 'There are no differences.'
+					if(!opChange|| !opChange.diffs.type.contains(exchange)) h2 'There are no differences in this view.'
 					else {
 						h2 "Differences:"
 						div {
@@ -173,8 +175,8 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 
 
 					h2 "${exchange.capitalize()} Template"
-					p '''The message templates below show how an original message   
-						and a message based on the modified WSDL will look like.'''
+					p '''The message templates below show how an original message
+									and a message based on the modified WSDL will look like.'''
 					table('class' : "table table-striped table-bordered")  {
 						thead{
 							tr{
@@ -196,8 +198,8 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 						}
 					}
 					h2 "Schema Definition"
-					p '''The following schemas are only showing definitions that are 
-						relevant to the message. The real schemas might be bigger.'''
+					p '''The following schemas are only showing definitions that are
+									relevant to the message. The real schemas might be bigger.'''
 					table('class' : "table table-striped table-bordered")  {
 						thead{
 							tr{
@@ -225,6 +227,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 				}
 			}
 		}
+		return
 	}
 
 	private dumpOperationDiff(Difference diff) {
