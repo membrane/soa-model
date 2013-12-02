@@ -65,7 +65,7 @@ class ExternalResolver extends ResourceResolver {
 			return fixUtf(new FileInputStream(new URL(input).getPath()))
 		}
 
-		if(input.startsWith('http') || input.startsWith('https')) {
+		if(input.startsWith('http:') || input.startsWith('https:')) {
 			return resolveViaHttp(input)
 		}
 		

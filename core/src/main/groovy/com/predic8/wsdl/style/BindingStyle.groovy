@@ -19,7 +19,7 @@ abstract class BindingStyle {
 	String value 
 
 	Map check(Binding binding){
-		println "checking style for " + binding.name
+//		println "checking style for " + binding.name
 	}
 
 }

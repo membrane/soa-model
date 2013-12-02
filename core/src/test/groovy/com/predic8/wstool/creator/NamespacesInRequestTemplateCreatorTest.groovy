@@ -35,7 +35,7 @@ class NamespacesInRequestTemplateCreatorTest extends GroovyTestCase{
 		def strWriter = new StringWriter()
     def creator = new RequestCreator(builder: new MarkupBuilder(strWriter))
 		def formParams=["xpath:/create/article/name":'apple', "xpath:/create/article/price/amount":"123"]
-		wsdl.getInputElementForOperation('create').create(creator, new RequestCreatorContext(formParams:formParams))
+		wsdl.getInputElementForOperation('ArticleServicePT', 'create').create(creator, new RequestCreatorContext(formParams:formParams))
 		def request = strWriter.toString()
 		assert request =~ /<ns1:create/
 		assert request =~ /<article/
@@ -51,7 +51,7 @@ class NamespacesInRequestTemplateCreatorTest extends GroovyTestCase{
 		def creator = new RequestCreator(builder: new MarkupBuilder(strWriter))
 		def formParams=["xpath:/create/article/name":'apple', "xpath:/create/article/price/amount":"123"]
 		wsdl.schemas*.elementFormDefault = "qualified"
-		wsdl.getInputElementForOperation('create').create(creator, new RequestCreatorContext(formParams:formParams))
+		wsdl.getInputElementForOperation('ArticleServicePT', 'create').create(creator, new RequestCreatorContext(formParams:formParams))
 		def request = strWriter.toString()
 		assert request =~ /<ns1:create/
 		assert request =~ /<ns1:article/
@@ -61,7 +61,7 @@ class NamespacesInRequestTemplateCreatorTest extends GroovyTestCase{
   void testRequestTemplateCreatorUnqualified() {
     def strWriter = new StringWriter()
     def creator = new RequestTemplateCreator(builder: new MarkupBuilder(strWriter))
-    wsdl.getInputElementForOperation('create').create(creator, new RequestTemplateCreatorContext())
+    wsdl.getInputElementForOperation('ArticleServicePT', 'create').create(creator, new RequestTemplateCreatorContext())
     def request = strWriter.toString()
     assert request =~ /<ns1:create/   
     assert request =~ /<article/
@@ -76,7 +76,7 @@ class NamespacesInRequestTemplateCreatorTest extends GroovyTestCase{
   	def strWriter = new StringWriter()
   	def creator = new RequestTemplateCreator(builder: new MarkupBuilder(strWriter))
   	wsdl.schemas*.elementFormDefault = "qualified"
-  	wsdl.getInputElementForOperation('create').create(creator, new RequestTemplateCreatorContext())
+  	wsdl.getInputElementForOperation('ArticleServicePT', 'create').create(creator, new RequestTemplateCreatorContext())
   	def request = strWriter.toString()
   	assert request =~ /<ns1:create/   
   	assert request =~ /<ns1:article/

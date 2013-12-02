@@ -89,8 +89,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def bPortTypes = b.portTypes
 		def diffs = []
 		diffs.addAll( compare(aPortTypes, bPortTypes,
-				{ new Difference(description:"PortType ${it.name} removed." , breaks:true) },
-				{ new Difference(description:"PortType ${it.name} added." , safe:true) }))
+				{ new Difference(description:"PortType ${it.name} removed." , breaks:true, type:'portType') },
+				{ new Difference(description:"PortType ${it.name} added." , safe:true, type:'portType') }))
 
 		def ptNames = aPortTypes.name.intersect(bPortTypes.name)
 		ptNames.each{ ptName ->

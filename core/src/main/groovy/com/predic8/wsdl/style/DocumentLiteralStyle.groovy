@@ -78,6 +78,7 @@ class DocumentLiteralStyle extends BindingStyle {
 			inputParts.each { inPart->
 				//Rule 2: "Part" Definitions should use element and not type
 				if(inPart.type && !inPart.element) {
+					//TODO Error or Warning should be generated!!!!!!!!!!!
 					result = "Document/Literal"
 					return
 				}

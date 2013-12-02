@@ -170,23 +170,18 @@ class Definitions extends WSDLElement{
 		}
 	}
 	
-	/**
-	 * @return The part element of the soap:body in the soap11 binding for the input of the given operation, if there is one.
-	 */
-	Element getInputElementForOperation(String operationName){
-		getElementforOperationExchange(operationName, 'input')
+	Element getInputElementForOperation(String ptName, String operationName){
+		getElementforOperationExchange(ptName, operationName, 'input')
 	}
 	
-	/**
-	 * @return The part element of the soap:body in the soap11 binding for the output of the given operation, if there is one.
-	 */
-	Element getOutputElementForOperation(String operationName){
-		getElementforOperationExchange(operationName, 'output')
+	Element getOutputElementForOperation(String ptName, String operationName){
+		getElementforOperationExchange(ptName, operationName, 'output')
 	}
 	
-	Element getElementforOperationExchange(String operationName, String exchange) {
+	Element getElementforOperationExchange(String ptName, String operationName, String exchange) {
 		try {
-			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}."$exchange".bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
+			def bnd = bindings.findAll{it.portType.name == ptName && (it.protocol == 'SOAP11' || it.protocol == 'SOAP12')}
+			return bnd.operations.flatten().find{it.name == operationName}."$exchange".bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
 		} catch (Exception e) {
 			return
 		}
