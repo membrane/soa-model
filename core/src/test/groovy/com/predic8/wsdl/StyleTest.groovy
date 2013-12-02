@@ -16,8 +16,6 @@ class StyleTest extends GroovyTestCase {
     wsdl1 = parser.parse("/hotel.wsdl")
     wsdl2 = parser.parse("/RPCStyle.wsdl")
     wsdl3 = parser.parse("/BLZService.wsdl")
-    wsdl4 = parser.parse("/diff/part-with-type/original.wsdl")
-    wsdl5 = parser.parse("/diff/part-with-type/modified.wsdl")
 	}
 	
 	void testDefinitionsStyle() {
@@ -26,11 +24,5 @@ class StyleTest extends GroovyTestCase {
 		assert 'Document/Literal-Wrapped' == wsdl3.getBinding('BLZServiceSOAP11Binding').getStyle()
 		assert 'Document/Literal-Wrapped' == wsdl3.getBinding('BLZServiceSOAP12Binding').getStyle()
 		assert 'This binding uses the HTTP protocol and has no style information' == wsdl3.getBinding('BLZServiceHttpBinding').getStyle()
-		assert 'Document/Literal-Wrapped' == wsdl4.getBinding('CDCSoap').getStyle()
-		assert 'Document/Literal-Wrapped' == wsdl4.getBinding('CDCSoap12').getStyle()
-		assert 'This binding uses the HTTP protocol and has no style information' == wsdl4.getBinding('CDCHttpGet').getStyle()
-		assert 'This binding uses the HTTP protocol and has no style information' == wsdl4.getBinding('CDCHttpPost').getStyle()
-		assert 'Document/Literal' == wsdl5.getBinding('CDCSoap').getStyle()
-		assert 'Document/Literal' == wsdl5.getBinding('CDCSoap12').getStyle()
 	}
 }
