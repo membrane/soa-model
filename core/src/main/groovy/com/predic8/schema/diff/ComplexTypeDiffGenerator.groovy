@@ -47,7 +47,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
 			b.model.exchange = b.exchange
       lDiffs.addAll(a.model.compare(generator, b.model, ctx.clone()))
     } else if(b.model){ //a has no model
-		lDiffs << new Difference(description:"${b.model.elementName} ${labelAdded}." , type: 'model', breaks:true, exchange: a.exchange)
+			lDiffs << new Difference(description:"${b.model.elementName} ${labelAdded}." , type: 'model', breaks:true, exchange: a.exchange)
     }
     
     lDiffs.addAll(generator.compareAttributes(a, b))

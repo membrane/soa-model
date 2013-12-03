@@ -97,13 +97,12 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 				//exchange marks the message direction in the using wsdl:operation
 				aT.exchange.addAll(a.exchange)
 				bT.exchange.addAll(b.exchange)
-
 				diffs.addAll(aT.compare(generator, bT, ctx.clone()))
 			}
 
 		}
 		if(a.ref && a.ref == b.ref) {
-			diffs.addAll(a.schema.getElement(a.ref).compare(generator, b.schema.getElement(b.ref)))
+			diffs.addAll(a.schema.getElement(a.ref).compare(generator, b.schema.getElement(b.ref), ctx.clone()))
 		}
 		diffs
 	}
