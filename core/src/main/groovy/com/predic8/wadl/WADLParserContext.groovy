@@ -18,5 +18,13 @@ import com.predic8.soamodel.AbstractParserContext;
 
 class WADLParserContext extends AbstractParserContext{
 
+  def createNewSubContext(args) {
+    new WADLParserContext (
+        input: args?.input,
+        targetNamespace: args?.targetNamespace,
+        importedSchemas: importedSchemas,
+        errors: errors)
+  }
+
 }
 
