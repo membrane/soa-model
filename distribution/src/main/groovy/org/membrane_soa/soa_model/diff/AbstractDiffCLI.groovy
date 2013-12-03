@@ -104,9 +104,9 @@ abstract class AbstractDiffCLI {
 
   def copy(from, to) {
     new File(from).listFiles().each { entry ->
-      if (entry.name.contains('svn')) return
+      if(entry.name.contains('svn')) return
 
-      if (entry.isDirectory()) {
+      if(entry.isDirectory()) {
         new File("$to/${entry.name}").mkdir()
         copy("$from/${entry.name}", "$to/${entry.name}")
         return
@@ -120,7 +120,7 @@ abstract class AbstractDiffCLI {
     }
   }
 
-    def dump(diff) {
+  def dump(diff) {
     builder.Diff(safe:diff.safe, type:diff.type, breaks:diff.breaks, exchange:diff.exchange() ){
       Description("$diff.description")
       diff.diffs.each{ dump(it) }
