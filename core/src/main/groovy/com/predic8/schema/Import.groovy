@@ -47,7 +47,7 @@ class Import extends SchemaComponent {
 		
 		if(!schemaLocation)	return
 		
-		importSchema = ctx.importedSchemas[namespace] ?: parseImportedSchema(new SchemaParserContext(input: this, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+		importSchema = ctx.getImportedSchema(this)
 	}
 
 	def getImportSchema() {
@@ -71,7 +71,7 @@ class Import extends SchemaComponent {
 		"import[ namespace=$namespace, schemaLocation=$schemaLocation ]"
 	}
 
-	private parseImportedSchema(ctx) {
+	protected parseImportedSchema(ctx) {
 		ctx.baseDir = schema.baseDir
 		def impSchema = (new SchemaParser(resourceResolver: schema.resourceResolver)).parse(ctx)
 		log.debug("importedSchem.baseDir: ${impSchema.baseDir} , namespace: ${namespace}")

@@ -14,6 +14,8 @@
 
 package com.predic8.soamodel
 
+import com.predic8.schema.Import
+import com.predic8.schema.Schema
 import com.predic8.xml.util.ResourceResolver
 
 abstract class AbstractParserContext {
@@ -24,10 +26,41 @@ abstract class AbstractParserContext {
   String newBaseDir
   def parent
   String targetNamespace
-  def importedSchemas
+  Map importedSchemas = [:]
   def token
   def wsiResults = []
 	def errors = []
 	def validated = []
+
+  abstract createNewSubContext(args)
+
+  /**
+   * Gets the imported statement.
+   * <p/>
+   * Reuses an already parsed schema if available, parses and caches the schema if not cached yet.
+   *
+   * @param importStatement
+   * @return
+   */
+  Schema getImportedSchema(Import importStatement) {
+    if (!importedSchemas[getSchemaCacheKey(importStatement)]) {
+      importedSchemas[getSchemaCacheKey(importStatement)] = importStatement.parseImportedSchema(createNewSubContext([input: importStatement]))
+    }
+
+    importedSchemas[getSchemaCacheKey(importStatement)]
+  }
+
+  void setImportedSchema(Schema schema) {
+    importedSchemas[getSchemaCacheKey(schema)] = schema
+  }
+
+  String getSchemaCacheKey(Schema schema) {
+    schema?.targetNamespace
+  }
+
+  String getSchemaCacheKey(Import importStatement) {
+    importStatement?.namespace
+  }
+
 }
 
