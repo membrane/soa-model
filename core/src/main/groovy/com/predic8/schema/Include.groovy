@@ -50,7 +50,7 @@ class Include extends SchemaComponent {
     def origBaseDir = schema.baseDir
     schema.baseDir = HTTPUtil.updateBaseDir(schemaLocation , schema.baseDir)
     log.debug("includedSchema.baseDir ${schema.baseDir}")
-    schema.parse(incToken, new SchemaParserContext(targetNamespace:schema.targetNamespace, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
+    schema.parse(incToken, ctx.createNewSubContext([targetNamespace: schema.targetNamespace]))
     schema.baseDir = origBaseDir
 
   }

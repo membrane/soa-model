@@ -23,5 +23,12 @@ class WSDLParserContext extends AbstractParserContext{
 	
 	List<WSDLElement>	wsdlElementOrder = []
 
+  def createNewSubContext(args) {
+    new WSDLParserContext (
+        input: args?.input,
+        targetNamespace: args?.targetNamespace,
+        importedSchemas: importedSchemas,
+        errors: errors)
+  }
 }
 

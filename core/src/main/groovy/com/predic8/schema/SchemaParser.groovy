@@ -34,7 +34,6 @@ class SchemaParser extends AbstractParser{
 	}
   
   def parseLocal(XMLStreamReader token, ctx){
-    ctx.importedSchemas = ctx.importedSchemas ?: [:]
     def schema
     while(token.hasNext()){
       if (token.startElement) {
@@ -48,7 +47,8 @@ class SchemaParser extends AbstractParser{
       }
       if(token.hasNext()) token.next()
     }
-		if(!schema) throw new RuntimeException("The parsed document ${ctx.input} is not a valid schema document.")
+
+    if(!schema) throw new RuntimeException("The parsed document ${ctx.input} is not a valid schema document.")
     schema
   }
   
