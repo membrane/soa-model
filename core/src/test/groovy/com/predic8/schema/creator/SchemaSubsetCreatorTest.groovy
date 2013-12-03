@@ -19,7 +19,7 @@ import groovy.xml.*
 import javax.xml.stream.*
 
 import com.predic8.schema.*
-import com.predic8.wsdl.Definitions;
+import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.WSDLParser
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
@@ -37,7 +37,21 @@ class SchemaSubsetCreatorTest extends GroovyTestCase{
 	void testSubsetSchema() {
 		wsdl.messages.parts.flatten().element.each {
 			assert 1 == new SchemaSubsetVisitor().createSchema4Element(it).elements.size()
-//			assert new SchemaSubsetVisitor().getSchemaAsString(it)
 		}
-	}    
+	}
+	
+	void testCyclingElement(){
+		Schema schema = new Schema('http://predic8.com/tests/schemasubset/')
+		ComplexType testType = schema.newComplexType('testType')
+		Element test = schema.newElement('test')
+		test.type = new QName('http://predic8.com/tests/schemasubset/','testType')
+		Sequence seq = testType.newSequence()
+		seq.particles << test
+		assert new SchemaSubsetVisitor().createSchema4Element(test).asString	
+	}
+	
+	void testParsedCyclingSchema(){
+		Schema cyclingSchema = new SchemaParser(resourceResolver: new ClasspathResolver()).parse('schema/cycling-elements.xsd')
+		assert new SchemaSubsetVisitor().createSchema4Element(cyclingSchema.getElement('area')).asString
+	}
 }

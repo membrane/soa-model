@@ -269,7 +269,7 @@ class Schema extends SchemaComponent{
   }
   
   ComplexType newComplexType(String name){
-    def ct = new ComplexType(qname: new QName(targetNamespace, name), schema: this, parent: this)
+    def ct = new ComplexType(name: name, qname: new QName(targetNamespace, name), schema: this, parent: this)
     complexTypes << ct
     ct
   }

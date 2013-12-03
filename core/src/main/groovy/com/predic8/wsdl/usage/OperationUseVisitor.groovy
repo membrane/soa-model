@@ -27,7 +27,7 @@ class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorConte
 			op.input.message.parts.each {part ->
 				ctx.visited = []
 				ctx.opUsage = new OperationUsage(operation: op, portType: portType, input: true)
-				part.element? (part.element.create(this, ctx)) : (part.type.create(this, ctx))
+				part.element? (part.element.create(this, ctx)) : (part.type?.create(this, ctx))
 			}
 		}
 		
@@ -35,7 +35,7 @@ class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorConte
 			op.output.message.parts.each {part ->
 				ctx.visited = []
 				ctx.opUsage = new OperationUsage(operation: op, portType: portType, output: true)
-				part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
+				part.element? part.element.create(this, ctx) : part.type?.create(this, ctx)
 			}
 		}
 
@@ -43,7 +43,7 @@ class OperationUseVisitor extends AbstractSchemaCreator<OperationUseVisitorConte
 			fault.message.parts.each {part ->
 				ctx.visited = []
 				ctx.opUsage = new OperationUsage(operation: op, portType: portType, fault: true)
-				part.element? part.element.create(this, ctx) : part.type.create(this, ctx)
+				part.element? part.element.create(this, ctx) : part.type?.create(this, ctx)
 			}
 		}
 

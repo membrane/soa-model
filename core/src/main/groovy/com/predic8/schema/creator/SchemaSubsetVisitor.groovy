@@ -25,6 +25,8 @@ class SchemaSubsetVisitor extends AbstractSchemaCreator <SchemaCreatorContext>{
 	}
 
 	void createComplexType(ComplexType complexType, SchemaCreatorContext ctx) {
+		/*To avoid creating cycling complexTypes return if CT already known.*/
+		if(complexType in ctx.subSchema.complexTypes) return
 		/*ComplexType should only be created, if it is not embedded and has a name.*/
 		if(complexType.name) ctx.subSchema.complexTypes << complexType
 		if(complexType.model) complexType.model.create(this, ctx)
