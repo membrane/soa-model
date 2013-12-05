@@ -112,17 +112,15 @@ abstract class BindingMessage extends WSDLElement{
   }
   
   protected Message getMessage(){
-		//Must be declared outside of the try block, because of use in catch block.
 		Operation pTOperation
 		try {
 			PortType pT = bindingOperation.binding.portType
 			if(!pT)	throw new PortTypeAccessException("Could not find the portType definition for '${bindingOperation.binding.typePN}' in the binding'${bindingOperation.binding.name}'.", bindingOperation.binding)
 			pTOperation = pT.getOperation(bindingOperation.name)
 			if(!pTOperation) throw new OperationAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
+			if(!pTOperation."$ELEMENTNAME.localPart") throw new ModelAccessException("No ${ELEMENTNAME.localPart} declared for operation ${pTOperation.name}.", pTOperation)
 			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
-		} catch(PortTypeAccessException e) {
-			throw e
-		} catch(OperationAccessException e) {
+		} catch(OperationAccessException | ModelAccessException | PortTypeAccessException e) {
 			throw e
     } catch (Exception e) {
 			def msgName = pTOperation."$ELEMENTNAME.localPart".messagePrefixedName.toString()

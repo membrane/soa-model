@@ -130,18 +130,14 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 
 	private List<Difference> compareOperation(aOperation, bOperation) {
 		def diffs = compareDocumentation(aOperation, bOperation)
-		if(aOperation.input.name == bOperation.input.name) {
-			def lDiffs = comparePortTypeMessage(aOperation.input, bOperation.input, 'input')
-			diffs.addAll(lDiffs)
-		} else {
-			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'input', breaks : true, exchange:'request')
+		if(aOperation.input.name != bOperation.input.name) {
+			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'input', breaks : false, exchange:['request'])
 		}
-		if(aOperation.output?.name == bOperation.output?.name) {
-			def lDiffs = comparePortTypeMessage(aOperation.output, bOperation.output, 'output')
-			diffs.addAll(lDiffs)
-		} else {
-			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : true, exchange:'response')
+		diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input, 'input'))
+		if(aOperation.output?.name != bOperation.output?.name) {
+			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : false, exchange:['response'])
 		}
+		diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output, 'output'))
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
 		if(diffs) return [
 				new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
@@ -162,9 +158,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		if(!aPTM && bPTM) return [new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange.clone(), type: ptmName)]
 		def lDiffs = compareDocumentation(aPTM, bPTM)
 		if(aPTM.message.name != bPTM.message.name || aPTM.message.namespaceUri != bPTM.message.namespaceUri) 
-			lDiffs << new Difference(description: "${ptmName.capitalize()} message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: ptmName, breaks : true, exchange:exchange.clone())
-		else lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
+			lDiffs << new Difference(description: "Message has changed from ${aPTM.message.qname} to ${bPTM.message.qname}.", type: ptmName, breaks : false, exchange:exchange.clone())
+		lDiffs.addAll(compareMessage(aPTM.message, bPTM.message, exchange))
 		if(lDiffs) return [ new Difference(description:"${ptmName.capitalize()}:", diffs: lDiffs, exchange:exchange.clone(), type: ptmName)]
+		lDiffs
 		[]
 	}
 
@@ -187,7 +184,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(a, b)
 		diffs.addAll( compareParts(a.parts, b.parts, exchange))
 		if(diffs) return [
-				new Difference(description:"Message ${a.name}:", type: 'message', diffs : diffs, exchange:exchange.clone())
+				new Difference(description:"Message${(a.name == b.name)? ' '+a.name : ''}:", type: 'message', diffs : diffs, exchange:exchange.clone())
 			]
 		[]
 	}
@@ -239,7 +236,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange.clone())
 			diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
-		if(diffs) return [new Difference(description:"Part ${a.name}: ", type: 'part', diffs : diffs, exchange:exchange.clone())]
+		if(diffs) return [new Difference(description:"Part ${a.name}:", type: 'part', diffs : diffs, exchange:exchange.clone())]
 		[]
 	}
 

@@ -39,15 +39,15 @@
     <wsdl:documentation>Documentation in wsdl message!</wsdl:documentation>
     <wsdl:part name="parameters" element="tns:getBank"/>
   </wsdl:message>
-  <wsdl:message name="getBankResponse">
-    <wsdl:part name="parameters" element="tns:getBankResponse"/>
+  <wsdl:message name="getBankResponseTEST">
+    <wsdl:part name="parameters" element="tns:getBank"/>
   </wsdl:message>
   <wsdl:portType name="BLZServicePortType">
     <wsdl:documentation>Documentation in wsdl portType!</wsdl:documentation>
     <wsdl:operation name="getBank">
       <wsdl:documentation>Documentation in wsdl operation!</wsdl:documentation>
-      <wsdl:input message="tns:getBank"/>
-      <wsdl:output message="tns:getBankResponse" wsaw:Action="http://thomas-bayer.com/blz/BLZService/getBankResponse"/>
+      <wsdl:input name="getBankInput" message="tns:getBank"/>
+      <wsdl:output message="tns:getBankResponseTEST" wsaw:Action="http://thomas-bayer.com/blz/BLZService/getBankResponse"/>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BLZServiceSOAP11Binding" type="tns:BLZServicePortType">
