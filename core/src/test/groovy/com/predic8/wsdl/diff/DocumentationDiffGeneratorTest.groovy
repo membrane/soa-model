@@ -28,7 +28,6 @@ class DocumentationDiffGeneratorTest extends GroovyTestCase {
 
 	void testDocumentationInDefinitions() {
 		def diffs = compare(wsdl1, wsdl2)
-//		println diffs*.dump()
 		assertEquals(6, diffs*.dump().toString().count('Documentation added.'))
 		assertEquals(1, diffs*.dump().toString().count('Documentation has changed.'))
 	}

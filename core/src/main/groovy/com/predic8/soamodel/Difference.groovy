@@ -43,7 +43,7 @@ class Difference {
     if(breaks) return true
     def res = false
     diffs.each{
-      if(it.breaks()) res = true
+      if(it.breaks()) return res = true
     }
     return res
   }

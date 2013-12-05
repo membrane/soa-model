@@ -28,23 +28,30 @@ class OperationDiffGeneratorTest extends GroovyTestCase {
 
 	void testOperationInput() {
 		def diffs = compare(wsdl1, wsdl2)
-		assert diffs[0].diffs[2].diffs[1].diffs[1].description == 'Input name has changed from null to getBankInput.'
-		assert diffs[0].diffs[2].diffs[1].diffs[2].description == 'Input:'
-		assert diffs[0].diffs[2].diffs[1].diffs[2].diffs[0].description == 'Message getBank:'
-		assert diffs[0].diffs[2].diffs[1].diffs[2].diffs[0].safe()
+		assert diffs[0].diffs[1].diffs[1].diffs[1].description == 'Input:'
+		assert diffs[0].diffs[1].diffs[1].diffs[1].safe()
+		assert diffs[0].diffs[1].diffs[1].diffs[1].diffs[0].description == 'Name has changed from null to getBankInput.'
+		assert diffs[0].diffs[1].diffs[1].diffs[1].diffs[0].safe()
+		assert diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].description == 'Message getBank:'
+		assert !diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].breaks()
+		assert diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].diffs[0].description == 'Documentation added.'
+		assert !diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].diffs[0].breaks()
 	}
 	
 	void testOperationOutput() {
 		def diffs = compare(wsdl1, wsdl2)
-		assert diffs[0].diffs[2].diffs[1].diffs[3].diffs[0].description == 
+		assert diffs[0].diffs[1].diffs[1].diffs[2].description == 'Output:'
+		assert diffs[0].diffs[1].diffs[1].diffs[2].breaks()
+		assert !diffs[0].diffs[1].diffs[1].diffs[2].safe()
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[0].description == 
 		'Message has changed from {http://thomas-bayer.com/blz/}getBankResponse to {http://thomas-bayer.com/blz/}getBankResponseTEST.'
-		assert diffs[0].diffs[2].diffs[1].diffs[3].diffs[0].safe()
-		assert diffs[0].diffs[2].diffs[1].diffs[3].diffs[1].description == 'Message:'
-		assert !diffs[0].diffs[2].diffs[1].diffs[3].diffs[1].safe()
-		assert diffs[0].diffs[2].diffs[1].diffs[3].diffs[1].diffs[0].diffs[0].description == 
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[0].safe()
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[1].description == 'Message:'
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[1].breaks()
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[1].diffs[0].diffs[0].description == 
 		'Element has changed from tns:getBankResponse to tns:getBank.'
-		assert !diffs[0].diffs[2].diffs[1].diffs[3].diffs[1].diffs[0].breaks 
-		assert diffs[0].diffs[2].diffs[1].diffs[3].diffs[1].diffs[0].diffs[0].breaks 
+		assert !diffs[0].diffs[1].diffs[1].diffs[2].diffs[1].diffs[0].breaks 
+		assert diffs[0].diffs[1].diffs[1].diffs[2].diffs[1].diffs[0].diffs[0].breaks 
 	}
 
 	private def compare(a, b) {

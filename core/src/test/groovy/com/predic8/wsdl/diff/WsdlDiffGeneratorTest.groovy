@@ -76,7 +76,7 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     def d = getDefinitions()
     d.portTypes[0].operations[0].input.name = "NewInputName"
     def diffs = compare(orig, d)
-		assert diffs*.dump().toString().contains('Input name has changed from input1 to NewInputName.')
+		assert diffs*.dump().toString().contains('Name has changed from input1 to NewInputName.')
   }
 
   private def compare(a, b) {
