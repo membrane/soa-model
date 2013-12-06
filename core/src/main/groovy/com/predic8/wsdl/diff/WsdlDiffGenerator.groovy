@@ -134,13 +134,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 
 	private List<Difference> compareOperation(aOperation, bOperation) {
 		def diffs = compareDocumentation(aOperation, bOperation)
-//		if(aOperation.input.name != bOperation.input.name) {
-//			diffs << new Difference(description:"Input name has changed from ${aOperation.input.name} to ${bOperation.input.name}.", type:'input', breaks : false, exchange:['request'])
-//		}
 		diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input, 'input'))
-//		if(aOperation.output?.name != bOperation.output?.name) {
-//			diffs << new Difference(description:"Output name has changed from ${aOperation.output.name} to ${bOperation.output.name}.", type:'output', breaks : false, exchange:['response'])
-//		}
 		diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output, 'output'))
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
 		if(diffs) return [
@@ -213,35 +207,41 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 
 	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
-		if(a.element && b.type) {
-			a.element.exchange = exchange.clone()
-			b.type.exchange = exchange.clone()
+		if(a.elementPN && b.typePN) {
+			a.element?.exchange = exchange.clone()
+			b.type?.exchange = exchange.clone()
 			diffs << new Difference(description:"Element ${a.elementPN} has changed to type ${b.typePN}.", type:'element2type', breaks : true, exchange:exchange.clone())
 		}
-		else if(b.element && a.type) {
-			a.type.exchange = exchange.clone()
-			b.element.exchange = exchange.clone()
+		else if(b.elementPN && a.typePN) {
+			a.type?.exchange = exchange.clone()
+			b.element?.exchange = exchange.clone()
 			diffs << new Difference(description:"Type ${a.typePN} has changed to element ${b.elementPN}.", type:'type2element', breaks : true, exchange:exchange.clone())
 		}
-		else if(a.element?.namespaceUri != b.element?.namespaceUri) {
-			a.element?.exchange = exchange.clone()
-			b.element?.exchange = exchange.clone()
-			diffs << new Difference(description:"Element namespace has changed from ${a.element.namespaceUri} to ${b.element.namespaceUri}.", type:'element', breaks : true, exchange:exchange)
-		}
-		else if(a.element?.name != b.element?.name) {
-			a.element?.exchange = exchange.clone()
-			b.element?.exchange = exchange.clone()
-					diffs << new Difference(description:"Element has changed from ${a.elementPN} to ${b.elementPN}.", type:'element', breaks : true, exchange:exchange.clone())
-		}
-		else if(a.element && b.element) {
-			a.element.exchange += exchange.clone()
-			b.element.exchange += exchange.clone()
-			diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
-		}
-		else if(a.type && b.type) {
+		else if(a.typePN && b.typePN) {
 			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needed.
-			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange.clone())
+			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.",
+					type:'type', breaks : true, exchange:exchange.clone())
 			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
+		}
+		else if(a.elementPN && b.elementPN) {
+			a.element?.exchange = exchange.clone()
+			b.element?.exchange = exchange.clone()
+			if(a.elementPN.localName != b.elementPN.localName){
+				diffs << new Difference(description:"Element has changed from ${a.elementPN} to ${b.elementPN}.",
+					type:'element', breaks : true, exchange:exchange.clone())
+			}
+			else if(a.getNamespace(a.elementPN.prefix) != b.getNamespace(b.elementPN.prefix)) {
+				def aElement = a.element?.qname ?: 'an invalid element'
+				def bElement = b.element?.qname ?: 'an invalid element'
+				
+				diffs << new Difference(description:"Element has changed from $aElement to $bElement.", 
+					type:'element', breaks : true, exchange:exchange.clone())
+			}
+			else if(a.element && b.element) {
+				a.element.exchange += exchange.clone()
+				b.element.exchange += exchange.clone()
+				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
+			}
 		}
 		if(diffs) return [new Difference(description:"Part ${a.name}:", type: 'part', diffs : diffs, exchange:exchange.clone())]
 		[]

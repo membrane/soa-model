@@ -166,17 +166,20 @@ class Schema extends SchemaComponent{
 		refElement
   }
 	
+	Element getElement(PrefixedName elementPN){
+		def uri
+		if(elementPN.prefix){
+			uri = getNamespace(elementPN.prefix)
+		} else {
+			return elements.find{ it.name==elementPN.localName }
+		}
+		allSchemas.elements.flatten().find {
+			it.name == elementPN.localName && it.schema.targetNamespace == uri
+		}
+	}
+	
   Element getElement(String elementName){
-    def prefixedName = new PrefixedName(elementName)
-    def uri
-    if(prefixedName.prefix){
-      uri = getNamespace(prefixedName.prefix)
-    } else {
-      return elements.find{ it.name==elementName }
-    }
-    allSchemas.elements.flatten().find {
-      it.name == prefixedName.localName && it.schema.targetNamespace == uri
-    }
+    getElement(new PrefixedName(elementName))
   }
 
   Attribute getAttribute(QName ref){
@@ -202,12 +205,16 @@ class Schema extends SchemaComponent{
 	 * @param groovy.xml.QName
 	 * @return TypeDefinition
 	 */
-  TypeDefinition getType(QName type){
-		if(!type) return
-		if(type.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: type)
-    (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
-      it.qname == type
-		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(type.namespaceURI)?.getType(type.localPart)
+  TypeDefinition getType(QName typeRef){
+		if(!typeRef) return
+		if(typeRef.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: typeRef)
+    TypeDefinition refType = (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
+      it.qname == typeRef
+		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(typeRef.namespaceURI)?.getType(typeRef.localPart)
+		if(!refType) throw new TypeRefAccessException(
+			"Could not find the referenced type '${typeRef.localPart}' from the namespace '${typeRef.namespaceURI}'.",
+			typeRef, getPrefix(typeRef.namespaceURI))
+		refType
   }
   
   TypeDefinition getType(String typeName){

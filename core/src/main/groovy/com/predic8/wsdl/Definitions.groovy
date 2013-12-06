@@ -145,10 +145,14 @@ class Definitions extends WSDLElement{
 		getElement(getQNameForPN(new PrefixedName(elementPN)))
 	}
 
+//	Element getElement(GQName qname) {
+//		schemas.elements.flatten().find{
+//			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
+//		}
+//	}
+	
 	Element getElement(GQName qname) {
-		schemas.elements.flatten().find{
-			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
-		}
+		schemas.find{it.targetNamespace == qname.namespaceURI}?.getElement(qname)
 	}
 
 	TypeDefinition getSchemaType(String name) {
