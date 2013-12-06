@@ -120,7 +120,8 @@ abstract class BindingMessage extends WSDLElement{
 			if(!pTOperation) throw new OperationAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
 			if(!pTOperation."$ELEMENTNAME.localPart") throw new ModelAccessException("No ${ELEMENTNAME.localPart} declared for operation ${pTOperation.name}.", pTOperation)
 			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
-		} catch(OperationAccessException | ModelAccessException | PortTypeAccessException e) {
+		} catch(ModelAccessException e) {
+			//OperationAccessException | PortTypeAccessException | ModelAccessException
 			throw e
     } catch (Exception e) {
 			def msgName = pTOperation."$ELEMENTNAME.localPart".messagePrefixedName.toString()

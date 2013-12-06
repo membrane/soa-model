@@ -38,7 +38,7 @@ class SchemaList extends SchemaComponent {
 
   public boolean equals(obj) {
     obj && ( this.is(obj) ||
-             getClass() == obj.getClass &&
+             this.class == obj.class &&
              itemType == obj.itemType &&
              simpleType == obj.simpleType )
   }

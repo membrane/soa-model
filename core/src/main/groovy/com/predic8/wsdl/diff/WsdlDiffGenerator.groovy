@@ -241,7 +241,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		else if(a.type && b.type) {
 			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needed.
 			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.", type:'type', breaks : true, exchange:exchange.clone())
-			diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
+			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
 		if(diffs) return [new Difference(description:"Part ${a.name}:", type: 'part', diffs : diffs, exchange:exchange.clone())]
 		[]

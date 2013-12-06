@@ -18,6 +18,7 @@ import com.predic8.wsdl.*
 class DocumentLiteralStyle extends BindingStyle {
 
 	String value = 'document'
+	String doclit = "Document/Literal"
 
 	
 	//TODO Gemeinsame Teile der Methode mit RPCStyle in die Super-Klasse verlagern
@@ -69,32 +70,34 @@ class DocumentLiteralStyle extends BindingStyle {
 		String result = "Document/Literal-Wrapped"
 
 		operations.each {op ->
-			if(!(portType.getOperation(op.name)?.input?.message)) return "Document/Literal"
+			if(!(portType.getOperation(op.name)?.input?.message)) return doclit
 			def inputParts = portType.getOperation(op.name).input.message.parts
 			//Rule 1: Only "ONE" Part Definition in the Input & Output Message in WSDL
 			if(inputParts?.size() > 1) {
-				result = "Document/Literal"
+				result = doclit
 			}
 			inputParts.each { inPart->
 				//Rule 2: "Part" Definitions should use element and not type
 				if(inPart.type && !inPart.element) {
-					//TODO Error or Warning should be generated!!!!!!!!!!!
-					result = "Document/Literal"
+					/*
+					 * TODO Error or Warning should be generated!!!!!!!!!!!
+					 */
+					result = doclit
 					return
 				}
 				//Rule 3: Input Wrapper Element name should match with Operation name
-				if(inPart.element?.name  != op.name) result = "Document/Literal"
+				if(inPart.element?.name  != op.name) result = doclit
 			}
 			if(!portType.getOperation(op.name).output?.message) return
 			def outputParts = portType.getOperation(op.name).output.message.parts
 			outputParts.each { outPart->
 				//Rule 2: "Part" Definitions are wrapper elements
 				if(outPart.type && !outPart.element) {
-					result = "Document/Literal"
+					result = doclit
 					return
 				}
 				//Rule 4: <Output Wrapper Element Name> = <Operation Name> + "Response"
-				if(outPart.element?.name  != "${op.name}Response") result = "Document/Literal"
+				if(outPart.element?.name  != "${op.name}Response") result = doclit
 			}
 		}
 		result

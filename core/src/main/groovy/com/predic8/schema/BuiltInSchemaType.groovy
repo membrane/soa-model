@@ -54,4 +54,8 @@ class BuiltInSchemaType extends TypeDefinition {
 	def compare(AbstractDiffGenerator generator, other, DiffGeneratorContext ctx = new DiffGeneratorContext()){
 		generator.compareBuiltInSchemaType(this, other, ctx)
 	}
+	
+	String toString(){
+		"BuiltInSchemaType[qname=$qname]"
+	}
 }
