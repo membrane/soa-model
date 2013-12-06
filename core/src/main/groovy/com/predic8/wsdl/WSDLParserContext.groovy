@@ -27,8 +27,9 @@ class WSDLParserContext extends AbstractParserContext{
     new WSDLParserContext (
         input: args?.input,
         targetNamespace: args?.targetNamespace,
-        importedSchemas: importedSchemas,
+        importedSchemaCache: importedSchemaCache,
         errors: errors)
   }
+
 }
 
