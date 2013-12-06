@@ -22,7 +22,7 @@ class WADLParserContext extends AbstractParserContext{
     new WADLParserContext (
         input: args?.input,
         targetNamespace: args?.targetNamespace,
-        importedSchemas: importedSchemas,
+        importedSchemaCache: importedSchemaCache,
         errors: errors)
   }
 
