@@ -79,11 +79,13 @@ class ComplexType extends TypeDefinition {
 	 * calling C.getSuperTypes() returns [B, A]  
 	 * @return the list of derivated CompexTypes and SimpleTypes   
 	 */
-	List<QName> getSuperTypes(){
+	List<QName> getSuperTypes(ctx = []){
 		//TODO The super type should be resolved as object, otherwise an exception should be thrown.
 		if(model instanceof ComplexContent || model instanceof SimpleContent){
 			QName base = model.derivation.base ?: ((model.extension ?: model.restriction).base)
-			return schema.getType(base) ? [base] + schema.getType(base)?.superTypes : [base]
+			//To avoid cycling type definition
+			if(base in ctx) return []
+			return schema.getType(base) ? [base] + schema.getType(base)?.getSuperTypes(ctx << base) : [base]
 		}
 		[]
 	}

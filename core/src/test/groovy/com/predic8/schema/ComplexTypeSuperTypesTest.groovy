@@ -28,6 +28,8 @@ class ComplexTypeSuperTypesTest extends GroovyTestCase {
   }
   
 	void testComplexTypeGetSuperTypes() {
+		assert schema.getComplexType('cyclingType').superTypes[0].toString() == '{http://www.predic8.com/complextype/}cyclingType'
+		assert schema.getType('loopingType').superTypes[0].toString() == '{http://www.predic8.com/complextype/}loopingType'
 		assert !schema.getComplexType('PersonType').superTypes
 		assert schema.getComplexType('EmployeeType').superTypes*.localPart == ['PersonType']
 		assert schema.getComplexType('ChefType').superTypes*.localPart == ['EmployeeType','PersonType']

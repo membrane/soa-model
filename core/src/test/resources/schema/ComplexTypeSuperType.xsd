@@ -1,5 +1,16 @@
 <schema targetNamespace="http://www.predic8.com/complextype/"
 	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.predic8.com/complextype/">
+	
+<!-- 	For a cycling reference test -->
+  <complexType name="cyclingType">
+    <complexContent>
+      <restriction base="tns:cyclingType"></restriction>
+    </complexContent>
+  </complexType>
+  
+  <simpleType name="loopingType">
+    <restriction base="tns:loopingType"/>
+  </simpleType>
 
 	<complexType name="PersonType">
 		<sequence>

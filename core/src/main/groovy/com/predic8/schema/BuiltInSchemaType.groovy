@@ -32,7 +32,7 @@ class BuiltInSchemaType extends TypeDefinition {
 	  'built-in-schema-type'
   }
 	
-	List<QName> getSuperTypes(){
+	List<QName> getSuperTypes(ctx=[]){
 		[]
 	}
 	

@@ -54,10 +54,12 @@ class SimpleType extends TypeDefinition {
 		}
 	}
 
-	List<QName> getSuperTypes(){
+	List<QName> getSuperTypes(ctx=[]){
 		if(!restriction) return []
 		if(restriction && schema.getType(restriction.base)){
-			return [restriction.base]+ schema.getType(restriction.base).superTypes
+			//To avoid cycling type definition
+			if(restriction.base in ctx) return []
+			return [restriction.base]+ schema.getType(restriction.base).getSuperTypes(ctx << restriction.base)
 		}
 		[restriction?.base]?: []
 	}
