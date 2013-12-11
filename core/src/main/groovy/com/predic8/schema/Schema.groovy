@@ -161,7 +161,7 @@ class Schema extends SchemaComponent{
       it.name == elementRef.localPart && it.schema.targetNamespace == elementRef.namespaceURI
 		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(elementRef.namespaceURI)?.getElement(elementRef.localPart)
 		if(!refElement) throw new ElementRefAccessException(
-			"Could not find the referenced element '${elementRef.localPart}' from the namespace '${elementRef.namespaceURI}'.",
+			"Could not find the referenced element '${elementRef.localPart}' in namespace '${elementRef.namespaceURI}'.",
 			elementRef, prefix ?: getPrefix(elementRef.namespaceURI))
 		refElement
   }
@@ -212,7 +212,7 @@ class Schema extends SchemaComponent{
       it.qname == typeRef
 		} ?: definitions?.getSchemaLoadKnownSchemaIfNeeded(typeRef.namespaceURI)?.getType(typeRef.localPart)
 		if(!refType) throw new TypeRefAccessException(
-			"Could not find the referenced type '${typeRef.localPart}' from the namespace '${typeRef.namespaceURI}'.",
+			"Could not find the referenced type '${typeRef.localPart}' in namespace '${typeRef.namespaceURI}'.",
 			typeRef, getPrefix(typeRef.namespaceURI))
 		refType
   }

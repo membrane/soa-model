@@ -29,6 +29,7 @@ abstract class AbstractPortTypeMessage extends WSDLElement {
   
 	Message getMessage() {
 		if(message)	return message
+		if(!messagePrefixedName) throw new ModelAccessException("No message declared in ${ELEMENTNAME.localPart}${name?' '+name:''}.", this)
 		definitions.getMessage(getQNameForPN(messagePrefixedName))
 	}
 	

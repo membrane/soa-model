@@ -145,15 +145,15 @@ class Definitions extends WSDLElement{
 		getElement(getQNameForPN(new PrefixedName(elementPN)))
 	}
 
-//	Element getElement(GQName qname) {
-//		schemas.elements.flatten().find{
-//			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
-//		}
-//	}
-	
 	Element getElement(GQName qname) {
-		schemas.find{it.targetNamespace == qname.namespaceURI}?.getElement(qname)
+		schemas.elements.flatten().find{
+			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
+		}
 	}
+	
+//	Element getElement(GQName qname) {
+//		schemas.find{it.targetNamespace == qname.namespaceURI}?.getElement(qname)
+//	}
 
 	TypeDefinition getSchemaType(String name) {
 		getSchemaType(getQNameForPN(new PrefixedName(name)))
@@ -273,7 +273,7 @@ class Definitions extends WSDLElement{
 
 
 	Schema getSchemaLoadKnownSchemaIfNeeded(String ns) {
-		if(! getSchema(ns) && ns in KnownSchemas.docs.keySet()) {
+		if(!getSchema(ns) && ns in KnownSchemas.docs.keySet()) {
 			addSchema(new SchemaParser(resourceResolver: new ClasspathResolver()).parse(KnownSchemas.docs[ns]))
 		}
 		getSchema(ns)

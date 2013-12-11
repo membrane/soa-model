@@ -40,7 +40,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     def bPs = []
     a.particles.eachWithIndex() { aP, i ->
       def bP = b.particles[i]
-      if(!bP){														//Index of aP does not exist in bPs 
+      if(!bP){														//Index of aP does not exist in bPs
 				if(aP instanceof Element) {
 					int bi = getParticleBIndex(aP)	//element found on other position
 					if(bi != -1) {
@@ -49,8 +49,10 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 							 type: 'sequence', safe: false, breaks: true)
 						return
 					}
-					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} ${labelRemoved}.",
-						type: 'sequence', safe: false, breaks: true)
+					boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request')))
+					def compatibility = [:]
+					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}.",
+						type: 'sequence', warning: true , exchange: a.exchange)
 					return
 				}
 				if(aP instanceof Any && bPs.grep(Any).find{it.namespace == aP.namespace}) {

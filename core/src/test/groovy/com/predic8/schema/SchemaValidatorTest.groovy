@@ -39,7 +39,7 @@ class SchemaValidatorTest extends GroovyTestCase {
 		assert ctx.errors[0].schemaTNS == 'http://predic8.com/common/1/'
 		assert ctx.errors[0].message == "An element references '{http://predic8.com/common/1/}NotAvailable', which could not be found in this schema."
 		assert ctx.errors[0].cause instanceof ElementRefAccessException 
-		assert ctx.errors[0].cause.message == "Could not find the referenced element 'NotAvailable' from the namespace 'http://predic8.com/common/1/'." 
+		assert ctx.errors[0].cause.message == "Could not find the referenced element 'NotAvailable' in namespace 'http://predic8.com/common/1/'." 
 		assert ctx.errors[1].schemaTNS == 'http://predic8.com/common/1/'
 		assert ctx.errors[1].message == "SimpleType IdentifierType inherits from '{http://predic8.com/common/1/}NotThere', which could not be found in this schema."
 		assert ctx.errors[2].schemaTNS == 'http://predic8.com/material/1/'

@@ -52,7 +52,6 @@ class Include extends SchemaComponent {
     log.debug("includedSchema.baseDir ${schema.baseDir}")
     schema.parse(incToken, new SchemaParserContext(targetNamespace:schema.targetNamespace, importedSchemas:ctx.importedSchemas, errors: ctx.errors))
     schema.baseDir = origBaseDir
-
   }
 
   protected getElementName(){

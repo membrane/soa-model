@@ -51,8 +51,7 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     d.portTypes[0].name = "ProjectServicePortType"
     def diffs = compare(orig, d)
     assertEquals(1, diffs.size())
-		assert diffs*.dump().toString().contains('PortType ProjectServicePT removed.')
-		assert diffs*.dump().toString().contains('PortType ProjectServicePortType added.')
+		assert diffs*.dump().toString().contains('PortType name has changed from ProjectServicePT to ProjectServicePortType.')
   }
 
   void testOperation() {

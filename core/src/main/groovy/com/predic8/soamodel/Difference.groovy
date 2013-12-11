@@ -24,6 +24,7 @@ class Difference {
 	XMLElement original, modified
   private boolean safe
   private boolean breaks
+	private boolean warning
 	def exchange = [] as Set //For WSDL message direction.
 	
   String dump(level = 0) {
@@ -49,7 +50,7 @@ class Difference {
   }
   
   boolean safe(){
-    if(!safe && breaks) return false
+    if(!safe && (breaks || warning)) return false
     def res = true
     diffs.each{
       if(! it.safe()) res = false

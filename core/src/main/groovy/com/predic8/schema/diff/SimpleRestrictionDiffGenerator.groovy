@@ -40,7 +40,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
   List<Difference> compareFacets(){
     def diffs = []
     if ( a.facets.isEmpty() && b.facets.isEmpty() ) return []
-    diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"Enumerartion with value: ${it.value} removed.", type: 'facet', breaks: false)}, {new Difference(description:"Enumerartion with value: ${it.value} added.", type: 'facet', breaks: false)})
+    diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"Enumerartion with value: ${it.value} removed.", type: 'facet', warning: true)}, {new Difference(description:"Enumerartion with value: ${it.value} added.", type: 'facet', warning: true)})
     
     def aNotEnums = a.facets - a.enumerationFacets
     def bNotEnums = b.facets - b.enumerationFacets
@@ -61,7 +61,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
     (aFs).intersect(bFs).each { fName ->
       def aFV = a.facets.find{it.elementName == fName}.value
       def bFV = b.facets.find{it.elementName == fName}.value
-      if(aFV != bFV) diffs << new Difference(description:"Value of $fName changed from ${aFV} to ${bFV}.", type: 'facet', breaks: false)
+      if(aFV != bFV) diffs << new Difference(description:"Value of $fName changed from ${aFV} to ${bFV}.", type: 'facet', warning: true)
     }
     diffs.flatten()
   }

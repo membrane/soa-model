@@ -92,26 +92,36 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def aPortTypes = a.portTypes
 		def bPortTypes = b.portTypes
 		def diffs = []
-		diffs.addAll( compare(aPortTypes, bPortTypes,
-				{ new Difference(description:"PortType ${it.name} removed." , breaks:true, type:'portType') },
-				{ new Difference(description:"PortType ${it.name} added." , safe:true, type:'portType') }))
-
+		if(aPortTypes.size() == 1 && bPortTypes.size() == 1) {
+			if(aPortTypes[0].name != bPortTypes[0].name) {
+				diffs = comparePortType(aPortTypes[0], bPortTypes[0])
+				if(diffs) return [
+					new Difference(description:"PortType name has changed from ${aPortTypes[0].name} to ${bPortTypes[0].name}:" , type: 'portType' ,  diffs : diffs)
+				]
+				return [new Difference(description:"PortType name has changed from ${aPortTypes[0].name} to ${bPortTypes[0].name}." , type: 'portType')] 
+			}
+		}
+		else {
+			diffs.addAll( compare(aPortTypes, bPortTypes,
+					{ new Difference(description:"PortType ${it.name} removed." , breaks:true, type:'portType') },
+					{ new Difference(description:"PortType ${it.name} added." , safe:true, type:'portType') }))
+		}
 		def ptNames = aPortTypes.name.intersect(bPortTypes.name)
 		ptNames.each{ ptName ->
 			PortType aPT = aPortTypes.find{ it.name == ptName}
 			PortType bPT = bPortTypes.find{ it.name == ptName}
 			diffs.addAll(comparePortType(aPT, bPT))
 		}
-		diffs
+		if(diffs) return [
+			new Difference(description:"PortType ${aPortTypes[0].name}:" , type: 'portType' ,  diffs : diffs)
+		]
+		[]
 	}
 
 	private List<Difference> comparePortType(aPT, bPT){
 		def diffs = compareDocumentation(aPT, bPT)
 		diffs.addAll(compareOperations(aPT.operations, bPT.operations))
-		if(diffs) return [
-				new Difference(description:"PortType ${aPT.name}:" , type: 'portType' ,  diffs : diffs)
-			]
-		[]
+		diffs
 	}
 
 	private List<Difference> compareOperations(aOperations, bOperations) {
@@ -219,8 +229,12 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		}
 		else if(a.typePN && b.typePN) {
 			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needed.
-			if(a.type.qname != b.type.qname) diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.",
+			if(a.type?.qname != b.type?.qname){
+				def aType = a.type?.qname ?: 'an invalid type'
+				def bType = b.type?.qname ?: 'an invalid type'
+				diffs << new Difference(description:"Type has changed from ${aType} to ${bType}.",
 					type:'type', breaks : true, exchange:exchange.clone())
+			}
 			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
 		else if(a.elementPN && b.elementPN) {
