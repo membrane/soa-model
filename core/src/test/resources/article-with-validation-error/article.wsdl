@@ -92,7 +92,16 @@
 	<wsdl:binding name="ArticleServicePTBinding" type="tns:ArticleServicePTTEST">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
 			style="document" />
-		<wsdl:operation name="create">
+		<wsdl:operation name="test">
+			<soap:operation />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="salam_Kaveh">
 			<soap:operation soapAction="create_action" />
 			<wsdl:input name="input1">
 				<soap:body use="literal" />
@@ -119,6 +128,8 @@
 				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="BindingMissingOperation" type="tns:ArticleServicePT">
 	</wsdl:binding>
 	<wsdl:service name="ArticleService">
 		<wsdl:port name="ArticleServicePTPort" binding="tns:ArticleServicePTBindingTEST">
