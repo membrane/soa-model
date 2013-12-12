@@ -104,9 +104,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 
 	void createSimpleRestriction(BaseRestriction restriction, Context ctx) {
 		if(restriction.base && restriction.base.namespaceURI != Consts.SCHEMA_NS) {
-            if (restriction.schema) {
-                restriction.schema.getType(restriction.base)?.create(this, ctx)
-            }
+			restriction.schema.getType(restriction.base)?.create(this, ctx)
 		}
 	}
 
