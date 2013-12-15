@@ -46,8 +46,8 @@ class Part extends WSDLElement{
 	}
   
 	TypeDefinition getType() {
-		if(!typePN) return
 		if(type) return type
+		if(!typePN) return
 		type = definitions.getSchemaType(getQNameForPN(typePN))
 	}
 	

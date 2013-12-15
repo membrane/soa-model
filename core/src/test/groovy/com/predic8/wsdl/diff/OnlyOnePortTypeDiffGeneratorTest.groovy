@@ -29,31 +29,35 @@ class OnlyOnePortTypeDiffGeneratorTest extends GroovyTestCase {
 	void testPortTypeOperationChanges() {
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs*.dump().toString().contains('PortType BLZServicePortType:')
-		assert diffs*.dump().toString().contains('Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.')
+//		assert diffs*.dump().toString().contains('Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.')
+		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element:")
+		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 	}
 
 	void testPortTypeNameAndOperationChanges() {
 		wsdl2.portTypes[0].name = 'Test'
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs*.dump().toString().contains('PortType name has changed from Test to BLZServicePortType:')
-		assert diffs*.dump().toString().contains('Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.')
+		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element:")
+		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 	}
 	
 	void testPTNameChanges() {
 		wsdl2 = parser.parse('diff/message-parts/BLZService1.wsdl')
 		wsdl2.portTypes[0].name = 'Test'
 		def diffs = compare(wsdl1, wsdl2)
-		assert diffs[0].diffs[0].description == "PortType name has changed from BLZServicePortType to Test."
+		assert diffs[0].diffs[0].description == "PortType name has changed from BLZServicePortType to Test:"
 		diffs = compare(wsdl2, wsdl1)
-		assert diffs[0].diffs[0].description == "PortType name has changed from Test to BLZServicePortType."
+		assert diffs[0].diffs[0].description == "PortType name has changed from Test to BLZServicePortType:"
 	}
 	
-	void testPTWithNoChanges() {
+	void testPTWithNoChangesButInvalidDocument() {
+		//Because of the error in part there will be a diff, although the documents are the same!
 		wsdl2 = parser.parse('diff/message-parts/BLZService1.wsdl')
 		def diffs = compare(wsdl1, wsdl2)
-		assert !diffs
+		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 		diffs = compare(wsdl2, wsdl1)
-		assert !diffs
+		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 	}
 	
 	private def compare(a, b) {

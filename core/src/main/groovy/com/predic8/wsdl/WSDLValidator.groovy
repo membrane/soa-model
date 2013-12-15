@@ -11,9 +11,11 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.ElementRefAccessException
 import com.predic8.soamodel.MessageAccessException
 import com.predic8.soamodel.OperationAccessException
 import com.predic8.soamodel.PortTypeAccessException
+import com.predic8.soamodel.TypeRefAccessException;
 import com.predic8.soamodel.ValidationError
 
 class WSDLValidator {
@@ -104,14 +106,20 @@ class WSDLValidator {
 	}
 
 	void validateMessageParts(Message msg, ctx) {
-		msg.parts.each {
+		msg.parts.each {part ->
 			try {
-				if(it.elementPN && !it.element)
-					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced element ${it.elementPN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
-				if(it.typePN && !it.type)
-					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced type ${it.typePN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
+				part.element ?: part.type
+			} catch (ElementRefAccessException e) {
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg,
+					message : "The referenced element ${part.elementPN} in part ${part.name} of the message ${msg.name} is not defined in this WSDL.",
+					wsdlTNS: part.definitions.targetNamespace, cause: e)
+			} catch (TypeRefAccessException e) {
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg,
+					message : "The referenced type ${part.typePN} in part ${part.name} of the message ${msg.name} is not defined in this WSDL.",
+					wsdlTNS: part.definitions.targetNamespace, cause: e)
 			} catch (Exception e) {
-				ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : (e.message ?: "The part ${it.name} in message ${msg.name} is invalid."), wsdlTNS: it.definitions.targetNamespace)
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg, 
+					message : (e.message ?: "The part ${part.name} in message ${msg.name} is invalid."), wsdlTNS: part.definitions.targetNamespace)
 			}
 		}
 	}

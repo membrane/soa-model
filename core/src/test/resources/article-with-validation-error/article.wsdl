@@ -53,7 +53,7 @@
 		</xsd:schema>
 	</types>
 	<message name="createRequest">
-		<part name="parameters" element="tns:create" />
+		<part name="parameters" element="create" />
 	</message>
 	<message name="createResponse">
 		<part name="parameters" element="tns:createResponse" />

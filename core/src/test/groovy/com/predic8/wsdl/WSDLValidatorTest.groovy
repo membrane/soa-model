@@ -14,8 +14,10 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.ElementRefAccessException;
 import com.predic8.soamodel.MessageAccessException
 import com.predic8.soamodel.NamespaceNotDeclaredForReferenceException
+import com.predic8.soamodel.TypeRefAccessException;
 import com.predic8.soamodel.ValidationError
 import com.predic8.xml.util.ClasspathResolver
 
@@ -35,7 +37,7 @@ class WSDLValidatorTest extends GroovyTestCase{
 		wsdl.validate(ctx)
 		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Binding}.cause.message ==
 		"Could not find the portType definition for 'tns:ArticleServicePTTEST' in the binding'ArticleServicePTBinding'."
-		assert 6 == ctx.errors.grep(ValidationError).size()
+		assert 7 == ctx.errors.grep(ValidationError).size()
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Binding)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Port)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Part)
@@ -63,6 +65,20 @@ class WSDLValidatorTest extends GroovyTestCase{
 		wsdl.validate(ctx)
 		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement.name == 'BindingMissingOperation'}[0].message ==
 		"Could not find the definition for binding operation: [create, get, getAll] in binding 'BindingMissingOperation'."
+	}
+	
+	void testPartValidation() {
+		wsdl.validate(ctx)
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[0].message ==
+		"The referenced element create in part parameters of the message createRequest is not defined in this WSDL."
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[0].cause instanceof ElementRefAccessException 
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[0].cause.message ==
+		"Could not find the referenced element 'create' in namespace 'http://schemas.xmlsoap.org/wsdl/'."
 		
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[1].message ==
+		"The referenced type tns:CreateTypeTEST in part parameters of the message getAllRequestTEST is not defined in this WSDL."
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[1].cause instanceof TypeRefAccessException 
+		assert ctx.errors.grep(ValidationError).findAll{it.invalidElement instanceof Part}[1].cause.message ==
+		"Could not find the referenced type 'CreateTypeTEST' in namespace 'http://predic8.com/wsdl/material/ArticleService/1/'."
 	}
 }
