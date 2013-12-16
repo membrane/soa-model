@@ -135,7 +135,7 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 
 	private computeCompatibility(Difference diff){
 		if(!diff) return ''
-		diff.safe() ? 'safe' : (diff.breaks() ? 'breaking' : 'not clear')
+		diff.safe() ? 'safe' : (diff.breaks() ? 'breaking' : 'unsafe')
 	}
 
 	private findOperationChanges(diffs, op) {

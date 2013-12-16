@@ -27,9 +27,9 @@ class PrefixedName {
   def PrefixedName(name) {
 		if(!name) return
     def tempName = name.split(':')
-    if(tempName.size() == 2) {
-      this.prefix = tempName[0]
-      this.localName = tempName[1]
+    if(tempName.size() >= 2) {
+      this.prefix = tempName.head()
+      this.localName = tempName.tail().join(':')
     }
     else if(tempName.size() == 1) {
       this.localName = name
