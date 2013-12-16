@@ -86,7 +86,7 @@ class DocumentLiteralStyle extends BindingStyle {
 					return
 				}
 				//Rule 3: Input Wrapper Element name should match with Operation name
-				if(inPart.element?.name  != op.name) result = doclit
+				if(inPart.element.name  != op.name) result = doclit
 			}
 			if(!portType.getOperation(op.name).output?.message) return
 			def outputParts = portType.getOperation(op.name).output.message.parts

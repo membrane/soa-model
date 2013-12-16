@@ -160,7 +160,7 @@ class Definitions extends WSDLElement{
 			} catch (Exception e) {}
 		}
 		if(!element) throw new ElementRefAccessException("Could not find the referenced element '${qname.localPart}' in namespace '${qname.namespaceURI}'.",
-			qname, prefix ?: getPrefix(qname.namespaceURI)) 
+			qname, getPrefix(qname.namespaceURI)) 
 		element
 	}
 	

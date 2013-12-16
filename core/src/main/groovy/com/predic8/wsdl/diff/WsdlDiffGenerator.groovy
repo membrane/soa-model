@@ -244,13 +244,17 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
 		else if(a.elementPN && b.elementPN) {
-			def document = 'original document'
 			try {
 				a.element.exchange = exchange.clone()
-				document = 'modified document'
+			} catch (Exception e) {
+				return [new Difference(description:"Part ${a.name} in the original document uses an invalid element('${a.elementPN}'):", type: 'part', exchange:exchange.clone(),
+					diffs : [new Difference(description:e.message, type:'element', breaks : true, exchange:exchange.clone())]
+					)]
+			}
+			try {
 				b.element.exchange = exchange.clone()
 			} catch (Exception e) {
-				return [new Difference(description:"Part ${a.name} in the $document uses an invalid element:", type: 'part', exchange:exchange.clone(),
+				return [new Difference(description:"Part ${b.name} in the modified document uses an invalid element('${b.elementPN}'):", type: 'part', exchange:exchange.clone(),
 					diffs : [new Difference(description:e.message, type:'element', breaks : true, exchange:exchange.clone())]
 					)]
 			}

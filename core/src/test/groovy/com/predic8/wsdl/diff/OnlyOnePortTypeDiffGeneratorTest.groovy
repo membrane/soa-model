@@ -30,7 +30,7 @@ class OnlyOnePortTypeDiffGeneratorTest extends GroovyTestCase {
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs*.dump().toString().contains('PortType BLZServicePortType:')
 //		assert diffs*.dump().toString().contains('Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.')
-		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element:")
+		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element('getBank'):")
 		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 	}
 
@@ -38,7 +38,7 @@ class OnlyOnePortTypeDiffGeneratorTest extends GroovyTestCase {
 		wsdl2.portTypes[0].name = 'Test'
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs*.dump().toString().contains('PortType name has changed from Test to BLZServicePortType:')
-		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element:")
+		assert diffs*.dump().toString().contains("Part parameters in the modified document uses an invalid element('getBank'):")
 		assert diffs*.dump().toString().contains("Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'.")
 	}
 	
