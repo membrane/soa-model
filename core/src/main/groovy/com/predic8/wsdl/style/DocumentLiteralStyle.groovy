@@ -78,15 +78,12 @@ class DocumentLiteralStyle extends BindingStyle {
 			}
 			inputParts.each { inPart->
 				//Rule 2: "Part" Definitions should use element and not type
-				if(inPart.type && !inPart.element) {
-					/*
-					 * TODO Error or Warning should be generated!!!!!!!!!!!
-					 */
+				if(inPart.typePN && !inPart.elementPN) {
 					result = doclit
 					return
 				}
 				//Rule 3: Input Wrapper Element name should match with Operation name
-				if(inPart.element.name  != op.name) result = doclit
+				if(inPart.element?.name  != op.name) result = doclit
 			}
 			if(!portType.getOperation(op.name).output?.message) return
 			def outputParts = portType.getOperation(op.name).output.message.parts
@@ -108,6 +105,7 @@ class DocumentLiteralStyle extends BindingStyle {
 		operations.each {op ->
 			//Check if the bindingOperation exists also in the portType
 			if(!portType.getOperation(op.name)) {
+				//TODO throw new OperationAccessException()
 				def err = [:]
 				err['message'] = "The operation '${op.name}' is missing in the portType '${portType.name}'."
 				err['operation'] = op
@@ -120,6 +118,7 @@ class DocumentLiteralStyle extends BindingStyle {
 			if(!op.input) throw new ModelAccessException("No input for binding operation '${op.name}'", op)
 			def inputSoapBodyParts = op.input.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
 			if(inputSoapBodyParts.size() == 1) {
+				errors.addAll(checkElementInPart(op.input.message))
 				return
 			}
 			if(inputSoapBodyParts.size() > 1) {
@@ -139,6 +138,7 @@ class DocumentLiteralStyle extends BindingStyle {
 			if(!op.output) return
 			def outputSoapBodyParts = op.output.bindingElements.grep(AbstractSOAPBody).partNames.flatten()
 			if(outputSoapBodyParts.size() == 1) {
+				errors.addAll(checkElementInPart(op.output.message))
 				return
 			}
 			if(outputSoapBodyParts.size() > 1) {
@@ -153,7 +153,6 @@ class DocumentLiteralStyle extends BindingStyle {
 				def opOutputMessage = op.output.message
 				errors.addAll(checkMessageParts(op, opOutputMessage))
 			}
-			
 		}
 		errors
 	}
@@ -181,6 +180,13 @@ class DocumentLiteralStyle extends BindingStyle {
 				err['element'] = msg
 				err['type'] = "PartWithType"
 				errors << err
+			}
+			if(!part.type && !part.element) {
+				def err = [:]
+						err['message'] = "The part of the message '${msg.name}' has no element reference."
+						err['element'] = msg
+						err['type'] = "PartWithNoRef"
+						errors << err
 			}
 		}
 		errors
