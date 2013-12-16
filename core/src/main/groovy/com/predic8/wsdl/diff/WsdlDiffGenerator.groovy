@@ -228,32 +228,41 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			diffs << new Difference(description:"Type ${a.typePN} has changed to element ${b.elementPN}.", type:'type2element', breaks : true, exchange:exchange.clone())
 		}
 		else if(a.typePN && b.typePN) {
+			try {
+				a.type.exchange = exchange.clone()
+				b.type.exchange = exchange.clone()
+			} catch (Exception e) {
+				return [new Difference(description:"Part ${a.name} uses an invalid type:", type: 'part', exchange:exchange.clone(),
+					diffs : [new Difference(description:e.message, type:'type', breaks : true, exchange:exchange.clone())]
+					)]
+			}
 			//CompareComplexType does NOT detect if a CT has changed only the namespaceURI! So the next line is needed.
-			if(a.type?.qname != b.type?.qname){
-				def aType = a.type?.qname ?: 'an invalid type'
-				def bType = b.type?.qname ?: 'an invalid type'
-				diffs << new Difference(description:"Type has changed from ${aType} to ${bType}.",
+			if(a.type.qname != b.type.qname){
+				diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.",
 					type:'type', breaks : true, exchange:exchange.clone())
 			}
 			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
 		}
 		else if(a.elementPN && b.elementPN) {
-			a.element?.exchange = exchange.clone()
-			b.element?.exchange = exchange.clone()
+			def document = 'original document'
+			try {
+				a.element.exchange = exchange.clone()
+				document = 'modified document'
+				b.element.exchange = exchange.clone()
+			} catch (Exception e) {
+				return [new Difference(description:"Part ${a.name} in the $document uses an invalid element:", type: 'part', exchange:exchange.clone(),
+					diffs : [new Difference(description:e.message, type:'element', breaks : true, exchange:exchange.clone())]
+					)]
+			}
 			if(a.elementPN.localName != b.elementPN.localName){
 				diffs << new Difference(description:"Element has changed from ${a.elementPN} to ${b.elementPN}.",
 					type:'element', breaks : true, exchange:exchange.clone())
 			}
 			else if(a.getNamespace(a.elementPN.prefix) != b.getNamespace(b.elementPN.prefix)) {
-				def aElement = a.element?.qname ?: 'an invalid element'
-				def bElement = b.element?.qname ?: 'an invalid element'
-				
-				diffs << new Difference(description:"Element has changed from $aElement to $bElement.", 
+				diffs << new Difference(description:"Element has changed from ${a.element.qname} to ${b.element.qname}.", 
 					type:'element', breaks : true, exchange:exchange.clone())
 			}
 			else if(a.element && b.element) {
-				a.element.exchange += exchange.clone()
-				b.element.exchange += exchange.clone()
 				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
 			}
 		}

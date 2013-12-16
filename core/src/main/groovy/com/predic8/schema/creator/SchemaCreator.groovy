@@ -229,7 +229,7 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
 				}
 			}
 		} else {
-	    def prefix = restriction.base.namespaceURI == SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI) 
+	    def prefix = restriction.base.namespaceURI == SCHEMA_NS ? 'xsd' : restriction.getPrefix(restriction.base.namespaceURI)
 	    builder.'xsd:restriction'(base : "$prefix${prefix?':':''}${restriction.base.localPart}"){
 	      restriction.facets.each{
 	        it.create(this, ctx)

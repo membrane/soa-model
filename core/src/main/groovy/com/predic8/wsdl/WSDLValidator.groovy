@@ -11,8 +11,11 @@
 
 package com.predic8.wsdl
 
+import com.predic8.soamodel.ElementRefAccessException
 import com.predic8.soamodel.MessageAccessException
+import com.predic8.soamodel.OperationAccessException
 import com.predic8.soamodel.PortTypeAccessException
+import com.predic8.soamodel.TypeRefAccessException;
 import com.predic8.soamodel.ValidationError
 
 class WSDLValidator {
@@ -28,9 +31,7 @@ class WSDLValidator {
 			validateServicePorts(it.ports, ctx)
 		}
 		validateBindings(wsdl.bindings, ctx)
-		/*TODO Add validateBindingOperations
-		 * to check if there is also an equivalent operation in the portType.
-		 */
+		validatePortTypeOperations(wsdl, ctx)
 		validatePortTypeMessages(wsdl.operations.input, ctx)
 		validatePortTypeMessages(wsdl.operations.output, ctx)
 		//TODO Implement validateFaults() for operations
@@ -54,19 +55,38 @@ class WSDLValidator {
 	}
 
 	void validateBindings(bnds, ctx) {
-		bnds.each {
+		bnds.each { bnd ->
 			try {
-				if(!it.portType){
-					def e = new PortTypeAccessException("Could not find the portType definition for '${it.typePN}' in the binding'${it.name}'.", it)
-					ctx.errors << new ValidationError(invalidElement : it, message : "Binding ${it.name} uses '${it.typePN}' as a type reference which is not defined in this WSDL.", 
-						wsdlTNS: it.definitions.targetNamespace, cause: e)
+				if(!bnd.portType){
+					def e = new PortTypeAccessException("Could not find the portType definition for '${bnd.typePN}' in the binding'${bnd.name}'.", bnd)
+					ctx.errors << new ValidationError(invalidElement : bnd, message : "Binding ${bnd.name} uses '${bnd.typePN}' as a type reference which is not defined in this WSDL.",
+					wsdlTNS: bnd.definitions.targetNamespace, cause: e)
+				} else {
+					bnd.operations.each{ bOp ->
+						if(! (bOp.name in bnd.portType.operations.name)){
+							def e = new OperationAccessException("Could not find the operation'${bOp.name}' in the portType '${bnd.typePN}'.", bOp)
+							ctx.errors << new ValidationError(invalidElement : bOp, message : "Operation '${bOp.name}' not found in portType '${bnd.typePN}'.",
+							wsdlTNS: bnd.definitions.targetNamespace, cause: e)
+						}
+					}
 				}
 			} catch (Exception e) {
-				ctx.errors << new ValidationError(invalidElement : it, message : (e.message ?: "Binding ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace)
+				ctx.errors << new ValidationError(invalidElement : bnd, message : (e.message ?: "Binding ${bnd.name} is invalid."), wsdlTNS: bnd.definitions.targetNamespace)
 			}
 		}
 	}
 
+	void validatePortTypeOperations(Definitions wsdl, ctx) {
+		wsdl.portTypes.each {pT ->
+			wsdl.bindings.findAll{it.portType == pT}.each {bnd ->
+				def missingOps = pT.operations.name - bnd.operations.name
+				if(missingOps)
+				ctx.errors << new ValidationError(invalidElement : bnd, wsdlTNS: bnd.definitions.targetNamespace,
+					message : "Could not find the definition for binding operation: $missingOps in binding '${bnd.name}'.")
+			}
+		}
+	}
+	
 	void validatePortTypeMessages(ptms, ctx) {
 		ptms.each {
 			def err
@@ -74,7 +94,7 @@ class WSDLValidator {
 				if(it && !it.message){
 					def e = new MessageAccessException("Could not find the message '${it.messagePrefixedName.toString()}', used in the ${it.ELEMENTNAME.localPart} of an operation.", it, it.messagePrefixedName.toString())
 					err = new ValidationError(invalidElement : it, wsdlTNS: it.definitions.targetNamespace, cause: e,
-						message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.")
+					message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.")
 				}
 			} catch (Exception e) {
 				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.ELEMENTNAME.localPart} ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace, cause: e)
@@ -86,14 +106,20 @@ class WSDLValidator {
 	}
 
 	void validateMessageParts(Message msg, ctx) {
-		msg.parts.each {
+		msg.parts.each {part ->
 			try {
-				if(it.elementPN && !it.element)
-					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced element ${it.elementPN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
-				if(it.typePN && !it.type)
-					ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : "The referenced type ${it.typePN} in part ${it.name} of the message ${msg.name} is not defined in this WSDL.", wsdlTNS: it.definitions.targetNamespace)
+				part.element ?: part.type
+			} catch (ElementRefAccessException e) {
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg,
+					message : "The referenced element ${part.elementPN} in part ${part.name} of the message ${msg.name} is not defined in this WSDL.",
+					wsdlTNS: part.definitions.targetNamespace, cause: e)
+			} catch (TypeRefAccessException e) {
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg,
+					message : "The referenced type ${part.typePN} in part ${part.name} of the message ${msg.name} is not defined in this WSDL.",
+					wsdlTNS: part.definitions.targetNamespace, cause: e)
 			} catch (Exception e) {
-				ctx.errors << new ValidationError(invalidElement : it, parent: msg, message : (e.message ?: "The part ${it.name} in message ${msg.name} is invalid."), wsdlTNS: it.definitions.targetNamespace)
+				ctx.errors << new ValidationError(invalidElement : part, parent: msg, 
+					message : (e.message ?: "The part ${part.name} in message ${msg.name} is invalid."), wsdlTNS: part.definitions.targetNamespace)
 			}
 		}
 	}

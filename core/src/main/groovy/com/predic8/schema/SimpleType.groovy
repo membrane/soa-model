@@ -44,11 +44,11 @@ class SimpleType extends TypeDefinition {
 					if(base.namespaceURI == SCHEMA_NS){
 						restriction = RestrictionUtil.getRestriction(type, [base: base, parentSimpleType : this])
 					} else {
-						restriction = new BaseRestriction(parentSimpleType : this , base : base)
+						restriction = new BaseRestriction(parentSimpleType : this , base : base, schema: schema)
 					}
 				} else {
 					//In case of restriction without base attribte!
-					restriction = new SimpleTypeRestriction(parentSimpleType: this)
+					restriction = new SimpleTypeRestriction(parentSimpleType: this, schema: schema)
 				}
 				restriction.parse(token, params)
 		}

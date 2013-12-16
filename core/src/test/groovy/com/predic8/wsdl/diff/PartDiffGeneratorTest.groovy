@@ -28,7 +28,8 @@ class PartDiffGeneratorTest extends GroovyTestCase {
 	void testDocumentationInDefinitions() {
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 
-		'Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.'
+//		'Element has changed from {http://thomas-bayer.com/blz/}getBank to an invalid element.'
+		"Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'."
 	}
 	
 	private def compare(a, b) {

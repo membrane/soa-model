@@ -31,4 +31,8 @@ class ValidationError {
 	def parent
 	
 	String message
+	
+	String toString(){
+		"ValidationError[message:'$message', cause: ${cause?.class?.simpleName}]"
+	}
 }

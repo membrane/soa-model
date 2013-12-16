@@ -142,27 +142,49 @@ class Definitions extends WSDLElement{
 	def lookup = { item, qname -> registry.getWsdls(qname.namespaceURI)*."$item"?.flatten().find{it.name == qname.localPart}}
 
 	Element getElement(String elementPN) {
+		if(!elementPN) return
 		getElement(getQNameForPN(new PrefixedName(elementPN)))
+	}
+	
+	Element getElement(PrefixedName elementPN) {
+		if(!elementPN) return
+		getElement(getQNameForPN(elementPN))
 	}
 
 	Element getElement(GQName qname) {
-		schemas.elements.flatten().find{
-			it.schema.targetNamespace == qname.namespaceURI && it.name == qname.localPart
+		if(!qname) return
+		def element
+		(schemas + getSchemaLoadKnownSchemaIfNeeded(qname.namespaceURI) - null).findAll{it.targetNamespace == qname.namespaceURI}.each{ schema ->
+			try {
+				return element = schema.find{it.getElement(qname)}?.getElement(qname)
+			} catch (Exception e) {}
 		}
+		if(!element) throw new ElementRefAccessException("Could not find the referenced element '${qname.localPart}' in namespace '${qname.namespaceURI}'.",
+			qname, prefix ?: getPrefix(qname.namespaceURI)) 
+		element
 	}
 	
-//	Element getElement(GQName qname) {
-//		schemas.find{it.targetNamespace == qname.namespaceURI}?.getElement(qname)
-//	}
-
 	TypeDefinition getSchemaType(String name) {
 		getSchemaType(getQNameForPN(new PrefixedName(name)))
+	}
+	
+	TypeDefinition getSchemaType(PrefixedName pName) {
+		getSchemaType(getQNameForPN(pName))
 	}
 
 	TypeDefinition getSchemaType(GQName qname) {
 		//BuiltInSchemaTypes should be returned here, because Definitions maybe contains no schema!
 		if(qname?.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: qname)
-		schemas.find{ it.getType(qname) }?.getType(qname)
+		def type
+		(schemas + getSchemaLoadKnownSchemaIfNeeded(qname.namespaceURI) - null).findAll{it.targetNamespace == qname.namespaceURI}.each{ schema ->
+			try {
+				return type = schema.find{it.getType(qname)}?.getType(qname)
+			} catch (Exception e) {}
+		}
+		if(!type) throw new TypeRefAccessException(
+			"Could not find the referenced type '${qname.localPart}' in namespace '${qname.namespaceURI}'.",
+			qname, getPrefix(qname.namespaceURI))
+		type
 	}
 
 	//TODO to be removed! Use getInputElementForOperation instead!
@@ -274,7 +296,7 @@ class Definitions extends WSDLElement{
 
 	Schema getSchemaLoadKnownSchemaIfNeeded(String ns) {
 		if(!getSchema(ns) && ns in KnownSchemas.docs.keySet()) {
-			addSchema(new SchemaParser(resourceResolver: new ClasspathResolver()).parse(KnownSchemas.docs[ns]))
+			return new SchemaParser(resourceResolver: new ClasspathResolver()).parse(KnownSchemas.docs[ns])
 		}
 		getSchema(ns)
 	}
