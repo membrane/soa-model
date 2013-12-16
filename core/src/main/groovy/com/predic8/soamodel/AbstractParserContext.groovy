@@ -14,6 +14,9 @@
 
 package com.predic8.soamodel
 
+import com.predic8.ParserImportedSchemaCache
+import com.predic8.schema.Import
+import com.predic8.schema.Schema
 import com.predic8.xml.util.ResourceResolver
 
 abstract class AbstractParserContext {
@@ -24,10 +27,37 @@ abstract class AbstractParserContext {
   String newBaseDir
   def parent
   String targetNamespace
-  def importedSchemas
   def token
   def wsiResults = []
 	def errors = []
 	def validated = []
+
+  //TODO ITHENA what with Included schema's? (com.predic8.schema.Include & com.predic8.wadl.Include)
+  ParserImportedSchemaCache importedSchemaCache = new ParserImportedSchemaCache()
+
+  abstract createNewSubContext(args)
+
+  /**
+   * Gets the imported statement.
+   * <p/>
+   * Reuses an already parsed schema if available, parses and caches the schema if not cached yet.
+   *
+   * @param importStatement
+   * @return the schema
+   */
+  Schema getImportedSchema(Import importStatement) {
+    importedSchemaCache.addSchema(
+        { importStatement.parseImportedSchema(createNewSubContext([input: importStatement])) },
+        getSchemaCacheKey(importStatement))
+  }
+
+  Schema setImportedSchema(Schema schema) {
+    importedSchemaCache.addSchema(schema)
+  }
+
+  String getSchemaCacheKey(Import importStatement) {
+    importStatement?.namespace
+  }
+
 }
 

@@ -81,8 +81,7 @@ class Schema extends SchemaComponent{
   
   protected parseAttributes(token, ctx){
     targetNamespace = ctx.targetNamespace ?: (token.getAttributeValue( null , 'targetNamespace') ?: '')
-    ctx.importedSchemas = ctx.importedSchemas ?: [:]
-    ctx.importedSchemas[targetNamespace] = this
+    ctx.setImportedSchema(this)
     attributeFormDefault = token.getAttributeValue( null , 'attributeFormDefault') ?: "unqualified"
     elementFormDefault = token.getAttributeValue( null , 'elementFormDefault') ?: "unqualified"
   }
