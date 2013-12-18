@@ -7,13 +7,19 @@ import com.predic8.schema.restriction.StringRestriction;
 import com.predic8.wsdl.*
 import com.predic8.wsdl.creator.WSDLCreator
 import com.predic8.wsdl.creator.WSDLCreatorContext
+import org.junit.Assume
+import org.junit.Before
+import org.junit.Test
+
 import static com.predic8.schema.Schema.*;
 
-class SOARequestCreatorWithCreatedWSDLTest extends GroovyTestCase{
+class SOARequestCreatorWithCreatedWSDLTest {
 
   Definitions wsdl
 
+  @Before
   void setUp(){
+    Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
     WSDLParser parser = new WSDLParser()
     wsdl = parser.parse("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl")
     addOperation()
@@ -39,15 +45,17 @@ class SOARequestCreatorWithCreatedWSDLTest extends GroovyTestCase{
     bo.newOutput().newSOAP11Body();
   }
 
+  @Test
   void testDefinitions(){
-    assertEquals(2, wsdl.getBinding('BLZServiceSOAP11Binding').operations.size())
+    assert 2 == wsdl.getBinding('BLZServiceSOAP11Binding').operations.size()
   }
-  
+
+  @Test
   void testSOARequest(){
     StringWriter writer = new StringWriter()
     SOARequestCreator creator = new SOARequestCreator(wsdl, new RequestTemplateCreator(), new MarkupBuilder(writer))
     creator.createRequest("BLZServicePortType", "listBanks", "BLZServiceSOAP11Binding")
-    assertEquals('listBanks', new XmlSlurper().parseText(writer.toString()).Envelope.body.listBanks.name())
+    assert 'listBanks' == new XmlSlurper().parseText(writer.toString()).Envelope.body.listBanks.name()
   }
   
 }
