@@ -13,19 +13,25 @@ package com.predic8.wsdl.diff
 
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
+import org.junit.Assume
+import org.junit.Before
+import org.junit.Test
 
-class OperationDiffGeneratorTest extends GroovyTestCase {
+class OperationDiffGeneratorTest {
 
 	Definitions wsdl1 
 	Definitions wsdl2 
 
+    @Before
 	void setUp() {
+        Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
 		def parser = new WSDLParser()
 		wsdl1 = parser.parse('http://www.thomas-bayer.com/axis2/services/BLZService?wsdl')
 		parser.resourceResolver = new ClasspathResolver()
 		wsdl2 = parser.parse("BLZService-with-documentation.wsdl")
 	}
 
+    @Test
 	void testOperationInput() {
 		def diffs = compare(wsdl1, wsdl2)
 		assert diffs[0].diffs[1].diffs[1].diffs[1].description == 'Input:'
@@ -37,7 +43,8 @@ class OperationDiffGeneratorTest extends GroovyTestCase {
 		assert diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].diffs[0].description == 'Documentation added.'
 		assert !diffs[0].diffs[1].diffs[1].diffs[1].diffs[1].diffs[0].breaks()
 	}
-	
+
+    @Test
 	void testOperationOutput() {
 		def diffs = compare(wsdl1, wsdl2)
 		assert diffs[0].diffs[1].diffs[1].diffs[2].description == 'Output:'

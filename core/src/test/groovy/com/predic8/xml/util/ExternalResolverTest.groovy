@@ -14,19 +14,24 @@
 
 package com.predic8.xml.util
 
-import junit.framework.TestCase
+import org.junit.Assume
+import org.junit.Before
+import org.junit.Test
 
-class ExternalResolverTest extends GroovyTestCase {
+class ExternalResolverTest {
   
 	def resolver
 	def url
-	
+
+    @Before
 	void setUp() {
-		resolver = new ExternalResolver()
-		url = 'http://www.thomas-bayer.com/axis2/services/BLZService?wsdl'
+	  resolver = new ExternalResolver()
+	  url = 'http://www.thomas-bayer.com/axis2/services/BLZService?wsdl'
 	}
-	
-  void testResolveAsString() {
-		assertNotNull(resolver.resolveAsString(url))
-	}
+
+   @Test
+   void testResolveAsString() {
+     Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
+     assert resolver.resolveAsString(url) != null
+   }
 }
