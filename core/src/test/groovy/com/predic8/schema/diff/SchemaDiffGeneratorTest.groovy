@@ -52,7 +52,7 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     assertEquals(9, diffs.size())
     assertEquals(1, diffs.findAll{it.type == 'element'}.size())
     assertEquals(4, diffs.findAll{it.type == 'simpleType'}.size())
-    assertTrue(diffs[0].breaks())
+    assert !(diffs[0].breaks())
   }
 
   void testCompareSchema1WithSchema4(){
@@ -78,9 +78,17 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   }
 
   void testCommons1WithCommons2() {
-    // Verify that an element replaced by a choice does not cause the comparison to fail
+    // Verify that an element replaced by a choice does not cause the comparison to fail.
     def diffs = compare(commons1, commons2)
-    assertTrue(diffs.find { it.breaks() } as boolean)
+		assert !diffs[0].safe
+		assert !diffs[0].warning
+    assert !diffs[0].breaks
+		//Breaks is only true when the comparison is for a WSDL and so the exchange is set.
+    commons2.getElement('ForeignVATNumber').exchange = 'request'
+    diffs = compare(commons1, commons2)
+    assert !diffs[0].safe
+    assert !diffs[0].warning
+    assert diffs[0].breaks
   }
 
   void testCommons2WithCommons1() {

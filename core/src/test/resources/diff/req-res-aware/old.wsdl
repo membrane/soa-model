@@ -23,6 +23,7 @@
         <xsd:sequence>
           <xsd:element name="feedback" type="xsd:string"/>
           <xsd:element name="id" type="tns:idType"/>
+          <xsd:element name="test" type="xsd:string" minOccurs="0"/>
         </xsd:sequence>
       </xsd:complexType>
       

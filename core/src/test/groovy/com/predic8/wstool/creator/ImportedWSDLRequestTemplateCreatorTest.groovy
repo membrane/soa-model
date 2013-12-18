@@ -31,7 +31,7 @@ class ImportedWSDLRequestTemplateCreatorTest extends GroovyTestCase {
 	}
 
 	void testElementRequestTemplate() {
-		Element element = definitions.getElementForOperation(operationName, portType)
+		Element element = definitions.getInputElementForOperation(portType.localPart, operationName)
 		def requestTemplate = new XmlSlurper().parseText(element.requestTemplate)
 		assert requestTemplate.text() == '?999?' 
 	}

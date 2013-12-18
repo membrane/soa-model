@@ -102,10 +102,10 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(),"tighter minOccurs (bigger)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 0 to 1.')
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of any has changed from 0 to 1.')
 
-        // tighter minOccurs breaks compatibility, old messages may not have enough
-        assertTrue(diffs[0].breaks() && !diffs[0].safe())
+        // tighter minOccurs could break the compatibility, old messages may not have enough
+				assert diffs[0].diffs[0].diffs[0].warning
     }
 
     void testLoosenedMinOccurs() {
@@ -114,7 +114,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser minOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of Element any  has changed from 1 to 0.')
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of any has changed from 1 to 0.')
 
         // loosened minOccurs doesn't break compatibility on its own, old messages will have enough
         assertTrue(diffs[0].safe() && !diffs[0].breaks())
@@ -126,10 +126,10 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "tightened maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from unbounded to 5.')
+        assert diffs[0].diffs[0].diffs[0].description == 'The attribute maxOccurs of any has changed from unbounded to 5.'
 
         // tightened maxOccurs breaks compatibility, old messages may have too many
-        assertTrue(diffs[0].breaks() && !diffs[0].safe())
+				assert diffs[0].diffs[0].diffs[0].warning
     }
 
     void testLoosenedMaxOccurs() {
@@ -138,7 +138,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of Element any  has changed from 5 to unbounded.')
+        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of any has changed from 5 to unbounded.')
 
         // loosened maxOccurs doesn't break compatibility, old messages will never have too many
 				assertTrue(diffs[0].safe() && !diffs[0].breaks())

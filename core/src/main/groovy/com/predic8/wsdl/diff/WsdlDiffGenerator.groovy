@@ -65,7 +65,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareTypes(){
 		def lDiffs = compareDocumentation(a.localTypes, b.localTypes)
 		lDiffs.addAll(compareSchemas())
-		if(lDiffs) return [new Difference(description:"Types: ", breaks:false,  diffs: lDiffs, type: 'types')]
+		if(lDiffs) return [new Difference(description:"Types:", breaks:false,  diffs: lDiffs, type: 'types')]
 		[]
 	}
 
@@ -148,7 +148,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output, 'output'))
 		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
 		if(diffs) return [
-				new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
+			new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
 			]
 		[]
 	}

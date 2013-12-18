@@ -22,9 +22,9 @@ class ElementsDiffGenerator extends ListDiffGenerator{
 
   def generator
 
-  def removed = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} ${labelRemoved}." , type : 'element', breaks:true, exchange: it.exchange) }
+  def removed = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minoccurs ${it?.minOccurs} ${labelRemoved}." , type : 'element', breaks:it.exchange? true : false, exchange: it.exchange) }
 
-  def added = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} ${labelAdded}.", type : 'element', exchange: it.exchange)}
+  def added = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minoccurs ${it?.minOccurs} ${labelAdded}.", type : 'element', breaks:it.exchange, exchange: it.exchange)}
   
 
   public ElementsDiffGenerator(){
@@ -44,7 +44,7 @@ class ElementsDiffGenerator extends ListDiffGenerator{
   List<Difference> compareUnit(identificator){
     def aElement = a.find{ it.name == identificator} ?: a.find{it.ref == identificator}
     def bElement = b.find{ it.name == identificator} ?: b.find{it.ref == identificator}
-    aElement.compare(generator , bElement)
+    aElement.compare(generator , bElement, ctx.clone())
   }
   
   protected def updateLabels(){

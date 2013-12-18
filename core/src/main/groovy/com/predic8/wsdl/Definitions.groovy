@@ -187,15 +187,6 @@ class Definitions extends WSDLElement{
 		type
 	}
 
-	//TODO to be removed! Use getInputElementForOperation instead!
-	Element getElementForOperation(String operationName, portTypeName){
-		try {
-			return bindings.findAll{it.protocol == 'SOAP11' || it.protocol == 'SOAP12'}.operations.flatten().find{it.name == operationName}.input.bindingElements.find{it instanceof SOAP11Body || it instanceof SOAP12Body }.parts[0].element
-		} catch (Exception e) {
-			return
-		}
-	}
-	
 	Element getInputElementForOperation(String ptName, String operationName){
 		getElementforOperationExchange(ptName, operationName, 'input')
 	}

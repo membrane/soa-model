@@ -29,7 +29,7 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
       return [new Difference(description: "${a.toString()} has changed to ${b.toString()}",breaks: true)]
     }
 
-    def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator).compare()
+    def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator, ctx: ctx.clone()).compare()
     def aPs = (a.particles-a.elements)
     def bPs = (b.particles-b.elements)
     aPs.each{ aP ->

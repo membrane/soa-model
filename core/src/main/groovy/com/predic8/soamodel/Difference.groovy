@@ -15,6 +15,7 @@
 package com.predic8.soamodel
 
 import java.util.List;
+import java.util.concurrent.Exchanger;
 
 class Difference {
   
@@ -60,6 +61,16 @@ class Difference {
 	
 	def exchange(){
 		this.exchange.join('')
+	}
+	
+	String getCompatibility() {
+		if(compatibility) return compatibility
+//		if(safe()) return 'safe'
+//		if(breaks()) return 'breaks'
+//		if(warning) return 'warning'
+		if(diffs.compatibility.contains('breaks')) return 'breaks'
+		if(diffs.compatibility.contains('warning')) return 'warning'
+		if(diffs.compatibility.contains('safe')) return 'safe'
 	}
   
 }

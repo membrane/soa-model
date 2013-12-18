@@ -30,8 +30,8 @@ class ReqResAwareDiffGeneratorTest extends GroovyTestCase {
 		//Definitions -> Types -> Schema -> CType -> Seq  -> Element
 		assert diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].description == 'Element newElementRequest with minoccurs 0 added to position 3.'
 		assert diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].safe()
-		assert diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[0].description == 'Element newElementResponse with minoccurs 0 added to position 3.'
-		assert !diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[0].safe()
+		assert diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].description == 'Element newElementResponse with minoccurs 0 added to position 3.'
+		assert !diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].safe()
 	}
 	
 	private def compare(a, b) {

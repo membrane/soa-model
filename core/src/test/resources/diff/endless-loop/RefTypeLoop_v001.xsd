@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://myservice.be/RefTypeLoop/v001"
+            targetNamespace="http://myservice.be/RefTypeLoop/v001"
+            elementFormDefault="qualified">
+
+    <xsd:complexType name="AType">
+        <xsd:sequence>
+            <xsd:choice minOccurs="0">
+                <xsd:element ref="B" />
+                <xsd:element ref="C" />
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="A" type="AType"/>
+
+    <xsd:element name="AList" type="AListType" />
+    <xsd:complexType name="AListType">
+        <xsd:sequence>
+            <xsd:element ref="A" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="B" type="BType"/>
+
+    <xsd:element name="C" type="CType"/>
+
+    <xsd:complexType name="BType">
+        <xsd:sequence>
+            <xsd:element name="BList" type="AListType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CType">
+        <xsd:sequence/>
+    </xsd:complexType>
+
+</xsd:schema>

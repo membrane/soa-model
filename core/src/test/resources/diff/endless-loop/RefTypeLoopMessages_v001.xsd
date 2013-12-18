@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema
+        targetNamespace="http://myservice.be/RefTypeLoopMessages/v001"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:srv="http://myservice.be/RefTypeLoopMessages/v001"
+        xmlns:rtl="http://myservice.be/RefTypeLoop/v001">
+
+    <xsd:import
+            schemaLocation="RefTypeLoop_v001.xsd"
+            namespace="http://myservice.be/RefTypeLoop/v001" />
+
+    <xsd:element name="getOtherDefinitionsRequest" type="srv:getOtherDefinitionsRequestType" />
+    <xsd:element name="getOtherDefinitionsResponse" type="srv:getOtherDefinitionsResponseType" />
+
+    <xsd:complexType name="getOtherDefinitionsRequestType">
+        <xsd:choice>
+            <xsd:element ref="rtl:AList"/>
+        </xsd:choice>
+    </xsd:complexType>
+    <xsd:complexType name="getOtherDefinitionsResponseType">
+        <xsd:choice>
+            <xsd:element ref="rtl:AList"/>
+        </xsd:choice>
+    </xsd:complexType>
+</xsd:schema>

@@ -42,17 +42,17 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
       def bP = b.particles[i]
       if(!bP){														//Index of aP does not exist in bPs
 				if(aP instanceof Element) {
-					int bi = getParticleBIndex(aP)	//element found on other position
-					if(bi != -1) {
+					aP.exchange.addAll(a.exchange)
+					int bi = getParticleBIndex(aP)
+					if(bi != -1) {									//element found on other position
 						bPs << b.particles[bi]
 						diffs << new Difference(description:"${labelPositionElement} ${aP.name ?: 'ref to ' + aP.refValue} changed from ${i+1} to ${bi+1}.",
-							 type: 'sequence', safe: false, breaks: true)
+							 type: 'sequence', safe: false, breaks: true, exchange: a.exchange)
 						return
-					}
-					boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request')))
-					def compatibility = [:]
+					}																//element not found in b
+					boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request'))) 
 					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}.",
-						type: 'sequence', warning: true , exchange: a.exchange)
+						type: 'sequence', safe: isSafe, warning: !isSafe, breaks: aP.minOccurs != '0', exchange: a.exchange)
 					return
 				}
 				if(aP instanceof Any && bPs.grep(Any).find{it.namespace == aP.namespace}) {
@@ -64,10 +64,10 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
         return
       }
 			if(aP instanceof Element){														//aP is an element
+				aP.exchange.addAll(a.exchange)
 				if(bP instanceof Element){													//bP is also an elements
 					if((aP.name ?: aP.ref) == (bP.name ?: bP.ref)) {	//Element names or refs are equal
 						bPs << bP
-						aP.exchange.addAll(a.exchange)
 						bP.exchange.addAll(b.exchange)
 		        def lDiffs = aP.compare(generator, bP, ctx.clone())
 		        diffs.addAll(lDiffs)
@@ -84,10 +84,13 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 				int bi = getParticleBIndex(aP)
 				if(bi != -1) {														//element found on other position
 					bPs << b.particles[bi]
-					diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+					diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , 
+						type: 'sequence', warning: aP.minOccurs == '0', breaks: aP.minOccurs != '0')
 					return
 				}																					//element not found (removed) or bP is not an element
-				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} ${labelRemoved}." , type: 'sequence', safe: false, breaks: true)
+				boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request')))
+				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved}." ,
+					 type: 'sequence',  safe: isSafe, warning: !isSafe, breaks: aP.minOccurs != '0', exchange: a.exchange)
 				return
 			}																						//aP is NOT an element
 			if(aP instanceof Any) {											//aP is an any
@@ -124,7 +127,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 			boolean isSafe = (bP.minOccurs == '0' && !(b.exchange.contains('response') || b.exchange.contains('fault')))
 			if(bP instanceof Element) {
 				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}.",
-					 type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
+					 type: 'sequence', safe: isSafe, warning: !isSafe, breaks: bP.minOccurs != '0', exchange: b.exchange)
 			} else {
 				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
 			}

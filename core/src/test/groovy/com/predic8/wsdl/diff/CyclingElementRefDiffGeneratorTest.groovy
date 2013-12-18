@@ -11,6 +11,8 @@
 
 package com.predic8.wsdl.diff
 
+import com.predic8.schema.SchemaParser
+import com.predic8.schema.diff.SchemaDiffGenerator
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
 
@@ -27,9 +29,18 @@ class CyclingElementRefDiffGeneratorTest extends GroovyTestCase {
 
 	void testDocumentationInDefinitions() {
 		def diffs = compare(wsdl1, wsdl2)
-		assert diffs*.dump().toString().count('Element req') == 1		
+		assert diffs*.dump().toString().count('Element req') == 1
 	}
-	
+
+	void testSchemaDiffAlternateRefTypeLoopConstruction () {
+		def parser = new SchemaParser(resourceResolver : new ClasspathResolver())
+		def schema1 = parser.parse('diff/endless-loop/RefTypeLoopMessages_v001.xsd')
+		def schema2 = parser.parse('diff/endless-loop/RefTypeLoopMessages_v001.xsd')
+		def diffs = new SchemaDiffGenerator(a:schema1, b:schema2, compare4WSDL: true).compare()
+		//In case of failure would get to stackoverflow! 
+		assert diffs == []
+	}
+
 	private def compare(a, b) {
 		new WsdlDiffGenerator(a: a, b: b).compare()
 	}

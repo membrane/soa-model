@@ -29,9 +29,9 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 	def labelElementRemoved, labelElementAdded, labelElement,  labelHasChanged, labelTypeElement, labelTo,
 	labelEmbeddedStandAlone, labelEmbedded, labelAttributeMinOccurs, labelAttributeMaxOccurs, labelFrom
 
-	def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: true, safe:false, exchange: a.exchange)}
+	def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: a.exchange? true : false, exchange: a.exchange)}
 
-	def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: true, safe:false, exchange: b.exchange)}
+	def added = { new Difference(description:"${labelElementAdded}.", type: 'element', breaks: b.exchange? true : false, exchange: b.exchange)}
 
 	def changed = { diffs ->
 		new Difference(description:"${labelElement} ${a.name ?: 'ref to ' + a.refValue}:" , type: 'element' ,  diffs : diffs, exchange: a.exchange)
@@ -54,28 +54,31 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 	protected List<Difference> compareType(){
 		if(a.embeddedType && b.embeddedType) return compareEmbeddedType()
 		if(a.embeddedType && b.type) return [
-				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', safe: false, exchange: a.exchange)
+				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbeddedStandAlone}.", type: 'element', warning: true, exchange: a.exchange)
 			]
 		if(a.type && b.embeddedType) return [
-				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', safe: false, exchange: a.exchange)
+				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelEmbedded}.", type: 'element', warning: true, exchange: a.exchange)
 			]
-        if (!b.metaClass.hasProperty(b, 'type')) return [
-                new Difference(description: "${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)?:'xsd'}:${a.type?.localPart} ${labelTo} ${b.toString()}.", type: 'element', breaks: true, exchange: a.exchange)
-            ]
+		if (!b.metaClass.hasProperty(b, 'type')) return [
+				new Difference(description: "${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type?.namespaceURI)?:'xsd'}:${a.type?.localPart} ${labelTo} ${b.toString()}.",
+				type: 'element', breaks: true, exchange: a.exchange)
+			]
 		if(a.type != b.type) return [
 				new Difference(description:"${labelTypeElement} '${a.name}' ${labelHasChanged} ${labelFrom} ${a.schema.getPrefix(a.type.namespaceURI)?:'xsd'}:${a.type.localPart} ${labelTo} ${b.schema.getPrefix(b.type.namespaceURI)?:'xsd'}:${b.type.localPart}.",
-					 type: 'element', breaks:true, exchange: a.exchange)
+				type: 'element', breaks:true, exchange: a.exchange)
 			]
 		[]
 	}
 
 	protected List<Difference> compareMinMaxOccurs(eType = 'element'){
 		def lDiffs = []
+		def nameOrRef = (eType == 'any') ? 'any' : "element ${a.name ?: 'ref to ' + a.refValue}"
 		if(a.minOccurs != b.minOccurs){
-			lDiffs << new Difference(description:"${labelAttributeMinOccurs} ${labelElement} $eType ${a.name ? a.name+' ' : ''} ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.", type: eType, safe:  a.minOccurs >= b.minOccurs, breaks:  a.minOccurs < b.minOccurs)
+			lDiffs << new Difference(description: "${labelAttributeMinOccurs} $nameOrRef ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.",
+				 type: eType, safe:  a.minOccurs >= b.minOccurs, warning: true)
 		}
 		if(a.maxOccurs != b.maxOccurs){
-			lDiffs << new Difference(description:"${labelAttributeMaxOccurs} ${labelElement} $eType ${a.name ? a.name+' ' : ''} ${labelHasChanged} ${labelFrom} ${a.maxOccurs} ${labelTo} ${b.maxOccurs}.", type: eType, safe:  a.maxOccurs <= b.maxOccurs, breaks:  a.maxOccurs > b.maxOccurs)
+			lDiffs << new Difference(description:"${labelAttributeMaxOccurs} $nameOrRef ${labelHasChanged} ${labelFrom} ${a.maxOccurs} ${labelTo} ${b.maxOccurs}.", type: eType, safe:  a.maxOccurs <= b.maxOccurs, warning: true)
 		}
 		lDiffs
 	}
