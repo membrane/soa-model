@@ -218,13 +218,21 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> comparePart(Part a, Part b, exchange) {
 		def diffs = compareDocumentation(a, b)
 		if(a.elementPN && b.typePN) {
-			a.element?.exchange = exchange.clone()
-			b.type?.exchange = exchange.clone()
+			try {
+				a.element.exchange = exchange.clone()
+				b.type.exchange = exchange.clone()
+			} catch (Exception e) {
+				e.printStackTrace()
+			}
 			diffs << new Difference(description:"Element ${a.elementPN} has changed to type ${b.typePN}.", type:'element2type', breaks : true, exchange:exchange.clone())
 		}
 		else if(b.elementPN && a.typePN) {
-			a.type?.exchange = exchange.clone()
-			b.element?.exchange = exchange.clone()
+			try {
+				a.type.exchange = exchange.clone()
+				b.element.exchange = exchange.clone()
+			} catch (Exception e) {
+				e.printStackTrace()
+			}
 			diffs << new Difference(description:"Type ${a.typePN} has changed to element ${b.elementPN}.", type:'type2element', breaks : true, exchange:exchange.clone())
 		}
 		else if(a.typePN && b.typePN) {
@@ -241,7 +249,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 				diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.",
 					type:'type', breaks : true, exchange:exchange.clone())
 			}
-			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true), b.type))
+			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true, ctx : ctx.clone()), b.type))
 		}
 		else if(a.elementPN && b.elementPN) {
 			try {
@@ -267,7 +275,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 					type:'element', breaks : true, exchange:exchange.clone())
 			}
 			else if(a.element && b.element) {
-				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true)).compare())
+				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true), ctx : ctx.clone()).compare())
 			}
 		}
 		if(diffs) return [new Difference(description:"Part ${a.name}:", type: 'part', diffs : diffs, exchange:exchange.clone())]

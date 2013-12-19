@@ -107,8 +107,9 @@ class Definitions extends WSDLElement{
 		getBindings("SOAP11")[0]
 	}
 
-	PortType getPortType(String name) {
-		portTypes.find{ it.name == name }
+	PortType getPortType(String pName) {
+		def pn = new PrefixedName(pName)
+		pn.prefix ? getPortType(getQNameForPN(pn)) : portTypes.find{ it.name == pName }
 	}
 
 	PortType getPortType(GQName qname) {

@@ -27,7 +27,7 @@ class PrefixedName {
   def PrefixedName(name) {
 		if(!name) return
     def tempName = name.split(':')
-    if(tempName.size() >= 2) {
+    if(tempName.size() > 1) {
       this.prefix = tempName.head()
       this.localName = tempName.tail().join(':')
     }
@@ -37,7 +37,7 @@ class PrefixedName {
   }
   
   String toString(){
-    if(prefix) return "$prefix:$localName" 
+    if(prefix) return "${prefix?prefix+':':''}$localName" 
     localName
   }
 }
