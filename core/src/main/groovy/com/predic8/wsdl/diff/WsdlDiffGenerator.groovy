@@ -65,7 +65,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	private List<Difference> compareTypes(){
 		def lDiffs = compareDocumentation(a.localTypes, b.localTypes)
 		lDiffs.addAll(compareSchemas())
-		if(lDiffs) return [new Difference(description:"Types:", breaks:false,  diffs: lDiffs, type: 'types')]
+		if(lDiffs) return [new Difference(description:"Types:",  diffs: lDiffs, type: 'types')]
 		[]
 	}
 
@@ -161,6 +161,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			case "output" : exchange = ['response'] ; break
 			case "fault" : exchange = ['fault'] ; break 
 		}
+		ctx.exchange = exchange[0]
 		if(!aPTM && !bPTM) return []
 		if(aPTM && !bPTM) return [new Difference(description:"${ptmName.capitalize()} removed.", exchange:exchange.clone(), type: ptmName)]
 		if(!aPTM && bPTM) return [new Difference(description:"${ptmName.capitalize()} added.", exchange:exchange.clone(), type: ptmName)]
@@ -177,6 +178,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	}
 
 	private List<Difference> compareFaults(aFaults, bFaults, exchange) {
+		ctx.exchange = exchange
 		def diffs = []
 		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
 		(aFaults.message.qname - faults).each {

@@ -32,7 +32,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
 
   List<Difference> compareBase(){
     if(a.base != b.base) {
-      return [new Difference(description:"Restriction base has changed from ${a.base} to ${b.base}." , type: 'restriction', breaks:false)]
+      return [new Difference(description:"Restriction base has changed from ${a.base} to ${b.base}." , type: 'restriction', warning:ctx.exchange ? true: null)]
     }
     []
   }
@@ -53,10 +53,10 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
     def removed  = aFs - bFs
     def added = bFs - aFs
     removed.each{
-      diffs << new Difference(description:"Facet $it removed.", type: 'facet', breaks: false)
+      diffs << new Difference(description:"Facet $it removed.", type: 'facet', warning:ctx.exchange ? true: null)
     }
     added.each{
-      diffs << new Difference(description:"Facet $it added.", type: 'facet', breaks: false)
+      diffs << new Difference(description:"Facet $it added.", type: 'facet', warning:ctx.exchange ? true: null)
     }
     (aFs).intersect(bFs).each { fName ->
       def aFV = a.facets.find{it.elementName == fName}.value

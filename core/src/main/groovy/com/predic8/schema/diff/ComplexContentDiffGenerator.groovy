@@ -34,17 +34,17 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   }
 
   private compareMixed(){
-    if(a.mixed  && !b.mixed) return [new Difference(description:"${labelContentModelElement}", type: 'complexContent', breaks:true, exchange: a.exchange)]
-    if(!a.mixed  && b.mixed) return [new Difference(description:"${labelContentModelElementMixed}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+    if(a.mixed  && !b.mixed) return [new Difference(description:"${labelContentModelElement}", type: 'complexContent', breaks:ctx.exchange ? true: null, exchange: a.exchange)]
+    if(!a.mixed  && b.mixed) return [new Difference(description:"${labelContentModelElementMixed}", type: 'complexContent', breaks:ctx.exchange ? true: null, exchange: a.exchange)]
     []
   }
 
   private compareDerivation(){
     if(a.hasRestriction()  && b.hasExtension()) {
-      return [new Difference(description:"${labelComplexContentChangeExtension}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+      return [new Difference(description:"${labelComplexContentChangeExtension}", type: 'complexContent', breaks:ctx.exchange ? true: null, exchange: a.exchange)]
     }
     if(a.hasExtension() && b.hasRestriction()) {
-      return [new Difference(description:"${labelComplexContentChangeRestriction}", type: 'complexContent', breaks:true, exchange: a.exchange)]
+      return [new Difference(description:"${labelComplexContentChangeRestriction}", type: 'complexContent', breaks:ctx.exchange ? true: null, exchange: a.exchange)]
 		  
     }
 		def lDiffs = compareModel() 

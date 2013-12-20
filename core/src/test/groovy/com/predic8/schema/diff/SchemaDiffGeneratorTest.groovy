@@ -44,7 +44,7 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   void testCompareSchema1WithSchema2() {
     def diffs = compare(schema1, schema2)
     assertEquals(16, diffs.size())
-    assertTrue(diffs[0].breaks())
+    assert diffs[0].breaks() == null
   }
   
   void testCompareSchema1WithSchema3(){
@@ -52,7 +52,7 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     assertEquals(9, diffs.size())
     assertEquals(1, diffs.findAll{it.type == 'element'}.size())
     assertEquals(4, diffs.findAll{it.type == 'simpleType'}.size())
-    assert !(diffs[0].breaks())
+    assert diffs[0].breaks() == null
   }
 
   void testCompareSchema1WithSchema4(){
@@ -62,13 +62,13 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
   
     def diffs = compare(schema1, schema4)
     assertEquals(1, diffs.findAll{it.type == 'element'}.size())
-    assertTrue(diffs[0].breaks())
-    assertFalse(diffs[0].safe())
+    assert diffs[0].breaks() == null
+    assert diffs[0].safe() == null
   }
   
   void testSchema2WithSchema3(){
     def diffs = compare(schema2, schema3)
-    assertTrue(diffs[0].breaks())
+    assert diffs[0].breaks() == null
     //assertEquals(1, diffs.findAll{it.type == 'import'}.size())
   }
   
@@ -88,13 +88,14 @@ class SchemaDiffGeneratorTest extends GroovyTestCase {
     diffs = compare(commons1, commons2)
     assert !diffs[0].safe
     assert !diffs[0].warning
-    assert diffs[0].breaks
+		//Breaks or Safe information are only available for WSDLDiffs (Version 1.4.2.3 and later)
+    assert !diffs[0].breaks
   }
 
   void testCommons2WithCommons1() {
     // Verify that a choice replaced by an element does not cause the comparison to fail
     def diffs = compare(commons2, commons1)
-    assertTrue(diffs.find { it.breaks()} as boolean)
+    assert diffs[0].breaks() == null
   }
   
   private def compare(a, b) {

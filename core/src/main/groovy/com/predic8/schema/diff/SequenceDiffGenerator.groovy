@@ -22,9 +22,9 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def labelSequenceRemoved, labelSequenceAdded, labelSequenceChanged, labelParticle, labelReplacedWith, 
   			  labelPositionElement, labelChanged, labelElement, labelRemoved, labelAdded
 
-  def removed = {new Difference(description:"${labelSequenceRemoved}.", type: 'sequence', breaks: true, safe:false, exchange: a.exchange)}
+  def removed = {new Difference(description:"${labelSequenceRemoved}.", type: 'sequence', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
 
-  def added = { new Difference(description:"${labelSequenceAdded}.", type: 'sequence', breaks: true, safe:false, exchange: b.exchange)}
+  def added = { new Difference(description:"${labelSequenceAdded}.", type: 'sequence', breaks: ctx.exchange ? true: null, exchange: b.exchange)}
 
   def changed = { diffs ->
     new Difference(description:"${labelSequenceChanged}:" , type: 'sequence' ,  diffs : diffs, exchange: a.exchange)
@@ -47,20 +47,21 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 					if(bi != -1) {									//element found on other position
 						bPs << b.particles[bi]
 						diffs << new Difference(description:"${labelPositionElement} ${aP.name ?: 'ref to ' + aP.refValue} changed from ${i+1} to ${bi+1}.",
-							 type: 'sequence', safe: false, breaks: true, exchange: a.exchange)
+							 type: 'sequence', breaks: ctx.exchange ? true: null, exchange: a.exchange)
 						return
 					}																//element not found in b
-					boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request'))) 
+					def warning = (aP.minOccurs == '0' && ctx.exchange == 'request') 
+					def breaks = (ctx.exchange && aP.minOccurs > '0')
 					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}.",
-						type: 'sequence', safe: isSafe, warning: !isSafe, breaks: aP.minOccurs != '0', exchange: a.exchange)
+						type: 'sequence', warning: warning, breaks: breaks ?: null, exchange: a.exchange)
 					return
 				}
 				if(aP instanceof Any && bPs.grep(Any).find{it.namespace == aP.namespace}) {
-					diffs << new Difference(description:"${labelPositionElement} 'any' ${labelChanged}." , type: 'sequence', safe: false, breaks: true)
+					diffs << new Difference(description:"${labelPositionElement} 'any' ${labelChanged}." , type: 'sequence', breaks: ctx.exchange ? true: null)
 					bPs << bPs.grep(Any).find{it.namespace == aP.namespace}
 					return
 				}
-				diffs << new Difference(description:"${aP.elementName} ${labelRemoved} from position ${i+1}." , type: 'sequence', safe: false, breaks: true)
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved} from position ${i+1}." , type: 'sequence', breaks: ctx.exchange ? true: null)
         return
       }
 			if(aP instanceof Element){														//aP is an element
@@ -77,7 +78,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 					if(bi != -1) {													//element found on other position
 						bPs << b.particles[bi]
 						diffs << new Difference(description:"${labelPositionElement} ${aP.name ?: 'ref to ' + aP.refValue} changed from ${i+1} to ${bi+1}.",
-							type: 'sequence', safe: false, breaks: true)
+							type: 'sequence', breaks: ctx.exchange ? true: null)
 						return
 					}																
 				}
@@ -85,24 +86,25 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 				if(bi != -1) {														//element found on other position
 					bPs << b.particles[bi]
 					diffs << new Difference(description:"${labelPositionElement} ${aP.name} changed from ${i+1} to ${bi+1}." , 
-						type: 'sequence', warning: aP.minOccurs == '0', breaks: aP.minOccurs != '0')
+						type: 'sequence', warning: aP.minOccurs == '0', breaks: (aP.minOccurs != '0' && ctx.exchange))
 					return
 				}																					//element not found (removed) or bP is not an element
-				boolean isSafe = (aP.minOccurs == '0' && !(a.exchange.contains('request')))
+				def warning = (aP.minOccurs == '0' && a.exchange == 'request')
+				def breaks = (ctx.exchange && aP.minOccurs > '0')
 				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved}." ,
-					 type: 'sequence',  safe: isSafe, warning: !isSafe, breaks: aP.minOccurs != '0', exchange: a.exchange)
+					 type: 'sequence', warning: warning, breaks: breaks?:null, exchange: a.exchange)
 				return
 			}																						//aP is NOT an element
 			if(aP instanceof Any) {											//aP is an any
 				int bi = getParticleBIndex(aP)
 				if(bi != -1 && bi != i) {									//any found on other position
 					bPs << b.particles[bi]
-					diffs << new Difference(description:"Position of any changed from ${i+1} to ${bi+1}." , type: 'sequence', safe: false, breaks: true)
+					diffs << new Difference(description:"Position of any changed from ${i+1} to ${bi+1}." , type: 'sequence', breaks: ctx.exchange ? true: null)
 					return
 				}						
 			}
 			if(bP instanceof Element){									//aP is not an element and bP is an element
-				diffs << new Difference(description:"${aP.elementName} ${labelRemoved}  from position ${i+1}." , type: 'sequence', safe: false, breaks: true)
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved}  from position ${i+1}." , type: 'sequence', breaks: ctx.exchange ? true: null)
 				return
 			}																						//compare two none-Elements (also 'any')
 			if(aP.class == bP.class){
@@ -124,12 +126,14 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
   def compareUnprocessedBPs(bPs){
     def diffs = []
     bPs.each { bP ->
-			boolean isSafe = (bP.minOccurs == '0' && !(b.exchange.contains('response') || b.exchange.contains('fault')))
+			def warning = (bP.minOccurs=='0' && ctx.exchange == 'response')
+			def breaks = (ctx.exchange? bP.minOccurs!='0': null)
 			if(bP instanceof Element) {
 				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}.",
-					 type: 'sequence', safe: isSafe, warning: !isSafe, breaks: bP.minOccurs != '0', exchange: b.exchange)
+					 type: 'sequence', warning: warning, breaks: breaks, exchange: b.exchange)
 			} else {
-				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}." , type: 'sequence', breaks: !isSafe, safe: isSafe, exchange: b.exchange)
+				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}." , 
+					type: 'sequence', warning: warning, breaks: breaks, exchange: b.exchange)
 			}
 		}
     diffs

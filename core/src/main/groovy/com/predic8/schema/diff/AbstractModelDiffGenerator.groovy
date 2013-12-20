@@ -26,7 +26,7 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
 	
   List<Difference> compareUnit(){
     if (!b.metaClass.hasProperty(b, 'elements')) {
-      return [new Difference(description: "${a.toString()} has changed to ${b.toString()}",breaks: true)]
+      return [new Difference(description: "${a.toString()} has changed to ${b.toString()}",breaks: ctx.exchange ? true: null)]
     }
 
     def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator, ctx: ctx.clone()).compare()

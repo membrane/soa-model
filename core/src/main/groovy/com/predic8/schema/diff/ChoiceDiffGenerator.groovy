@@ -21,9 +21,9 @@ class ChoiceDiffGenerator extends AbstractModelDiffGenerator{
   
   private def labelChoice, labelRemoved, labelAdded, labelHasChanged
   	
-  def removed = {new Difference(description:"'${labelChoice}' ${labelRemoved}.", type: 'choice', breaks: true, safe:false, exchange: a.exchange)}
+  def removed = {new Difference(description:"'${labelChoice}' ${labelRemoved}.", type: 'choice', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
 
-  def added = { new Difference(description:"'${labelChoice}' ${labelAdded}.", type: 'choice', breaks: true, safe:false, exchange: b.exchange)}
+  def added = { new Difference(description:"'${labelChoice}' ${labelAdded}.", type: 'choice', breaks: ctx.exchange ? true: null, exchange: b.exchange)}
 
   def changed = { diffs ->
     new Difference(description:"'${labelChoice}':" , type: 'choice' ,  diffs : diffs, exchange: a.exchange)

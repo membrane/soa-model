@@ -29,9 +29,6 @@ class BuiltInSchemaTypeDiffGenerator extends AbstractDiffGenerator {
 	 * from e.g. WSDLDiffGenerator(l. 242)
 	 */
 	public List<Difference> compare() {
-//		if(a.qname != b.qname) {
-//			return [ new Difference(description:"Type has changed from ${a.qname} to ${b.qname}.", type:'type', breaks : true)]
-//		}
 		[]
 	}
 

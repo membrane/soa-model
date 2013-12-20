@@ -33,14 +33,14 @@ class AttributeDiffGenerator extends AbstractDiffGenerator {
 
   private compareType() {
     if(a.type != b.type) {
-      return [new Difference(description:"{$labelTypeChanged} ${a.type} ${labelTo} ${b.type}.", type: 'attribute', breaks:true)]
+      return [new Difference(description:"{$labelTypeChanged} ${a.type} ${labelTo} ${b.type}.", type: 'attribute', breaks:ctx.exchange ? true: null)]
     }
     []
   }
 
   private compareRef() {
     if(a.ref != b.ref) {
-      return [new Difference(description:"${labelRefChanged} ${a.ref} ${labelTo} ${b.ref}.", type: 'attribute', breaks:true)]
+      return [new Difference(description:"${labelRefChanged} ${a.ref} ${labelTo} ${b.ref}.", type: 'attribute', breaks:ctx.exchange ? true: null)]
     }
     []
   }

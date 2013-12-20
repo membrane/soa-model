@@ -23,13 +23,14 @@ class Difference {
   List<Difference> diffs = []
   String type
 	XMLElement original, modified
-  private boolean safe
-  private boolean breaks
-	private boolean warning
+  private def safe
+	//Don't type breaks and safe to boolean. The value may also be null.
+  private def breaks
+	private def warning
 	def exchange = [] as Set //For WSDL message direction.
 	
   String dump(level = 0) {
-    def str = description + '\n'
+    def str = description +'\n'
     level++
     diffs.each{
       str += ' '*level+it.dump(level)
@@ -41,36 +42,39 @@ class Difference {
 		description
   }
   
-  boolean breaks(){
-    if(breaks) return true
-    def res = false
-    diffs.each{
-      if(it.breaks()) return res = true
-    }
-    return res
+  def breaks(){
+  	if(breaks) return true
+		if(safe) return false
+		def res
+		if(breaks == false) res = false
+		diffs.each{
+  		if(it.breaks()) return res = true
+  	}
+  	res
   }
   
-  boolean safe(){
-    if(!safe && (breaks || warning)) return false
-    def res = true
+  def safe(){
+		if(safe || (breaks() == false)) return true
+    if(breaks || warning) return false
+    def res
     diffs.each{
-      if(! it.safe()) res = false
+    	if(it.breaks()) res = false
+      if(it.safe()) res = true
     }
-    return res
+    res
   }
+	
+	def getWarning() {
+		if(warning) return warning
+		def res
+		diffs.each {
+			if(it.getWarning()) return res = true
+		}
+		res
+	}
 	
 	def exchange(){
 		this.exchange.join('')
 	}
 	
-	String getCompatibility() {
-		if(compatibility) return compatibility
-//		if(safe()) return 'safe'
-//		if(breaks()) return 'breaks'
-//		if(warning) return 'warning'
-		if(diffs.compatibility.contains('breaks')) return 'breaks'
-		if(diffs.compatibility.contains('warning')) return 'warning'
-		if(diffs.compatibility.contains('safe')) return 'safe'
-	}
-  
 }

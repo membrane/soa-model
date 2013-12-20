@@ -24,9 +24,9 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
 
 	private def labelModelGroupChange, labelHasChanged, labelTo, labelRemoved, labelAdded, labelComplexType
   
-  def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: true, safe:false, exchange: a.exchange)}
+  def removed = {new Difference(description:"${labelComplexType} ${labelRemoved}.", type: 'complexType', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
 
-  def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: true, safe:false, exchange: b.exchange)}
+  def added = { new Difference(description:"${labelComplexType} ${labelAdded}.", type: 'complexType', breaks: ctx.exchange ? true: null, exchange: b.exchange)}
 
   def changed = { diffs ->
     new Difference(description:"${labelComplexType} ${a.qname?.localPart ?: ''}:" , type: 'complexType' ,  diffs : diffs, exchange: a.exchange)
@@ -41,7 +41,7 @@ class ComplexTypeDiffGenerator extends UnitDiffGenerator{
   private compareModel(){
     def lDiffs = []
     if(a.model && b.model && a.model?.class != b.model?.class){
-      lDiffs << new Difference(description:"${labelModelGroupChange} ${a.model?.class?.simpleName} ${labelTo} ${b.model?.class?.simpleName}." , type: 'model', breaks:true, exchange: a.exchange)
+      lDiffs << new Difference(description:"${labelModelGroupChange} ${a.model?.class?.simpleName} ${labelTo} ${b.model?.class?.simpleName}." , type: 'model', breaks:ctx.exchange ? true: null, exchange: a.exchange)
     } else if(a.model) {
 			a.model.exchange = a.exchange
 			b.model.exchange = b.exchange

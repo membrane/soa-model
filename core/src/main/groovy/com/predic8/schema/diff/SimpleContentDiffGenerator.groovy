@@ -26,10 +26,10 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
 
   def compare(){
     if(a.restriction  && b.extension) {
-      return [new Difference(description:"SimpleContent changed from 'restriction' to 'extension'", type: 'simpleContent', breaks:true)]
+      return [new Difference(description:"SimpleContent changed from 'restriction' to 'extension'", type: 'simpleContent', breaks:ctx.exchange ? true: null)]
     }
     if(a.extension && b.restriction) {
-      return [new Difference(description:"SimpleContent changed from 'extension' to 'restriction'", type: 'simpleContent', breaks:true)]
+      return [new Difference(description:"SimpleContent changed from 'extension' to 'restriction'", type: 'simpleContent', breaks:ctx.exchange ? true: null)]
     }
     if(compareChild()){
       return [new Difference(description:"SimpleContent: " , type: 'simpleContent', diffs: compareChild())]
@@ -39,19 +39,15 @@ class SimpleContentDiffGenerator extends AbstractDiffGenerator{
 
   private compareChild(){
     if(a.extension?.base != b.extension?.base){
-      return [new Difference(description:"Extension base has changed from ${a.extension.base} to ${b.extension.base}." , type: 'extension', breaks:true)]
+      return [new Difference(description:"Extension base has changed from ${a.extension.base} to ${b.extension.base}." , type: 'extension', breaks:ctx.exchange ? true: null)]
     }
     
     if(a.extension && b.extension){
       if(a.extension.model?.class != b.extension.model?.class){
-        return [new Difference(description:"ModelGroup has changed from ${a.extension.model.class} to ${b.extension.model.class}." , type: 'extension', breaks:true)]
+        return [new Difference(description:"ModelGroup has changed from ${a.extension.model.class} to ${b.extension.model.class}." , type: 'extension', breaks:ctx.exchange ? true: null)]
       } 
       return a.extension.model?.compare(generator, b.extension.model, ctx.clone())
     }
-    
-//    if(a.restriction?.base != b.restriction?.base){
-//      return [new Difference(description:"Restriction base has changed from ${a.restriction.base} to ${b.restriction.base}." , type: 'restriction', breaks:true)]
-//    }
     
     if(a.restriction && b.restriction){
       return a.restriction.compare(generator, b.restriction, ctx.clone()) ?: []	

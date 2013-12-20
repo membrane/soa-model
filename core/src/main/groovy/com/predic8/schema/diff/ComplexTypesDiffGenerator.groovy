@@ -26,9 +26,9 @@ class ComplexTypesDiffGenerator extends ListDiffGenerator {
 
 	def labelRemoved, labelAdded, labelComplexType
 	
-  def removed = { new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelRemoved}.", type: 'complexType', breaks:it.exchange? true : false, exchange: it.exchange)}
+  def removed = { new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelRemoved}.", type: 'complexType', breaks:ctx.exchange ? true: null, exchange: it.exchange)}
 
-  def added = {new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelAdded}.", type: 'complexType', breaks:it.exchange? true : false, exchange: it.exchange)}
+  def added = {new Difference(description:"${labelComplexType} ${it.qname.localPart.toString()} ${labelAdded}.", type: 'complexType', breaks:ctx.exchange ? true: null, exchange: it.exchange)}
 
   List<Difference> compareUnit(qname){
     findA(qname).compare(generator, findB(qname))

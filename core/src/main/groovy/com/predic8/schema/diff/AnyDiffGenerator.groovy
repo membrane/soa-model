@@ -33,14 +33,14 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 	private def labelHasChanged, labelAdded, labelAnyElement, labelRemoved, labelHasChenged, labelNamespaceChanged, labelProcessContentLess, labelProcessContentMore
 
 	// removing an 'any' is a breaking change
-	def removed = {new Difference(description:"${labelAnyElement} ${labelRemoved}.", type: 'any', breaks: true, safe:false, exchange: a.exchange)}
+	def removed = {new Difference(description:"${labelAnyElement} ${labelRemoved}.", type: 'any', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
 
 	// adding an 'any' is non-breaking
-	def added = { new Difference(description:"${labelAnyElement} ${labelAdded}.", type: 'any', breaks: false, safe:true, exchange: b.exchange)}
+	def added = { new Difference(description:"${labelAnyElement} ${labelAdded}.", type: 'any', breaks:ctx.exchange ? false: null, exchange: b.exchange)}
 
 	// changes may be breaking depend on their nature.  processing of attributes will determine...
 	def changed = { diffs ->
-		new Difference(description:"${labelAnyElement}:" , type: 'any' ,  diffs : diffs, safe: true, breaks: false, exchange: a.exchange)
+		new Difference(description:"${labelAnyElement}:" , type: 'any' ,  diffs : diffs, exchange: a.exchange)
 	}
 
 	// array of processContents values in order of stringency from most leniant to most strict
@@ -76,7 +76,6 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 		//      doesn't contain ##targetNamespace, we're safe
 		// 3) if b has a set of namespace options, they must be a superset of a's namespaces to be safe
 
-		def isDiffSafe = false
 		def isDiffBreaks = true
 
 		if (
@@ -84,13 +83,12 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 		( bNamespace == '##other' && (aNamespace == "##any" || !aNamespaces.contains("##targetNamespace")) ) || // #2
 		bNamespaces.containsAll(aNamespaces)  // #3
 		) {
-			isDiffSafe = true
 			isDiffBreaks = false
 		}
 
 		if (!aNamespaces.equals(bNamespaces)) {
 			return [
-				new Difference(description:"${labelNamespaceChanged} '${bNamespace}'", type: 'any', breaks: isDiffBreaks, safe: isDiffSafe, exchange: a.exchange)
+				new Difference(description:"${labelNamespaceChanged} '${bNamespace}'", type: 'any', breaks: ctx.exchange? isDiffBreaks : null, exchange: a.exchange)
 			]
 		}
 
@@ -106,10 +104,10 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 		int bStrictnessIndex = processContentsStrictness.indexOf(bProcessContents);
 
 		if (aStrictnessIndex > bStrictnessIndex) return [
-				new Difference(description:"${labelProcessContentLess}", type: 'any', breaks: false, safe: true, exchange: a.exchange)
+				new Difference(description:"${labelProcessContentLess}", type: 'any', breaks: ctx.exchange? false: null, exchange: a.exchange)
 			]
 		if (aStrictnessIndex < bStrictnessIndex) return [
-				new Difference(description:"${labelProcessContentMore}", type: 'any', breaks: true, safe: false, exchange: a.exchange)
+				new Difference(description:"${labelProcessContentMore}", type: 'any', breaks: ctx.exchange? true: null, exchange: a.exchange)
 			]
 
 		[]

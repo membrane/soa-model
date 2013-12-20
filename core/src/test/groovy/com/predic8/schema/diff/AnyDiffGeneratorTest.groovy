@@ -60,8 +60,9 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testElementRemoved() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqC, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
-//        def diffs = dumpDiffs(diffGen.compare(), "removed any element")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
         assert diffs.diffs.description.toString().contains('removed')
@@ -73,8 +74,9 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testElementAddedRequired() {
         def diffGen = new SequenceDiffGenerator(a: seqC , b: seqD, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
-//        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=1")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
         assert diffs.diffs.description.toString().contains('any added to position 2.')
@@ -86,6 +88,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testElementAddedNotRequired() {
         def diffGen = new SequenceDiffGenerator(a: seqC , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=0")
         assertEquals(1, diffs.size())
@@ -98,6 +102,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testTightenedMinOccurs() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqD, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(),"tighter minOccurs (bigger)")
         assertEquals(1, diffs.size())
@@ -110,6 +116,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testLoosenedMinOccurs() {
         def diffGen = new SequenceDiffGenerator(a: seqD , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'response'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "looser minOccurs (smaller)")
         assertEquals(1, diffs.size())
@@ -117,11 +125,15 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of any has changed from 1 to 0.')
 
         // loosened minOccurs doesn't break compatibility on its own, old messages will have enough
-        assertTrue(diffs[0].safe() && !diffs[0].breaks())
+        assert !diffs[0].safe()
+				assert diffs[0].breaks() == null
+				assert diffs[0].diffs[0].diffs[0].warning == true
     }
 
     void testTightenedMaxOccurs() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqE, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "tightened maxOccurs (smaller)")
         assertEquals(1, diffs.size())
@@ -134,6 +146,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testLoosenedMaxOccurs() {
         def diffGen = new SequenceDiffGenerator(a: seqE , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "looser maxOccurs (smaller)")
         assertEquals(1, diffs.size())
@@ -141,11 +155,15 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of any has changed from 5 to unbounded.')
 
         // loosened maxOccurs doesn't break compatibility, old messages will never have too many
-				assertTrue(diffs[0].safe() && !diffs[0].breaks())
+				assert diffs[0].safe() 
+				assert !diffs[0].breaks()
+				assert !diffs[0].warning
     }
 
     void testNamespaceChanged() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqF, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed")
         assertEquals(1, diffs.size())
@@ -159,18 +177,22 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
     void testNamespaceRemoved() {
         // this is equivalent to changing the namespace to any
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqG, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
         assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
-
+				
         // removing the namespace doesn't break compatibility as the default of ##any relaxes the requirement on the content
-        assertFalse(diffs[0].breaks())
-        assertTrue(diffs[0].breaks() != diffs[0].safe())
+        assert !diffs[0].breaks()
+        assert diffs[0].safe()
     }
 
     void testNamespaceAdded() {
         def diffGen = new SequenceDiffGenerator(a: seqG , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace added")
         assertEquals(1, diffs.size())
@@ -190,6 +212,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testNamespaceChangedToOtherSafely() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqI, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other safely")
         assertEquals(1, diffs.size())
@@ -198,12 +222,15 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
         // changing the namespace to ##other when the previous value was not ##targetNamespace or ##any
         // may have content outside that namespace
-        assertFalse(diffs[0].breaks())
+//				println diffs[0].dump()
+        assert diffs[0].breaks() == 
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
 
     void testNamespaceChangedToOtherBreaks() {
         def diffGen = new SequenceDiffGenerator(a: seqK , b: seqI, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to ##other breaks")
         assertEquals(1, diffs.size())
@@ -218,6 +245,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testNamespaceChangedToSuperset() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqK, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to superset")
         assertEquals(1, diffs.size())
@@ -225,12 +254,14 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         assert diffs[0].diffs[0].diffs.description.toString().contains('namespace attribute changed')
 
         // changing the namespace to a superset of what it was is safe
-        assertFalse(diffs[0].breaks())
+        assert diffs[0].breaks() == null
         assertTrue(diffs[0].breaks() != diffs[0].safe())
     }
 
     void testNamespaceChangedToSubset() {
         def diffGen = new SequenceDiffGenerator(a: seqK , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "namespace changed to subset")
         assertEquals(1, diffs.size())
@@ -244,6 +275,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
     void testProcessContentsLoosened() {
         def diffGen = new SequenceDiffGenerator(a: seqA , b: seqH, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "processContents loosened (less strict)")
         assertEquals(1, diffs.size())
@@ -251,12 +284,14 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
         assert diffs[0].diffs[0].diffs.description.toString().contains('processContents became less strict')
 
         // making processContents less strict doesn't break compatibility, messages that were accepted before will still be
-        assertFalse(diffs[0].breaks())
-        assertTrue(diffs[0].breaks() != diffs[0].safe())
+        assert !diffs[0].breaks()
+        assert diffs[0].safe()
     }
 
     void testProcessContentsTightened() {
         def diffGen = new SequenceDiffGenerator(a: seqH , b: seqA, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
 				def diffs = diffGen.compare()
 //        def diffs = dumpDiffs(diffGen.compare(), "processContents tightened (more strict)")
         assertEquals(1, diffs.size())
@@ -270,6 +305,8 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 
   void testProcessAddedElementBeforeAny() {
     def diffGen = new SequenceDiffGenerator(a: seqA , b: seqL, generator : new SchemaDiffGenerator())
+				//Simulate when the changes were relative to an input message of the WSDL
+				diffGen.ctx.exchange = 'request'
     def diffs = diffGen.compare()
 //    def diffs = dumpDiffs(diffGen.compare(), "element added before any")
     assertEquals(1, diffs.size())

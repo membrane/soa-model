@@ -23,9 +23,9 @@ class AllDiffGenerator extends AbstractModelDiffGenerator{
   
   private def labelHasChanged, labelRemoved, labelAdded
 
-  def removed = {new Difference(description:"'All' ${labelRemoved}.", type: 'all', breaks: true, safe:false, exchange: a.exchange)}
+  def removed = {new Difference(description:"'All' ${labelRemoved}.", type: 'all', breaks: ctx.exchange ? true: null, safe:false, exchange: a.exchange)}
 
-  def added = { new Difference(description:"'All' ${labelAdded}.", type: 'all', breaks: true, safe:false, exchange: b.exchange)}
+  def added = { new Difference(description:"'All' ${labelAdded}.", type: 'all', breaks: ctx.exchange ? true: null, safe:false, exchange: b.exchange)}
   
   
   def changed = { diffs ->
