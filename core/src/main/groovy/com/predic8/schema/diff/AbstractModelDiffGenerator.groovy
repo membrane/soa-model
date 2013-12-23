@@ -30,8 +30,10 @@ class AbstractModelDiffGenerator extends UnitDiffGenerator {
     }
 
     def diffs = new ElementsDiffGenerator(a: a.elements, b: b.elements, generator: generator, ctx: ctx.clone()).compare()
-    def aPs = (a.particles-a.elements)
-    def bPs = (b.particles-b.elements)
+//    def aPs = (a.particles-a.elements)
+    def aPs = a.particles.findAll { ap -> !a.elements.find { ap == it } }
+//    def bPs = (b.particles-b.elements)
+    def bPs = b.particles.findAll { bp -> !b.elements.find { bp == it } }
     aPs.each{ aP ->
       bPs.each{ bP ->
         if(bP.class != aP.class) return

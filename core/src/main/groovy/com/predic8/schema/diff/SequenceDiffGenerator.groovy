@@ -122,7 +122,9 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 			diffs << new Difference(description:"${labelParticle} ${aP.elementName} on position ${i+1} ${labelReplacedWith} ${bP.elementName}." , type: 'sequence', exchange: a.exchange)
 			return
     }
-    diffs.addAll(compareUnprocessedBPs(b.particles - bPs))
+
+//    diffs.addAll(compareUnprocessedBPs(b.particles - bPs))
+    diffs.addAll(compareUnprocessedBPs(b.particles?.findAll { bp -> !bPs.find { bp == it } }))
     diffs
   }
 
