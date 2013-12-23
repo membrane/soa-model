@@ -328,6 +328,8 @@ class Schema extends SchemaComponent{
   boolean equals(obj){
     if(!(obj instanceof Schema)) 
     return false
+    if (obj.is(this))
+    return true
     if(obj.targetNamespace != targetNamespace)
     return false
     if(obj.complexTypes && obj.complexTypes.qname != complexTypes.qname)
