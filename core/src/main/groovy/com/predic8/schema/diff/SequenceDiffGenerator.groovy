@@ -52,7 +52,8 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 					}																//element not found in b
 					def warning = (aP.minOccurs == '0' && ctx.exchange == 'request') 
 					def breaks = (ctx.exchange && aP.minOccurs > '0')
-					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}.",
+					String endOfSeq = (a.particles.size() == (i+1))? '(end of sequence)' : ''
+					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}${endOfSeq}.",
 						type: 'sequence', warning: warning, breaks: breaks ?: null, exchange: a.exchange)
 					return
 				}
@@ -61,7 +62,8 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 					bPs << bPs.grep(Any).find{it.namespace == aP.namespace}
 					return
 				}
-				diffs << new Difference(description:"${aP.elementName} ${labelRemoved} from position ${i+1}." , type: 'sequence', breaks: ctx.exchange ? true: null)
+				String endOfSeq = (a.particles.size() == (i+1))? '(end of sequence)' : ''
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved} from position ${i+1}${endOfSeq}." , type: 'sequence', breaks: ctx.exchange ? true: null)
         return
       }
 			if(aP instanceof Element){														//aP is an element
@@ -104,7 +106,8 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 				}						
 			}
 			if(bP instanceof Element){									//aP is not an element and bP is an element
-				diffs << new Difference(description:"${aP.elementName} ${labelRemoved}  from position ${i+1}." , type: 'sequence', breaks: ctx.exchange ? true: null)
+				String endOfSeq = (a.particles.size() == (i+1))? '(end of sequence)' : ''
+				diffs << new Difference(description:"${aP.elementName} ${labelRemoved}  from position ${i+1}${endOfSeq}." , type: 'sequence', breaks: ctx.exchange ? true: null)
 				return
 			}																						//compare two none-Elements (also 'any')
 			if(aP.class == bP.class){
@@ -128,11 +131,13 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
     bPs.each { bP ->
 			def warning = (bP.minOccurs=='0' && ctx.exchange == 'response')
 			def breaks = (ctx.exchange? bP.minOccurs!='0': null)
+			def i = b.particles.findIndexOf{it == bP}
+			String endOfSeq = (b.particles.size() == (i+1))? '(end of sequence)' : ''
 			if(bP instanceof Element) {
-				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}.",
+				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded} to position ${i+1}${endOfSeq}.",
 					 type: 'sequence', warning: warning, breaks: breaks, exchange: b.exchange)
 			} else {
-				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${b.particles.findIndexOf{it == bP}+1}." , 
+				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${i+1}${endOfSeq}." , 
 					type: 'sequence', warning: warning, breaks: breaks, exchange: b.exchange)
 			}
 		}

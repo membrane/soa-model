@@ -68,7 +68,7 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     def d = getDefinitions()
     d.services[0].ports[0].address.location = "http://newhost.de"
     def diffs = compare(orig, d)
-		assert diffs*.dump().toString().contains('The location of the port ProjectServicePort changed form http://localhost:${HttpDefaultPort}/ProjectService/ProjectServicePort to http://newhost.de.')
+		assert diffs*.dump().toString().contains('Location of the port ProjectServicePort changed form http://localhost:${HttpDefaultPort}/ProjectService/ProjectServicePort to http://newhost.de.')
   }
 
   void testMessageName() {

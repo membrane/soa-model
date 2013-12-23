@@ -79,7 +79,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 				def diffs = diffGen.compare()
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs.diffs.description.toString().contains('any added to position 2.')
+        assert diffs.diffs.description.toString().contains('any added to position 2(end of sequence).')
 
         // adding an 'any' with minOccurs > 0 breaks compatibility, old messages without content there will be rejected
         assertTrue(diffs[0].breaks())
@@ -94,7 +94,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "added any element with minOccurs=0")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs.diffs.description.toString().contains('any added to position 2.')
+        assert diffs.diffs.description.toString().contains('any added to position 2(end of sequence).')
 
         // adding an 'any' with minOccurs == 0 is safe, old messages without content there will be accepted
         assertTrue(diffs[0].safe() && !diffs[0].breaks() )
@@ -108,7 +108,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(),"tighter minOccurs (bigger)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of any has changed from 0 to 1.')
+        assert diffs[0].diffs[0].diffs[0].description == 'MinOccurs changed from 0 to 1.'
 
         // tighter minOccurs could break the compatibility, old messages may not have enough
 				assert diffs[0].diffs[0].diffs[0].warning
@@ -122,7 +122,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser minOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute minOccurs of any has changed from 1 to 0.')
+        assert diffs[0].diffs[0].diffs[0].description == 'MinOccurs changed from 1 to 0.'
 
         // loosened minOccurs doesn't break compatibility on its own, old messages will have enough
         assert !diffs[0].safe()
@@ -138,7 +138,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "tightened maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs[0].description == 'The attribute maxOccurs of any has changed from unbounded to 5.'
+        assert diffs[0].diffs[0].diffs[0].description == 'MaxOccurs changed from unbounded to 5.'
 
         // tightened maxOccurs breaks compatibility, old messages may have too many
 				assert diffs[0].diffs[0].diffs[0].warning
@@ -152,7 +152,7 @@ class AnyDiffGeneratorTest extends GroovyTestCase{
 //        def diffs = dumpDiffs(diffGen.compare(), "looser maxOccurs (smaller)")
         assertEquals(1, diffs.size())
         assertEquals(1, diffs[0].diffs.size())
-        assert diffs[0].diffs[0].diffs.description.toString().contains('The attribute maxOccurs of any has changed from 5 to unbounded.')
+        assert diffs[0].diffs[0].diffs.description.toString().contains('MaxOccurs changed from 5 to unbounded.')
 
         // loosened maxOccurs doesn't break compatibility, old messages will never have too many
 				assert diffs[0].safe() 

@@ -27,7 +27,7 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 	}
 
 	def labelElementRemoved, labelElementAdded, labelElement,  labelHasChanged, labelTypeElement, labelTo,
-	labelEmbeddedStandAlone, labelEmbedded, labelAttributeMinOccurs, labelAttributeMaxOccurs, labelFrom
+	labelEmbeddedStandAlone, labelEmbedded, labelFrom
 
 	def removed = {new Difference(description:"${labelElementRemoved}.", type: 'element', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
 
@@ -72,19 +72,19 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 
 	protected List<Difference> compareMinMaxOccurs(eType = 'element'){
 		def lDiffs = []
-		def nameOrRef = (eType == 'any') ? 'any' : "element ${a.name ?: 'ref to ' + a.refValue}"
+//		def nameOrRef = (eType == 'any') ? 'any' : "element ${a.name ?: 'ref to ' + a.refValue}"
 		if(a.minOccurs != b.minOccurs){
 			def warning 
 			if(ctx.exchange == 'request' && b.minOccurs > a.minOccurs) warning = true
 			if(ctx.exchange == 'response' && b.minOccurs < a.minOccurs) warning = true
-			lDiffs << new Difference(description: "${labelAttributeMinOccurs} $nameOrRef ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.",
+			lDiffs << new Difference(description: "MinOccurs ${labelHasChanged} ${labelFrom} ${a.minOccurs} ${labelTo} ${b.minOccurs}.",
 				 type: eType, warning: warning, safe : ctx.exchange? !warning : null)
 		}
 		if(a.maxOccurs != b.maxOccurs){
 			def warning
 			if(ctx.exchange == 'request' && a.maxOccurs > b.maxOccurs) warning = true
 			if(ctx.exchange == 'response' && a.maxOccurs < b.maxOccurs) warning = true
-			lDiffs << new Difference(description:"${labelAttributeMaxOccurs} $nameOrRef ${labelHasChanged} ${labelFrom} ${a.maxOccurs} ${labelTo} ${b.maxOccurs}.",
+			lDiffs << new Difference(description:"MaxOccurs ${labelHasChanged} ${labelFrom} ${a.maxOccurs} ${labelTo} ${b.maxOccurs}.",
 				type: eType, warning: warning, safe : ctx.exchange? !warning : null)
 		}
 		lDiffs
@@ -126,8 +126,8 @@ class ElementDiffGenerator extends UnitDiffGenerator {
 		labelTypeElement = bundle.getString("com.predic8.schema.diff.labelTypeElement")
 		labelEmbeddedStandAlone = bundle.getString("com.predic8.schema.diff.labelEmbeddedStandAlone")
 		labelEmbedded = bundle.getString("com.predic8.schema.diff.labelEmbedded")
-		labelAttributeMinOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMinOccurs")
-		labelAttributeMaxOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMaxOccurs")
+//		labelAttributeMinOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMinOccurs")
+//		labelAttributeMaxOccurs = bundle.getString("com.predic8.schema.diff.labelAttributeMaxOccurs")
 		labelTo = bundle.getString("com.predic8.schema.diff.labelTo")
 		labelFrom = bundle.getString("com.predic8.schema.diff.labelFrom")
 

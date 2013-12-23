@@ -51,16 +51,16 @@ class ElementRefDiffTest extends GroovyTestCase {
 		assert diffs[7].diffs[0].diffs[6].description == 'Element E5 with minoccurs 1 added to position 1.'
 		assert diffs[7].diffs[0].diffs[7].description == 'Element E6 with minoccurs 1 added to position 4.'
 		assert diffs[7].diffs[0].diffs[8].description == 'Element ref to tns:bar with minoccurs 1 added to position 5.'
-		assert diffs[7].diffs[0].diffs[9].description == 'any added to position 7.'
+		assert diffs[7].diffs[0].diffs[9].description == 'any added to position 7(end of sequence).'
 	}
 	
 	void testRefInChoice() {
 		//Simulate WSDLDiffGenerator with compare4WSDL:true
 		def diffs = new SchemaDiffGenerator(a: schemaWithRef, b: schemaWithName, compare4WSDL:true).compare()
-		assert diffs[3].diffs[0].description == "The type of element 'RefTestInChoice' has changed from xsd:string to xsd:int."
+		assert diffs[3].diffs[0].description == "The type of element 'RefTestInChoice' changed from xsd:string to xsd:int."
 		assert diffs[6].diffs[0].diffs[3].diffs[0].description == 'Element ref to tns:RefTestInChoice:'
 		assert diffs[6].diffs[0].diffs[3].diffs[0].diffs[0].description == 'Element RefTestInChoice:'
-		assert diffs[6].diffs[0].diffs[3].diffs[0].diffs[0].diffs[0].description == "The type of element 'RefTestInChoice' has changed from xsd:string to xsd:int."
+		assert diffs[6].diffs[0].diffs[3].diffs[0].diffs[0].diffs[0].description == "The type of element 'RefTestInChoice' changed from xsd:string to xsd:int."
 	}
 	
 	private def compare(a, b) {

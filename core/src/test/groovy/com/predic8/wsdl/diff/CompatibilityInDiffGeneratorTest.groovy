@@ -33,15 +33,18 @@ class CompatibilityInDiffGeneratorTest extends GroovyTestCase {
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].warning
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].breaks
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].description ==
-		"Element test with minoccurs 0 added to position 5."
+		"Element test with minoccurs 0 added to position 5(end of sequence)."
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].safe
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].warning
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].breaks
 		
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].breaks
 		
+		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 
+		"Element details:"
+		
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 
-		"The attribute minOccurs of element details has changed from 1 to 0."
+		"MinOccurs changed from 1 to 0."
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].warning
 	}
 	
@@ -49,7 +52,7 @@ class CompatibilityInDiffGeneratorTest extends GroovyTestCase {
 		def diffs = compare(wsdl2, wsdl1)
 		assert diffs[0].diffs[0].diffs[0].diffs[0].description == 'Output:'
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description ==
-		"The attribute minOccurs of element details has changed from 0 to 1."
+		"MinOccurs changed from 0 to 1."
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].breaks
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].safe
 		//Warnin is false because the change is relative to response and not request.

@@ -83,7 +83,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			def lDiffs = compareDocumentation(aPort, bPort)
 			if(lDiffs) diffs << new Difference(description:"Port $portName:", diffs : lDiffs)
 			if(aPort.address.location != bPort.address.location)
-				diffs << new Difference(description:"The location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.", breaks:true, safe:false)
+				diffs << new Difference(description:"Location of the port $portName changed form ${aPort.address.location} to ${bPort.address.location}.", breaks:true, safe:false)
 		}
 		diffs
 	}
@@ -251,7 +251,11 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 				diffs << new Difference(description:"Type has changed from ${a.type.qname} to ${b.type.qname}.",
 					type:'type', breaks : true, exchange:exchange.clone())
 			}
-			else diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true, ctx : ctx.clone()), b.type))
+			else {
+				def newCtx = ctx.clone()
+				newCtx.visited = []
+				diffs.addAll(a.type.compare(new SchemaDiffGenerator(compare4WSDL:true, ctx : newCtx), b.type))
+			}
 		}
 		else if(a.elementPN && b.elementPN) {
 			try {
@@ -277,7 +281,9 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 					type:'element', breaks : true, exchange:exchange.clone())
 			}
 			else if(a.element && b.element) {
-				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true), ctx : ctx.clone()).compare())
+				def newCtx = ctx.clone()
+				newCtx.visited = []
+				diffs.addAll(new ElementDiffGenerator(a:a.element, b:b.element, generator:new SchemaDiffGenerator(compare4WSDL:true), ctx: newCtx).compare())
 			}
 		}
 		if(diffs) return [new Difference(description:"Part ${a.name}:", type: 'part', diffs : diffs, exchange:exchange.clone())]

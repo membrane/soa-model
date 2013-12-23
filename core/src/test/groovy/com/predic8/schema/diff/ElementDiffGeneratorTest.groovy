@@ -45,7 +45,8 @@ class ElementDiffGeneratorTest  extends GroovyTestCase{
 	void testMinOccursDiff() {
 		def diffGen = new ElementDiffGenerator(a: schema.getElement('person1'), b: schema.getElement('person2'), generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assert diffs*.dump().toString().contains('The attribute minOccurs of element secondname has changed from 0 to 1.')
+		assert diffs*.dump().toString().contains('Element secondname:')
+		assert diffs*.dump().toString().contains('MinOccurs changed from 0 to 1.')
 	}
 
 	void testAnnotationAddedDiff() {
