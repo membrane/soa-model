@@ -265,7 +265,8 @@ class Schema extends SchemaComponent{
         schemas.addAll(schema.getImportedSchemas(schemas+importedSchemas))
       }
     }
-    schemas.unique()
+
+    schemas
   }
   
   public void add(ComplexType ct){
