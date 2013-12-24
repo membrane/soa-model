@@ -43,7 +43,7 @@
             tr.appendChild(td1);
 	    td1.appendChild(span);            
             tbody.appendChild(tr);
-            var maxOccurs = tbody.attributes['maxoccurs']? tbody.attributes['maxoccurs'].value : 1;
+            var maxOccurs = tbody.attributes['maxOccurs']? tbody.attributes['maxOccurs'].value : 1;
             var inputCount = tbody.getElementsByTagName("tr").length;
             if(maxOccurs=='unbounded') return;
             var left = maxOccurs - inputCount;

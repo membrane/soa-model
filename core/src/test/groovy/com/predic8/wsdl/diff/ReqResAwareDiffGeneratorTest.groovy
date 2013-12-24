@@ -28,10 +28,10 @@ class ReqResAwareDiffGeneratorTest extends GroovyTestCase {
 	void testSchemaDiffsInDefinitions() {
 		def diffs = compare(oldWSDL, newWSDL)
 		//Definitions -> Types -> Schema -> CType -> Seq  -> Element
-		assert diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].description == 'Element newElementRequest with minoccurs 0 added to position 3(end of sequence).'
+		assert diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].description == 'Element newElementRequest with minOccurs 0 added to position 3(end of sequence).'
 		assert !diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].safe()
 		assert !diffs[0].diffs[1].diffs[0].diffs[0].diffs[0].diffs[0].breaks()
-		assert diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].description == 'Element newElementResponse with minoccurs 0 added to position 3(end of sequence).'
+		assert diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].description == 'Element newElementResponse with minOccurs 0 added to position 3(end of sequence).'
 		assert !diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].safe()
 		assert !diffs[0].diffs[1].diffs[0].diffs[1].diffs[0].diffs[1].breaks()
 	}

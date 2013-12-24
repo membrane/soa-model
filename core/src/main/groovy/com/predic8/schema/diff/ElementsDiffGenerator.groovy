@@ -22,10 +22,10 @@ class ElementsDiffGenerator extends ListDiffGenerator{
 
   def generator
 
-  def removed = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minoccurs ${it?.minOccurs} ${labelRemoved}." ,
+  def removed = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minOccurs ${it?.minOccurs} ${labelRemoved}." ,
 		 type : 'element', breaks:ctx.exchange ? true: null, exchange: it.exchange) }
 
-  def added = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minoccurs ${it?.minOccurs} ${labelAdded}.",
+  def added = { new Difference(description:"${labelElement} ${it.name ?: 'ref to ' + it.refValue} with minOccurs ${it?.minOccurs} ${labelAdded}.",
 		 type : 'element', breaks:ctx.exchange ? true: null, exchange: it.exchange)}
   
 

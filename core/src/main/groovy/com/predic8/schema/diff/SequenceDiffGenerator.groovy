@@ -53,7 +53,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 					def warning = (aP.minOccurs == '0' && ctx.exchange == 'request') 
 					def breaks = ctx.exchange ? (aP.minOccurs > '0') as boolean : null
 					String endOfSeq = (a.particles.size() == (i+1))? '(end of sequence)' : ''
-					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}${endOfSeq}.",
+					diffs << new Difference(description:"${labelElement} ${aP.name ?: 'ref to ' + aP.refValue} with minOccurs ${aP?.minOccurs} ${labelRemoved} from position ${i+1}${endOfSeq}.",
 						type: 'sequence', warning: warning, breaks: breaks, exchange: a.exchange)
 					return
 				}
@@ -93,7 +93,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 				}																					//element not found (removed) or bP is not an element
 				def warning = (aP.minOccurs == '0' && a.exchange == 'request')
 				def breaks = (ctx.exchange? aP.minOccurs > '0': null)
-				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} with minoccurs ${aP?.minOccurs} ${labelRemoved}." ,
+				diffs << new Difference(description:"${labelElement} ${aP.name?: 'ref to ' + aP.refValue} with minOccurs ${aP?.minOccurs} ${labelRemoved}." ,
 					 type: 'sequence', warning: warning, breaks: breaks, exchange: a.exchange)
 				return
 			}																						//aP is NOT an element
@@ -134,7 +134,7 @@ class SequenceDiffGenerator  extends UnitDiffGenerator {
 			def i = b.particles.findIndexOf{it == bP}
 			String endOfSeq = (b.particles.size() == (i+1))? '(end of sequence)' : ''
 			if(bP instanceof Element) {
-				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minoccurs ${bP?.minOccurs} ${labelAdded} to position ${i+1}${endOfSeq}.",
+				diffs << new Difference(description:"${labelElement} ${bP.name?: 'ref to ' + bP.refValue} with minOccurs ${bP?.minOccurs} ${labelAdded} to position ${i+1}${endOfSeq}.",
 					 type: 'sequence', warning: warning, breaks: breaks, exchange: b.exchange)
 			} else {
 				diffs << new Difference(description:"${bP.elementName} ${labelAdded} to position ${i+1}${endOfSeq}." , 

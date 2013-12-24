@@ -78,10 +78,10 @@ class ChoiceDiffGeneratorTest extends GroovyTestCase{
 	void testElementRef(){
 		def diffGen = new ChoiceDiffGenerator(a: f , b: g, generator : new SchemaDiffGenerator())
 		def diffs = diffGen.compare()
-		assert diffs[0].diffs[0].description == 'Element ref to TEST1 with minoccurs 1 removed.'
-		assert diffs[0].diffs[1].description == 'Element ref to TEST2 with minoccurs 1 removed.'
-		assert diffs[0].diffs[2].description == 'Element ref to TEST4 with minoccurs 1 added.'
-		assert diffs[0].diffs[3].description == 'Element ref to TEST5 with minoccurs 1 added.'
+		assert diffs[0].diffs[0].description == 'Element ref to TEST1 with minOccurs 1 removed.'
+		assert diffs[0].diffs[1].description == 'Element ref to TEST2 with minOccurs 1 removed.'
+		assert diffs[0].diffs[2].description == 'Element ref to TEST4 with minOccurs 1 added.'
+		assert diffs[0].diffs[3].description == 'Element ref to TEST5 with minOccurs 1 added.'
 	}
 
 }

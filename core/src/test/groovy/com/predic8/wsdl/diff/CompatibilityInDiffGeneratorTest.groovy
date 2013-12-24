@@ -28,12 +28,12 @@ class CompatibilityInDiffGeneratorTest extends GroovyTestCase {
 	void testElementAdded2Req() {
 		def diffs = compare(wsdl1, wsdl2)
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].description ==
-		"Element ElementWithMinOcc1 with minoccurs 1 removed."
+		"Element ElementWithMinOcc1 with minOccurs 1 removed."
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].safe
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].warning
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[0].breaks
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].description ==
-		"Element test with minoccurs 0 added to position 5(end of sequence)."
+		"Element test with minOccurs 0 added to position 5(end of sequence)."
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].safe
 		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].warning
 		assert !diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[1].diffs[0].diffs[1].breaks
