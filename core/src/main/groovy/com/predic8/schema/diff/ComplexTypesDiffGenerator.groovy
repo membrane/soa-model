@@ -35,7 +35,9 @@ class ComplexTypesDiffGenerator extends ListDiffGenerator {
   }
   
   protected getIntersection(){
-    (a.qname).intersect(b.qname)
+      def bQnames = b*.qname
+      if (bQnames.isEmpty()) { return [] }
+      a.qname.findAll { bQnames.contains(it) }
   }
   
   protected def updateLabels(){
