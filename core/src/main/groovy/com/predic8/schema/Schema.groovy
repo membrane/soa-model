@@ -70,6 +70,8 @@ class Schema extends SchemaComponent{
   List<AttributeGroup> attributeGroups = []
 
   final Map<QName, TypeDefinition> getTypeCache = [:]
+
+  @Lazy List<Schema> allSchemasCache = { [this] + importedSchemas }.call()
   
   Schema(){}
   
@@ -257,8 +259,9 @@ class Schema extends SchemaComponent{
     }
   }
 
+
   List<Schema> getAllSchemas(){
-    [this] + importedSchemas
+    allSchemasCache
   }
 	
   List<Schema> getImportedSchemas(){

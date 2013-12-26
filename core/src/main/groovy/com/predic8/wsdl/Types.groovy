@@ -14,15 +14,12 @@
 
 package com.predic8.wsdl
 
-import groovy.xml.QName
-
 import javax.xml.namespace.QName as JQName
 
 import org.apache.commons.logging.*
 
 import com.predic8.schema.*
 import com.predic8.soamodel.*
-import com.predic8.xml.util.*
 
 class Types extends WSDLElement {
 
@@ -30,6 +27,8 @@ class Types extends WSDLElement {
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'types')
   
   List<Schema> schemas = []
+
+  @Lazy List<Schema> allSchemasCache = {schemas*.allSchemas.flatten().unique()}.call()
   
   protected parseChildren(token, child, WSDLParserContext ctx){
     super.parseChildren(token, child, ctx)
@@ -44,7 +43,7 @@ class Types extends WSDLElement {
   }
 
   List<Schema> getAllSchemas() {
-		(schemas + schemas.importedSchemas.flatten()).unique()
+    allSchemasCache
   }
 
   void create(AbstractCreator creator, CreatorContext ctx){
