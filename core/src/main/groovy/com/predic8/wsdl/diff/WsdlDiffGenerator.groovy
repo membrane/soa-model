@@ -146,7 +146,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(aOperation, bOperation)
 		diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input, 'input'))
 		diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output, 'output'))
-		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
+		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
 		if(diffs) return [
 			new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
 			]
