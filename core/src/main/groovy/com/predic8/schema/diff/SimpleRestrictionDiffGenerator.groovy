@@ -42,16 +42,21 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
     if ( a.facets.isEmpty() && b.facets.isEmpty() ) return []
     diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"Enumerartion with value: ${it.value} removed.", type: 'facet', warning: true)}, {new Difference(description:"Enumerartion with value: ${it.value} added.", type: 'facet', warning: true)})
     
-    def aNotEnums = a.facets - a.enumerationFacets
-    def bNotEnums = b.facets - b.enumerationFacets
+//    def aNotEnums = a.facets - a.enumerationFacets
+    def aNotEnums = a.facets.findAll { f -> !a.enumerationFacets.find { ef -> f == ef } }
+//    def bNotEnums = b.facets - b.enumerationFacets
+    def bNotEnums = b.facets.findAll { f -> !b.enumerationFacets.find { ef -> f == ef } }
     diffs << compareNotEnumFacets(aNotEnums.elementName, bNotEnums.elementName)
     diffs
   }
   
   List<Difference> compareNotEnumFacets(aFs, bFs){
     def diffs = []
-    def removed  = aFs - bFs
-    def added = bFs - aFs
+//    def removed  = aFs - bFs
+    def removed = aFs.findAll { af -> !bFs.find { af == it } }
+//    def added = bFs - aFs
+    def added = bFs.findAll { bf -> !aFs.find { bf == it } }
+
     removed.each{
       diffs << new Difference(description:"Facet $it removed.", type: 'facet', warning:ctx.exchange ? true: null)
     }

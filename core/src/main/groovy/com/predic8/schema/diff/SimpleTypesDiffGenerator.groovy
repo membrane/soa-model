@@ -32,7 +32,9 @@ class SimpleTypesDiffGenerator extends ListDiffGenerator {
   def added = {new Difference(description:"${labelSimpleType} ${it.qname.toString()} ${labelAdded}.", type: 'simpleType', exchange: b.exchange)}
 
   protected getIntersection(){
-    (a.qname).intersect(b.qname)
+      def bQnames = b*.qname
+      if (bQnames.isEmpty()) { return [] }
+      a.qname.findAll { bQnames.contains(it) }
   }
 
   List<Difference> compareUnit(qname){
