@@ -146,7 +146,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(aOperation, bOperation)
 		diffs.addAll(comparePortTypeMessage(aOperation.input, bOperation.input, 'input'))
 		diffs.addAll(comparePortTypeMessage(aOperation.output, bOperation.output, 'output'))
-		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, ['fault']))
+		diffs.addAll(compareFaults(aOperation.faults, bOperation.faults, 'fault'))
 		if(diffs) return [
 			new Difference(description:"Operation ${aOperation.name}:", original:aOperation, modified:bOperation, type:'operation', diffs: diffs)
 			]
@@ -182,10 +182,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = []
 		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
 		(aFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange.clone())
+			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange)
 		}
 		(bFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange.clone())
+			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange)
 		}
 		faults.each { f ->
 			diffs.addAll(comparePortTypeMessage(aFaults.find{it.message.name == f}, bFaults.find{it.message.name == f}, exchange))
@@ -197,7 +197,7 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = compareDocumentation(a, b)
 		diffs.addAll( compareParts(a.parts, b.parts, exchange))
 		if(diffs) return [
-				new Difference(description:"Message${(a.name == b.name)? ' '+a.name : ''}:", type: 'message', diffs : diffs, exchange:exchange.clone())
+				new Difference(description:"Message${(a.name == b.name)? ' '+a.name : ''}:", type: 'message', diffs : diffs, exchange:exchange)
 			]
 		[]
 	}
