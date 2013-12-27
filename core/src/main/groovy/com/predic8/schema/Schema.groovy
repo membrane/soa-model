@@ -16,8 +16,6 @@ package com.predic8.schema;
 
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
-import java.util.List;
-
 import groovy.xml.*
 
 import javax.xml.namespace.QName as JQName
@@ -27,7 +25,6 @@ import org.apache.commons.logging.*
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.*
 import com.predic8.wsdl.Definitions
-import com.predic8.wsdl.WSDLParserContext;
 import com.predic8.xml.util.PrefixedName
 import com.predic8.xml.util.ResourceResolver
 
@@ -71,6 +68,10 @@ class Schema extends SchemaComponent{
   Annotation annotation
   List<Attribute> attributes = []
   List<AttributeGroup> attributeGroups = []
+
+  final Map<QName, TypeDefinition> getTypeCache = [:]
+
+  @Lazy List<Schema> allSchemasCache = { [this] + importedSchemas }.call()
   
   Schema(){}
   
@@ -196,7 +197,29 @@ class Schema extends SchemaComponent{
   AttributeGroup getAttributeGroup(String name){
     attributeGroups.find{it.name == name}
   }
-  
+
+    /**
+     * Resolves the type object for the given qname from the known schemas, and caches
+     * the reference if found.
+     * If the schema is embedded in a WSDL document, all other schemas in the
+     * WSDl will be checked, even if there are no imports of them in this schema.
+     * @param groovy.xml.QName
+     * @return TypeDefinition
+     *
+     * @param typeRef
+     * @return the cached or found typeDefinition
+     */
+    TypeDefinition getType(QName typeRef){
+        def result = getTypeCache[typeRef]
+
+        if (!result) {
+            result = findType(typeRef)
+            getTypeCache[typeRef] = result
+        }
+
+        result
+    }
+
 	/**
 	 * Resolves the type object for the given qname from the known schemas.
 	 * If the schema is embedded in a WSDL document, all other schemas in the 
@@ -204,7 +227,7 @@ class Schema extends SchemaComponent{
 	 * @param groovy.xml.QName
 	 * @return TypeDefinition
 	 */
-  TypeDefinition getType(QName typeRef){
+  TypeDefinition findType(QName typeRef){
 		if(!typeRef) return
 		if(typeRef.namespaceURI == Consts.SCHEMA_NS) return new BuiltInSchemaType(qname: typeRef)
     TypeDefinition refType = (allSchemas.complexTypes + allSchemas.simpleTypes + allSchemas.groups).flatten().find{
@@ -235,9 +258,10 @@ class Schema extends SchemaComponent{
       it.qname == qname
     }
   }
-  
+
+
   List<Schema> getAllSchemas(){
-    [this] + importedSchemas
+    allSchemasCache
   }
 	
   List<Schema> getImportedSchemas(){
