@@ -56,11 +56,23 @@ abstract class AbstractParserContext {
   }
 
   String getSchemaCacheKey(Import importStatement) {
-    importStatement?.namespace
+    "${importStatement?.namespace}${extractFileName(importStatement?.schemaLocation)}"
   }
 
   String getSchemaCacheKey(Schema schema) {
-      schema?.targetNamespace
+      "${schema?.targetNamespace}${extractFileName(schema?.schemaLocation)}"
+  }
+
+  /**
+   * The caching key must no use the entire schemaLocation since it might be relative
+   * from the importing WSDL or Schema.
+   */
+  protected String extractFileName(String schemaLocation) {
+      if (!schemaLocation) { return '' }
+      if (schemaLocation.size() == 1) { return schemaLocation }
+
+      int separatorIndex = schemaLocation.lastIndexOf(File.separator)
+      schemaLocation[separatorIndex+1..-1]
   }
 
 }

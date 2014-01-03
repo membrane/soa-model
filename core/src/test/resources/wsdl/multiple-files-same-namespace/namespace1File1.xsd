@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<xs:schema
+        xmlns:tns="http://namespace1"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        version="1.0"
+        targetNamespace="http://namespace1">
+
+    <xs:element name="uploadJson" type="tns:uploadJson"/>
+    <xs:element name="uploadJsonResponse" type="tns:uploadJsonResponse"/>
+
+    <xs:complexType name="uploadJson">
+        <xs:sequence>
+            <xs:element name="user" type="xs:string" minOccurs="0"/>
+            <xs:element name="password" type="xs:string" minOccurs="0"/>
+            <xs:element name="appName" type="xs:string" minOccurs="0"/>
+            <xs:element name="data" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="uploadJsonResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
