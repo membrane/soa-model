@@ -52,11 +52,15 @@ abstract class AbstractParserContext {
   }
 
   Schema setImportedSchema(Schema schema) {
-    importedSchemaCache.addSchema(schema)
+    importedSchemaCache.addSchema(schema, getSchemaCacheKey(schema))
   }
 
   String getSchemaCacheKey(Import importStatement) {
     importStatement?.namespace
+  }
+
+  String getSchemaCacheKey(Schema schema) {
+      schema?.targetNamespace
   }
 
 }

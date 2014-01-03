@@ -47,6 +47,7 @@ class Schema extends SchemaComponent{
   ResourceResolver resourceResolver
   
   String baseDir = ''
+  String schemaLocation = ''
   String targetNamespace = ''
   String attributeFormDefault = "unqualified"
   String elementFormDefault = "unqualified"

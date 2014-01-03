@@ -38,7 +38,8 @@ class SchemaParser extends AbstractParser{
     while(token.hasNext()){
       if (token.startElement) {
         if(token.name == Schema.ELEMENTNAME) {
-          schema = new Schema(baseDir : ctx.newBaseDir ?: '', resourceResolver: ctx.resourceResolver)
+          def schemaLocation = ctx.input.hasProperty('schemaLocation') ? ctx.input.schemaLocation : ctx.input
+          schema = new Schema(baseDir : ctx.newBaseDir ?: '', schemaLocation: schemaLocation ?: '', resourceResolver: ctx.resourceResolver)
           schema.parse(token, ctx)
         }
 				else {
