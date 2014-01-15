@@ -28,16 +28,17 @@ class ComplexContent extends SchemaComponent {
   Derivation derivation
 
    protected parseAttributes(token, params){
-    mixed = token.getAttributeValue( null , 'mixed')
+		 mixed = token.getAttributeValue( null , 'mixed')
    }
 
   protected parseChildren(token, child, params) {
+    super.parseChildren(token, child, params)
     switch (child ){
       case 'extension' :
       derivation = new Extension(schema: schema) ; break
       case 'restriction' :
       derivation = new Restriction(schema: schema); break
-	  default: throw new RuntimeException("Invalid child element '$child' in complexContent. Possible elements are 'anotation', 'extension' or 'restriction'.")
+	  default: throw new RuntimeException("Invalid child element '$child' in complexContent. Possible elements are 'annotation', 'extension' or 'restriction'.")
     }
     derivation.parse(token, params) 
   }

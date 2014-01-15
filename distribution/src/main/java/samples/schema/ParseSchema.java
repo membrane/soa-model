@@ -67,8 +67,8 @@ public class ParseSchema {
 				 * object.
 				 */
 				out("    Element Type Name: " + schema.getType(e.getType()).getName());
-				out("    Element minoccurs: " + e.getMinOccurs());
-				out("    Element maxoccurs: " + e.getMaxOccurs());
+				out("    Element minOccurs: " + e.getMinOccurs());
+				out("    Element maxOccurs: " + e.getMaxOccurs());
 				if (e.getAnnotation() != null)
 					annotationOut(e);
 			}
