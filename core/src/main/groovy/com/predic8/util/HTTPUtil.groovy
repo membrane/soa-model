@@ -14,12 +14,14 @@
 
 package com.predic8.util
 
-import com.predic8.schema.*
+import com.predic8.schema.Import as SchemaImport
+import com.predic8.wsdl.Import as WsdlImport
 
 class HTTPUtil {
   
   public static String updateBaseDir(input,oldBaseDir) {
-    if(input instanceof Import) input = input.schemaLocation
+    if(input instanceof SchemaImport) input = input.schemaLocation
+		if(input instanceof WsdlImport) input = input.location
     if(! (input instanceof String)) return oldBaseDir
        
     def comps = input.split(/[\\\/]/)

@@ -34,7 +34,7 @@ class Import extends WSDLElement {
   }
 
   private parseImport(token, WSDLParserContext ctx){
-		ctx.wsdlImports[namespace] ? (ctx.wsdlImports[namespace] << location) : (ctx.wsdlImports[namespace] = [location]) 
+		ctx.wsdlImports[namespace] ? (ctx.wsdlImports[namespace] << location) : (ctx.wsdlImports[namespace] = [location])
     ctx.input = this
     ctx.baseDir = definitions.baseDir
     importedWSDL = (new WSDLParser(resourceResolver: definitions.resourceResolver, registry: definitions.registry )).parse(ctx)
