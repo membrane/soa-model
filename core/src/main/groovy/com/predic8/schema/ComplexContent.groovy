@@ -32,15 +32,17 @@ class ComplexContent extends SchemaComponent {
    }
 
   protected parseChildren(token, child, params) {
-    super.parseChildren(token, child, params)
     switch (child ){
+	  case 'annotation' :
+		annotation = new Annotation(schema: schema)
+		annotation.parse(token, params) ; break
       case 'extension' :
-      derivation = new Extension(schema: schema) ; break
+      	derivation = new Extension(schema: schema) ; break
       case 'restriction' :
-      derivation = new Restriction(schema: schema); break
+      	derivation = new Restriction(schema: schema); break
 	  default: throw new RuntimeException("Invalid child element '$child' in complexContent. Possible elements are 'annotation', 'extension' or 'restriction'.")
     }
-    derivation.parse(token, params) 
+    derivation?.parse(token, params) 
   }
 
   boolean hasExtension(){

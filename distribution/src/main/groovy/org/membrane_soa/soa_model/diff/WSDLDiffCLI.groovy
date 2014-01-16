@@ -189,12 +189,12 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 								td(width:"50%"){
 									Element element = doc1.getElementforOperationExchange(ptName, opName, exchange)
 									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
-									else pre('This view is only available for SOAP requests with Doc/Lit style.')
+									else pre('N/A')
 								}
 								td(width:"50%"){
 									Element element = doc2.getElementforOperationExchange(ptName, opName, exchange)
 									if(element) pre('class':"prettyprint", "${element.requestTemplate}" )
-									else pre('This view is only available for SOAP requests with Doc/Lit style.')
+									else pre('N/A')
 								}
 							}
 						}
@@ -216,14 +216,14 @@ class WSDLDiffCLI extends AbstractDiffCLI{
 									if(element){
 										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element) )
 									}
-									else pre('This view is only available for SOAP requests with Doc/Lit style.')
+									else pre('N/A')
 								}
 								td(width:"50%"){
 									Element element = doc2.getElementforOperationExchange(ptName, opName, exchange)
 									if(element) {
 										pre('class':"prettyprint", new SchemaSubsetVisitor().getSchemaAsString(element))
 									}
-									else pre('This view is only available for SOAP requests with Doc/Lit style.')
+									else pre('N/A')
 								}
 							}
 						}

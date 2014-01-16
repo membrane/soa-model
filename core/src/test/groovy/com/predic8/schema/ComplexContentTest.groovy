@@ -33,7 +33,9 @@ class ComplexContentTest extends GroovyTestCase{
     schemaB = parser.parse("/schema/complexcontent/person-b.xsd")
   }
 
-
+	void testParseAnnotation() {
+		assert schemaA.getType('AmigoType').model.annotation.contents[0].content == 'Test OK'
+	}
 
   void testParseMixedCC(){
     assert(schemaA.getType('AmigoType').model.mixed)
