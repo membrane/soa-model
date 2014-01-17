@@ -32,7 +32,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
 		
   	ctx.elements.add(element)
 		
-    if(element.fixedValue){
+    if(element.fixedValue != null){  	// != null for empty strings
 			yield("\n<!-- The value of this element is fixed and can not be modified. -->")
 			builder."${getElementTagName(element, ctx)}"(element.fixedValue)
 			return
@@ -81,7 +81,7 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
       builder."${getElementTagName(element, ctx)}"(entries[it],attrs)
     }
     if (!entries) {
-			if(element.defaultValue){
+			if(element.defaultValue != null){  	// != null for empty strings
 				yield("\n<!-- This element has a default value. -->")
 				builder."${getElementTagName(element, ctx)}"(element.defaultValue, attrs)
 				return

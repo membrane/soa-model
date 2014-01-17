@@ -51,12 +51,12 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
     }
     ctx.element = element
 		
-		if(element.fixedValue){
+		if(element.fixedValue != null){ 	// != null for empty strings
 			yield("\n<!-- this element has a fixed value -->")
 			builder."${getElementTagName(element, ctx)}"(element.fixedValue, )
 			return
 		}
-		if(element.defaultValue){
+		if(element.defaultValue != null){ 	// != null for empty strings
 			yield("\n<!-- this element has a default value -->")
 			builder."${getElementTagName(element, ctx)}"(element.defaultValue, )
 			return

@@ -13,64 +13,67 @@ package com.predic8.schema
 
 import java.util.List;
 
+import com.predic8.schema.restriction.BaseRestriction;
 import com.predic8.xml.util.PrefixedName
+
 import groovy.xml.*
 
 abstract class TypeDefinition extends SchemaComponent {
 
-  QName qname
-  List<Attribute> attributes = []
-  List<AttributeGroup> attributeGroups = []
-  AnyAttribute anyAttribute
-	
-  protected parseAttributes(token, params){
+	QName qname
+	List<Attribute> attributes = []
+	List<AttributeGroup> attributeGroups = []
+	AnyAttribute anyAttribute
+
+	protected parseAttributes(token, params){
 		super.parseAttributes(token, params)
-    name = token.getAttributeValue( null , 'name')
-    if (name) {
-      def preName = new PrefixedName(name)
-      qname = new QName(schema.targetNamespace, preName.localName)
-    }
-  }
+		name = token.getAttributeValue( null , 'name')
+		if (name) {
+			def preName = new PrefixedName(name)
+			qname = new QName(schema.targetNamespace, preName.localName)
+		}
+	}
 
-  protected parseChildren(token, child, params){
-    super.parseChildren(token, child, params)
-    switch (child ){
-      case 'attribute' :
-        def attr = new Attribute(schema: schema)
-        attr.parse(token, params)
-          attributes << attr ; break
-      case 'attributeGroup' :
-        def attributeGroup = new AttributeGroup(schema: schema)
-        attributeGroup.parse(token, params)
-          attributeGroups << attributeGroup ; break
-      case 'anyAttribute' :
-        anyAttribute = new AnyAttribute(schema: schema)
-          anyAttribute.parse(token, params) ; break
-    }
-  }
+	protected parseChildren(token, child, params){
+		super.parseChildren(token, child, params)
+		switch (child ){
+			case 'attribute' :
+				def attr = new Attribute(schema: schema)
+				attr.parse(token, params)
+					attributes << attr ; break
+			case 'attributeGroup' :
+				def attributeGroup = new AttributeGroup(schema: schema)
+				attributeGroup.parse(token, params)
+					attributeGroups << attributeGroup ; break
+			case 'anyAttribute' :
+				anyAttribute = new AnyAttribute(schema: schema)
+					anyAttribute.parse(token, params) ; break
+		}
+	}
 
-  List<Attribute> getAllAttributes(){
-    def attrs = []
-    attrs.addAll(attributes)
-    attributeGroups.each {
-      attrs.addAll(it.allAttributes)
-    }
-    if(!metaClass.hasProperty(this, 'model') || !model) return attrs //simpleType do not have a model
-    if(model.metaClass.hasProperty(model, 'derivation')){
-      if(model.derivation){
-        attrs.addAll(model.derivation.allAttributes)
-        attrs.addAll(schema.getType(model.derivation.base)?.getAllAttributes()?:[])
-      }
-    }
-    attrs
-  }
+	List<Attribute> getAllAttributes(){
+		def attrs = []
+		attrs.addAll(attributes)
+		attributeGroups.each {
+			attrs.addAll(it.allAttributes)
+		}
+		if(!metaClass.hasProperty(this, 'model') || !model) return attrs //simpleType does not have a model
+		if(model.metaClass.hasProperty(model, 'derivation')){
+			if(model.derivation){
+				if(model.derivation instanceof BaseRestriction) attrs.addAll([model.derivation.anyAttribute] - null)
+				else attrs.addAll(model.derivation.allAttributes)
+				attrs.addAll(schema.getType(model.derivation.base)?.getAllAttributes()?:[])
+			}
+		}
+		attrs
+	}
 
-  Attribute getAttribute(name) {
-    attributes.find{ it.name == name }
-  }
+	Attribute getAttribute(name) {
+		attributes.find{ it.name == name }
+	}
 
-  AttributeGroup getAttributeGroup(String name){
-    attributeGroups.find{it.name == name}
-  }
+	AttributeGroup getAttributeGroup(String name){
+		attributeGroups.find{it.name == name}
+	}
 }
 

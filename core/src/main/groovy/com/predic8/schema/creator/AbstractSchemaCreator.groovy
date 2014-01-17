@@ -99,7 +99,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 	void createSimpleType(SimpleType simpleType, Context ctx){
 		if ( simpleType.union ) simpleType.union.create(this, ctx)
 		else if ( simpleType.list ) simpleType.list.create(this, ctx)
-		else simpleType.restriction.create(this, ctx)
+		else simpleType.restriction?.create(this, ctx)
 	}
 
 	void createSimpleRestriction(BaseRestriction restriction, Context ctx) {

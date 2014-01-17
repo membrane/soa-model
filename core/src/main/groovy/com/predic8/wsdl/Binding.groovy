@@ -100,7 +100,7 @@ class Binding extends WSDLElement{
 	 * @return The style/use combination of a WSDL binding as string
 	 */
 	String getStyle(){
-		binding.checkStyle()['result']
+		binding?.checkStyle()['result']
 	}
 	
 	/**
@@ -109,7 +109,7 @@ class Binding extends WSDLElement{
 	 * @return List of style errors. 
 	 */
 	List<Map> getStyleErrors() {
-		binding.checkStyle()['errors']
+		binding?.checkStyle()['errors']
 	}
 	
 	Policy getPolicy() {
@@ -160,6 +160,6 @@ class Binding extends WSDLElement{
 	}
 
 	String toString() {
-		"binding[name=$name, portType=$portType,type=${getType()},operations=$operations]"
+		"binding[name=$name, portType=${getPortType()},type=${getType()},operations=$operations]"
 	}
 }
