@@ -113,7 +113,7 @@ class BaseRestriction  extends SchemaComponent {
   }
   
   Boolean hasEnumerationFacet() {
-    enumerationFacet ?: false
+    enumerationFacets ?: false
   }
   
   MaxInclusiveFacet getMaxInclusiveFacet(){
