@@ -182,10 +182,10 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		def diffs = []
 		def faults = aFaults.message.qname.intersect(bFaults.message.qname)
 		(aFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} removed.", type: 'fault', exchange:[exchange])
 		}
 		(bFaults.message.qname - faults).each {
-			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:exchange)
+			diffs << new Difference(description:"Fault with message ${it} added.", type: 'fault', exchange:[exchange])
 		}
 		faults.each { f ->
 			diffs.addAll(comparePortTypeMessage(aFaults.find{it.message.name == f}, bFaults.find{it.message.name == f}, exchange))
