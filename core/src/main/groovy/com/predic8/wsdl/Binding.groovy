@@ -92,7 +92,7 @@ class Binding extends WSDLElement{
 	}
 
 	def getProtocol() {
-		binding.getProtocol()
+		binding?.getProtocol()
 	}
 	
 	/**

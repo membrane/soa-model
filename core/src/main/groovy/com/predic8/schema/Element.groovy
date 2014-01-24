@@ -40,6 +40,7 @@ class Element extends Declaration {
   String maxOccurs = 1
 	String defaultValue //can only be used if the element's content is a simple type or text only
 	String fixedValue //can only be used if the element's content is a simple type or text only
+	String form // Possible values: qualified/unqualified. Cannot be used if element is top level
 	boolean nillable = false
 	Unique unique
   
@@ -54,6 +55,7 @@ class Element extends Declaration {
 		defaultValue = token.getAttributeValue( null , 'default')
 		fixedValue = token.getAttributeValue( null , 'fixed')
 		nillable = (token.getAttributeValue( null , 'nillable') == 'true')
+		form = token.getAttributeValue( null , 'form') 
     log.debug "element attribute parsed: [name=$name, type=$type, ref=$ref, nillable=$nillable]"
   }
   
@@ -98,7 +100,7 @@ class Element extends Declaration {
 		new JsonCreator().getElementAsJson(this)
 	}
   
-  String getForm(){
+  String getHtmlForm(){
     def writer = new StringWriter()
     create(new FormCreator(builder:new MarkupBuilder(writer)),new FormCreatorContext(path:'xpath:/'))
     writer.toString()

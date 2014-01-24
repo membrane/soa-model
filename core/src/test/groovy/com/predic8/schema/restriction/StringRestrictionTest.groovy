@@ -46,7 +46,7 @@ class StringRestrictionTest extends GroovyTestCase{
   void testFormCreatorWithStringRestriction(){
     def strWriter = new StringWriter()
     def creator = new FormCreator(builder : new MarkupBuilder(strWriter))
-    schema.getElement('foo').form
+    schema.getElement('foo').htmlForm
     schema.getElement('foo').create(creator, new FormCreatorContext(formParams:'',path:"xpath:/"))
 //    new File('C:/temp/minmax.html') << "<html><body><div>$strWriter</div></body></html>"
   }
