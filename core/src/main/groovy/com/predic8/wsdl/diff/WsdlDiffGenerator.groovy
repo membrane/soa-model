@@ -52,6 +52,8 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 		
 		diffs.addAll(compareTypes())
 
+		diffs.addAll(compareBindings())
+		
 		lDiffs.addAll(compareDocumentation(a.services[0], b.services[0]))
 		if ( a.services[0] && b.services[0] ) {
 			lDiffs.addAll(comparePorts())
@@ -329,6 +331,31 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 			return [
 				new Difference(description:"Documentation has changed.", breaks : false, safe : true, type: 'documentation')
 			]
+		[]
+	}
+	
+	private List<Difference> compareBindings(){
+		def aBindings = a.bindings
+		def bBindings = b.bindings
+		def diffs = []
+		diffs.addAll(compare(aBindings, bBindings,
+			{ new Difference(description:"Binding ${it.name} removed.", original: it, type:'binding') },
+			{ new Difference(description:"Binding ${it.name} added.", modified: it, type:'binding') }))
+		
+		def bndNames = aBindings.name.intersect(bBindings.name)
+		bndNames.each{ bndName ->
+			//TODO Test if input/output name matches.
+			Binding aBinding= aBindings.find{it.name == bndName}
+			Binding bBinding= bBindings.find{it.name == bndName}
+			diffs.addAll(compareBinding(aBinding, bBinding))
+		}
+		diffs
+	}
+	
+	private List<Difference> compareBinding(Binding a, Binding b){
+		println "comparing bindings!!!!!!!!!!!!!!!"
+		println a.style
+		println b.style
 		[]
 	}
 

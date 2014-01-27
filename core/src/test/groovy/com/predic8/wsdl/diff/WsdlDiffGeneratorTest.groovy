@@ -77,6 +77,14 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
     def diffs = compare(orig, d)
 		assert diffs*.dump().toString().contains('Name has changed from input1 to NewInputName.')
   }
+  
+  void testBindingName() {
+  	Definitions d = getDefinitions()
+		d.bindings[0].name = "ProjectServiceTestBinding"
+		def diffs = compare(orig, d)
+		assert diffs*.dump().toString().contains('Binding ProjectServiceBinding removed.')
+		assert diffs*.dump().toString().contains('Binding ProjectServiceTestBinding added.')
+  }
 
   private def compare(a, b) {
     new WsdlDiffGenerator(a: a, b: b).compare()
