@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:element name="OTA_VehLocSearchRQ">
+		<xs:annotation>
+			<xs:documentation>Vehicle Location Search request will allow car rental customers to request car rental provider(s) to return location(s) available.  The search will be based on longitude/latitude of the location.  Requests can be based on providing one or many of the following: longitude/latitude, address, telephone number, reference point, the actual code of the location, hotel, and/or radius.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Point of Sale Identification.  Identification number of the vendor that has made the location search request and agency number assigned by IATA, ARC, ERSP or TID.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="VehLocSearchCriterion" type="ItemSearchCriterionType" maxOccurs="5">
+					<xs:annotation>
+						<xs:documentation>A collection of search parameters to be used in the search.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Vendor" type="CompanyNameType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Information on the vendor to be used as part of the search.  If this information is provided then only locations belonging to this vendor should be made available in the response.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="TPA_Extensions" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="MaxResponsesGroup"/>
+			<xs:attributeGroup ref="ReqRespVersion"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="VehicleLocSearchRQAdditionalInfoType">
+		<xs:sequence>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehicleLocSearchRQCoreType">
+		<xs:sequence/>
+	</xs:complexType>
+</xs:schema>

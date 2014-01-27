@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirPriceRQ">
+		<xs:annotation>
+			<xs:documentation>
+The Availability Request message requests pricing information for specific flights on specific dates for a specific number and type of passengers. Optional information in the message allows fare restriction preferences and negotiated fare contract codes to be included in the message.
+The pricing request contains the information necessary to perform an availability / sell from availability / price series of entries on an airline CRS or GDS.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Point of sale object. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirItinerary" type="AirItineraryType">
+					<xs:annotation>
+						<xs:documentation>The Air Itineraries to be priced</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TravelerInfoSummary" type="TravelerInfoSummaryType">
+					<xs:annotation>
+						<xs:documentation>Specify passenger numbers and types</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

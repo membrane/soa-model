@@ -1,0 +1,65 @@
+<schema targetNamespace="http://www.example.com/IPO"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ipo="http://www.example.com/IPO">
+
+  <element name="Contact1" type="AddressType" />
+
+  <element name="Contact2" >
+    <complexType>
+      <sequence>
+        <element name="name"   type="string"/>
+        <element name="street" type="string"/>
+        <element name="number"   type="int"/>
+        <element name="city"   type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="Contact3" type="AddressType">
+    <annotation>
+      <appinfo>Appinfo for test!</appinfo>
+    </annotation>
+   </element>
+  
+  <element name="Contact4" type="AddressType" >
+    <annotation>
+      <documentation>This is the documentation!</documentation>
+    </annotation>
+  </element>
+  
+  <element name="Contact5" type="AddressType" >
+    <annotation>
+      <documentation>This is the                documentation!</documentation>
+    </annotation>
+  </element>
+  
+  <element name="person1">
+    <complexType>
+      <sequence>
+        <element name="firstname" type="string" />
+        <element name="secondname" type="string" minOccurs="0"/>
+        <element name="lastname" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  
+  <element name="person2">
+    <complexType>
+      <sequence>
+        <element name="firstname" type="string" />
+        <element name="secondname" type="string" />
+        <element name="lastname" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  
+  <complexType name="AddressType">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="street" type="string"/>
+      <element name="number"   type="int"/>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+  
+</schema>

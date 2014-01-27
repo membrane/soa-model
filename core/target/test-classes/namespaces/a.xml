@@ -1,0 +1,7 @@
+<ns1:a xmlns:ns1="uri:a">
+  <ns1:b />
+  <ns1:c xmlns:ns2="uri:e">
+    <ns2:d xmlns:ns2="uri:d" />
+    <ns2:e />
+  </ns1:c>
+</ns1:a>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelRatePlanNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_HotelRatePlanNotifRQ is the message that sends the notification of a new Rate Plan.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">POS provides a mechanisim to indicate the source of the message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The unique identifier element allows the trading partners to  uniquely identify each RatePlanNotifRQ, (i.e.  the entire message) for transaction tracability.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="RatePlans"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RatePlans">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A collection of RatePlans for a given hotel.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RatePlan" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">An individual RatePlan</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DestinationSystemsCode" type="DestinationSystemCodesType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A collection of destination system codes. These are systems for which this RatePlan is targeted.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="BookingRules" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A collection of booking rules. Booking rules can be sent separately in the HotelBookingRuleNotif message or as part of the RatePlanNotif.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="BookingRulesType">
+											<xs:sequence>
+												<xs:element name="InventoryInfo" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Optional element to indicate Inventory information, when nessary to qualify the booking rule.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attributeGroup ref="InventoryGroup"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Rates" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A collection of Rates. Rates can be sent separately using the HotelRateAmountNotif message or as part of the RatePlanNotif.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Rate" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">An individual rate, which is a collection of amounts by guest, additional guests, fees, collection of related guarantee, cancel and payment policies, a description and the unique id to identify the rate. Rate restrictions can be sent along with the rate as attributes of this rate. The indivual rate can also be qualified by the inventory information (InventoryGroup attribute group).</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="RateUploadType">
+														<xs:attributeGroup ref="InventoryGroup"/>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RatePlanShoulders" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A collection of RatePlanShoulders.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RatePlanShoulder" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">The Rate Plan Shoulder defines the allowable dates and where to take inventory during the shoulder seasons for this rate plan.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SellableProducts" type="SellableProductsType" minOccurs="0"/>
+												</xs:sequence>
+												<xs:attribute name="ShoulderRPH" type="RPH_Type" use="optional">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">This is a reference placeholder, used as an index for this object.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PreShoulderSellLimit" type="xs:nonNegativeInteger" use="optional">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">Limit of inventory that can be sold before the StayDateRange.  It should be understood that any stay must book at least one date in the 			StayDateRange.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PostShoulderSellLimit" type="xs:nonNegativeInteger" use="optional">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">Limit of inventory that can be sold after the StayDateRange. It should be understood that any stay must book at least one date in the 			StayDateRange.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PreShoulderStartDate" type="DateOrDateTimeType" use="optional">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">The earliest stay date that this rate plan/inventory block can be sold.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PostShoulderEndDate" type="DateOrDateTimeType" use="optional">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">The latest stay date that this rate plan/inventory block can be sold.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SellableProducts" type="SellableProductsType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A collection of Sellable Products. Sellable products can be sent separately using the HotelInvNotif message of as part of RatePlanNotif.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="RatePlanLevelFee" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A Fee that is attached directly to the RatePlan. Can  be used to send a global surcharge at the RatePlan level. </xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="FeesType">
+											<xs:attributeGroup ref="CodeListGroup"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Commission" type="CommissionType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Commission assoiciated with the RatePlan. This can be a percentage or a flat amount.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Description" type="ParagraphType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Description of the RatePlan being Uploaded.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">The unique identifier element allows the trading partners to  uniquely identify each Rate being uploaded, for transaction tracability. </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="DateTimeSpanGroup"/>
+						<xs:attributeGroup ref="CurrencyCodeGroup"/>
+						<xs:attributeGroup ref="RatePlanGroup"/>
+						<xs:attributeGroup ref="RatePlanCodeTypeGroup"/>
+						<xs:attribute name="RatePlanNotifType" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">An enumerated type that indicates whether this is a new rate plan or an update of an existing rate plan.</xs:documentation>
+								<xs:documentation xml:lang="en">Values: New, Delta Modification, Full Overlay Modification.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="New"/>
+									<xs:enumeration value="Delta"/>
+									<xs:enumeration value="Overlay"/>
+									<xs:enumeration value="Remove"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="RatePlanStatusType" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">An enumerated type that indicates the status of the rate plan, ie: whether this notification is an initial announcement of a new rate plan, an update of an active (bookable) rate plan, or a notification of a rate plan that is no longer in effect.</xs:documentation>
+								<xs:documentation xml:lang="en">Values: Initial, Active, Deactivated.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Initial"/>
+									<xs:enumeration value="Active"/>
+									<xs:enumeration value="Deactivated"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="RatePlanNotifScopeType" use="optional">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="RatePlanOnly"/>
+									<xs:enumeration value="RateOnly"/>
+									<xs:enumeration value="RatePlanAndRate"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="IsCommissionable" type="xs:boolean" use="optional"/>
+						<xs:attribute name="RateReturn" type="xs:boolean" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="HotelReferenceGroup"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

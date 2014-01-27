@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+    <xs:complexType name="ArrayOfguid">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="guid" type="ser:guid"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfguid" nillable="true" type="q11:ArrayOfguid"/>
+    <xs:complexType name="ArrayOfstring">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfstring" nillable="true" type="q11:ArrayOfstring"/>
+    <xs:complexType name="ArrayOfunsignedInt">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="unsignedInt" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfunsignedInt" nillable="true" type="q11:ArrayOfunsignedInt"/>
+    <xs:complexType name="ArrayOfbase64Binary">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="base64Binary" nillable="true" type="xs:base64Binary"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfbase64Binary" nillable="true" type="q11:ArrayOfbase64Binary"/>
+</xs:schema>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://predic8.com/Test4NamespaceConfilict2" xmlns:tns="http://predic8.com/Test4NamespaceConfilict2" elementFormDefault="qualified">
+	<complexType name="testType">
+		<sequence>
+			<element name="e1" type="string"/>
+			<element name="e2" type="integer"/>
+			<element name="e3" type="date"/>
+		</sequence>
+	</complexType>
+</schema>

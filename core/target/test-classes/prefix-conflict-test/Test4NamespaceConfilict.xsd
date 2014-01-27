@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://predic8.com/Test4NamespaceConfilict" 
+	xmlns:tns="http://predic8.com/Test4NamespaceConfilict"
+	xmlns:ns2="http://predic8.com/Test4NamespaceConfilict2" 
+	elementFormDefault="qualified">
+	
+	<import namespace="http://predic8.com/Test4NamespaceConfilict2" schemaLocation="Test4NamespaceConfilict2.xsd"/>
+	
+	<element name="Test" type="tns:BothNSInside" />
+	
+	<complexType name="BothNSInside">
+		<sequence>
+			<element name="FromFirstNS" type="tns:TestString" />
+			<element name="FromSecondNS" type="ns2:testType"/>
+		</sequence>
+	</complexType>
+	
+	<simpleType name="TestString">
+		<restriction base="string" />
+	</simpleType>
+</schema>

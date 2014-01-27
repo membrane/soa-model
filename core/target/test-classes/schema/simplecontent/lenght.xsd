@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://xml.netbeans.org/schema/lenght"
+    xmlns:tns="http://xml.netbeans.org/schema/lenght"
+    elementFormDefault="qualified">
+
+  <xs:complexType name="length1">
+    <xs:simpleContent>
+      <xs:extension base="xs:nonNegativeInteger">
+        <xs:attribute name="unit" type="xs:NMTOKEN"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:element name="width" type="tns:length1"/>
+
+
+</xs:schema>

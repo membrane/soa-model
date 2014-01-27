@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.predic8.com/cycling-elements" xmlns:tns="http://www.predic8.com/cycling-elements" elementFormDefault="qualified">
+  <element name="area" type="tns:areaType"/>
+  <complexType name="areaType">
+    <sequence>
+      <element name="country" type="string"/>
+      <element name="population" type="int"/>
+      <element name="area" minOccurs="0" type="tns:areaType"/>
+    </sequence>
+  </complexType>
+</schema>

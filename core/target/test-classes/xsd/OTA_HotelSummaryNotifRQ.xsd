@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelSummaryNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_HotelSummaryNotifRQ is the message that sends the notification of the general availability of a hotel for booking.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="HotelSummaryMessages" type="HotelSummaryMessagesType"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="HotelReferenceGroup"/>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="HotelSummaryMessagesType">
+		<xs:sequence>
+			<xs:element name="HotelSummaryMessage" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The HotelSummaryMessage is the message that is used to provide a notification of the general 	status of 		availability of the hotel, and its minimum and maximum rates.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RateMin" type="CurrencyAmountType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The minimum rate that may be available at the hotel.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RateMax" type="CurrencyAmountType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The maximum rate that may be available at the hotel.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="DateTimeSpanGroup"/>
+					<xs:attributeGroup ref="DOW_PatternGroup"/>
+					<xs:attribute name="StatusType" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Closed"/>
+								<xs:enumeration value="Open"/>
+								<xs:enumeration value="OnRequest"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="ArrivalsOnlyFlag" type="xs:boolean" use="required">
+						<xs:annotation>
+							<xs:documentation>Used in conjuction with the "close" enumeration to indicate "Closed to arrival" state.  The status 	type should be "Close" and the boolean should be set to true to indicate the closed to arrival condition.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="payment" elementFormDefault="qualified">
+
+  <xsd:element name="Cost" type="tns:Money" xmlns:tns="payment" />
+
+  <xsd:complexType name="Money">
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:attributeGroup name="specialAttrs">
+    <xsd:attribute ref="xml:base" />
+    <xsd:attribute ref="xml:lang" />
+    <xsd:attribute ref="xml:space" />
+  </xsd:attributeGroup>
+
+</xsd:schema>

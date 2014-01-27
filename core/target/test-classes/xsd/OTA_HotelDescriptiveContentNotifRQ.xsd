@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelContentDescription.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelDescriptiveContentNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The Hotel Descriptive Content Notification is a broadcast message used to publicize detailed descriptive information about a hotel property by standardized data categories. Likewise, static information about a hotel property can be obtained by using the Hotel Search Request and/or Hotel Availability Request to search for static information by category, using codes agreed upon between trading partners to request more detail about a hotel.  The Hotel Descriptive Content interface enables accessing hotel data in both a push and pull format in order to avoid storing the data at multiple locations. In most cases, the hotel property is the owner of the data and is in charge of updating it, and sends out a broadcast message as a full overlay replacing previous information or a partial update message modification to make changes or portions of the data.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="HotelDescriptiveContents">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HotelDescriptiveContent" type="HotelDescriptiveContentType" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attributeGroup ref="HotelReferenceGroup"/>
+						<xs:attributeGroup ref="OverWriteGroup"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

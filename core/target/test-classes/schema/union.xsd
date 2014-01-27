@@ -1,0 +1,30 @@
+<schema targetNamespace="http://www.predic8.com/union/"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.predic8.com/union/">
+
+  <simpleType name="contact">
+    <union memberTypes="string tns:email tns:fax"/>
+  </simpleType>
+
+  <simpleType name="email" >
+    <restriction base="string">
+      <maxExclusive value="100"/>
+      <minInclusive value="5"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="fax" >
+    <union>
+      <simpleType>
+        <restriction base="positiveInteger" />
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <maxExclusive value="100"/>
+          <minInclusive value="5"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+
+</schema>

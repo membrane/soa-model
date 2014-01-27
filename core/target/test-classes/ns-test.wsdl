@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<TEST3N0:definitions targetNamespace="http://www.test.com/mytest/reoperation" xmlns:TEST3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:TEST3N1="http://www.test.com/mytest/reoperation" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+	<TEST3N0:types>
+		<xsd:schema targetNamespace="http://www.test.com/mytest/reoperation" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.test.com/mytest/reoperation" xmlns:types="http://www.test.com/mytest/reoperation/types" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://www.test.com/mytest/reoperation/types" schemaLocation="ns-test.xsd"/>
+			<xsd:element name="MYTESTRequestDocument" type="types:MYTESTRequestType"/>
+			<xsd:element name="MYTESTResponseDocument" type="types:MYTESTResponseType"/>
+			<xsd:element name="MYTESTServiceFaultDocument" type="types:MYTESTServiceFaultType"/>
+		</xsd:schema>
+	</TEST3N0:types>
+	<TEST3N0:message name="MYTESTRequestMessage">
+		<TEST3N0:part element="TEST3N1:MYTESTRequestDocument" name="MYTESTRequest"/>
+	</TEST3N0:message>
+	<TEST3N0:message name="MYTESTResponseMessage">
+		<TEST3N0:part element="TEST3N1:MYTESTResponseDocument" name="MYTESTResponse"/>
+	</TEST3N0:message>
+	<TEST3N0:message name="MYTESTServiceFaultMessage">
+		<TEST3N0:part element="TEST3N1:MYTESTServiceFaultDocument" name="MYTESTServiceFault"/>
+	</TEST3N0:message>
+	<TEST3N0:portType name="MYTESTServicePortType">
+		<TEST3N0:operation name="MYTEST">
+			<TEST3N0:input message="TEST3N1:MYTESTRequestMessage"/>
+			<TEST3N0:output message="TEST3N1:MYTESTResponseMessage"/>
+			<TEST3N0:fault message="TEST3N1:MYTESTServiceFaultMessage" name="MYTESTFault"/>
+		</TEST3N0:operation>
+	</TEST3N0:portType>
+	<TEST3N0:binding name="MYTESTServiceBinding" type="TEST3N1:MYTESTServicePortType">
+		<WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<TEST3N0:operation name="MYTEST">
+			<WL5G3N2:operation soapAction="http://www.test.com/mytest/reoperation/MYTEST"/>
+			<TEST3N0:input>
+				<WL5G3N2:body use="literal"/>
+			</TEST3N0:input>
+			<TEST3N0:output>
+				<WL5G3N2:body use="literal"/>
+			</TEST3N0:output>
+			<TEST3N0:fault name="MYTESTFault">
+				<WL5G3N2:fault name="MYTESTFault" use="literal"/>
+			</TEST3N0:fault>
+		</TEST3N0:operation>
+	</TEST3N0:binding>
+	<TEST3N0:service name="MYTESTService">
+		<TEST3N0:port binding="TEST3N1:MYTESTServiceBinding" name="MYTESTServicePort">
+			<WL5G3N2:address location="http://mytest:80/test"/>
+		</TEST3N0:port>
+	</TEST3N0:service>
+</TEST3N0:definitions>

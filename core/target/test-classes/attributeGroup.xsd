@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://predic8.com/human-resources/"
+	xmlns:tns="http://predic8.com/human-resources/"
+	elementFormDefault="unqualified"
+	xmlns:ct="http://predic8.com/common-types/">
+
+    <xsd:group name="PersonGroup">
+        <xsd:sequence>
+            <xsd:element name="firstName" type="xsd:string" />
+            <xsd:element name="lastName" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:complexType name="EmployeeType">
+        <xsd:sequence>
+          <xsd:element name="person" >
+              <xsd:complexType >
+                  <xsd:group ref="tns:PersonGroup" />
+                  <xsd:attributeGroup ref="AttrG2"/>
+              </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="tns:AttrG1"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ChefType">
+        <xsd:complexContent>
+          <xsd:extension base="tns:EmployeeType">
+            <xsd:attributeGroup ref="tns:AttrG3"/>
+            <xsd:attribute name="Attr7" type="xsd:int" />
+          </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+    
+    <xsd:element name="employee" type="tns:EmployeeType" />
+    
+    <xsd:element name="chef" type="tns:ChefType" />
+    
+    <xsd:attributeGroup name="AttrG1">
+      <xsd:attribute name="Attr1" type="xsd:string"/>
+      <xsd:attribute name="Attr2" type="xsd:string"/>
+      <xsd:attributeGroup ref="tns:AttrG2"/>
+    </xsd:attributeGroup>
+    
+    <xsd:attributeGroup name="AttrG2">
+      <xsd:attribute name="Attr3" type="xsd:string"/>
+      <xsd:attribute name="Attr4" type="xsd:int"/>
+    </xsd:attributeGroup>
+    
+    <xsd:attributeGroup name="AttrG3">
+      <xsd:attribute name="Attr5" type="xsd:string"/>
+      <xsd:attribute name="Attr6" type="xsd:int"/>
+    </xsd:attributeGroup>
+
+</xsd:schema>

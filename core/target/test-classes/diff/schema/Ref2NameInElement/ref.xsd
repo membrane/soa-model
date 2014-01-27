@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://predic8.com/Ref2Name/"
+	xmlns:tns="http://predic8.com/Ref2Name/" elementFormDefault="qualified">
+	
+	<complexType name="CT1">
+		<sequence>
+			<element ref="tns:S1E1" minOccurs="0"/>
+			<element name="SecondElement" type="string" />
+		</sequence>
+	</complexType>
+	
+  <complexType name="CT2">
+    <sequence>
+      <element name="CT2Element1" type="string" />
+      <element name="CT2Element2" type="string" />
+      <element name="CT2Element3" type="string" />
+    </sequence>
+  </complexType>
+  
+  <complexType name="CT3">
+    <sequence>
+      <element name="CT3E1" type="string" />
+      <any namespace="##any"/>
+      <element name="CT3E2" type="string" />
+      <choice>
+        <element ref="tns:RefTestInChoice"/>
+      </choice>
+    </sequence>
+  </complexType>
+  
+  <complexType name="CT4">
+    <sequence>
+      <element name="E1" type="string" />
+      <element name="E2" type="string" />
+      <element name="E3" type="string" />
+      <element name="E4" type="string" />
+      <element ref="tns:foo" />
+      <choice></choice>
+    </sequence>
+  </complexType>
+  
+  <element name="foo" type="string"/>
+	<element name="S1E1" type="string" />
+	<element name="RefTestInChoice" type="string" />
+</schema>

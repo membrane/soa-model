@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema id="PriceList_Types" targetNamespace="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Types"
+	elementFormDefault="qualified" xmlns="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Types"
+	xmlns:mstns="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- Request PriceList Type -->
+	<xsd:complexType name="RequestPriceListType">
+		<xsd:all minOccurs="1" maxOccurs="1">
+			<xsd:element name="Header" type="RequestHeaderType" />
+			<xsd:element name="Detail" type="RequestDetailType" />
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Request Header Type -->
+	<xsd:complexType name="RequestHeaderType">
+		<xsd:all minOccurs="0" maxOccurs="1">
+			<xsd:element name="TransControlID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Request Detail Type -->
+	<xsd:complexType name="RequestDetailType">
+		<xsd:sequence>
+			<xsd:element name="LineInfo" type="RequestLineInfoType" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Request LineInfo Type -->
+	<xsd:complexType name="RequestLineInfoType">
+		<xsd:all minOccurs="1" maxOccurs="1">
+			<xsd:element name="AssignedID" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="RefIDQual" nillable="true" type="RefIDQualType" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="RefID" minOccurs="1" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ReturnAvailability" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Y"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Response PriceList Type -->
+	<xsd:complexType name="ResponsePriceListType">
+		<xsd:all minOccurs="1" maxOccurs="1">
+			<xsd:element name="Header" type="ResponseHeaderType" />
+			<xsd:element name="Detail" type="ResponseDetailType" />
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Response Header Type -->
+	<xsd:complexType name="ResponseHeaderType">
+		<xsd:all minOccurs="0" maxOccurs="1">
+			<xsd:element name="TransControlID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Response Detail Type -->
+	<xsd:complexType name="ResponseDetailType">
+		<xsd:sequence>
+			<xsd:element name="LineInfo" type="ResponseLineInfoType" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Response LineInfoType -->
+	<xsd:complexType name="ResponseLineInfoType">
+		<xsd:sequence>
+			<xsd:element name="AssignedID" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="RefIDQual1" nillable="true"  minOccurs="0" maxOccurs="1" type="RefIDQualType" />
+			<xsd:element name="RefID1" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="RefIDQual2" nillable="true" minOccurs="0" maxOccurs="1" type="RefIDQualType" />
+			<xsd:element name="RefID2" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ProductDesc" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ItemEUIRequired" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Y" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="LicenseRequired" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Y" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CustomerPrice" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MSRP" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PromotionInfo" type="ResponsePromotionInfoType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="AvailabilityInfo" type="ResponseAvailabilityInfoType" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ErrorInfo" type="ResponseErrorInfoType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Response PromotionInfo Type -->
+	<xsd:complexType name="ResponsePromotionInfoType">
+		<xsd:sequence>
+			<xsd:element name="OrderLevel" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<!-- Education (Student & Staff) -->
+						<xsd:enumeration value="EF" />
+						<!-- Education (Higher) -->
+						<xsd:enumeration value="EH" />
+						<!-- Education (K-12) -->
+						<xsd:enumeration value="EL" />
+						<!-- Education (Erate) -->
+						<xsd:enumeration value="ER" />
+						<!-- Federal -->
+						<xsd:enumeration value="FE" />
+						<!-- Federal GSA -->
+						<xsd:enumeration value="FG" />
+						<!-- State -->
+						<xsd:enumeration value="ST" />
+						<!-- Local -->
+						<xsd:enumeration value="LO" />
+						<!-- Provincial -->
+						<xsd:enumeration value="PR" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MinimumQty" minOccurs="0" maxOccurs="1" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="15" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MaximumQty" minOccurs="0" maxOccurs="1" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="15" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PromoEUIRequired" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Y" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PromotedPricePerUnit" minOccurs="0" maxOccurs="1" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PromotedEndDate" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:token">
+						<xsd:pattern value="[0-1]?[0-9]/[0-3]?[0-9]/[0-9][0-9][0-9][0-9]" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PromoNumber" minOccurs="0" maxOccurs="unbounded" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="6" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Response AvailabilityInfo Type -->
+	<xsd:complexType name="ResponseAvailabilityInfoType">
+		<xsd:sequence>
+			<xsd:element name="WhseInfo" type="ResponseWhseInfoType" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Response WhseInfo Type -->
+	<xsd:complexType name="ResponseWhseInfoType">
+		<xsd:all minOccurs="0" maxOccurs="1">
+			<xsd:element name="IDCode" minOccurs="1" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1" />
+						<xsd:maxLength value="16" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="WhseCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="2" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Qty" minOccurs="1" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="15" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="TotalOnOrderQty" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="12" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="OnOrderQty" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="OnOrderETADate" nillable="true">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:token">
+						<xsd:pattern value="[0-1]?[0-9]/[0-3]?[0-9]/[0-9][0-9][0-9][0-9]" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ItemStatus" nillable="true" minOccurs="0" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="NEW"/>
+						<xsd:enumeration value="ACTIVE"/>
+						<xsd:enumeration value="PHASED OUT"/>
+						<xsd:enumeration value="ALLOC"/>
+						<xsd:enumeration value="COMPON"/>
+						<xsd:enumeration value="DIS-TD"/>
+						<xsd:enumeration value="DIS-VN"/>
+						<xsd:enumeration value="SP-ORD"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Response ErrorInfo Type -->
+	<xsd:complexType name="ResponseErrorInfoType">
+		<xsd:all minOccurs="1" maxOccurs="1">
+			<xsd:element name="ErrorID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ErrorDesc">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0" />
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- RefIDQual Type -->
+	<xsd:simpleType name="RefIDQualType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="VP" />
+			<!-- Vendor Part number -->
+			<xsd:enumeration value="BP" />
+			<!-- Buyer Part number -->
+			<xsd:enumeration value="MG" />
+			<!-- Manufacturer's Part number -->
+			<xsd:enumeration value="UP" />
+			<!-- UPC number -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+</xsd:schema>

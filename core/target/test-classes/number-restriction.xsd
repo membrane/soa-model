@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://predic8.com/number-restriction/"
+    xmlns:tns="http://predic8.com/number-restriction/"
+    elementFormDefault="qualified">
+    
+    <xsd:simpleType name="month">
+        <xsd:restriction base="xsd:integer">
+          <xsd:minInclusive value='1'/>
+          <xsd:maxInclusive value='12'/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="year">
+        <xsd:restriction base="xsd:double">
+          <xsd:minExclusive value='0'/>
+          <xsd:maxExclusive value='2010'/>
+          <xsd:totalDigits value="4"/>
+          <xsd:fractionDigits value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="money">
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="10"/>
+          <xsd:fractionDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="season1">
+        <xsd:restriction base="tns:month">
+          <xsd:enumeration value="1"/>
+          <xsd:enumeration value="2"/>
+          <xsd:enumeration value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name='SQL-Year-Month-Interval'>
+      <xsd:restriction base='xsd:duration'>
+        <xsd:pattern value='P\p{Nd}{4}Y\p{Nd}{2}M'/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    
+</xsd:schema>

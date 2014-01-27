@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+  targetNamespace="http://example.com/stockquote/schema" 
+  xmlns:tns="http://www.example.org/stockquoteschema" elementFormDefault="qualified">
+
+  <element name="TradePriceRequest" type="int"/>
+  
+  <element name="TradePrice" type="int" />
+  
+</schema>

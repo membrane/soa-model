@@ -1,0 +1,53 @@
+.tabBody {
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+}
+
+.tab a:hover, .tab a:visited, .tab a:link {
+    font-style: normal;
+    color: black;
+    text-decoration: none;
+}
+
+.tabs {
+    border-color:#A3A3A3;
+    border-style:solid;
+    border-width:0 0 1px;
+    color:black;
+    font-style:normal;
+    font-weight:bold;
+    height:25px;
+    list-style:none outside none;
+    text-decoration:none;
+}
+
+.tab {
+    background:url("../js/yui/2.7.0/assets/skins/sam/sprite.png") repeat-x scroll 0 0 #D8D8D8;
+    border-color:#A3A3A3;
+    border-style:solid;
+    border-width:1px 1px 0;
+    display:-moz-inline-stack;
+    float:left;
+    line-height:24px;
+    margin-right:5px;
+    padding:0 10px;
+    position:relative;
+}
+
+.tab:hover {
+    /*background:url("../js/yui/2.7.0/assets/skins/sam/sprite.png") repeat-x scroll left -1700px #D8D8D8;*/
+    border-color:red;
+}
+
+.tab.selected {
+    background:url("../js/yui/2.7.0/assets/skins/sam/sprite.png") repeat-x scroll left -100px #2647A0;
+    border-color:black;
+    color:black;
+}
+
+.tabs ul {
+    padding: 0px;
+}
+
+

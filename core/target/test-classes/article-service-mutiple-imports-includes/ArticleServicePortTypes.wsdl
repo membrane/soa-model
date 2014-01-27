@@ -1,0 +1,25 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:msg="http://predic8.com/wsdl/material/ArticleService/1/message/" name="article"
+	targetNamespace="http://predic8.com/wsdl/material/ArticleService/1/portType/">
+	
+	<import location="ArticleServiceMessages.wsdl" namespace="http://predic8.com/wsdl/material/ArticleService/1/message/"/>
+	
+	<portType name="ArticleService">
+		<documentation>Interface provided by this Service</documentation>
+		<operation name="create">
+			<documentation>Creates an article</documentation>
+			<input name="input1" message="msg:createRequest" />
+			<output name="output1" message="msg:createResponse" />
+		</operation>
+		<operation name="get">
+			<documentation>Gets a single article</documentation>
+			<input name="input2" message="msg:getRequest" />
+			<output name="output2" message="msg:getResponse" />
+		</operation>
+		<operation name="getAll">
+			<documentation>Gets all articles</documentation>
+			<input name="input3" message="msg:getAllRequest" />
+			<output name="output3" message="msg:getAllResponse" />
+		</operation>
+	</portType>
+</definitions>

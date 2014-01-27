@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="basedir-h">
+  <xsd:import schemaLocation="/x/basedir-i.xsd" namespace="basedir-i"/>
+  <xsd:simpleType name="dataType" >
+    <xsd:element name="hElement" type="xsd:string"/>
+  </xsd:simpleType>
+</xsd:schema>

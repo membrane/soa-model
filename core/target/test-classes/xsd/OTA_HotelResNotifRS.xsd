@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelReservation.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelResNotifRS">
+		<xs:annotation>
+			<xs:documentation>Returns acknowledgement that the reservation has been successfully received, or includes warnings from business processing rules or errors if the request did not succeed. It may optionally include the updated reservation data.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Success" type="SuccessType"/>
+						<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+						<xs:element name="HotelReservations" type="HotelReservationsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:element name="Errors" type="ErrorsType"/>
+				</xs:choice>
+				<xs:element name="POS" type="POS_Type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attribute name="ResResponseType" type="TransactionStatusType"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

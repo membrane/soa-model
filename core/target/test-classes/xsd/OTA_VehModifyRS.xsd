@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:element name="OTA_VehModifyRS">
+		<xs:annotation>
+			<xs:documentation>The root tag of OTA_VehModifyRS contains the standard payload attributes found in all OTA payload documents.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="VehModifyRSCore">
+						<xs:annotation>
+							<xs:documentation>Identifies the common, or core, information associated with the response poviding information on the modification of a vehicle reservation.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="VehicleModifyRSCoreType">
+									<xs:attribute name="ModifyStatus" type="TransactionStatusType" use="required"/>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="VehModifyRSInfo" type="VehicleModifyRSAdditionalInfoType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Identifies the supplemental information associated with the response poviding information on the modification of a vehicle reservation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="VehicleModifyRSAdditionalInfoType">
+		<xs:sequence>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehicleModifyRSCoreType">
+		<xs:sequence>
+			<xs:element name="VehReservation" type="VehicleReservationType">
+				<xs:annotation>
+					<xs:documentation>Represents the vehicle rental reservation that was successfully created</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

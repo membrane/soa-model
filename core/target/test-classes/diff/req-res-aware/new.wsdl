@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://predic8.com/req-res/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  targetNamespace="http://predic8.com/req-res/">
+  <wsdl:documentation>ReqResAwareService</wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://predic8.com/req-res/">
+    
+      <xsd:element name="req" type="tns:reqType"/>
+      <xsd:element name="res" type="tns:resType"/>
+    
+      <xsd:complexType name="reqType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="id" type="tns:idType"/>
+          <xsd:element name="newElementRequest" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    
+      <xsd:complexType name="resType">
+        <xsd:sequence>
+          <xsd:element name="feedback" type="xsd:string"/>
+          <xsd:element name="id" type="tns:idType"/>
+          <xsd:element name="newElementResponse" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      
+      <xsd:complexType name="idType">
+        <xsd:sequence>
+          <xsd:element name="nr" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="requestMessage">
+    <wsdl:part name="parameters" element="tns:req"/>
+  </wsdl:message>
+  <wsdl:message name="getResponseMessage">
+    <wsdl:part name="parameters" element="tns:res"/>
+  </wsdl:message>
+  <wsdl:portType name="ReqResPT">
+    <wsdl:operation name="doSomething">
+      <wsdl:input message="tns:requestMessage"/>
+      <wsdl:output message="tns:getResponseMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+</wsdl:definitions>

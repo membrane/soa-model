@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://www.w3.org/2004/06/xmlmime"
+           targetNamespace="http://www.w3.org/2004/06/xmlmime" >
+
+<xs:attribute name="contentType" >
+    <xs:simpleType>
+      <xs:restriction base="xs:string" >
+        <xs:pattern value="(text|application|image|audio|video|model|x-[-.a-z0-9]+)/
+              [a-z0-9][-.+a-z0-9]+(;\s?.+=.+)*" />
+      </xs:restriction>
+    </xs:simpleType>
+</xs:attribute>
+
+<xs:element name="expectedMediaType" >
+    <xs:simpleType>
+      <xs:list itemType="tns:expectedMediaTypeItem" />
+    </xs:simpleType>
+</xs:element>
+
+<xs:simpleType name="expectedMediaTypeItem" >
+    <xs:restriction base="xs:string" >
+        <xs:pattern value="(text|application|image|audio|video|model|x-[-.a-z0-9]+)/
+               (([a-z0-9][-.+a-z0-9]+)|\*)" />
+    </xs:restriction>
+</xs:simpleType>
+
+</xs:schema>

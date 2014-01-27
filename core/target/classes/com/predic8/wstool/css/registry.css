@@ -1,0 +1,36 @@
+.buttonsTab {
+    margin: 3px 0px;
+}
+
+.button a, .button input, .button button {
+    background:url("../js/yui/2.7.0/assets/skins/sam/sprite.png") repeat-x scroll 0 0 #D8D8D8;
+    border-color:#A3A3A3;
+    border-style:solid;
+    border-width: 1px;
+    color:#000000;
+    position:relative;
+    text-decoration:none;
+    padding: 2px;
+}
+
+.button a:hover, .button a:visited, .button a:link {
+    font-style: normal;
+    color: black;
+    text-decoration: none;
+}
+
+.warning {
+    background: #fff3f3;
+    border: 1px solid red;
+    color: #cc0000;
+    margin:10px 0 5px;
+    padding:5px 5px 5px 30px;
+}
+
+.service h1 {
+    border-style: none;
+}
+
+h1 {
+    border-style: none;
+}

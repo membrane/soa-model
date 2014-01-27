@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirRulesRS">
+		<xs:annotation>
+			<xs:documentation>
+The Rules Response message contains a set of text (human readable) rule information paragraphs. Each paragraph is identified by a rule code.
+This message contains similar information to a standard airline CRS or GDS Fare Rules Response message.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="FareRuleResponseInfo" type="FareRuleResponseInfoType"/>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FareRuleResponseInfoType">
+		<xs:annotation>
+			<xs:documentation>The collection of Fare Rule requests and the applicable Fare Rule categories.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FareRuleInfo" type="FareRuleInfoType">
+				<xs:annotation>
+					<xs:documentation>The Fare Rule Info as per the request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FareRules" type="FormattedTextType">
+				<xs:annotation>
+					<xs:documentation>The applicable Fare Rule categories.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

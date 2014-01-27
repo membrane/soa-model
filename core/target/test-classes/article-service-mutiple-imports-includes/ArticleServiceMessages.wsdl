@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://predic8.com/wsdl/material/ArticleService/1/"
+	xmlns:ns="http://predic8.com/material/1/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ns1="http://predic8.com/material/1/" xmlns:ns2="http://predic8.com/common/1/"
+	name="article" targetNamespace="http://predic8.com/wsdl/material/ArticleService/1/message/">
+	<!--<import namespace="http://predic8.com/wsdl/material/ArticleService/1/portType/"-->
+		<!--location="ArticleServicePortTypes.wsdl" />-->
+	<types>
+		<xsd:schema targetNamespace="http://predic8.com/ArticleServiceMessage/inlineSchema/">
+			<xsd:import namespace="http://predic8.com/wsdl/material/ArticleService/1/"
+				schemaLocation="Main.xsd" />
+		</xsd:schema>
+	</types>
+	<message name="createRequest">
+		<part name="parameters" element="tns:create" />
+	</message>
+	<message name="createResponse">
+		<part name="parameters" element="tns:createResponse" />
+	</message>
+	<message name="getRequest">
+		<part name="parameters" element="tns:get" />
+	</message>
+	<message name="getResponse">
+		<part name="parameters" element="tns:getResponse" />
+	</message>
+	<message name="getAllRequest">
+		<part name="parameters" element="tns:getAll" />
+	</message>
+	<message name="getAllResponse">
+		<part name="parameters" element="tns:getAllResponse" />
+	</message>
+</definitions>

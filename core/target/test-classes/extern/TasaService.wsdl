@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsp="http://www.w3.org/ns/ws-policy"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://service.webservice.cpfx.gfx.gcib.bofa.com/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	name="TasaService" targetNamespace="http://service.webservice.cpfx.gfx.gcib.bofa.com/">
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+		  <element name="settleTrade" type="string"/>
+<!-- 			<import namespace="http://service.webservice.cpfx.gfx.gcib.bofa.com/" -->
+<!-- 				schemaLocation="PSH-to-mRP-schema.xsd" /> -->
+<!-- 			<import namespace="http://service.webservice.cpfx.gfx.gcib.bofa.com/" -->
+<!-- 				schemaLocation="mRP-to-PSH-response-schema.xsd" /> -->
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="settleTrade">
+		<wsdl:part name="parameters" element="tns:settleTrade">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="settleTradeResponse">
+		<wsdl:part name="parameters" element="tns:settleTradeResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="TasaWebServicePortMQ">
+		<wsdl:operation name="settleTrade">
+			<wsdl:input name="settleTrade" message="tns:settleTrade">
+			</wsdl:input>
+			<wsdl:output name="settleTradeResponse" message="tns:settleTradeResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TasaServiceSoapBindingMQ" type="tns:TasaWebServicePortMQ">
+		<soap:binding style="document"
+			transport="http://www.ibm.com/xmlns/prod/wmq/transport" />
+		<wsaw:UsingAddressing wsdl:required="false" />
+		<wsp:PolicyReference URI="#TasaServiceSoapBinding_WSAM_Addressing_Policy" />
+		<wsdl:operation name="settleTrade">
+			<soap:operation />
+			<wsdl:input name="settleTrade">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="settleTradeResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TasaService">
+		<wsdl:port name="TasaServicePortMQ" binding="tns:TasaServiceSoapBindingMQ">
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.DEV1@QT94" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.DEV2@QT94" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CIT1@QT94" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CIT2@QT94" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.SIT1@QT95" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.SIT2@QT9D" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE1.SHR@QT93" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE1.SHR@QT9A" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE1.SHR@QT9B" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE1.SHR@QT9C" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE2.SHR@QT93" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE2.SHR@QT9A" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE2.SHR@QT9B" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.CRE2.SHR@QT9C" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.PP1.SHR@QT91" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.PP1.SHR@QT92" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.PP2.SHR@QT92" />
+			<soap:address location="wmq:/msg/queue/RQP.RPCA.REQ.PP2.SHR@QT91" />
+		</wsdl:port>
+	</wsdl:service>
+	<wsp:Policy wsu:Id="TasaServiceSoapBinding_WSAM_Addressing_Policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+		<wsam:Addressing xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+			wsp:Optional="true">
+			<wsp:Policy />
+		</wsam:Addressing>
+	</wsp:Policy>
+</wsdl:definitions>

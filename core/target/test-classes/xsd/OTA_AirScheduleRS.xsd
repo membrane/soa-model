@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_AirCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:element name="OTA_AirScheduleRS">
+		<xs:annotation>
+			<xs:documentation>
+The Schedule Response message contains Flight Schedules for a city pair. A set of OriginDestinationOptions is returned, each of which contains one or more (connecting) flights that serve the city pair. For each flight the following information is returned:
+- Origin and destination airports
+- Departure and arrival times
+- Days of Operation
+- Effective Date and End Date
+-Equipment
+- Meal Information
+- Codeshare information.
+This message contains similar information to the OTA_AirAvailabilityRS message except it does not contain inventory availability.	</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="OriginDestinationOptions" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Origin and Destination location, and time information for the Air Schedule  request. </xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:annotation>
+								<xs:documentation>Holds the collection of flight options for this origin-destination pair.  There maybe limits imposed by individual supplier that are below the maximum occurrences for this element.</xs:documentation>
+							</xs:annotation>
+							<xs:sequence>
+								<xs:element name="OriginDestinationOption" maxOccurs="999">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="FlightSegment" maxOccurs="4">
+												<xs:annotation>
+													<xs:documentation>A collection of one or more legs that are defined as a single flight number.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:complexContent>
+														<xs:extension base="FlightSegmentType">
+															<xs:sequence>
+																<xs:element name="Comment" type="FreeTextType" minOccurs="0" maxOccurs="10">
+																	<xs:annotation>
+																		<xs:documentation>Any special comments on the leg. eg. operated by  XX. </xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="MarketingCabin" type="MarketingCabinType" minOccurs="0" maxOccurs="9"/>
+																<xs:element name="DaysOfOperation" type="OperationSchedulesType" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="JourneyDuration" type="xs:duration" use="optional">
+																<xs:annotation>
+																	<xs:documentation> The duration of the flight from departure location to destination location.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attributeGroup ref="SmokingIndicatorGroup">
+																<xs:annotation>
+																	<xs:documentation> Specifies if the flight is smoking or not.</xs:documentation>
+																</xs:annotation>
+															</xs:attributeGroup>
+															<xs:attribute name="OnTimeRate" type="Percentage" use="optional">
+																<xs:annotation>
+																	<xs:documentation> Specifies the Dept. of Transport on time rate of the  flight.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="ScheduleValidStartDate" type="xs:date" use="required"/>
+															<xs:attribute name="ScheduleValidEndDate" type="xs:date" use="required"/>
+														</xs:extension>
+													</xs:complexContent>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

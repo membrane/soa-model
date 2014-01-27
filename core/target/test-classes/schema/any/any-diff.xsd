@@ -1,0 +1,111 @@
+<schema targetNamespace="http://www.example.com/IPO" xmlns="http://www.w3.org/2001/XMLSchema">
+
+	<!-- original -->
+	<complexType name="NameTagA">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+				maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline -->
+	<complexType name="NameTagB">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+				maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- like baseline but removed the "any" -->
+	<complexType name="NameTagC">
+		<sequence>
+			<element name="name" type="string" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but tighter minOccurs -->
+	<complexType name="NameTagD">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.kuali.org/fooSchema" minOccurs="1"
+				maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but tighter maxOccurs -->
+	<complexType name="NameTagE">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+				maxOccurs="5" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with different specific namespace -->
+	<complexType name="NameTagF">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.uw.edu/fooSchema" minOccurs="0"
+				maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with no any namespace -->
+	<complexType name="NameTagG">
+		<sequence>
+			<element name="name" type="string" />
+			<any minOccurs="0" maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with more lenient processContents -->
+	<complexType name="NameTagH">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+				maxOccurs="unbounded" processContents="skip" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with namespace of ##other -->
+	<complexType name="NameTagI">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="##other" minOccurs="0" maxOccurs="unbounded"
+				processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with namespace of ##local -->
+	<complexType name="NameTagJ">
+		<sequence>
+			<element name="name" type="string" />
+			<any namespace="#local" minOccurs="0" maxOccurs="unbounded"
+				processContents="strict" />
+		</sequence>
+	</complexType>
+
+	<!-- Like baseline but with multiple namespaces -->
+	<complexType name="NameTagK">
+		<sequence>
+			<element name="name" type="string" />
+			<any
+				namespace="http://www.kuali.org/fooSchema http://www.uw.edu/fooSchema ##targetNamespace ##local"
+				minOccurs="0" maxOccurs="unbounded" processContents="strict" />
+		</sequence>
+	</complexType>
+
+    <!-- Like baseline but with another element before the "any" -->
+    <complexType name="NameTagL">
+        <sequence>
+            <element name="name" type="string" />
+            <element name="favoriteColor" type="string" minOccurs="1"/>
+            <any namespace="http://www.kuali.org/fooSchema" minOccurs="0"
+                 maxOccurs="unbounded" processContents="strict" />
+        </sequence>
+    </complexType>
+
+
+</schema>

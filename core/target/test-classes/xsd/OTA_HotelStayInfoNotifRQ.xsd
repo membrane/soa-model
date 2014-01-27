@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelReservation.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelStayInfoNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The HotelStayInfoNotifRQ is the message that broadcasts guest stay information to the Central Reservation System or the hotel management company. It is sent unsolicited as an update of guest data and provides a snapshot of individual guest records.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="StayInfos">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="StayInfosType">
+								<xs:attributeGroup ref="HotelReferenceGroup"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FolioIDsType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Collection of strings (recommended length - 20 characters) indicating the PMS folio identifiers associated with this revenue detail item.
+</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FolioID" type="StringLength1to32" maxOccurs="99"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LoyaltyPointsAccrualsType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A collection of SelectedLoyalty classes that are used to report earned bonuses.  </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SelectedLoyalty" type="SelectedLoyaltyType" maxOccurs="99"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RevenueCategoriesType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A collection of RevenueCategory classes that detail the categories of revenue data associated with the StayInfo report.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RevenueCategory" type="RevenueCategoryType" maxOccurs="99"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RevenueCategoryType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The classifications of revenue data associated with the StayInfo report. A RevenueCategory provide a way to classify guest financial stay data and analyze guest spending for a certain category (e.g., food and beverage, room, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SummaryAmount" type="CurrencyAmountType" minOccurs="0"/>
+			<xs:element name="RevenueDetails" type="RevenueDetailsType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="RevenueCategoryCode" type="OTA_CodeType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="RevenueDetailType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The RevenueDetail class contains line item detail about specific revenue transactions.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FolioIDs" type="FolioIDsType"/>
+		</xs:sequence>
+		<xs:attribute name="ReferenceID" type="StringLength1to8" use="optional"/>
+		<xs:attribute name="TransactionDate" type="xs:date" use="optional"/>
+		<xs:attribute name="RatePlanCode" type="StringLength1to8" use="optional"/>
+		<xs:attribute name="Description" type="StringLength1to64" use="optional"/>
+		<xs:attribute name="PMSRevenueCode" type="StringLength1to8" use="optional"/>
+		<xs:attributeGroup ref="CurrencyAmountGroup"/>
+	</xs:complexType>
+	<xs:complexType name="RevenueDetailsType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The line item detail of specific revenue transactions.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RevenueDetail" type="RevenueDetailType" maxOccurs="99"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StayInfoType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The StayInfo class contains the guest revenue and stay data to be sent to the central server.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LoyaltyPointsAccruals" type="LoyaltyPointsAccrualsType" minOccurs="0"/>
+			<xs:element name="RevenueCategories" type="RevenueCategoriesType" minOccurs="0"/>
+			<xs:element name="ReservationID" type="UniqueID_Type" minOccurs="0"/>
+			<xs:element name="HotelReservation" type="HotelReservationType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="SequenceNumber" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation>Used to sequence the guest revenue blocks of data used to verify transmission.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RoomStayRPH" type="xs:nonNegativeInteger" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="StayInfosType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> A collection of StayInfo objects</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StayInfo" type="StayInfoType" maxOccurs="99"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema 
+  xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://predic8.com/human-resources/"
+	xmlns:tns="http://predic8.com/human-resources/"
+	elementFormDefault="unqualified"
+	xmlns:ct="http://predic8.com/common-types/">
+
+	<import schemaLocation="common-types.xsd"
+		namespace="http://predic8.com/common-types/" />
+
+	<complexType name="PersonType">
+		<sequence>
+			<element name="id" type="ct:IdentifierType"/>
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" />
+			<element name="address" type="tns:AddressType"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="AddressType">
+    <sequence>
+      <element name="street" type="string"/>
+      <element name="city" type="string"/>
+      <element name="postCode" type="string"/>
+      <element name="country" type="string"/>
+    </sequence>
+	</complexType>
+
+    <complexType name="EmployeeType">
+        <complexContent>
+            <extension base="tns:PersonType">
+                <sequence>
+                    <element name="department" type="string"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="EmployeeListType">
+        <sequence>
+            <element name="employee" type="ct:IdentifierType" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+</schema>

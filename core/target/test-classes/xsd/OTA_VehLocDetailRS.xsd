@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:element name="OTA_VehLocDetailRS">
+		<xs:annotation>
+			<xs:documentation>Vehicle Location Detail response will allow car rental providers to return information about the location requested to assist the customer.  This information includes address, phone number, informational messages, parking and counter location, services, and operating schedule of the location requested. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="Vendor" type="CompanyNameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Information on the vendor asssociated with this rental location.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LocationDetail" type="VehicleLocationDetailsType">
+						<xs:annotation>
+							<xs:documentation>Information on the rental location, including address, telephone, directions, hours pf operations, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="TPA_Extensions" minOccurs="0"/>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType" minOccurs="0"/>
+			</xs:choice>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="VehicleLocDetailRSAdditionalInfoType">
+		<xs:sequence>
+			<xs:element ref="TPA_Extensions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehicleLocDetailRSCoreType">
+		<xs:annotation>
+			<xs:documentation>The VehRentalLocDetRespType complex type defines....</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+	</xs:complexType>
+</xs:schema>

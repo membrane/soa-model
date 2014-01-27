@@ -1,0 +1,9 @@
+
+<sch:schema elementFormDefault="qualified" targetNamespace="http://predic8.com" xmlns:sch="http://www.w3.org/2001/XMLSchema">
+  <sch:element name="Country" type="sch:string" />
+  <sch:element name="Population" type="sch:int" />
+  <sch:element name="States" type="sch:short" />
+  <sch:element name="Area" type="sch:double" />
+  <sch:element name="Border" type="sch:float" />
+  <sch:element name="NatoMember" type="sch:boolean" />
+</sch:schema>

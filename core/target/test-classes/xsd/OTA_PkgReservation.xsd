@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.000" id="OTA2003A2003A">
+	<xs:include schemaLocation="OTA_PkgCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:complexType name="PkgReservation">
+		<xs:annotation>
+			<xs:documentation>Details of a Package Holiday reservation object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="POS" type="POS_Type" minOccurs="0"/>
+			<xs:element name="UniqueID" type="UniqueID_Type"/>
+			<xs:element name="Package" type="PackageType"/>
+			<xs:element name="ContactDetail" type="ContactPersonType"/>
+			<xs:element name="PassengerListItems">
+				<xs:annotation>
+					<xs:documentation>Details of all passengers in a reservation or reservation segment.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerListItem" type="PkgPassengerListItem" maxOccurs="99"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PersonalInsuranceItems" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Container for all personal insurance entries</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PersonalInsuranceItem" type="PersonalInsuranceItemType" maxOccurs="9"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OwnInsuranceChoices" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A collection of insurance policy details supplied by the customers.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OwnInsuranceChoice" type="OwnInsuranceChoiceType" maxOccurs="9"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvoiceDetail" type="PkgInvoiceDetail"/>
+			<xs:element name="Transactions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Details of each transaction receved against a reservation.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Transaction" type="TransactionType" maxOccurs="99"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransactionType">
+		<xs:annotation>
+			<xs:documentation>A monetary transaction (credit or debit) against a reservation</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Amount" type="CurrencyAmountType"/>
+		</xs:sequence>
+		<xs:attribute name="Type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Receipt"/>
+					<xs:enumeration value="Refund"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="CreditDebitInd" default="Credit">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Credit"/>
+					<xs:enumeration value="Debit"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="PostingDateTime" type="xs:dateTime" use="required"/>
+		<xs:attribute name="BatchNmbr" type="StringLength1to64"/>
+		<xs:attribute name="Comment" type="StringLength1to64"/>
+	</xs:complexType>
+</xs:schema>

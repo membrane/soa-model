@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema id="PriceList" targetNamespace="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Messages"
+	elementFormDefault="qualified" xmlns="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Messages"
+	xmlns:mstns="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:importPriceListTypes="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Types">
+	
+	<xsd:import id="PriceList_Types" schemaLocation="PriceList_Types.xsd" namespace="urn:ws-xwebservices-com:XWebTD:v1:PriceList:Types" />
+	
+	<xsd:element name="PriceListRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="RequestPriceList" type="importPriceListTypes:RequestPriceListType"
+					minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PriceListResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ResponsePriceList" type="importPriceListTypes:ResponsePriceListType"
+					minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

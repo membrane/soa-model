@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_PkgCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_PkgBookRQ">
+		<xs:annotation>
+			<xs:documentation>A message to request a package holiday booking.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0"/>
+				<xs:element name="UniqueID" type="UniqueID_Type" minOccurs="0"/>
+				<xs:element name="PackageRequest" type="PackageType" minOccurs="0"/>
+				<xs:element name="ContactDetail" type="ContactPersonType" minOccurs="0"/>
+				<xs:element name="PassengerListItems" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Details of all passengers in a reservation or reservation segment.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PassengerListItem" type="PkgPassengerListItem" maxOccurs="99"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PersonalInsuranceItems" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Container for all personal insurance entries</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PersonalInsuranceItem" type="PersonalInsuranceItemType" maxOccurs="9"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OwnInsuranceChoices" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A collection of insurance policy details supplied by the customers.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OwnInsuranceChoice" type="OwnInsuranceChoiceType" maxOccurs="9"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PaymentDetails" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A collection of chosen payment methods.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PaymentDetail" type="PaymentDetailType" maxOccurs="9">
+								<xs:annotation>
+									<xs:documentation>Details of a payment</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes"/>
+			<xs:attributeGroup ref="ReqRespVersion"/>
+			<xs:attribute name="ActionType" type="TransactionActionType" use="required">
+				<xs:annotation>
+					<xs:documentation>Type of booking action required</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

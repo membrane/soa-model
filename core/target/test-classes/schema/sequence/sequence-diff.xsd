@@ -1,0 +1,126 @@
+<schema targetNamespace="http://www.example.com/IPO"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ipo="http://www.example.com/IPO">
+
+  <!-- original -->
+  <complexType name="AddressA">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="street" type="string"/>
+      <element name="number"   type="int"/>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Like above -->
+  <complexType name="AddressB">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="street" type="string"/>
+      <element name="number"   type="int"/>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Type of element changed -->
+  <complexType name="AddressC">
+    <sequence>
+      <element name="name" type="string"/>
+      <element name="street" type="string"/>
+      <element name="number" type="integer"/>
+      <element name="city" type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Element removed -->
+  <complexType name="AddressD">
+    <sequence>
+      <element name="name" type="string"/>
+      <element name="street" type="string"/>
+      <element name="number" type="int"/>
+    </sequence>
+  </complexType>
+
+  <!-- Element position changed -->
+  <complexType name="AddressE">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="number"   type="int"/>
+      <element name="street" type="string"/>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Element added -->
+  <complexType name="AddressF">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="state"   type="string"/>
+      <element name="street" type="string"/>
+      <element name="number"   type="int"/>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Sequence added -->
+  <complexType name="AddressG">
+    <sequence>
+      <element name="name"   type="string"/>
+      <sequence>
+        <element name="street" type="string"/>
+        <element name="number"   type="int"/>
+      </sequence>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Like above -->
+  <complexType name="AddressH">
+    <sequence>
+      <element name="name"   type="string"/>
+      <sequence>
+        <element name="street" type="string"/>
+        <element name="number"   type="int"/>
+      </sequence>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Sequence changed to choice -->
+  <complexType name="AddressI">
+    <sequence>
+      <element name="name"   type="string"/>
+      <choice>
+        <element name="street" type="string"/>
+        <element name="number"   type="int"/>
+      </choice>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- Sequence changed -->
+  <complexType name="AddressJ">
+    <sequence>
+      <element name="name"   type="string"/>
+      <sequence>
+        <element name="LastName"   type="int"/>
+        <element name="number"   type="int"/>
+        <element name="street" type="string"/>
+      </sequence>
+      <element name="city"   type="string"/>
+    </sequence>
+  </complexType>
+
+  <!-- original with additional sequence -->
+  <complexType name="AddressK">
+    <sequence>
+      <element name="name"   type="string"/>
+      <element name="street" type="string"/>
+      <sequence>
+        <element name="state" type="string"/>
+      </sequence>
+      <element name="number" type="int"/>
+      <element name="city" type="string"/>
+    </sequence>
+  </complexType>
+</schema>

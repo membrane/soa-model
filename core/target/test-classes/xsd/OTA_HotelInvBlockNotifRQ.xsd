@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.opentravel.org/OTA/2003/05" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.opentravel.org/OTA/2003/05" elementFormDefault="qualified" version="1.000" id="OTA2003A">
+	<xs:include schemaLocation="OTA_HotelCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="OTA_CommonPrefs.xsd"/>
+	<xs:include schemaLocation="OTA_HotelPreferences.xsd"/>
+	<xs:include schemaLocation="OTA_Profile.xsd"/>
+	<xs:include schemaLocation="OTA_VehicleCommonTypes.xsd"/>
+	<xs:include schemaLocation="OTA_AirPreferences.xsd"/>
+	<xs:element name="OTA_HotelInvBlockNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The OTA_InvBlockNotifRQ is the message that sends the notification of a new inventory block created for a hotel, indicating where to procure that inventory, and to synchronize the inventory block between systems for booking.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="InvBlockNotifs" type="InvBlockNotifsType"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="OTA_PayloadStdAttributes">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+			<xs:attribute name="InvBlockNotifType" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">An enumerated type that indicates whether this is a new inventory block or an update of an existing inventory block.</xs:documentation>
+					<xs:documentation xml:lang="en">Valid values: New, Delta Modification, Full Overlay Modification.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="InvBlockStatusType" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">An enumerated type that indicates the status of the inventory block, i.e.: whether this notification is an initial announcement of a new inventory block, an update of an active (bookable) inventory block, or a notification of a inventory block that is no longer in effect.</xs:documentation>
+					<xs:documentation xml:lang="en">Valid values: Initial, Active, Deactivated.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Initial"/>
+						<xs:enumeration value="Active"/>
+						<xs:enumeration value="Deactivated"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InvBlockName" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The overall descriptive name of the inventory block. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="InvBlockGroupingCode" type="StringLength1to16" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The identification of the inventory grouping.  Whether to use the sending/querying or the receiving/responding system’s identification depends on which system is doing the translating.  If InvBlockCodeType = BlockGroupingCode, this could be the parent of the grouping. (This allows for nested grouping.) </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="AbsoluteDropTime" type="DateOrDateTimeType" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Indicates the date and/or time at which the receiver should drop all remaining blocked inventory.  This is used by systems that can’t send that change via an AvailNotif (one system creates the block but another controls the inventory).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="NmbrRequiredNights" type="xs:nonNegativeInteger" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Nmbr of nights required to a stay using this inventory block.  Note: This attribute applies only to the RequiredDOW.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="PreShoulderProcureBlockCode" type="StringLength1to16" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The identification of where inventory is taken from when a booking is made as part of the block and includes an additional stay during the shoulder period that precedes the block.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="PostShoulderProcureBlockCode" type="StringLength1to16" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The identification of where inventory is taken from when a booking is made as part of the block and includes an additional stay during the shoulder period that follows the block.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="PriceViewable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Indicates whether the price for this inventory block can be viewed, or whether the guest must contact another entity to obtain price information. </xs:documentation>
+					<xs:documentation xml:lang="en">Valid values: false= Price Not Viewable, true= Price Viewable.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="GenerallyBookable" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Indicates whether the inventory block can be booked by any entity, or whether the guest must contact a specific booking agent to book the inventory in the block.</xs:documentation>
+					<xs:documentation xml:lang="en">Valid values: false= Price Not Viewable, true= Price Viewable.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ValidBookingMinOffset" type="xs:duration" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Minimum offset of time required prior to guest's arrival during which this inventory block can be booked. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ValidBookingMaxOffset" type="xs:duration" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Maximum offset of time required prior to guest's arrival during which this rate plan can be booked.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="BlockShouldersType">
+		<xs:sequence>
+			<xs:element name="BlockShoulder" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The Shoulder class defines where to procure inventory for this inventory block during the shoulder 		seasons.  	A shoulder is a defined period of time before and after an inventory block.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SellableProducts" type="SellableProductsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="PreShoulderSellLimit" type="xs:nonNegativeInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Limit of inventory that can be sold before the StayDateRange.  It should be understood that 	any 	stay 	must book at least one date in the StayDateRange.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="PostShoulderSellLimit" type="xs:nonNegativeInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Limit of inventory that can be sold after the StayDateRange. It should be understood that any 		stay 	must book at least one date in the StayDateRange.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="PreShoulderStartDate" type="DateOrDateTimeType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The earliest stay date that this rate plan/inventory block can be sold.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="PostShoulderEndDate" type="DateOrDateTimeType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The latest stay date that this rate plan/inventory block can be sold.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ShoulderRPH" type="RPH_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">This is a reference placeholder, used as an index for this object.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvBlockNotifsType">
+		<xs:sequence>
+			<xs:element name="InvBlockNotif" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InvBlockCodes" type="InvBlockCodesType" minOccurs="0"/>
+						<xs:element name="BlockTimeSpan" minOccurs="0">
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DropTimeOffset" type="DropTimeOffsetType" minOccurs="0"/>
+						<xs:element name="AvailableDaysOfWeek" type="DOW_PatternType" minOccurs="0"/>
+						<xs:element name="ArrivalDaysOfWeek" type="DOW_PatternType" minOccurs="0"/>
+						<xs:element name="RequiredDaysOfWeek" type="DOW_PatternType" minOccurs="0"/>
+						<xs:element name="BookingDateRange" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="InvBlocks" type="InvBlocksType" minOccurs="0"/>
+						<xs:element name="BlockShoulders" type="BlockShouldersType" minOccurs="0"/>
+						<xs:element name="RatePlanCodes" type="RatePlanCodesType" minOccurs="0"/>
+						<xs:element name="SellableProducts" type="SellableProductsType" minOccurs="0"/>
+						<xs:element name="Viewerships" type="ViewershipsType" minOccurs="0"/>
+						<xs:element name="AssociatedProfiles" type="ProfilesType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="HotelReferenceGroup"/>
+	</xs:complexType>
+	<xs:complexType name="InvBlocksType">
+		<xs:sequence>
+			<xs:element name="InvBlock" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The InvBlock identified by this notification.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="InvBlockRPH" type="RPH_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The relative location (1-based) of this inventory block in previous notifications.		</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="InvCode" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Identification of the inventory being blocked.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="NmbrToBlock" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Number of units of inventory to block. This can be positive or negative integer, which allows 	the 		ability to adjust a previous block.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="SellLimit" type="xs:positiveInteger" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">This is the contracted amount or ceiling, which may differ from the number to block out of 		transient 	inventory.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ProcureBlockCode" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Block from which to take inventory when this block is depleted.  Block must have a matching 		InvCode 	in one of its inventory blocks.  If this attribute is not set, inventory is taken from transient.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RatePlanCodesType">
+		<xs:sequence>
+			<xs:element name="RatePlanCode" type="xs:string" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">A RatePlanCode assigned to the inventory block.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
