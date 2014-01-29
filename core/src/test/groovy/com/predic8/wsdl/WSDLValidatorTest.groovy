@@ -37,7 +37,7 @@ class WSDLValidatorTest extends GroovyTestCase{
 		wsdl.validate(ctx)
 		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Binding}.cause.message ==
 		"Could not find the portType definition for 'tns:ArticleServicePTTEST' in the binding'ArticleServicePTBinding'."
-		assert 7 == ctx.errors.grep(ValidationError).size()
+		assert 8 == ctx.errors.grep(ValidationError).size()
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Binding)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Port)
 		assert ctx.errors.grep(ValidationError).invalidElement.grep(Part)
@@ -48,6 +48,8 @@ class WSDLValidatorTest extends GroovyTestCase{
 		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Input}.cause instanceof MessageAccessException
 		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Input}.cause.message ==
 		"Could not find the message 'tns:getRequestTest', used in the input of an operation."
+		assert ctx.errors.grep(ValidationError).find{it.invalidElement instanceof Fault}.message ==
+		"Message 'tns:testFaultMessage' in the fault TestFault is not defined in this WSDL."
 		assert !ctx.errors.grep(ValidationError).invalidElement.grep(BindingOperation)
 	}
 	

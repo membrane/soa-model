@@ -76,7 +76,7 @@
         </operation>
     </portType>
     <wsdl:binding name="ArticleServicePTBinding" type="tns:ArticleServicePT">
-        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
         <wsdl:operation name="create">
             <soap:operation soapAction="create_action"/>
             <wsdl:input name="input1">
@@ -105,6 +105,7 @@
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
+    <wsdl:binding name="TestBinding" />
     <wsdl:service name="ArticleService">
         <wsdl:port name="ArticleServicePTPort" binding="tns:ArticleServicePTBinding">
             <soap:address location="http://www.predic8.com:8080/material/ArticleService"/>

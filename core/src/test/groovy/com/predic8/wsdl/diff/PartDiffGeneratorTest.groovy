@@ -26,8 +26,8 @@ class PartDiffGeneratorTest extends GroovyTestCase {
 	}
 
 	void testDocumentationInDefinitions() {
-		def diffs = compare(wsdl2, wsdl1)
-		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 
+		def diffs = new WsdlDiffGenerator(a: wsdl2,b: wsdl1).comparePortTypes()
+		assert diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].diffs[0].description == 
 		"Could not find the referenced element 'getBank' in namespace 'http://schemas.xmlsoap.org/wsdl/'."
 	}
 	

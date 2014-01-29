@@ -34,7 +34,7 @@ class WSDLValidator {
 		validatePortTypeOperations(wsdl, ctx)
 		validatePortTypeMessages(wsdl.operations.input, ctx)
 		validatePortTypeMessages(wsdl.operations.output, ctx)
-		//TODO Implement validateFaults() for operations
+		validatePortTypeMessages(wsdl.operations.faults.flatten(), ctx)
 		wsdl.messages.each { msg ->
 			if(! msg.parts) ctx.errors << new ValidationError(invalidElement : msg, parent: wsdl, message : "There is no part defined in message ${msg.name} in this WSDL.", wsdlTNS: wsdl.targetNamespace)
 			else validateMessageParts(msg , ctx)

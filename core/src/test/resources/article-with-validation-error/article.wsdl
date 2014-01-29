@@ -87,6 +87,7 @@
 		<operation name="getAll">
 			<input name="input3" message="tns:getAllRequestTEST" />
 			<output name="output3" message="TEST:getAllResponse1" />
+			<wsdl:fault name="TestFault" message="tns:testFaultMessage"/>
 		</operation>
 	</portType>
 	<wsdl:binding name="ArticleServicePTBinding" type="tns:ArticleServicePTTEST">

@@ -20,6 +20,7 @@ import com.predic8.schema.Element;
 import com.predic8.schema.diff.*
 import com.predic8.soamodel.*
 import com.predic8.wsdl.*
+import com.sun.org.apache.bcel.internal.generic.LDIV;
 
 class WsdlDiffGenerator extends AbstractDiffGenerator{
 
@@ -353,9 +354,16 @@ class WsdlDiffGenerator extends AbstractDiffGenerator{
 	}
 	
 	private List<Difference> compareBinding(Binding a, Binding b){
-		println "comparing bindings!!!!!!!!!!!!!!!"
-		println a.style
-		println b.style
+		def lDiffs = []
+		if(a.protocol != b.protocol) {
+			lDiffs.add(new Difference(description:"Protocol changed from '${a.protocol}' to '${b.protocol}'", type:'protocol'))
+		}
+		if(a.protocol != 'HTTP' && b.protocol != 'HTTP') {
+			if(a.style != b.style) {
+				lDiffs.add(new Difference(description:"Style changed from '${a.style}' to '${b.style}'", type:'style'))
+			}
+		}
+		if(lDiffs) return [new Difference(description:"Binding ${a.name} changed:", diffs: lDiffs, type:'binding')]
 		[]
 	}
 
