@@ -26,6 +26,8 @@ import javax.xml.stream.*
 class GroupRef extends SchemaComponent{
 
   QName ref
+  def minOccurs
+  def maxOccurs
 
   def create(creator, CreatorContext ctx){
     creator.createGroupRef(this, ctx)
