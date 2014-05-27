@@ -113,7 +113,8 @@ class Binding extends WSDLElement{
 	}
 	
 	Policy getPolicy() {
-		definitions.policies[policyReference?.uri - '#']
+		def uri = policyReference?.uri
+		uri ? definitions.policies[uri - '#'] : null
 	}
 	
 	List<String> getPolicyAssertions() {
