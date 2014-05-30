@@ -31,12 +31,12 @@ class Consts {
   public static final String SOAP11_NS = "http://schemas.xmlsoap.org/soap/envelope/"
   public static final String SOAP12_NS = "http://www.w3.org/2003/05/soap-envelope"
 	
-	//WS-Policy 1.5 namcespaces
+	//WS-Policy 1.5 namespaces
   public static final String SP15_NS = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
   public static final String WSAM_NS = "http://www.w3.org/2007/05/addressing/metadata"
   public static final String WSP15_NS = "http://www.w3.org/ns/ws-policy"
 
-	//WS-Policy 1.2 namcespaces
+	//WS-Policy 1.2 namespaces
   public static final String WSP12_NS = "http://schemas.xmlsoap.org/ws/2004/09/policy"
   public static final String SP12_NS = "http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
   public static final String WSSE_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
@@ -44,10 +44,12 @@ class Consts {
 	
   public static final String WSAWS05_NS ="http://www.w3.org/2005/08/addressing"
   public static final String WSAWS06_NS = "http://www.w3.org/2006/05/addressing/wsdl"
-	
+
+  public static final String WSRM_NS = "http://schemas.xmlsoap.org/ws/2005/02/rm/policy"
+
 	//WADL namespaces
 	public static final String WADL_NS = "http://wadl.dev.java.net/2009/02"
-	
-	public static final List<String> POLICY_NAMESPACES = [SP15_NS, WSAM_NS, WSP15_NS, WSP12_NS, SP12_NS, WSSE_NS, WSU_NS, WSAWS05_NS, WSAWS06_NS]
+
+	public static final List<String> POLICY_NAMESPACES = [SP15_NS, WSAM_NS, WSP15_NS, WSP12_NS, SP12_NS, WSSE_NS, WSU_NS, WSAWS05_NS, WSAWS06_NS, WSRM_NS]
 	
 }

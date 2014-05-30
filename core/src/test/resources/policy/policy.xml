@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://www.w3.org/ns/ws-policy" >
+<wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">
   <wsp:ExactlyOne>
     <wsp:All>
       <sp:SignedParts>
@@ -11,6 +11,15 @@
       <sp:EncryptedParts>
         <sp:Body/>
       </sp:EncryptedParts>
+    </wsp:All>
+  </wsp:ExactlyOne>
+  <wsp:ExactlyOne>
+    <wsp:All>
+      <wsrm:RMAssertion>
+        <wsrm:InactivityTimeout Milliseconds="600000"/>
+        <wsrm:AcknowledgementInterval Milliseconds="200"/>
+      </wsrm:RMAssertion>
+      <wsaw:UsingAddressing/>
     </wsp:All>
   </wsp:ExactlyOne>
 </wsp:Policy>

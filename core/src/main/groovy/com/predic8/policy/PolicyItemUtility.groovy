@@ -13,10 +13,7 @@
    limitations under the License. */
 
 package com.predic8.policy
-
-import javax.xml.namespace.QName;
-
-import com.predic8.soamodel.Consts;
+import javax.xml.namespace.QName
 
 class PolicyItemUtility {
 	
@@ -58,7 +55,12 @@ class PolicyItemUtility {
 				case 'MustSupportIssuedTokens' : return new MustSupportIssuedTokens(ELEMENTNAME: qname) ; break
 				case 'RequireClientEntropy' : return new RequireClientEntropy(ELEMENTNAME: qname) ; break
 				case 'RequireServerEntropy' : return new RequireServerEntropy(ELEMENTNAME: qname) ; break
-		 }
+				case 'RMAssertion' : return new RMAssertion(ELEMENTNAME: qname) ; break
+				case 'InactivityTimeout' : return new InactivityTimeout(ELEMENTNAME: qname) ; break
+				case 'BaseRetransmissionInterval' : return new BaseRetransmissionInterval(ELEMENTNAME: qname) ; break
+				case 'ExponentialBackoff' : return new ExponentialBackoff(ELEMENTNAME: qname) ; break
+				case 'AcknowledgementInterval' : return new ExponentialBackoff(ELEMENTNAME: qname) ; break
+		}
 	}
 }
 
