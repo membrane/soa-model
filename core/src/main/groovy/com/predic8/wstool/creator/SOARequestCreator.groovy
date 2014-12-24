@@ -16,6 +16,8 @@ import groovy.xml.*
 import org.apache.commons.logging.*
 
 import com.predic8.soamodel.*
+import com.predic8.wsdl.AbstractSOAPBinding
+import com.predic8.wsdl.BindingOperation
 import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.soap11.SOAPBinding as SOAP11Binding
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
@@ -23,6 +25,7 @@ import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 import com.predic8.wsdl.soap12.SOAPBinding as SOAP12Binding
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
 import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
+import com.predic8.wsdl.Binding
 
 /**
  * Not threadsafe
@@ -76,26 +79,40 @@ class SOARequestCreator extends AbstractCreator{
   }
 
   private buildBody(builder) {
-    builder."$soapPrefix:Body"(){
-      log.debug "creating body"
-      if(isRPC(bindingName)){
-        log.debug "isRPC"
-        "ns1:$operationName"('xmlns:ns1':definitions.targetNamespace){
-          def ctx = creatorContext
-          ctx.path = "${ctx.path}${operationName}/"
-          log.debug "create body from bodyElement"
-          bodyElement.parts.each{
-            it.create(creator, ctx)
+      builder."$soapPrefix:Body"(){
+          log.debug "creating body"
+          if(isRPC(bindingName)){
+              log.debug "isRPC"
+              "ns1:$operationName"('xmlns:ns1':getNamespaceForRCPBinding()){
+                  def ctx = creatorContext
+                  ctx.path = "${ctx.path}${operationName}/"
+                  log.debug "create body from bodyElement"
+                  bodyElement.parts.each{
+                      it.create(creator, ctx)
+                  }
+              }
+          } else {
+              log.debug "creating body from definitions"
+              log.debug "element : ${bodyElement.parts[0].element}"
+              bodyElement.parts[0].element.create(creator, creatorContext)
           }
-        }
-      } else {
-        log.debug "creating body from definitions"
-        log.debug "element : ${bodyElement.parts[0].element}"
-        bodyElement.parts[0].element.create(creator, creatorContext)
       }
-    }
   }
 
+  private getNamespaceForRCPBinding(){
+      for (Binding bnd : definitions.getBindings()) {
+          for (BindingOperation bop : bnd.getOperations()) {
+             if(bnd.getBinding() instanceof AbstractSOAPBinding && bop.getName().equals(operationName)) {
+                 if(bop.getInput().getBindingElements().get(0).getNamespace() != null ){
+                     return bop.getInput().getBindingElements().get(0).getNamespace();
+                 }else{
+                     return definitions.targetNamespace;
+                 }
+             }
+          }
+      }
+  }
+  
   private buildHeader(builder) {
     log.debug "creating headers"
     builder."$soapPrefix:Header"(){
