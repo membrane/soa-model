@@ -13,7 +13,8 @@ package com.predic8.wstool.creator;
 
 import groovy.xml.*
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.soamodel.*
 import com.predic8.wsdl.Definitions
@@ -30,7 +31,7 @@ import com.predic8.wsdl.soap12.SOAPHeader as SOAP12Header
 
 class SOARequestCreator extends AbstractCreator{
 
-  def log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(SOARequestCreator.class)
   
   public SOARequestCreator(Definitions definitions, def creator, MarkupBuilder builder) {
     super();

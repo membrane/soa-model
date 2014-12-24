@@ -15,7 +15,6 @@ import groovy.json.JsonBuilder
 
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
-import org.apache.commons.logging.*
 import com.predic8.schema.*
 import com.predic8.schema.creator.*
 import com.predic8.wstool.creator.TemplateUtil

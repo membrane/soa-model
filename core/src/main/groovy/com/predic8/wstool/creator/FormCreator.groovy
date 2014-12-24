@@ -20,7 +20,8 @@ import com.predic8.schema.restriction.*;
 import com.predic8.schema.restriction.facet.*
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.CreatorContext 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import com.predic8.wsdl.BindingOperation;
 import com.predic8.wsdl.soap11.SOAPBody as SOAP11Body
 import com.predic8.wsdl.soap12.SOAPBody as SOAP12Body
@@ -28,7 +29,7 @@ import com.predic8.wsdl.soap11.SOAPHeader as SOAP11Header
 
 class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
   
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(FormCreator.class)
   
   def definitions
   

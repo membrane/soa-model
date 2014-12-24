@@ -17,7 +17,8 @@ package com.predic8.wstool.creator;
 
 import groovy.xml.*
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.schema.*
 import com.predic8.schema.creator.*
@@ -28,7 +29,7 @@ import com.predic8.soamodel.ModelAccessException
 
 class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreatorContext> {
   
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(RequestTemplateCreator.class)
   
   
   void createElement(Element element, RequestTemplateCreatorContext ctx){

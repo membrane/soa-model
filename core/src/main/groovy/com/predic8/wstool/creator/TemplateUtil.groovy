@@ -16,8 +16,6 @@ package com.predic8.wstool.creator;
 
 import groovy.xml.*
 
-import org.apache.commons.logging.*
-
 import com.predic8.schema.BuiltInSchemaType;
 
 class TemplateUtil {

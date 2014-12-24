@@ -14,7 +14,8 @@
 
 package com.predic8.wstool.creator
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.schema.creator.*
 import com.predic8.schema.*
@@ -26,7 +27,7 @@ import groovy.xml.MarkupBuilderHelper
 
 class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   
-  def log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(RequestCreator.class)
   
   void createElement(Element element, RequestCreatorContext ctx){
 		

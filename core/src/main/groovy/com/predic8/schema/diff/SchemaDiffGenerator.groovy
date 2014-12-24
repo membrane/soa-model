@@ -17,11 +17,12 @@ package com.predic8.schema.diff
 import java.util.List;
 import com.predic8.soamodel.*
 import com.predic8.schema.*
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class SchemaDiffGenerator extends AbstractDiffGenerator{
 
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(SchemaDiffGenerator.class)
 
   def labelTN, labelTo
 	

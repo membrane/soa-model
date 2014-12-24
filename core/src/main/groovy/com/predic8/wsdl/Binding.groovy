@@ -15,7 +15,8 @@ import groovy.xml.QName
 
 import javax.xml.namespace.QName as JQName
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.policy.*
 import com.predic8.soamodel.*
@@ -26,7 +27,7 @@ import com.predic8.xml.util.*
 
 class Binding extends WSDLElement{
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(Binding.class)
 
 	public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'binding')
 

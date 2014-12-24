@@ -18,7 +18,8 @@ import org.apache.commons.httpclient.params.*
 import org.apache.commons.httpclient.methods.*
 import org.apache.commons.httpclient.*
 import org.apache.commons.httpclient.auth.*
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
@@ -31,7 +32,7 @@ import com.predic8.io.*
 
 class BasicAuthenticationResolver extends ResourceResolver {
   
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationResolver.class)
   
   def baseDir = ''
   def username = ''
