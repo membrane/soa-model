@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-core</artifactId>
-	<version>1.4.2.5</version>
+	<version>1.4.2.6-SNAPSHOT</version>
 	<properties>
 		<groovy.version>2.3.9</groovy.version>
 		<slf4j.version>1.7.9</slf4j.version>
