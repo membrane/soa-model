@@ -12,7 +12,8 @@
 package com.predic8.schema.diff
 
 import com.predic8.soamodel.*
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * DiffGenerator for processing 'any' elements.
@@ -28,7 +29,7 @@ class AnyDiffGenerator extends ElementDiffGenerator {
 	// Very helpful for understanding this element and its attributes:
 	// http://msdn.microsoft.com/en-us/library/ms256043.aspx
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(AnyDiffGenerator.class)
 
 	private def labelHasChanged, labelAdded, labelAnyElement, labelRemoved, labelHasChenged, labelNamespaceChanged, labelProcessContentLess, labelProcessContentMore
 

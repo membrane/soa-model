@@ -16,14 +16,15 @@ package com.predic8.wsdl
 
 import javax.xml.namespace.QName as JQName
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.schema.*
 import com.predic8.soamodel.*
 
 class Types extends WSDLElement {
 
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(Types.class)
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'types')
   
   List<Schema> schemas = []

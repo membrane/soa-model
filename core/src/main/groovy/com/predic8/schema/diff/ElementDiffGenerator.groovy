@@ -16,11 +16,12 @@ import java.util.List;
 import com.predic8.schema.ComplexType;
 import com.predic8.soamodel.*
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class ElementDiffGenerator extends UnitDiffGenerator {
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(ElementDiffGenerator.class)
 
 	public ElementDiffGenerator() {
 		updateLabels()

@@ -13,7 +13,8 @@ package com.predic8.soamodel
 
 import javax.xml.stream.*
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.io.*
 import com.predic8.schema.*
@@ -22,7 +23,7 @@ import com.predic8.xml.util.*
 
 abstract class AbstractParser{
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(AbstractParser.class)
 
 	def resourceResolver = new ExternalResolver()
 

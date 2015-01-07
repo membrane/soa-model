@@ -21,11 +21,12 @@ import javax.xml.namespace.QName as JQName
 
 import com.predic8.wsdl.Definitions;
 import com.predic8.xml.util.*
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 abstract class XMLElement {
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(XMLElement.class)
 
 	/**
 	 * Static final String NAMESPACE need to be declared. It will be used to choose the right parser for the element.

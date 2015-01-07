@@ -18,13 +18,14 @@ import com.predic8.util.*
 import com.predic8.xml.util.*
 import javax.xml.stream.*
 import com.predic8.soamodel.*
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import javax.xml.namespace.QName as JQName
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Include extends SchemaComponent {
   
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(Include.class)
   
   String schemaLocation
 

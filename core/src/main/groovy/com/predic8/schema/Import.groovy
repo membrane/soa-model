@@ -16,7 +16,8 @@ import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 import javax.xml.namespace.QName as JQName
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.soamodel.CreatorContext
 import com.predic8.soamodel.KnownSchemas
@@ -32,7 +33,7 @@ class Import extends SchemaComponent {
 	String schemaLocation
 	Schema importSchema
 
-	private Log log = LogFactory.getLog(this.class)
+	private static final Logger log = LoggerFactory.getLogger(Import.class)
 
 	protected parseAttributes(token, ctx){
 		namespace = token.getAttributeValue( null , 'namespace')

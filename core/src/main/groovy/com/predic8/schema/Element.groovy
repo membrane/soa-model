@@ -16,7 +16,8 @@ package com.predic8.schema;
 
 import groovy.xml.*
 
-import org.apache.commons.logging.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.predic8.schema.creator.*
 import com.predic8.soamodel.AbstractDiffGenerator
@@ -29,7 +30,7 @@ import com.predic8.xml.util.*
 
 class Element extends Declaration {
   
-  private Log log = LogFactory.getLog(this.class)
+  private static final Logger log = LoggerFactory.getLogger(Element.class)
   
   TypeDefinition embeddedType
   boolean toplevel = false
