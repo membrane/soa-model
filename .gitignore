@@ -4,7 +4,10 @@ distribution/bin
 distribution/report
 distribution/target
 ./metadata
-
 temp
 /core/src/test/groovy/com/predic8/wsdl/TemporaryTest.groovy
 /core/src/test/resources/wadl/yahoo.xml
+/core/.groovy
+/core/.settings
+/core/.classpath
+/core/.project
