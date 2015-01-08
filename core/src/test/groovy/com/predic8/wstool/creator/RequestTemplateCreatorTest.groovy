@@ -32,9 +32,9 @@ class RequestTemplateCreatorTest extends GroovyTestCase {
 
   void testElementRequestTemplate() {
 		def element = definitions.getInputElementForOperation(portType, operationName)
-    def requestTemplate = new XmlSlurper().parseText(element.requestTemplate)
+    def requestTemplate = new XmlSlurper().parseText(element.requestTemplate).declareNamespace('ns1':'http://thomas-bayer.com/blz/')
     assertEquals('?XXX?', requestTemplate.blz.text())
-    assertEquals('?999?', requestTemplate.@testAttribute.toString())
+    assertEquals('?999?', requestTemplate.'@ns1:testAttribute'.toString())
   }
 	
 	void testRequestTemplateForElementWithDefaultAndFixet() {
