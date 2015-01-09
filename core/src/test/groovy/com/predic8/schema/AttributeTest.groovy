@@ -58,9 +58,9 @@ class AttributeTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
     schema.getElement('MyCar').create(creator, new RequestTemplateCreatorContext())
-    def testXML = new XmlSlurper().parseText(strWriter.toString())
-    assertEquals('?XXX?', testXML.@id.toString())
-    assertEquals('?999?', testXML.@speed.toString())
+    def testXML = new XmlSlurper().parseText(strWriter.toString()).declareNamespace(car: 'http://predic8.com/car')
+    assertEquals('?XXX?', testXML.'@car:id'.toString())
+    assertEquals('?999?', testXML.'@car:speed'.toString())
     assertEquals('2', testXML.@door.toString())
   }
 
@@ -68,9 +68,9 @@ class AttributeTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
     schema.getElement('MyNewCar').create(creator, new RequestTemplateCreatorContext())
-    def testXML = new XmlSlurper().parseText(strWriter.toString())
-    assertEquals('?XXX?', testXML.@id.toString())
-    assertEquals('?999?', testXML.@speed.toString())
+    def testXML = new XmlSlurper().parseText(strWriter.toString()).declareNamespace(car: 'http://predic8.com/car')
+    assertEquals('?XXX?', testXML.'@car:id'.toString())
+    assertEquals('?999?', testXML.'@car:speed'.toString())
     assertEquals('?999?', testXML.@door.toString())
   }
   
