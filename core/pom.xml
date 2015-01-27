@@ -1,13 +1,58 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-core</artifactId>
 	<version>1.4.2.6-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+
+	<name>Membrane SOA Model</name>
+	<description>Membrane SOA Model is an open-source toolkit and Java API for WSDL and XML Schema, licensed under ASF 2.0. that can:
+
+Parse, create or modify a WSDL or XML Schema Document from Java
+Compare two WSDL or XML Schema Documents
+Create a SOAP Request or Template
+Analyze a WSDL or Schema document and generate an HMTL report</description>
+	<url>https://github.com/membrane/soa-model</url>
+
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+
+	<developers>
+		<developer>
+			<name>Predic8</name>
+			<email>info@predic8.de</email>
+			<organization>Predic8</organization>
+			<organizationUrl>http://www.predic8.de/</organizationUrl>
+		</developer>
+	</developers>
+
+	<organization>
+		<name>predic8 GmbH</name>
+		<url>http://predic8.com/</url>
+	</organization>
+
+	<scm>
+		<connection>scm:git:git@github.com:membrane/soa-model.git</connection>
+		<developerConnection>scm:git:git@github.com:membrane/soa-model.git</developerConnection>
+		<url>https://github.com/membrane/soa-model</url>
+	</scm>
+
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<gpg.keyname>5B8A65F6</gpg.keyname>
 		<groovy.version>2.3.9</groovy.version>
 		<slf4j.version>1.7.9</slf4j.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -135,20 +180,20 @@
 				<extensions>true</extensions>
 			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -177,6 +222,77 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<distributionManagement>
+				<repository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+				<snapshotRepository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
 	<distributionManagement>
 		<repository>
 			<id>predic8-releases</id>
@@ -187,11 +303,6 @@
 			<url>http://repository.membrane-soa.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-
-	<scm>
-		<url>https://github.com/membrane/soa-model</url>
-		
-	</scm>
 
 	<reporting>
 		<plugins>
@@ -215,16 +326,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<url>https://github.com/membrane/soa-model</url>
-	<name>Membrane SOA Model</name>
-	<description>Membrane SOA Model is an open-source toolkit and Java API for WSDL and XML Schema, licensed under ASF 2.0. that can:
 
-Parse, create or modify a WSDL or XML Schema Document from Java
-Compare two WSDL or XML Schema Documents
-Create a SOAP Request or Template
-Analyze a WSDL or Schema document and generate an HMTL report</description>
-	<organization>
-		<name>predic8 GmbH</name>
-		<url>http://predic8.com/</url>
-	</organization>
 </project>
