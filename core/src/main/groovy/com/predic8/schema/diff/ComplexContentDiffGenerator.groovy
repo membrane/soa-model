@@ -25,7 +25,7 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   def generator
 
   private def labelContentModelElement, labelContentModelElementMixed, labelComplexContentChangeExtension, 
-  			  labelComplexContentChangeRestriction, labelComplexContentChange, labelHasChanged
+  			  labelComplexContentChangeRestriction, labelComplexContentChange, labelHasChanged, labelRemoved, labelAdded
   
   def compare(){
     def diffs = compareMixed()
@@ -55,14 +55,33 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
   }
 
   private compareModel(){
-    if(a.derivation.model?.class != b.derivation.model?.class){
-      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()}: " , type: 'complexContent', 
-				diffs: [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'." , type: 'model', breaks:true, exchange: a.exchange)], exchange: a.exchange)]
-    } 
-		def lDiffs = a.derivation.model?.compare(generator, b.derivation.model, ctx.clone())
-		if(lDiffs){
-			return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
-		}
+    def lDiffs
+    
+    // Check that a and b derivation ModelGroup aren't the same
+    if(a.derivation.model && b.derivation.model
+      && a.derivation.model.class != b.derivation.model.class) {
+      lDiffs = [new Difference(description:"ModelGroup has changed from '${a.derivation.model.elementName}' to '${b.derivation.model.elementName}'.", type: 'model', breaks:true, exchange: a.exchange)]
+    }
+    else { // if one or both derivation model are not set or they are of same class
+      
+      def aDerivationModelOverride = a.derivation.model
+      def bDerivationModelOverride = b.derivation.model
+      
+      // We instantiate empty derivation models with the same type as a or b
+      if(a.derivation.model && !b.derivation.model) { // only a has a derivation model => derivation model removed
+        bDerivationModelOverride = a.derivation.model.getClass().newInstance();
+      }
+      else if(b.derivation.model && !a.derivation.model) { // only b has a derivation model => derivation model added
+        aDerivationModelOverride = b.derivation.model.getClass().newInstance();
+      }
+      
+      lDiffs = aDerivationModelOverride?.compare(generator, bDerivationModelOverride, ctx.clone())
+    }
+    
+    if(lDiffs && lDiffs.size() > 0) {
+      return [new Difference(description:"${a.derivation.elementName.localPart.capitalize()}: " , type: 'complexContent',
+        diffs: lDiffs, exchange: a.exchange)]
+    }
 		[]
   }
   
@@ -73,7 +92,8 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
 	  labelComplexContentChangeRestriction = bundle.getString("com.predic8.schema.diff.labelComplexContentChangeRestriction")
 	  labelComplexContentChange = bundle.getString("com.predic8.schema.diff.labelComplexContentChange")
 	  labelHasChanged = bundle.getString("com.predic8.schema.diff.labelHasChanged")
-
+	  labelRemoved = bundle.getString("com.predic8.schema.diff.labelRemoved")
+	  labelAdded = bundle.getString("com.predic8.schema.diff.labelAdded")
   }
 }
 
