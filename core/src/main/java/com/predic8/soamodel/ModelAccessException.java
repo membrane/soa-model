@@ -30,7 +30,8 @@ public class ModelAccessException extends RuntimeException {
 
 	public ModelAccessException(String message, Throwable cause,
 	    boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+	//	super(message, cause, enableSuppression, writableStackTrace);
+		super(message, cause);
 	}
 
 	public ModelAccessException(String message, Throwable cause) {
