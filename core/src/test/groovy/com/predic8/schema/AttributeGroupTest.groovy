@@ -48,7 +48,6 @@ class AttributeGroupTest extends GroovyTestCase{
     assertEquals(new QName(Consts.SCHEMA_NS, 'string'), schema.getAttributeGroup('AttrG1').getAttribute('Attr2').type)
     assertEquals('AttrG1', schema.getType('EmployeeType').attributeGroups[0].ref.localPart)
     assertEquals(new QName('http://predic8.com/human-resources/', 'AttrG2'), schema.getAttributeGroup('AttrG1').attributeGroups[0].ref)
-//    println strWriter
   }
   
   void testRequestTemplateCreater() {

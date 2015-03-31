@@ -26,6 +26,7 @@ class ComplexContent extends SchemaComponent {
 
   boolean mixed
   Derivation derivation
+  BaseRestriction restriction
 
    protected parseAttributes(token, params){
 		 mixed = token.getAttributeValue( null , 'mixed')
@@ -35,14 +36,44 @@ class ComplexContent extends SchemaComponent {
     switch (child ){
 	  case 'annotation' :
 		annotation = new Annotation(schema: schema)
-		annotation.parse(token, params) ; break
+		annotation.parse(token, params) ;
+		return;
       case 'extension' :
-      	derivation = new Extension(schema: schema) ; break
-      case 'restriction' :
-      	derivation = new Restriction(schema: schema); break
+      	derivation = new Extension(schema: schema) ; 
+		break;
+      case 'restriction' :		  
+		def base = getTypeQName(token.getAttributeValue( null , 'base'))
+		if(base) {
+	      def type = base.localPart
+		  if(base.namespaceURI == SCHEMA_NS){
+			  // Are we parsing the schema of XML schema?
+			  // e.g. the file schema/XSD Schema/schemas.xsd
+			  // as in the AnySimpleTypeTest ?
+			  if (schema.targetNamespace == SCHEMA_NS) {
+			  	derivation = new Restriction(base : base, schema: schema) 
+				derivation.schema = schema
+				break;
+			  } else {
+			  	// It is a build in type from XML Schema
+			    restriction = RestrictionUtil.getRestriction(type, [base: base])
+			    restriction.schema = schema
+				break;
+			  }
+		  } else {
+			derivation = new Restriction(base : base, schema: schema)  // Restriction can be Derivation if there are children e.g. sequence
+			break;
+		  }
+	    } else {
+		  derivation = new Restriction(schema: schema)  // Restriction can be Derivation if there are children e.g. sequence
+	    }
+		break;
+		
 	  default: throw new RuntimeException("Invalid child element '$child' in complexContent. Possible elements are 'annotation', 'extension' or 'restriction'.")
     }
-    derivation?.parse(token, params) 
+	
+	// One of both get parsed
+	restriction?.parse(token, params)
+	derivation?.parse(token, params)
   }
 
   boolean hasExtension(){

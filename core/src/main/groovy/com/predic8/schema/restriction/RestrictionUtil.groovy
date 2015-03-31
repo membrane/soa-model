@@ -20,6 +20,10 @@ class RestrictionUtil {
 
   static def getRestriction(type, ctx) {
     switch(type) {
+	  case "anySimpleType" :
+	  return new AnySimpleTypeRestriction(ctx)
+	  case "anyType" :
+      return new AnyTypeRestriction(ctx)
       case "string" :
       return new StringRestriction(ctx)
       case "normalizedString" :
@@ -133,8 +137,7 @@ class RestrictionUtil {
       case "NMTOKENS" :
       	return new NMTOKENSRestriction(ctx)
       	
-      case "anySimpleType" :
-      	return new AnySimpleTypeRestriction(ctx)
+
       	
       case "derivationControl" :
       	return new DerivationControlRestriction(ctx)

@@ -53,7 +53,9 @@ class ComplexContentTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     def creator = new SchemaCreator(builder : new MarkupBuilder(strWriter))
     schemaA.create(creator, new SchemaCreatorContext())
-    def testSchema = new XmlSlurper().parseText(strWriter.toString())
+	def schemaAsString = strWriter.toString()
+    def testSchema = new XmlSlurper().parseText(schemaAsString)
+	assertEquals('true', testSchema.complexType[2].complexContent.@mixed.toString())
     assertEquals('firstName', testSchema.complexType[2].complexContent.restriction.sequence.element.@name.toString())
   }
 

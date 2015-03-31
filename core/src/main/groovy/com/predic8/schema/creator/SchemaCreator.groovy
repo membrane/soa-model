@@ -130,8 +130,11 @@ class SchemaCreator extends AbstractSchemaCreator <SchemaCreatorContext>{
   }
 
   void createComplexContent(ComplexContent complexContent, SchemaCreatorContext ctx){
-    builder.'xsd:complexContent'() {
+    def attrs = [:]
+    if(complexContent.mixed) attrs['mixed'] = 'true'
+    builder.'xsd:complexContent'(attrs) {
       complexContent.derivation?.create(this, ctx)
+	  complexContent.restriction?.create(this, ctx)
     }
   }
 
