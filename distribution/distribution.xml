@@ -32,10 +32,16 @@
 			<outputDirectory>/src/main/style</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/scripts</directory>
+			<directory>scripts</directory>
 			<includes>
 				<include>wsdldiff.bat</include>
+				<include>analyzewsdl.bat</include>
+				<include>create-request-template.bat</include>
 				<include>schemadiff.bat</include>
+				<include>wsdldiff.sh</include>
+				<include>analyzewsdl.sh</include>
+				<include>create-request-template.sh</include>
+				<include>schemadiff.sh</include>
 			</includes>
 			<outputDirectory>/bin</outputDirectory>
 			<filtered>true</filtered>
