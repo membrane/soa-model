@@ -15,16 +15,18 @@ else # if SOA_MODEL_HOME is not set...
 	fi
 fi
 
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/soa-model-distribution-${version}.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/soa-model-core-${version}.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/commons-codec-1.6.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/httpclient-4.2.2.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/httpcore-4.2.2.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/commons-logging-1.1.1.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/groovy-2.0.4.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/groovy-xml-2.0.4.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/asm-4.0.jar"
-CLASSPATH="${CLASSPATH}:${SOA_MODEL_HOME}/lib/commons-cli-1.2.jar"
-java -classpath "${CLASSPATH}" \
+SOA_CP="${CLASSPATH}"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/soa-model-distribution-${version}.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/soa-model-core-${version}.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/commons-codec-1.6.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/httpclient-4.2.2.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/httpcore-4.2.2.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/commons-logging-1.1.1.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/groovy-2.3.9.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/groovy-xml-2.3.9.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/asm-4.0.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/commons-cli-1.2.jar"
+SOA_CP="${SOA_CP}:${SOA_MODEL_HOME}/lib/slf4j-api-1.7.9.jar"
+java -classpath "${SOA_CP}" \
   org.membrane_soa.soa_model.creator.CreateSOAPRequestTemplate \
   $1 $2 $3 $4 $5 $6
