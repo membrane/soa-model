@@ -42,6 +42,7 @@
 				<include>create-request-template.sh</include>
 				<include>schemadiff.sh</include>
 			</includes>
+			<fileMode>0755</fileMode>
 			<outputDirectory>/bin</outputDirectory>
 			<filtered>true</filtered>
 		</fileSet>
