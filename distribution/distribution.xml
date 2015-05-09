@@ -19,8 +19,22 @@
 			<outputDirectory>/src/main/java/samples</outputDirectory>
 		</fileSet>
 		<fileSet>
+			<directory>samples/diff</directory>
+			<includes>
+				<include>schema-diff-sample.*</include>
+				<include>wsdl-diff-sample.*</include>
+			</includes>
+			<!-- Add these specific files with execute permissions -->
+			<fileMode>0755</fileMode>
+			<outputDirectory>/samples/diff</outputDirectory>
+		</fileSet>
+		<fileSet>
 			<directory>samples</directory>
 			<outputDirectory>/samples</outputDirectory>
+			<excludes>
+				<exclude>diff/schema-diff-sample.*</exclude>
+				<exclude>diff/wsdl-diff-sample.*</exclude>
+			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/web</directory>
@@ -33,15 +47,12 @@
 		<fileSet>
 			<directory>scripts</directory>
 			<includes>
-				<include>wsdldiff.bat</include>
-				<include>analyzewsdl.bat</include>
-				<include>create-request-template.bat</include>
-				<include>schemadiff.bat</include>
-				<include>wsdldiff.sh</include>
-				<include>analyzewsdl.sh</include>
-				<include>create-request-template.sh</include>
-				<include>schemadiff.sh</include>
+				<include>analyzewsdl.*</include>
+				<include>create-request-template.*</include>
+				<include>schemadiff.*</include>
+				<include>wsdldiff.*</include>
 			</includes>
+			<!-- Execute permissions for scripts -->
 			<fileMode>0755</fileMode>
 			<outputDirectory>/bin</outputDirectory>
 			<filtered>true</filtered>
