@@ -13,6 +13,8 @@ if [ ! -e "${SOA_MODEL_HOME}/bin/${SCRIPTNAME}" ]; then # if script can't find i
 	fi
 fi # else: script can find itself, all good
 
+export SOA_MODEL_HOME
+
 java -classpath "${SOA_MODEL_HOME}/lib/*" \
   org.membrane_soa.soa_model.diff.WSDLDiffCLI \
   $1 $2 $3 $4 $5 $6
