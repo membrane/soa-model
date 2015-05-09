@@ -18,4 +18,4 @@ export SOA_MODEL_HOME
 java -classpath "${SOA_MODEL_HOME}/lib/*" \
   org.membrane_soa.soa_model.analyzer.WSDLAnalyzer \
   $1 $2 $3 $4 $5 $6
-
+echo "A report has been created in the 'analyzewsdl-report' folder"
