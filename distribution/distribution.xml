@@ -19,22 +19,8 @@
 			<outputDirectory>/src/main/java/samples</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>samples/diff</directory>
-			<includes>
-				<include>schema-diff-sample.*</include>
-				<include>wsdl-diff-sample.*</include>
-			</includes>
-			<!-- Add these specific files with execute permissions -->
-			<fileMode>0755</fileMode>
-			<outputDirectory>/samples/diff</outputDirectory>
-		</fileSet>
-		<fileSet>
 			<directory>samples</directory>
 			<outputDirectory>/samples</outputDirectory>
-			<excludes>
-				<exclude>diff/schema-diff-sample.*</exclude>
-				<exclude>diff/wsdl-diff-sample.*</exclude>
-			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/web</directory>
