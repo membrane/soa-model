@@ -54,10 +54,10 @@ class RequestCreatorTest extends GroovyTestCase{
     assertEquals('30', request.employee[0].@age.toString())
 	assertEquals('programer', request.employee[0].department.activity.text())
 	assertEquals('predic8', request.employee[0].department.company.text())
-	//assertEquals('Angela', request.employee[1].firstName.text())
-	//assertEquals('Iron Chancellor', request.employee[1].department.activity.text())
-	////The value of 'company' is fixed on 'predic8'. The given value 'BRD' will be ignored!
-	//assertEquals('predic8', request.employee[1].department.company.text())
+	assertEquals('Angela', request.employee[1].firstName.text())
+	assertEquals('Iron Chancellor', request.employee[1].department.activity.text())
+	//The value of 'company' is fixed on 'predic8'. The given value 'BRD' will be ignored!
+	assertEquals('predic8', request.employee[1].department.company.text())
   }
   
   void testCreatRequestWithRefType() {
@@ -82,6 +82,6 @@ class RequestCreatorTest extends GroovyTestCase{
     def ctx = new RequestCreatorContext(formParams:formParams)
     ctx.path = "xpath:/employeeList/"
     ctx.element = schema.getElement('employee')
-    //assertEquals(['xpath:/employeeList/employee/', 'xpath:/employeeList/employee[1]/', 'xpath:/employeeList/employee[2]/'], creator.getElementXpaths(ctx))
+    assertEquals(['xpath:/employeeList/employee/', 'xpath:/employeeList/employee[1]/', 'xpath:/employeeList/employee[2]/'], creator.getElementXpaths(ctx))
   }
 }
