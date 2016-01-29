@@ -8,3 +8,5 @@ temp
 */.project
 */.groovy
 .m2
+.idea
+*.iml
