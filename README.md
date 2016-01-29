@@ -59,3 +59,12 @@ Creating a soap request:
     //creator.createRequest(PortType name, Operation name, Binding name);
     creator.createRequest("ArticleServicePT", "create", "ArticleServicePTBinding");
     System.out.println(writer);
+
+Integration Testing
+-------------------
+
+To run "mvn integration-test" in an isolated environment, you may run
+
+    docker build .
+
+if you have a Docker Engine available.
