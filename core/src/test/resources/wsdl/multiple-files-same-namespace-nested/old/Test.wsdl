@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TestInterface" targetNamespace="http://TestEngineLib/TestInterface"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://TestEngineLib/TestInterface" xmlns:bons1="http://TestEngineLib">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://TestEngineLib/TestInterface">
+            <xsd:import namespace="http://TestEngineLib" schemaLocation="Branch.xsd"/>
+
+            <xsd:element name="branch">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="request" nillable="true" type="bons1:Branch"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="branchResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="response" nillable="true" type="bons1:Branch"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="branchRequestMsg">
+        <wsdl:part name="accountToExternalTestParameters" element="tns:branch">
+        </wsdl:part>
+    </wsdl:message>
+
+    <wsdl:message name="branchResponseMsg">
+        <wsdl:part name="cardToCreditTestResult" element="tns:branchResponse">
+
+        </wsdl:part>
+    </wsdl:message>
+
+    <wsdl:portType name="TestInterface">
+        <wsdl:operation name="branch">
+            <wsdl:input name="branchRequest" message="tns:branchRequestMsg">
+            </wsdl:input>
+            <wsdl:output name="branchResponse" message="tns:branchResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
