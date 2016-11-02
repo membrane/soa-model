@@ -25,7 +25,8 @@ class Union extends SchemaComponent{
 
   protected parseAttributes(token, params){
     token.getAttributeValue( null , 'memberTypes')?.split(' ').each{
-      memberTypes << getTypeQName(it)
+      if (it)
+        memberTypes << getTypeQName(it)
     }
   }
 

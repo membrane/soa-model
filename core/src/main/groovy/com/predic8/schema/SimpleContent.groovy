@@ -35,7 +35,9 @@ class SimpleContent extends SchemaComponent {
         extension = new Extension(schema: schema)
           extension.parse(token, params) ; break
       case 'restriction' :
-        def base = getTypeQName(token.getAttributeValue( null , 'base'))
+        def base = null
+          if (token.getAttributeValue( null , 'base'))
+            base = getTypeQName(token.getAttributeValue( null , 'base'))
 				if(base) {
 					def type = base.localPart
 					if(base.namespaceURI == SCHEMA_NS){

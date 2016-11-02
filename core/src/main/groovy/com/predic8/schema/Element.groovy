@@ -47,11 +47,13 @@ class Element extends Declaration {
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
-    type = getTypeQName(token.getAttributeValue( null , 'type'))
+      if (token.getAttributeValue( null , 'type'))
+        type = getTypeQName(token.getAttributeValue( null , 'type'))
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
     maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1
     refValue = token.getAttributeValue( null , 'ref')
-		ref = getTypeQName(refValue)
+        if (refValue)
+		    ref = getTypeQName(refValue)
 		// Element can have a default value OR a fixed value specified.
 		defaultValue = token.getAttributeValue( null , 'default')
 		fixedValue = token.getAttributeValue( null , 'fixed')

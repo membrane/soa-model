@@ -48,10 +48,12 @@ class Attribute extends Declaration {
 		fixedValue = token.getAttributeValue( null , 'fixed')
     form = token.getAttributeValue( null , 'form')
     id = token.getAttributeValue( null , 'id')
-    ref = getTypeQName(token.getAttributeValue( null , 'ref'))
+    if (token.getAttributeValue( null , 'ref'))
+      ref = getTypeQName(token.getAttributeValue( null , 'ref'))
     //if(ref && form) throw new RuntimeException('Form and ref attributes cannot be both present in an attribute element.')
     //if(ref && name) throw new RuntimeException('Name and ref attributes cannot be both present in an attribute element.')
-    type = getTypeQName(token.getAttributeValue( null , 'type'))
+    if (token.getAttributeValue( null , 'type'))
+      type = getTypeQName(token.getAttributeValue( null , 'type'))
     //if(ref && type) throw new RuntimeException('Type and ref attributes cannot be both present in an attribute element.')
     use = token.getAttributeValue( null , 'use')?:'optional'
   }

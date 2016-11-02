@@ -41,8 +41,10 @@ class ComplexContent extends SchemaComponent {
       case 'extension' :
       	derivation = new Extension(schema: schema) ; 
 		break;
-      case 'restriction' :		  
-		def base = getTypeQName(token.getAttributeValue( null , 'base'))
+      case 'restriction' :
+		def base = null
+		  if (token.getAttributeValue( null , 'base'))
+		 	 base = getTypeQName(token.getAttributeValue( null , 'base'))
 		if(base) {
 	      def type = base.localPart
 		  if(base.namespaceURI == SCHEMA_NS){

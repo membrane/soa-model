@@ -105,7 +105,7 @@ abstract class XMLElement {
 	}
 
 	QName getTypeQName(String type) {
-		if ( !type ) return // Null is OK cause of embedded types.
+		if ( !type ) return new RuntimeException("Should not be called with null!") // Null is OK cause of embedded types.
 
 		PrefixedName preName = new PrefixedName(type)
 		getQNameForPN(preName)

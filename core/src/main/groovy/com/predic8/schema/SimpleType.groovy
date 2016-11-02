@@ -38,7 +38,7 @@ class SimpleType extends TypeDefinition {
 				list = new SchemaList(schema: schema)
 					list.parse(token, params) ; break
 			case 'restriction' :
-				def base = getTypeQName(token.getAttributeValue( null , 'base'))
+				def base = token.getAttributeValue( null , 'base') ? getTypeQName(token.getAttributeValue( null , 'base')) : null
 				if(base) {
 					def type = base.localPart
 					if(base.namespaceURI == SCHEMA_NS){

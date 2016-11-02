@@ -27,7 +27,8 @@ class AttributeGroup extends SchemaComponent{
 
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
-    ref = getTypeQName(token.getAttributeValue( null , 'ref'))
+    if (token.getAttributeValue( null , 'ref'))
+      ref = getTypeQName(token.getAttributeValue( null , 'ref'))
   }
 
   protected parseChildren(token, child, params){
