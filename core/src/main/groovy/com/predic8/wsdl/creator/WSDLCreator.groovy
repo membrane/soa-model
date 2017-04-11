@@ -24,12 +24,16 @@ import com.predic8.wsdl.*
 import com.predic8.wsdl.http.HTTPBinding
 
 class WSDLCreator extends AbstractWSDLCreator{
+  def nameWithPrefix(WSDLElement element){
+	  
+	  return (element.getPrefix()?element.getPrefix()+':':'')+element.getElementName().getLocalPart();
+  }
 	
   def createDefinitions(Definitions definitions, WSDLCreatorContext ctx){
     def attrs = ['targetNamespace':getDisplayName(definitions.targetNamespace, 'definitions.targetNamespace', ctx.error)]
     if(definitions.name) attrs['name'] = definitions.name
     
-    builder.definitions(attrs + getNamespaceAttributes(definitions)) {
+    builder.(nameWithPrefix(definitions))(attrs + getNamespaceAttributes(definitions)) {
       definitions.documentation?.create(this, ctx)
       
 			/**
@@ -61,11 +65,11 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
 
   def createImport(Import imp, WSDLCreatorContext ctx){
-    builder.'import'([namespace: imp.namespace, location: imp.location] + getNamespaceAttributes(imp))
+    builder.(nameWithPrefix(imp))([namespace: imp.namespace, location: imp.location] + getNamespaceAttributes(imp))
   }
 
   def createTypes(Types types, WSDLCreatorContext ctx){
-    builder.types(){
+    builder.(nameWithPrefix(types))(){
       types.documentation?.create(this, ctx)
       types.schemas.each{
         it.create(new SchemaCreator(builder: builder), new SchemaCreatorContext(ctx.clone()))
@@ -74,7 +78,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createMessage(Message message, WSDLCreatorContext ctx){
-    builder.message([name : getDisplayName(message.name, 'definitions.message.name', ctx.error)] + getNamespaceAttributes(message)) {
+    builder.(nameWithPrefix(message))([name : getDisplayName(message.name, 'definitions.message.name', ctx.error)] + getNamespaceAttributes(message)) {
       message.documentation?.create(this, ctx)
       message.parts.each {
         it.create(this, ctx)
@@ -86,11 +90,11 @@ class WSDLCreator extends AbstractWSDLCreator{
     def attrs = [name : part.name]
     if(part.element) {attrs.put('element' , "${part.getPrefix(part.element.namespaceUri)}:${part.element.name}")}
     if(part.type) {attrs.put('type' , part.typePN)}
-    builder.part(attrs + getNamespaceAttributes(part))
+    builder.(nameWithPrefix(part))(attrs + getNamespaceAttributes(part))
   }
   
   def createPortType(PortType portType, WSDLCreatorContext ctx) {
-    builder.portType([name : getDisplayName(portType.name, 'definitions.portTypes.name', ctx.error)] + getNamespaceAttributes(portType)) {
+    builder.(nameWithPrefix(portType))([name : getDisplayName(portType.name, 'definitions.portTypes.name', ctx.error)] + getNamespaceAttributes(portType)) {	
       portType.documentation?.create(this, ctx)
       portType.operations.each{
 				//TODO call it.create() instead.
@@ -100,7 +104,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createOperation(Operation operation, WSDLCreatorContext ctx) {
-    builder.operation([name : getDisplayName(operation.name, 'definitions.operations.name', ctx.error)] + getNamespaceAttributes(operation)){
+    builder.(nameWithPrefix(operation))([name : getDisplayName(operation.name, 'definitions.operations.name', ctx.error)] + getNamespaceAttributes(operation)){
       operation.documentation?.create(this, ctx)
       operation.input?.create(this, ctx)
       operation.output?.create(this, ctx)
@@ -111,7 +115,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createBinding(Binding binding, WSDLCreatorContext ctx){
-    builder.binding([name : binding.name, type: binding.getTypeString(binding.type)] + getNamespaceAttributes(binding)){
+    builder.(nameWithPrefix(binding))([name : binding.name, type: binding.getTypeString(binding.type)] + getNamespaceAttributes(binding)){
 			binding.policyReference?.create(new PolicyCreator(builder: builder), ctx)
       binding.documentation?.create(this, ctx)
       binding.binding?.create(this, ctx)
@@ -136,7 +140,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createBindingOperation(BindingOperation bindingOperation, WSDLCreatorContext ctx) {
-    builder."operation"([name : bindingOperation.name] + getNamespaceAttributes(bindingOperation)) {
+    builder.(nameWithPrefix(bindingOperation))([name : bindingOperation.name] + getNamespaceAttributes(bindingOperation)) {
       bindingOperation.operation?.create(this, ctx)
       bindingOperation.input?.create(this, ctx)
       bindingOperation.output?.create(this, ctx)
@@ -159,13 +163,13 @@ class WSDLCreator extends AbstractWSDLCreator{
   def createPortTypeMessage(AbstractPortTypeMessage portTypeMessage, WSDLCreatorContext ctx) {
     def attrs = [message: "${portTypeMessage.definitions.targetNamespacePrefix}:${portTypeMessage.message.name}"]
     if(portTypeMessage.name) attrs['name'] = portTypeMessage.name
-    builder."${portTypeMessage.ELEMENTNAME.localPart}"(attrs + getNamespaceAttributes(portTypeMessage))
+    builder.(nameWithPrefix(portTypeMessage))(attrs + getNamespaceAttributes(portTypeMessage))
   }
 
   def createBindingMessage(BindingMessage bindingMessage, WSDLCreatorContext ctx){
     def attrs = [:]
     if(bindingMessage.name ) attrs['name'] = bindingMessage.name
-    builder."${bindingMessage.ELEMENTNAME.localPart}"(attrs + getNamespaceAttributes(bindingMessage)){
+    builder.(nameWithPrefix(bindingMessage))(attrs + getNamespaceAttributes(bindingMessage)){
       bindingMessage.bindingElements.each{
         it.create(this, ctx)
       }
@@ -197,7 +201,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
 
   def createService(Service service , WSDLCreatorContext ctx) {
-    builder.service(name : getDisplayName(service.name, 'definitions.services.name', ctx.error)) {
+    builder.(nameWithPrefix(service))(name : getDisplayName(service.name, 'definitions.services.name', ctx.error)) {
       service.documentation?.create(this, ctx)
       service.ports.each {
         it.create(this, ctx)
@@ -206,7 +210,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createPort(Port port, WSDLCreatorContext ctx) {
-    builder.port([name: port.name, binding : "${port.definitions.targetNamespacePrefix}:${port.binding.name}"] + getNamespaceAttributes(port)) {
+    builder.(nameWithPrefix(port))([name: port.name, binding : "${port.definitions.targetNamespacePrefix}:${port.binding.name}"] + getNamespaceAttributes(port)) {
       port.documentation?.create(this, ctx)
       port.address.create(this, ctx)
     }
