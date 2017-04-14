@@ -43,6 +43,7 @@ class Attribute extends Declaration {
 		
   
   protected parseAttributes(token, params){
+		super.parseAttributes(token, params)
 		name = token.getAttributeValue( null , 'name')
 		defaultValue = token.getAttributeValue( null , 'default')
 		fixedValue = token.getAttributeValue( null , 'fixed')
