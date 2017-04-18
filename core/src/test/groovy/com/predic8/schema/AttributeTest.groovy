@@ -36,6 +36,8 @@ class AttributeTest extends GroovyTestCase{
   
   void testParsing() {
     assertEquals('id', schema.getType('CarType').getAttribute('id').name)
+    assertEquals('xsd:integer[]', schema.getType('CarType').getAttribute('id').arrayType)
+    assertEquals('xsd:integer[]', schema.getElement('MyCar').arrayType)
     assertEquals('speed', schema.getType('CarType').getAttribute('speed').name)
     assertEquals('door',schema.getType('SmallCarType').model.derivation.attributes[0].name)
 //	println schema.getType('SmallCarType').model.derivation.attributes[0].annotation.contents.content
