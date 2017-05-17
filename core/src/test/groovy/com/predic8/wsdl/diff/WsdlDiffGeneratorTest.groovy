@@ -86,6 +86,40 @@ class WsdlDiffGeneratorTest extends GroovyTestCase {
 		assert diffs*.dump().toString().contains('Binding ProjectServiceTestBinding added.')
   }
 
+  /**
+   * Compare top level WSDLs. WsdlDiffGenerator see NO changes at all.
+   */
+  void testCompareThreeLevelNestedWsdl() {
+    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+
+    Definitions wsdlOld = parser.parse('/wsdl/multiple-files-same-namespace-nested/old/TestParent.wsdl')
+    Definitions wsdlNew = parser.parse('/wsdl/multiple-files-same-namespace-nested/new/TestParent.wsdl')
+
+    def diffs = compare(wsdlOld, wsdlNew)
+
+    // Expected diffs:
+    // wsdl/new/TestParent.wsdl: has import City.xsd
+    // wsdl/new/TestParent.wsdl: Branch.xsd declares 'newField'
+    assert diffs.size() == 2
+  }
+
+  /**
+   * Compare nested WSDLs. WsdlDiffGenerator doesn't see City.xsd inclusion.
+   */
+  void testCompareTwoLevelNestedWsdl() {
+    def parser = new WSDLParser(resourceResolver: new ClasspathResolver())
+
+    Definitions wsdlOld = parser.parse('/wsdl/multiple-files-same-namespace-nested/old/Test.wsdl')
+    Definitions wsdlNew = parser.parse('/wsdl/multiple-files-same-namespace-nested/new/Test.wsdl')
+
+    def diffs = compare(wsdlOld, wsdlNew)
+
+    // Expected diffs:
+    // wsdl/new/TestParent.wsdl: has import City.xsd
+    // wsdl/new/TestParent.wsdl: Branch.xsd declares 'newField'
+    assert diffs.size() == 2
+  }
+
   private def compare(a, b) {
     new WsdlDiffGenerator(a: a, b: b).compare()
   }

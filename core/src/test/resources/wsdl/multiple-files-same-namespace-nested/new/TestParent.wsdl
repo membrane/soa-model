@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TestInterfaceExport1_TestInterfaceHttp_Service" targetNamespace="http://TestEngineLib/TestInterface/Binding" xmlns:Port_0="http://TestEngineLib/TestInterface" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:this="http://TestEngineLib/TestInterface/Binding" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+  <wsdl:import namespace="http://TestEngineLib/TestInterface" location="Test.wsdl">
+    </wsdl:import>
+  <wsdl:binding name="TestInterfaceExport1_TestInterfaceHttpBinding" type="Port_0:TestInterface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="branch">
+      <soap:operation soapAction="http://TestEngineLib/TestInterface/Binding/test"/>
+      <wsdl:input name="branchRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="branchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TestInterfaceExport1_TestInterfaceHttpService">
+    <wsdl:port name="TestInterfaceExport_TestInterfaceHttpPort" binding="this:TestInterfaceExport1_TestInterfaceHttpBinding">
+      <soap:address location="http://localhost/TestEngineModuleWeb/sca/TestInterfaceExport"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
