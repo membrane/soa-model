@@ -21,7 +21,6 @@ import javax.xml.stream.*
 import com.predic8.schema.*
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream
 
 
 class SchemaCreatorCreateWSDLSchemaTest extends GroovyTestCase{
