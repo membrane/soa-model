@@ -170,6 +170,7 @@ abstract class AbstractSchemaCreator <Context extends SchemaCreatorContext> exte
 		if ( !ctx.attrs ) ctx.attrs = [:]
 		if ( !ctx.body ) ctx.body = {}
 		if ( !ctx.text ) ctx.text = ''
+		if (!ctx.attrs && !ctx.attrs && !ctx.text && params.element.minOccurs == '0') return
 		declNSifNeeded(getNSPrefix(params.element, params),params.element.namespaceUri,ctx.attrs,params)
 		builder."${getElementTagName(params.element, params)}"(ctx.attrs, ctx.text) {ctx.body}
 	}
