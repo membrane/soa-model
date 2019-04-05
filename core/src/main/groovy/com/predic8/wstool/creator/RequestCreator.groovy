@@ -124,8 +124,11 @@ class RequestCreator extends AbstractSchemaCreator<RequestCreatorContext> {
   public getElementXpaths(ctx){
     def es = []
     ctx.formParams.keySet().each {
-      def e = it =~ /${ctx.path}${ctx.element.name}(?:\[\d+\])*\/.*?/
-      if (e)  es << e[0]
+		def wholePath = "${ctx.path}${ctx.element.name}";
+		wholePath = wholePath.replaceAll(/\[/, "\\\\[");
+		wholePath = wholePath.replaceAll(/\]/, "\\\\]");
+		def e = it =~ /$wholePath(?:\[\d+\])*\/.*?/
+		if (e)  es << e[0]
     }
     es.unique()
   }
