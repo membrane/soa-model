@@ -37,6 +37,7 @@ class Element extends Declaration {
   Annotation annotation
   String refValue
   QName ref
+  String substitutionGroupValue
   QName substitutionGroup
   String minOccurs = 1
   String maxOccurs = 1
