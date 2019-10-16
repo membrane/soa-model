@@ -35,15 +35,17 @@ class Element extends Declaration {
   TypeDefinition embeddedType
   boolean toplevel = false
   Annotation annotation
-	String refValue
+  String refValue
   QName ref
+  String substitutionGroupValue
+  QName substitutionGroup
   String minOccurs = 1
   String maxOccurs = 1
-	String defaultValue //can only be used if the element's content is a simple type or text only
-	String fixedValue //can only be used if the element's content is a simple type or text only
-	String form // Possible values: qualified/unqualified. Cannot be used if element is top level
-	boolean nillable = false
-	Unique unique
+  String defaultValue //can only be used if the element's content is a simple type or text only
+  String fixedValue //can only be used if the element's content is a simple type or text only
+  String form // Possible values: qualified/unqualified. Cannot be used if element is top level
+  boolean nillable = false
+  Unique unique
   
   protected parseAttributes(token, params){
     super.parseAttributes(token, params)
@@ -51,14 +53,20 @@ class Element extends Declaration {
         type = getTypeQName(token.getAttributeValue( null , 'type'))
     minOccurs = token.getAttributeValue( null , 'minOccurs') ?: 1
     maxOccurs = token.getAttributeValue( null , 'maxOccurs') ?: 1
+    
     refValue = token.getAttributeValue( null , 'ref')
-        if (refValue)
-		    ref = getTypeQName(refValue)
-		// Element can have a default value OR a fixed value specified.
-		defaultValue = token.getAttributeValue( null , 'default')
-		fixedValue = token.getAttributeValue( null , 'fixed')
-		nillable = (token.getAttributeValue( null , 'nillable') == 'true')
-		form = token.getAttributeValue( null , 'form') 
+    if (refValue)
+	    ref = getTypeQName(refValue)
+	
+	substitutionGroupValue = token.getAttributeValue( null , 'substitutionGroup')
+    if (substitutionGroupValue)
+	    substitutionGroup = getTypeQName(substitutionGroupValue)
+
+	// Element can have a default value OR a fixed value specified.
+	defaultValue = token.getAttributeValue( null , 'default')
+	fixedValue = token.getAttributeValue( null , 'fixed')
+	nillable = (token.getAttributeValue( null , 'nillable') == 'true')
+	form = token.getAttributeValue( null , 'form') 
     log.debug "element attribute parsed: [name=$name, type=$type, ref=$ref, nillable=$nillable]"
   }
   
