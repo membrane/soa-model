@@ -10,7 +10,7 @@
 		<groupId>com.predic8</groupId>
 		<artifactId>soa-model-parent</artifactId>
 		<relativePath>../pom.xml</relativePath>
-		<version>1.6.1-SNAPSHOT</version>
+		<version>1.6.1</version>
 	</parent>
 
 	<dependencies>
