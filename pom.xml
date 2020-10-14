@@ -4,7 +4,7 @@
 
 	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-parent</artifactId>
-	<version>1.6.3</version>
+	<version>1.6.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>soa-model-parent</name>
