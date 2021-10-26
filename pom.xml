@@ -81,6 +81,11 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-cli-commons</artifactId>
+				<version>${groovy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-json</artifactId>
 				<version>${groovy.version}</version>
 			</dependency>
