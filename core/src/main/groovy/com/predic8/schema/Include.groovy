@@ -38,8 +38,11 @@ class Include extends SchemaComponent {
 
   private parseIncludedSchema(ctx){
     def resource = schema.resourceResolver.resolve(this, schema.baseDir)
-  	
-    def incToken = XMLInputFactory.newInstance().createXMLStreamReader(resource)
+
+    def inputFactory = XMLInputFactory.newInstance()
+    inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
+    inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+    def incToken = inputFactory.createXMLStreamReader(resource)
     while(incToken.hasNext()) {
       if(incToken.startElement) {
         if(incToken.name.getLocalPart() =='schema'){
