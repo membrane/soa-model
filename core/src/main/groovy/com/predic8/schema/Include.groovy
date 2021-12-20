@@ -24,9 +24,9 @@ import javax.xml.namespace.QName as JQName
 import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Include extends SchemaComponent {
-  
+
   private static final Logger log = LoggerFactory.getLogger(Include.class)
-  
+
   String schemaLocation
 
    protected parseAttributes(token, ctx){
@@ -39,9 +39,13 @@ class Include extends SchemaComponent {
   private parseIncludedSchema(ctx){
     def resource = schema.resourceResolver.resolve(this, schema.baseDir)
 
-    def inputFactory = XMLInputFactory.newInstance()
-    inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
-    inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+    def inputFactory = ctx.xmlInputFactory
+    if (inputFactory == null) {
+      inputFactory = XMLInputFactory.newInstance()
+      inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
+      inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+    }
+
     def incToken = inputFactory.createXMLStreamReader(resource)
     while(incToken.hasNext()) {
       if(incToken.startElement) {
@@ -54,7 +58,9 @@ class Include extends SchemaComponent {
     def origBaseDir = schema.baseDir
     schema.baseDir = HTTPUtil.updateBaseDir(schemaLocation , schema.baseDir)
     log.debug("includedSchema.baseDir ${schema.baseDir}")
+    ctx.ns.push(schema)
     schema.parse(incToken, ctx.createNewSubContext([targetNamespace: schema.targetNamespace]))
+    ctx.ns.pop(schema)
     schema.baseDir = origBaseDir
   }
 
@@ -65,5 +71,5 @@ class Include extends SchemaComponent {
   String toString(){
     "schemaLocation=$schemaLocation"
   }
-  
+
 }

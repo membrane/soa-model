@@ -42,6 +42,10 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-test</artifactId>
 			<scope>test</scope>
@@ -106,8 +110,8 @@
 				<configuration>
 					<compilerId>groovy-eclipse-compiler</compilerId>
 					<verbose>true</verbose>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 				<dependencies>
 					<dependency>

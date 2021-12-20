@@ -24,7 +24,9 @@ class SchemaParserContext extends AbstractParserContext {
         input: args?.input,
         targetNamespace: args?.targetNamespace,
         importedSchemaCache: importedSchemaCache,
-        errors: errors)
+        errors: errors,
+        ns: ns,
+        xmlInputFactory: xmlInputFactory)
   }
 
 

@@ -14,12 +14,10 @@
 
 package com.predic8.soamodel
 
-import java.util.Map;
+import com.predic8.wsdl.ns.NSContext
 import groovy.xml.QName
 import javax.xml.stream.*
 import javax.xml.namespace.QName as JQName
-
-import com.predic8.wsdl.Definitions;
 import com.predic8.xml.util.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,8 +33,12 @@ abstract class XMLElement {
 
 	XMLElement parent
 
+  NSContext ns
+
 	def parse(token, AbstractParserContext ctx){
 		parent = ctx.parent
+		ns = ctx.ns
+
 		parseNamespaces(token)
 		parseAttributes(token, ctx)
 		token.next()
@@ -45,7 +47,7 @@ abstract class XMLElement {
 				ctx.parent = this
 				parseChildren(token, token.name.getLocalPart(), ctx)
 				if(token.hasNext()) token.next()
-				continue				
+				continue
 			}
 			if(token.getEventType() in [
 				XMLStreamReader.CHARACTERS,
@@ -87,7 +89,7 @@ abstract class XMLElement {
 		if ( uri == Consts.XML_NS) return 'xml'
 		def res = namespaceContext.find{it.value == uri}?.key // dont use ?: because res == '' should be a valid response
 	}
-	
+
 	abstract String getNamespaceUri()
 
 	/**
@@ -98,6 +100,8 @@ abstract class XMLElement {
 	abstract String getPrefix()
 
 	def getNamespace(prefix) {
+		//get modified prefix if possible
+		prefix = ns.prefix(this, prefix)
 		if(prefix == "xml") return Consts.XML_NS
 		def res = namespaces[prefix] // Don't use ?: because res == '' should be a valid response
 		if ( res == null ) return parent?.getNamespace(prefix) ?: prefix=='' ? '' : null
@@ -110,7 +114,7 @@ abstract class XMLElement {
 		PrefixedName preName = new PrefixedName(type)
 		getQNameForPN(preName)
 	}
-	
+
 	public getQNameForPN(PrefixedName pn) {
 		String uri = getNamespace(pn.prefix)
 		if ( uri == '' && pn.prefix == '' ) return new QName('',pn.localName)
@@ -130,7 +134,9 @@ abstract class XMLElement {
 
 	protected parseNamespaces(token) {
 		token.getNamespaceCount().times {
-			namespaces[token.getNamespacePrefix(it) ?: ''] = token.getNamespaceURI(it)?:''
+			// avoid prefix override
+			def ns = this.ns.namespace(this, token.getNamespacePrefix(it) ?: '', token.getNamespaceURI(it) ?: '')
+			namespaces[ns.key] = ns.value
 		}
 	}
 
@@ -139,4 +145,7 @@ abstract class XMLElement {
 		parent.namespaceContext + namespaces
 	}
 
+	def Map<String, String> namespaces() {
+		return Collections.unmodifiableMap(namespaces)
+	}
 }
