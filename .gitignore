@@ -7,4 +7,6 @@ temp
 */.classpath
 */.project
 */.groovy
-
+.idea/
+target/
+*.iml
