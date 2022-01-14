@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:ns1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierAddress/"
+     xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml"
+     xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Address</name>
+            <description>Entity that captures the physical location of business that the
+                supplier uses to conduct procurement activity.</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Supplier address record unique identifier." name="AddressId"/>
+                <oer:attribute description="Name of the supplier address." name="AddressName"/>
+                <oer:attribute description="Updated value for supplier address name." name="AddressNameNew"/>
+                <oer:attribute description="Country to which the supplier address belongs." name="Country"/>
+                <oer:attribute description="Address Line 1 of the supplier address record." name="AddressLine1"/>
+                <oer:attribute description="Address Line 2 of the supplier address record." name="AddressLine2"/>
+                <oer:attribute description="Address Line 3 of the supplier address record." name="AddressLine3"/>
+                <oer:attribute description="Address Line 4 of the supplier address record." name="AddressLine4"/>
+                <oer:attribute description="Phonetic or Kana representation of the Kanji Address lines. (used in Japan)."
+                     name="AddressLinePhonetic"/>
+                <oer:attribute description="Additional address element to support flexible address format."
+                     name="AddressElementAttribute1"/>
+                <oer:attribute description="Additional address element to support flexible address format."
+                     name="AddressElementAttribute2"/>
+                <oer:attribute description="Additional address element to support flexible address format."
+                     name="AddressElementAttribute3"/>
+                <oer:attribute description="Additional address element to support flexible address format."
+                     name="AddressElementAttribute4"/>
+                <oer:attribute description="Additional address element to support flexible address format."
+                     name="AddressElementAttribute5"/>
+                <oer:attribute description="Specific building name or number at a given address."
+                     name="Building"/>
+                <oer:attribute description="Specific floor number at a given address or in a particular building when building number is provided."
+                     name="FloorNumber"/>
+                <oer:attribute description="City of supplier address." name="City"/>
+                <oer:attribute description="State of supplier address." name="State"/>
+                <oer:attribute description="Province of supplier address." name="Province"/>
+                <oer:attribute description="County of supplier address." name="County"/>
+                <oer:attribute description="Postal Code to which the supplier address belongs." name="PostalCode"/>
+                <oer:attribute description="Four digit extension to postal code." name="PostalPlus4Code"/>
+                <oer:attribute description="Addressee information." name="Addressee"/>
+                <oer:attribute description="Global location number that uniquely identifies each location in a trading partners enterprise."
+                     name="GlobalLocationNumber"/>
+                <oer:attribute description="Operating language of the supplier address. The value provided here is the Language Code."
+                     name="AddressLanguage"/>
+                <oer:attribute description="Date on which the supplier address becomes inactive."
+                     name="InactiveDate"/>
+                <oer:attribute description="Country code for phone." name="PhoneCountryCode"/>
+                <oer:attribute description="Area code for phone." name="PhoneAreaCode"/>
+                <oer:attribute description="Supplier phone number." name="Phone"/>
+                <oer:attribute description="Extension number of the supplier phone." name="PhoneExtension"/>
+                <oer:attribute description="Country code for fax." name="FaxCountryCode"/>
+                <oer:attribute description="Area code for fax." name="FaxAreaCode"/>
+                <oer:attribute description="Supplier fax number." name="Fax"/>
+                <oer:attribute description="E-Mail address associated with the supplier address."
+                     name="EmailAddress"/>
+                <oer:attribute description="Indicates whether the supplier address can be used for ordering."
+                     name="OrderingPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier address can be used for payment."
+                     name="RemitToPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier address can be used for RFQ or Bidding."
+                     name="RFQOrBiddingPurposeFlag"/>
+                <oer:attribute description="An object that enables customers to extend the supplier addresses information."
+                     name="SupplierAddressesFlexField"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierAddress/"
+         schemaLocation="PozSupAddressesIntDFF.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd"/>
+    <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
+    <xsd:complexType name="SupplierAddressesResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierAddresses"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierAddresses">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>AddressInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="AddressName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressNameNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Country" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLine1" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLine2" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLine3" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLine4" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLinePhonetic" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressElementAttribute1" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressElementAttribute2" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressElementAttribute3" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressElementAttribute4" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressElementAttribute5" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Building" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FloorNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="City" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="State" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Province" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="County" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PostalCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PostalPlus4Code" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Addressee" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="GlobalLocationNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressLanguage" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InactiveDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="PhoneCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PhoneAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Phone" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PhoneExtension" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Fax" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="EmailAddress" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="OrderingPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="RemitToPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="RFQOrBiddingPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="SupplierAddressesFlexField" type="ns1:PozSupAddressesIntDFF"
+                 sdoXML:dataType="sdo:DataObject"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="supplierAddressesResult" type="SupplierAddressesResult"/>
+    <xsd:element name="supplierAddresses" type="SupplierAddresses"/>
+</xsd:schema>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:sdoJava="commonj.sdo/java" xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Business Classification</name>
+            <description>Entity that captures the details of diversity classifications to
+                which the supplier belongs.</description>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Supplier business classification record unique identifier."
+                     name="BusinessClassificationId"/>
+                <oer:attribute description="Supplier business classification code." name="BusinessClassification"/>
+                <oer:attribute description="Updated value for business classification." name="BusinessClassificationNew"/>
+                <oer:attribute description="Subclassification for Minority Owned business classification."
+                     name="SubClassification"/>
+                <oer:attribute description="Updated value for sub classification applicable when business classification is Minority Owned."
+                     name="SubClassificationNew"/>
+                <oer:attribute description="Certifying agency unique identifier for a business classification."
+                     name="CertifyingAgencyId"/>
+                <oer:attribute description="Updated value for certifying agency on the business classification record."
+                     name="CertifyingAgencyIdNew"/>
+                <oer:attribute description="Name of the certifying agency associated with a business classification."
+                     name="CertifyingAgency"/>
+                <oer:attribute description="Updated value for certifying agency on the business classification record."
+                     name="CertifyingAgencyNew"/>
+                <oer:attribute description="Indicates whether a certifying agency should be created dynamically if one does not exist. This flag also allows the system to associate the agency with a business classification once created."
+                     name="CreateCertifyingAgencyFlag"/>
+                <oer:attribute description="The certificate number associated with the certifying agency on the business classification record."
+                     name="CertificateNumber"/>
+                <oer:attribute description="The updated certificate number associated with the certifying agency on the business classification record."
+                     name="CertificateNumberNew"/>
+                <oer:attribute description="The start date of the business classification." name="ClassificationStartDate"/>
+                <oer:attribute description="The end date of the business classification." name="ClassificationEndDate"/>
+                <oer:attribute description="Notes allows the user to capture any additional information regarding the classification."
+                     name="Notes"/>
+                <oer:attribute description="Indicates the date on which the business classificaiton record was last verified with the supplier."
+                     name="ConfirmedOnDate"/>
+                <oer:attribute description="Unique identifier of the supplier contact providing the business classification details."
+                     name="ProvidedByContactId"/>
+                <oer:attribute description="The first name of the supplier contact providing the business classification details."
+                     name="ProvidedByContactFirstName"/>
+                <oer:attribute description="The last name of the supplier contact providing the business classification details."
+                     name="ProvidedByContactLastName"/>
+                <oer:attribute description="The email address of the supplier contact providing the business classification details."
+                     name="ProvidedByContactEmail"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:complexType name="SupplierBusinessClassifications">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>ClassificationsInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BusinessClassificationId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="BusinessClassification" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BusinessClassificationNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SubClassification" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SubClassificationNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CertifyingAgencyId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="CertifyingAgencyIdNew" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="CertifyingAgency" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CertifyingAgencyNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CreateCertifyingAgencyFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="CertificateNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CertificateNumberNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ClassificationStartDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="ClassificationEndDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="Notes" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ConfirmedOnDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="ProvidedByContactId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ProvidedByContactFirstName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ProvidedByContactLastName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ProvidedByContactEmail" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierBusinessClassificationsResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierBusinessClassifications"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="supplierBusinessClassifications" type="SupplierBusinessClassifications"/>
+    <xsd:element name="supplierBusinessClassificationsResult" type="SupplierBusinessClassificationsResult"/>
+</xsd:schema>

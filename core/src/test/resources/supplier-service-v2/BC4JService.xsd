@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/adf/svc/types/"
+     sdoJava:package="oracle.jbo.common.service.types" xmlns:errors="http://xmlns.oracle.com/adf/svc/errors/"
+     xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml"
+     xmlns="http://xmlns.oracle.com/adf/svc/types/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/errors/" schemaLocation="ServiceException.xsd"/>
+    <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd"/>
+    <xsd:element name="findCriteria" type="FindCriteria"/>
+    <xsd:complexType name="FindCriteria">
+        <xsd:sequence>
+            <xsd:element default="0" name="fetchStart" type="xsd:int"/>
+            <xsd:element default="-1" name="fetchSize" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="filter" type="ViewCriteria"/>
+            <xsd:element minOccurs="0" name="sortOrder" type="SortOrder"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="findAttribute" type="xsd:string"/>
+            <xsd:element default="false" name="excludeAttribute" type="xsd:boolean"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="childFindCriteria" type="ChildFindCriteria"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ViewCriteria">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="conjunction" type="Conjunction"/>
+            <xsd:element maxOccurs="unbounded" name="group" type="ViewCriteriaRow"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="nested" type="ViewCriteria"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ViewCriteriaRow">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="conjunction" type="Conjunction"/>
+            <xsd:element default="false" name="upperCaseCompare" type="xsd:boolean"/>
+            <xsd:element maxOccurs="unbounded" name="item" type="ViewCriteriaItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ViewCriteriaItem">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="conjunction" type="Conjunction"/>
+            <xsd:element default="false" name="upperCaseCompare" type="xsd:boolean"/>
+            <xsd:element name="attribute" type="xsd:string"/>
+            <xsd:element name="operator" type="xsd:string"/>
+            <xsd:choice>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="xsd:anySimpleType"/>
+                <xsd:element name="nested" type="ViewCriteria"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="Conjunction" sdoJava:instanceClass="java.lang.String">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="And"/>
+            <xsd:enumeration value="Or"/>
+            <xsd:enumeration value="Not"/>
+            <xsd:enumeration value="AndNot"/>
+            <xsd:enumeration value="OrNot"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="SortOrder">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="sortAttribute" type="SortAttribute"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SortAttribute">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element default="false" name="descending" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ChildFindCriteria">
+        <xsd:complexContent>
+            <xsd:extension base="FindCriteria">
+                <xsd:sequence>
+                    <xsd:element name="childAttrName" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="ChangeOperation" sdoJava:instanceClass="java.lang.String">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Create"/>
+            <xsd:enumeration value="Update"/>
+            <xsd:enumeration value="Merge"/>
+            <xsd:enumeration value="Delete"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="findControl" type="FindControl"/>
+    <xsd:complexType name="FindControl">
+        <xsd:sequence>
+            <xsd:element default="false" name="retrieveAllTranslations" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="processControl" type="ProcessControl"/>
+    <xsd:complexType name="ProcessControl">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="returnMode" type="ReturnMode"/>
+            <xsd:element minOccurs="0" name="exceptionReturnMode" type="ReturnMode"/>
+            <xsd:element default="false" name="partialFailureAllowed" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="ReturnMode" sdoJava:instanceClass="java.lang.String">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Full"/>
+            <xsd:enumeration value="Key"/>
+            <xsd:enumeration value="None"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="base64Binary-DataHandler" sdoJava:instanceClass="javax.activation.DataHandler">
+        <xsd:restriction base="xsd:base64Binary"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="dateTime-Timestamp" sdoJava:instanceClass="java.sql.Timestamp">
+        <xsd:restriction base="xsd:dateTime"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="time-Time" sdoJava:instanceClass="java.sql.Time">
+        <xsd:restriction base="xsd:time"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="date-Date" sdoJava:instanceClass="java.sql.Date">
+        <xsd:restriction base="xsd:date"/>
+    </xsd:simpleType>
+    <xsd:complexType name="AmountType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="currencyCode" type="xsd:normalizedString" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MeasureType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="unitCode" type="xsd:normalizedString" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MethodResult">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Message" type="errors:ServiceMessage"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="BigDecimalResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:decimal"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="BigIntegerResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:integer"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="BooleanResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="ByteResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:byte"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="BytesResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:hexBinary"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="TimestampResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:dateTime" sdoXML:dataType="dateTime-Timestamp"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="TimeResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:time" sdoXML:dataType="time-Time"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="DateResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:date" sdoXML:dataType="date-Date"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="DoubleResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:double"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="FloatResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:float"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="IntegerResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="LongResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:long"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="ShortResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:short"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="StringResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="DataHandlerResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="base64Binary-DataHandler"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="DataObjectResult">
+        <xsd:complexContent>
+            <xsd:extension base="MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="xsd:anyType" sdoXML:dataType="sdo:DataObject"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="ObjAttrHints">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="objHint" type="CtrlHint"/>
+            <xsd:element maxOccurs="unbounded" name="attrHints" type="AttrCtrlHints"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AttrCtrlHints">
+        <xsd:sequence>
+            <xsd:element name="attrName" type="xsd:string"/>
+            <xsd:element maxOccurs="unbounded" name="ctrlHint" type="CtrlHint"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CtrlHint">
+        <xsd:sequence>
+            <xsd:element name="key" type="xsd:string"/>
+            <xsd:element name="value" type="xsd:anySimpleType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ServiceViewInfo">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="typeName" type="xsd:string"/>
+            <xsd:element default="false" minOccurs="0" name="canCreate" type="xsd:boolean"/>
+            <xsd:element default="false" minOccurs="0" name="canUpdate" type="xsd:boolean"/>
+            <xsd:element default="false" minOccurs="0" name="canMerge" type="xsd:boolean"/>
+            <xsd:element default="false" minOccurs="0" name="canDelete" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

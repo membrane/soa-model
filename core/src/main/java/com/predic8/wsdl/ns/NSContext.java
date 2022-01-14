@@ -21,19 +21,30 @@ public class NSContext {
 
 	private Map<XMLElement, Stack<Map<String, String>>> stack = new HashMap<>();
 
+	private static boolean enabled = true;
+
+	/**
+	 * Just for test
+	 */
+	public static void enable(boolean value) {
+		NSContext.enabled = value;
+	}
+
 	/**
 	 * Verifies element namespaces and returns next possible entry to avoid override
 	 */
 	public Map.Entry<String, String> namespace(XMLElement element, String prefix, String namespace) {
-		Map<String, String> refs = reference(element, true, false);
-		if (refs != null) {
-			Map<String, String> namespaces = element.namespaces();
-			String ns = namespaces.get(prefix);
-			if (ns != null && !Objects.equals(ns, namespace)) {
-				String next = next(namespaces.keySet(), prefix);
-				if (!next.equals(prefix)) {
-					refs.put(prefix, next);
-					prefix = next;
+		if (enabled) {
+			Map<String, String> refs = reference(element, true, false);
+			if (refs != null) {
+				Map<String, String> namespaces = element.namespaces();
+				String ns = namespaces.get(prefix);
+				if (ns != null && !Objects.equals(ns, namespace)) {
+					String next = next(namespaces.keySet(), prefix);
+					if (!next.equals(prefix)) {
+						refs.put(prefix, next);
+						prefix = next;
+					}
 				}
 			}
 		}
@@ -44,6 +55,9 @@ public class NSContext {
 	 * Returns new prefix value from stack of current loading session
 	 */
 	public String prefix(XMLElement element, String prefix) {
+		if (!enabled) {
+			return prefix;
+		}
 		return reference(element).getOrDefault(prefix, prefix);
 	}
 
@@ -68,6 +82,10 @@ public class NSContext {
 	 * Pushes previous schema namespace references (or creates new if previous missed) in stack. Must be called BEFORE schema.parse
 	 */
 	public void push(Schema schema) {
+		if (!enabled) {
+			return;
+		}
+
 		stack.computeIfAbsent(
 			schema, (k) -> new Stack<>()
 		).push(new HashMap<>());
@@ -77,11 +95,14 @@ public class NSContext {
 	 * Pops current schema namespace references from stack. Must be called AFTER schema.parse
 	 */
 	public void pop(Schema schema) {
+		if (!enabled) {
+			return;
+		}
+
 		if (stack.containsKey(schema)) {
 			stack.get(schema).pop();
 		}
 	}
-
 
 	private static String next(Collection<String> prefixes, String prefix) {
 		if (isEmpty(prefixes) || StringUtils.isEmpty(prefix)) {

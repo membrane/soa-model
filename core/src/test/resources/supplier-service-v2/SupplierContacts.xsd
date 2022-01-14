@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:ns1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierContact/"
+     xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml"
+     xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Contact</name>
+            <description>Entity that captures details of individuals that belong to the
+                supplier organization who work with the buying organization.</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Supplier contact record unique identifier." name="ContactId"/>
+                <oer:attribute description="Indicates the name prefix for a supplier contact." name="Salutation"/>
+                <oer:attribute description="First name of the supplier contact." name="FirstName"/>
+                <oer:attribute description="Updated first name of the supplier contact." name="FirstNameNew"/>
+                <oer:attribute description="Middle name of the supplier contact." name="MiddleName"/>
+                <oer:attribute description="Last name of the supplier contact." name="LastName"/>
+                <oer:attribute description="Updated last name of the supplier contact." name="LastNameNew"/>
+                <oer:attribute description="Job title of the supplier contact." name="JobTitle"/>
+                <oer:attribute description="Indicates whether the supplier contact is the primary administrative contact."
+                     name="AdministrativeContactFlag"/>
+                <oer:attribute description="E-Mail address of the supplier contact." name="EmailAddress"/>
+                <oer:attribute description="Updated value for email address of supplier contact."
+                     name="EmailAddressNew"/>
+                <oer:attribute description="Date on which the supplier contact becomes inactive."
+                     name="InactiveDate"/>
+                <oer:attribute description="Country code for phone." name="PhoneCountryCode"/>
+                <oer:attribute description="Area code for phone." name="PhoneAreaCode"/>
+                <oer:attribute description="Supplier phone number." name="Phone"/>
+                <oer:attribute description="Extension number of the supplier contact phone." name="PhoneExtension"/>
+                <oer:attribute description="Country code for supplier mobile contact." name="MobileCountryCode"/>
+                <oer:attribute description="Area code for supplier mobile contact." name="MobileAreaCode"/>
+                <oer:attribute description="Supplier mobile number." name="Mobile"/>
+                <oer:attribute description="Country code for fax." name="FaxCountryCode"/>
+                <oer:attribute description="Area code for fax." name="FaxAreaCode"/>
+                <oer:attribute description="Supplier fax number." name="Fax"/>
+                <oer:attribute description="An object that enables customers to extend the supplier contacts information."
+                     name="SupplierContactsFlexField"/>
+                <oer:attribute description="Entity that captures the details of addresses associated with supplier contacts."
+                     name="SupplierContactAddresses"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierContact/"
+         schemaLocation="PozSupContactsIntDFF.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd"/>
+    <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
+    <xsd:include schemaLocation="SupplierContactAddresses.xsd"/>
+    <xsd:complexType name="SupplierContactsResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierContacts"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierContacts">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>ContactInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ContactId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="Salutation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FirstName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FirstNameNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="MiddleName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="LastName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="LastNameNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="JobTitle" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AdministrativeContactFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="EmailAddress" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="EmailAddressNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InactiveDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="PhoneCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PhoneAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Phone" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PhoneExtension" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="MobileCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="MobileAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Mobile" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Fax" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SupplierContactsFlexField" type="ns1:PozSupContactsIntDFF"
+                 sdoXML:dataType="sdo:DataObject"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierContactAddresses" type="SupplierContactAddresses"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="supplierContactsResult" type="SupplierContactsResult"/>
+    <xsd:element name="supplierContacts" type="SupplierContacts"/>
+</xsd:schema>

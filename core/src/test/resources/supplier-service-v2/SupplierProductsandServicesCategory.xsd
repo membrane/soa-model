@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:sdoJava="commonj.sdo/java" xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Products and Services Category</name>
+            <description>Entity that captures the products and services categories that
+                the supplier agrees to supply to the buying organization.</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Products and services category identifier." name="ClassificationId"/>
+                <oer:attribute description="Identifies the products and services category type. Valid values are Browsing and Purchasing only."
+                     name="CategoryType"/>
+                <oer:attribute description="Products and services category identifier." name="CategoryId"/>
+                <oer:attribute description="Products and services category identifier." name="CategoryName"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:complexType name="SupplierProductsandServicesCategoryResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierProductsandServicesCategory"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierProductsandServicesCategory">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>CategoriesInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ClassificationId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="CategoryType" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CategoryId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="CategoryName" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="supplierProductsandServicesCategoryResult" type="SupplierProductsandServicesCategoryResult"/>
+    <xsd:element name="supplierProductsandServicesCategory" type="SupplierProductsandServicesCategory"/>
+</xsd:schema>

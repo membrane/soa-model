@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:sdoJava="commonj.sdo/java" xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Site Assignment</name>
+            <description>Entity that models the requisitioning business units that are
+                governed by the procurement business unit and the site it
+                belongs to. The terms and conditions defined at the site are
+                applicable to these business units</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Supplier site assignment record unique identifier." name="SiteAssignmentId"/>
+                <oer:attribute description="Unique identifier of a client BU on a site assignment record."
+                     name="ClientBUId"/>
+                <oer:attribute description="Client business unit identified for a supplier site assignment record."
+                     name="ClientBU"/>
+                <oer:attribute description="Unique identifier of a bill to business unit on a site assignment record."
+                     name="BillToBUId"/>
+                <oer:attribute description="Identifies the bill to business unit on a site assignment record."
+                     name="BillToBU"/>
+                <oer:attribute description="Unique identifier of a ship to location on a site assignment record."
+                     name="ShipToLocationId"/>
+                <oer:attribute description="Ship to location on a site assignment record." name="ShipToLocation"/>
+                <oer:attribute description="Unique identifier of a bill to location on a site assignment record."
+                     name="BillToLocationId"/>
+                <oer:attribute description="Unique identifier of a bill to location on a site assignment record."
+                     name="BillToLocation"/>
+                <oer:attribute description="Whether withholding tax is applicable to the supplier for the specified bill to BU."
+                     name="UseWithholdingTaxFlag"/>
+                <oer:attribute description="Unique withholding tax group identifier on a site assignment record."
+                     name="WithholdingTaxGroupId"/>
+                <oer:attribute description="Identifies the withholding tax group assigned to the supplier site assignment record."
+                     name="WithholdingTaxGroup"/>
+                <oer:attribute description="Unique liability account identifier on a site assignment record."
+                     name="LiabilityDistributionId"/>
+                <oer:attribute description="Liability account on a site assignment record." name="LiabilityDistributionConcatSegments"/>
+                <oer:attribute description="Unique prepayment account identifier on a site assignment record."
+                     name="PrepaymentDistributionId"/>
+                <oer:attribute description="Prepayment account on a site assignment record." name="PrepaymentDistributionConcatSegments"/>
+                <oer:attribute description="Unique bills payable account identifier on a site assignment record."
+                     name="BillPayableDistributionId"/>
+                <oer:attribute description="Bills payable account on a site assignment record." name="BillsPayableDistributionConcatSegments"/>
+                <oer:attribute description="Unique distribution set identifier on a site assignment record."
+                     name="DistributionSetId"/>
+                <oer:attribute description="Distribution set on a site assignment record." name="DistributionSet"/>
+                <oer:attribute description="Date on which the site assignment becomes inactive." name="InactiveDate"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:complexType name="SupplierSiteAssignmentsResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierSiteAssignments"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierSiteAssignments">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>AssignmentInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SiteAssignmentId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ClientBUId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ClientBU" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BillToBUId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="BillToBU" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ShipToLocationId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ShipToLocation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BillToLocationId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="BillToLocation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="UseWithholdingTaxFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="WithholdingTaxGroupId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="WithholdingTaxGroup" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="LiabilityDistributionId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="LiabilityDistributionConcatSegments" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PrepaymentDistributionId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="PrepaymentDistributionConcatSegments" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BillPayableDistributionId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="BillsPayableDistributionConcatSegments" nillable="true"
+                 type="xsd:string"/>
+            <xsd:element minOccurs="0" name="DistributionSetId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="DistributionSet" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InactiveDate" nillable="true" type="ns0:date-Date"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="supplierSiteAssignments" type="SupplierSiteAssignments"/>
+    <xsd:element name="supplierSiteAssignmentsResult" type="SupplierSiteAssignmentsResult"/>
+</xsd:schema>

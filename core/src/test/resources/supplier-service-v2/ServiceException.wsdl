@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions
+    
+     targetNamespace="http://xmlns.oracle.com/adf/svc/errors/"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/adf/svc/errors/"
+    >
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/adf/svc/errors/" schemaLocation="ServiceException.xsd"/>
+        </schema>
+    </types>
+    <message name="ServiceException">
+        <part name="ServiceErrorMessage" element="tns:ServiceErrorMessage"/>
+    </message>
+</definitions>
