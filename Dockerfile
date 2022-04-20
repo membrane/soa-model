@@ -1,15 +1,10 @@
-FROM ubuntu:15.04
+FROM ubuntu:jammy
 
-RUN \
-  apt-get install -y software-properties-common zip curl && \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java7-installer 
-  
+RUN apt-get update && apt-get install -y openjdk-8-jdk-headless curl
+
 RUN  rm -rf /var/lib/apt/lists/* && rm -rf /var/cache/oracle-jdk7-installer
 
-RUN curl -o /maven.tar.gz http://ftp.halifax.rwth-aachen.de/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz && \
+RUN curl -o /maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz && \
   mkdir /maven && \
   cd /maven && \
   tar -xvf /maven.tar.gz && \

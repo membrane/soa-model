@@ -19,5 +19,12 @@ class DiffGeneratorContext implements Cloneable {
 	//List of compared elements to avoid a recursive comparison.
 	List<XMLElement> visited = []
 	String exchange //request, response or fault
+
+	public DiffGeneratorContext clone() {
+		DiffGeneratorContext r = new DiffGeneratorContext()
+		r.visited = visited?.clone()
+		r.exchange = exchange
+		return r
+	}
 }
 

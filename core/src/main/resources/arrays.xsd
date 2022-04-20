@@ -13,6 +13,12 @@
         </xs:sequence>
     </xs:complexType>
     <xs:element name="ArrayOfstring" nillable="true" type="q11:ArrayOfstring"/>
+    <xs:complexType name="ArrayOfint">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="int" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfint" nillable="true" type="q11:ArrayOfint"/>
     <xs:complexType name="ArrayOfunsignedInt">
         <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="unbounded" name="unsignedInt" type="xs:unsignedInt"/>

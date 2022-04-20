@@ -192,7 +192,7 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
     } else if(res.minLengthFacet) {
       ctx.attrs['label'] = "Should be at least ${res.minLengthFacet.value} characters."
     } else if(res.maxLengthFacet){
-      ctx.attrs['label'] = "Should have at most ${res.minLengthFacet.value} characters."
+      ctx.attrs['label'] = "Should have at most ${res.maxLengthFacet.value} characters."
     }
     if(ctx.element) {
       writeInputField(ctx.element ,  ctx)
@@ -209,7 +209,7 @@ class FormCreator extends AbstractSchemaCreator <FormCreatorContext>{
     } else if(res.minLengthFacet) {
       ctx.attrs['label'] = "Should be at least ${res.minLengthFacet.value} characters."
     } else if(res.maxLengthFacet){
-      ctx.attrs['label'] = "Should have at most ${res.minLengthFacet.value} characters."
+      ctx.attrs['label'] = "Should have at most ${res.maxLengthFacet.value} characters."
     }
     //@todo Patternfacet, maxInclusive, lengthFacet must be implemented! 
     if(ctx.element) {
