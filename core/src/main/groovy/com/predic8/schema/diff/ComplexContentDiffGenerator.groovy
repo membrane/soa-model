@@ -47,10 +47,20 @@ class ComplexContentDiffGenerator extends AbstractDiffGenerator{
       return [new Difference(description:"${labelComplexContentChangeRestriction}", type: 'complexContent', breaks:ctx.exchange ? true: null, exchange: a.exchange)]
 		  
     }
-		def lDiffs = compareModel() 
-    if(lDiffs){
-      return [new Difference(description:"${labelComplexContentChange}: " , type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
+
+    if (a.derivation == null && b.derivation == null) {
+        return []
     }
+
+    if (a.derivation != null && b.derivation != null) {
+      def lDiffs = compareModel()
+      if (lDiffs) {
+         return [new Difference(description: "${labelComplexContentChange}: ", type: 'complexContent', diffs: lDiffs, exchange: a.exchange)]
+      }
+    } else {
+      return [new Difference(description:"${labelComplexContentChange}", type: 'complexContent')]
+    }
+
     []
   }
 
