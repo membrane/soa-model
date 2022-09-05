@@ -75,4 +75,16 @@ class AllTest extends GroovyTestCase{
     assertEquals('?XXX?', emp.city.toString())
     assertEquals('', emp.person.isHuman.toString())
   }
+
+  void testAllAnnotation() {
+    def employee = schema.getType(EMPLOYEE_TYPE)
+    def all = employee.model
+    assertNotNull(all)
+    def annotation = all.getAnnotation()
+    assertNotNull( annotation );
+    def documentation = annotation.getDocumentations().first();
+    assertNotNull( documentation );
+    def documentationContent = documentation.content;
+    assertEquals( "Hello world", documentationContent );
+  }
 }
