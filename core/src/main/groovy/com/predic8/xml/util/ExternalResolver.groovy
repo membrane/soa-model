@@ -11,6 +11,7 @@
 
 package com.predic8.xml.util
 
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.apache.http.HttpHost;
@@ -28,6 +29,8 @@ import com.predic8.schema.Include as SchemaInclude
 import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.wadl.Include as WadlInclude
 
+import java.nio.charset.StandardCharsets
+
 class ExternalResolver extends ResourceResolver {
 
 	private static final Logger log = LoggerFactory.getLogger(ExternalResolver.class)
@@ -37,12 +40,12 @@ class ExternalResolver extends ResourceResolver {
 	int timeout = 10000
 
 	def resolve(input, baseDir) {
-		
+
 		if ( input instanceof SchemaImport || input instanceof SchemaInclude) {
 			if ( !input.schemaLocation ) return
 				input = input.schemaLocation
 		}
-		
+
 		if(input instanceof WsdlImport) {
 			if ( !input.location ) return
 			input = input.location
@@ -69,7 +72,7 @@ class ExternalResolver extends ResourceResolver {
 		if(input.startsWith('http:') || input.startsWith('https:')) {
 			return resolveViaHttp(input)
 		}
-		
+
 		if(input.matches(/^([A-Z]|[a-z]):\/.*$/) || input.startsWith('/') || input.startsWith('\\') ){
 			return resolveAsFile(input, null)
 		}
@@ -96,7 +99,7 @@ class ExternalResolver extends ResourceResolver {
 	private resolveAsString(url) {
 		try{
 			HttpResponse con = request(url)
-			EntityUtils.toString(con.entity)
+			convertIfNeed(EntityUtils.toString(con.entity))
 		} catch (ResourceDownloadException e) {
 			throw e
 		} catch (Exception e) {
@@ -124,5 +127,13 @@ class ExternalResolver extends ResourceResolver {
 			throw rde
 		}
 		response
+	}
+
+	private static convertIfNeed(String value) {
+		//avoid exception in com.ctc.wstx.io.ReaderBootstrapper#bootstrapInput
+		if (!StringUtils.isEmpty(value) && value.charAt(0) == 0xEF) {
+			return new String(value.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+		}
+		return value;
 	}
 }

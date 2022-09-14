@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/types/"
+     xmlns:ns0="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" xmlns:ns1="http://xmlns.oracle.com/adf/svc/errors/"
+     xmlns:tns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/types/"
+     xmlns="http://www.w3.org/2001/XMLSchema">
+    <import namespace="http://xmlns.oracle.com/adf/svc/errors/" schemaLocation="ServiceException.xsd"/>
+    <import namespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" schemaLocation="Supplier.xsd"/>
+    <element name="updateSupplier">
+        <complexType>
+            <sequence>
+                <element name="supplierRow" type="ns0:Supplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="updateSupplierResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="createSupplier">
+        <complexType>
+            <sequence>
+                <element name="supplierRow" type="ns0:Supplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="createSupplierResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="createSupplierAsync">
+        <complexType>
+            <sequence>
+                <element name="supplierRow" type="ns0:Supplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="createSupplierAsyncResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="updateSupplierAsync">
+        <complexType>
+            <sequence>
+                <element name="supplierRow" type="ns0:Supplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="updateSupplierAsyncResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

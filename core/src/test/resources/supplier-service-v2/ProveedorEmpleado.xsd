@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
+     xmlns="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:include schemaLocation="PozSupplierIntDFF.xsd"/>
+    <xsd:complexType name="ProveedorEmpleado">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>VendorInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="PozSupplierIntDFF">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="proveedorEmpleado" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="proveedorEmpleado" type="ProveedorEmpleado"/>
+</xsd:schema>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="commonj.sdo" xmlns:sdo="commonj.sdo" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="datagraph" type="sdo:DataGraphType"/>
+    <xsd:complexType name="DataGraphType">
+        <xsd:complexContent>
+            <xsd:extension base="sdo:BaseDataGraphType">
+                <xsd:sequence>
+                    <xsd:any maxOccurs="1" minOccurs="0" namespace="##other" processContents="lax"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType abstract="true" name="BaseDataGraphType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="models" type="sdo:ModelsType"/>
+            <xsd:element minOccurs="0" name="xsd" type="sdo:XSDType"/>
+            <xsd:element minOccurs="0" name="changeSummary" type="sdo:ChangeSummaryType"/>
+        </xsd:sequence>
+        <xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:complexType>
+    <xsd:complexType name="ModelsType">
+        <xsd:annotation>
+            <xsd:documentation>Expected type is emof:Package.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="XSDType">
+        <xsd:annotation>
+            <xsd:documentation>Expected type is xsd:schema.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="http://www.w3.org/2001/XMLSchema"
+                 processContents="lax"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ChangeSummaryType">
+        <xsd:sequence>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+        </xsd:sequence>
+        <xsd:attribute name="create" type="xsd:string"/>
+        <xsd:attribute name="delete" type="xsd:string"/>
+        <xsd:attribute name="logging" type="xsd:boolean"/>
+    </xsd:complexType>
+    <xsd:attribute name="ref" type="xsd:string"/>
+    <xsd:attribute name="unset" type="xsd:string"/>
+</xsd:schema>

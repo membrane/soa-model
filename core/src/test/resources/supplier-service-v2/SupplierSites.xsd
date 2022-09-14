@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:ns1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierSites/"
+     xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml"
+     xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Site</name>
+            <description>Entity that captures the business relationship between a
+                procurement business unit in a buying organization and the
+                supplier. The site captures business terms and conditions as
+                negotiated by the business unit with the supplier.</description>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Supplier site record unique identifier." name="SiteId"/>
+                <oer:attribute description="Name of the supplier site. The name is unique within a procurement BU."
+                     name="SiteName"/>
+                <oer:attribute description="Updated name for the supplier site." name="SiteNameNew"/>
+                <oer:attribute description="Unique identifier of a supplier address identified by the column PARTY_SIDE_ID in TCA."
+                     name="AddressId"/>
+                <oer:attribute description="Supplier address identifier." name="AddressName"/>
+                <oer:attribute description="Identifies the procurement BU to which a site belongs. This attribute combined with SiteName constitutes a unique site identifier."
+                     name="ProcurementBUId"/>
+                <oer:attribute description="The business unit to which the supplier site is associated."
+                     name="ProcurementBU"/>
+                <oer:attribute description="Date on which the supplier site becomes inactive." name="InactiveDate"/>
+                <oer:attribute description="Indicates whether the supplier site  is enabled for Sourcing transactions."
+                     name="SourcingOnlyPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier site can be used for purchasing."
+                     name="PurchasingPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier site can be enabled for Procurement Card transactions."
+                     name="ProcurementCardPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier site is the primary pay site."
+                     name="PayPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier site is the primary pay site."
+                     name="PrimaryPayPurposeFlag"/>
+                <oer:attribute description="Indicates whether the supplier site is a tax reporting site."
+                     name="IncomeTaxReportingSiteFlag"/>
+                <oer:attribute description="Alternate name of the supplier site." name="AlternateSiteName"/>
+                <oer:attribute description="An identifier used by the supplier to identify the buying organization&apos;s site."
+                     name="CustomerNumber"/>
+                <oer:attribute description="The communication method used for documents in B2B procurement transactions."
+                     name="B2BCommunicationMethod"/>
+                <oer:attribute description="The B2B unique identifier for B2B document communication."
+                     name="B2bSupplierSiteCode"/>
+                <oer:attribute description="Indicates the preferred method of notification for suppliers. This is used if set for a supplier site, as a default on purchasing documents. Seeded values are NONE, FAX, EMAIL and PRINT."
+                     name="CommunicationMethod"/>
+                <oer:attribute description="E-Mail address if the communication method on the supplier site is EMAIL."
+                     name="EmailAddress"/>
+                <oer:attribute description="Fax country code if the communication method on the supplier site is FAX."
+                     name="FaxCountryCode"/>
+                <oer:attribute description="Fax area code if the communication method on the supplier site is FAX."
+                     name="FaxAreaCode"/>
+                <oer:attribute description="Fax number for communication method of Fax on a supplier site."
+                     name="Fax"/>
+                <oer:attribute description="Indicates whether the supplier site  is enabled for Sourcing transactions."
+                     name="HoldAllNewPurchasingDocumentsFlag"/>
+                <oer:attribute description="Indicates the reason why the supplier site is being placed on purchasing hold."
+                     name="HoldReason"/>
+                <oer:attribute description="Carrier unique identifier." name="CarrierId"/>
+                <oer:attribute description="Carrier name that indicates the shipping method used on the supplier site."
+                     name="Carrier"/>
+                <oer:attribute description="Attribute that is part of the carrier definition used to define a shipping method on a supplier site."
+                     name="ModeOfTransport"/>
+                <oer:attribute description="Attribute that is part of the carrier definition used to define a shipping method on a supplier site."
+                     name="ServiceLevel"/>
+                <oer:attribute description="Freight terms for the supplier site." name="FreightTerms"/>
+                <oer:attribute description="Indicates whether the supplier site support pay on receipt. Valid values are Y or N."
+                     name="PayOnReceiptFlag"/>
+                <oer:attribute description="Free on board setting on the supplier site." name="FOB"/>
+                <oer:attribute description="Country of origin setup on the supplier site for freight computations."
+                     name="CountryOfOrigin"/>
+                <oer:attribute description="Indicates whether the transportation is managed by the buyer. Valid values are Null, Y and N."
+                     name="BuyerManagedTransportationFlag"/>
+                <oer:attribute description="Indicates whether the supplier site supports pay on use. Valid values are Y or N."
+                     name="PayOnUseFlag"/>
+                <oer:attribute description="Indicates the mutually agreed event point between the supplier and the buying organization at which consigned material begins to age."
+                     name="AgingOnsetPoint"/>
+                <oer:attribute description="The setting that defines the maximum number of days that material can be on consignment."
+                     name="AgingPeriodDays"/>
+                <oer:attribute description="The frequency at which the &apos;Create Consumption Advice&apos; program will be run for  all consumption transactions for consigned inventory purchased under one  agreement."
+                     name="ConsumptionAdviceFrequency"/>
+                <oer:attribute description="The granularity at which consumption advices will be generated."
+                     name="ConsumptionAdviceSummary"/>
+                <oer:attribute description="Unique identifier of an alternate pay site." name="AlternatePaySiteId"/>
+                <oer:attribute description="Name of the alternate pay site. The name is unique within a procurement BU for a given supplier."
+                     name="AlternatePaySite"/>
+                <oer:attribute description="Indicates how invoices of this supplier site would be grouped and summarised during creation."
+                     name="InvoiceSummaryLevel"/>
+                <oer:attribute description="Indicates if the invoice sequencing should be gap less."
+                     name="GaplessInvoiceNumberingFlag"/>
+                <oer:attribute description="Unique selling company identifier and is required to be used if using gap less invoice  numbering."
+                     name="SellingCompanyIdentifier"/>
+                <oer:attribute description="Indicates if a debit memo should be created from the return transaction for this supplier site."
+                     name="CreateDebitMemoFromReturnFlag"/>
+                <oer:attribute description="Indicates the action that needs to be taken if the receiving location differs from the original ship-to location."
+                     name="ShipToExceptionAction"/>
+                <oer:attribute description="Indicates how the system should route receipts for this supplier site."
+                     name="ReceiptRouting"/>
+                <oer:attribute description="Indicates what the allowed tolerance is set at for over receiving."
+                     name="OverReceiptTolerance"/>
+                <oer:attribute description="Indicates the action to be taken in case of an over receipt that is outside the tolerance level set."
+                     name="OverReceiptAction"/>
+                <oer:attribute description="Indicates the threshold limit set for early receipts."
+                     name="EarlyReceiptToleranceInDays"/>
+                <oer:attribute description="Indicates the threshold limit set for late receipts."
+                     name="LateReceiptToleranceInDays"/>
+                <oer:attribute description="Indicates if substitute receipts is permitted for this supplier site."
+                     name="AllowSubstituteReceiptsFlag"/>
+                <oer:attribute description="Indicates if unordered receipts is permitted for this supplier site."
+                     name="AllowUnorderedReceiptsFlag"/>
+                <oer:attribute description="Indicates the action to be taken if items are received outside the tolerance days set for this supplier site."
+                     name="ReceiptDateException"/>
+                <oer:attribute description="Indicates the currency in which the invoice is created."
+                     name="InvoiceCurrency"/>
+                <oer:attribute description="Indicates the default currency for invoices generated for this supplier site."
+                     name="InvoiceAmountLimit"/>
+                <oer:attribute description="Indicates if the invoice is to be matched against a purchase order, receipt or a consumption advice."
+                     name="InvoiceMatchOption"/>
+                <oer:attribute description="Indicates how an invoice is to be matched for payment purposes."
+                     name="MatchApprovalLevel"/>
+                <oer:attribute description="Indicates the currency in which payment for an invoice is to be made."
+                     name="PaymentCurrency"/>
+                <oer:attribute description="Indicates the priority to be assigned to an invoice during a payment run."
+                     name="PaymentPriority"/>
+                <oer:attribute description="Unique withholding tax group identifier on a site assignment record."
+                     name="PayGroup"/>
+                <oer:attribute description="Unique identifier of the tolerance value setup for quantity variances on an invoice."
+                     name="QuantityTolerancesId"/>
+                <oer:attribute description="The tolerance levels to be applied to quantity when an invoice is created for this supplier site."
+                     name="QuantityTolerances"/>
+                <oer:attribute description="Unique identifier of the tolerance value setup for invoice amount variances."
+                     name="AmountTolerancesId"/>
+                <oer:attribute description="The tolerance levels to be applied to invoice amount when an invoice is created for this supplier site."
+                     name="AmountTolerances"/>
+                <oer:attribute description="Indicates if all invoices generated for the supplier site should be put on system hold."
+                     name="HoldAllInvoicesFlag"/>
+                <oer:attribute description="Indicates if all unmatched invoices generated for the supplier site should be put on system hold."
+                     name="HoldUnmatchedInvoices"/>
+                <oer:attribute description="Indicates if all unvalidated invoices generated for the supplier site should be put on system hold."
+                     name="HoldUnvalidatedInvoicesFlag"/>
+                <oer:attribute description="Indicates the date on which the supplier site was placed on invoice hold. This attribute is used only when the user updates the attribute HoldUnmatchedInvoices."
+                     name="PaymentHoldDate"/>
+                <oer:attribute description="Indicates the reason that the invoices generated for this supplier site are placed on hold."
+                     name="PaymentHoldReason"/>
+                <oer:attribute description="Payment terms unique identifier." name="PaymentTermsId"/>
+                <oer:attribute description="Payment terms for the supplier site." name="PaymentTerms"/>
+                <oer:attribute description="Indicates the date from which payment due is computed on an invoice."
+                     name="TermsDateBasis"/>
+                <oer:attribute description="Indicates the date from which payment run is to be scheduled for invoices."
+                     name="PayDateBasis"/>
+                <oer:attribute description="Indicates whether and how bank charges are to be deducted during payment of an invoice. Valid values are D, N, X and S."
+                     name="BankChargeDeductionType"/>
+                <oer:attribute description="Indicates if discount should be availed automatically on payment. Valid values are Y, N and D."
+                     name="AlwaysTakeDiscount"/>
+                <oer:attribute description="Indicates if freight should be excluded from discount calculations. Valid values are Y, N and D."
+                     name="ExcludeFreightFromDiscount"/>
+                <oer:attribute description="Indicates if tax should be excluded from discount calculations. Valid values are Y, N and D."
+                     name="ExcludeTaxFromDiscount"/>
+                <oer:attribute description="Indicates if interest invoices are to be created automatically. Valid values are Y, N and D."
+                     name="CreateInterestInvoices"/>
+                <oer:attribute description="Indicates if the purchasing document created using this supplier site requires acknowledgment and the mode of acknowledgment. Valid values are  &apos;D&apos;, &apos;Y&apos; and &apos;N&apos; where D is for &apos;Documents&apos;, Y is for &apos;Documents and Schedule&apos; and N is for None."
+                     name="RequiredAcknowledgement"/>
+                <oer:attribute description="Indicates the number of days within which the acknowledge on the purchasing document is to be provided."
+                     name="AcknowledgeWithinDays"/>
+                <oer:attribute description="Supplier site attribute to capture the invoice channel information."
+                     name="InvoiceChannel"/>
+                <oer:attribute description="Entity that models the requisitioning business units that are governed by the procurement business unit and the site it belongs to. The terms and conditions defined at the site are applicable to these business units."
+                     name="SupplierSiteAssignments"/>
+                <oer:attribute description="An object that enables customers to extend the supplier sites information."
+                     name="SupplierSitesFlexField"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierSites/"
+         schemaLocation="PozSupplierSitesIntDFF.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd"/>
+    <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
+    <xsd:include schemaLocation="SupplierSiteAssignments.xsd"/>
+    <xsd:complexType name="SupplierSites">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>VendorSiteInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SiteId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="SiteName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SiteNameNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="AddressName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ProcurementBUId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ProcurementBU" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InactiveDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="SourcingOnlyPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="PurchasingPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="ProcurementCardPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="PayPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="PrimaryPayPurposeFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="IncomeTaxReportingSiteFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="AlternateSiteName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CustomerNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="B2BCommunicationMethod" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="B2bSupplierSiteCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CommunicationMethod" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="EmailAddress" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxCountryCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FaxAreaCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Fax" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="HoldAllNewPurchasingDocumentsFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="HoldReason" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CarrierId" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="Carrier" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ModeOfTransport" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ServiceLevel" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FreightTerms" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PayOnReceiptFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="FOB" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CountryOfOrigin" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BuyerManagedTransportationFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="PayOnUseFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="AgingOnsetPoint" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AgingPeriodDays" nillable="true" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="ConsumptionAdviceFrequency" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ConsumptionAdviceSummary" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AlternatePaySiteId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="AlternatePaySite" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InvoiceSummaryLevel" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="GaplessInvoiceNumberingFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="SellingCompanyIdentifier" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CreateDebitMemoFromReturnFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="ShipToExceptionAction" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ReceiptRouting" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="OverReceiptTolerance" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="OverReceiptAction" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="EarlyReceiptToleranceInDays" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="LateReceiptToleranceInDays" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="AllowSubstituteReceiptsFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="AllowUnorderedReceiptsFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="ReceiptDateException" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InvoiceCurrency" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InvoiceAmountLimit" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="InvoiceMatchOption" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="MatchApprovalLevel" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PaymentCurrency" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PaymentPriority" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="PayGroup" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="QuantityTolerancesId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="QuantityTolerances" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AmountTolerancesId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="AmountTolerances" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="HoldAllInvoicesFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="HoldUnmatchedInvoices" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="HoldUnvalidatedInvoicesFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="PaymentHoldDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="PaymentHoldReason" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PaymentTermsId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="PaymentTerms" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="TermsDateBasis" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PayDateBasis" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BankChargeDeductionType" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AlwaysTakeDiscount" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ExcludeFreightFromDiscount" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ExcludeTaxFromDiscount" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CreateInterestInvoices" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="RequiredAcknowledgement" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AcknowledgeWithinDays" nillable="true" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="InvoiceChannel" nillable="true" type="xsd:string"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierSiteAssignments" type="SupplierSiteAssignments"/>
+            <xsd:element minOccurs="0" name="SupplierSitesFlexField" type="ns1:PozSupplierSitesIntDFF"
+                 sdoXML:dataType="sdo:DataObject"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierSitesResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierSites"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="supplierSites" type="SupplierSites"/>
+    <xsd:element name="supplierSitesResult" type="SupplierSitesResult"/>
+</xsd:schema>

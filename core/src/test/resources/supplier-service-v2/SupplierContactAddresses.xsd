@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:sdoJava="commonj.sdo/java" xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier Contact Address</name>
+            <description>Entity that captures the details of addresses associated with
+                supplier contacts.</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Indicates the action that needs to be taken for the specific record in the web service."
+                     name="Operation"/>
+                <oer:attribute description="Unique identifier of a supplier address identified by the column PARTY_SIDE_ID in TCA."
+                     name="AddressId"/>
+                <oer:attribute description="Name of the supplier address." name="AddressName"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:complexType name="SupplierContactAddresses">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>ContactAddressInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Operation" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AddressId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="AddressName" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierContactAddressesResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="SupplierContactAddresses"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="supplierContactAddressesResult" type="SupplierContactAddressesResult"/>
+    <xsd:element name="supplierContactAddresses" type="SupplierContactAddresses"/>
+</xsd:schema>

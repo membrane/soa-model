@@ -27,7 +27,7 @@ abstract class AbstractParser{
 
 	def resourceResolver = new ExternalResolver()
 
-	
+
 		protected parse(AbstractParserContext ctx) {
 		updatectx(ctx)
 		log.debug("AbstractParser: ctx.newBaseDir: ${ctx.newBaseDir} , ctx.input: " + ctx.input)
@@ -44,13 +44,16 @@ abstract class AbstractParser{
 	}
 
 	private getResourceToken(ctx) {
-		getToken(resourceResolver.resolve(ctx.input, ctx.baseDir))
+		getToken(resourceResolver.resolve(ctx.input, ctx.baseDir), ctx)
 	}
 
-	private getToken(res) {
-		def inputFactory = XMLInputFactory.newInstance()
-		inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
-		inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+	private getToken(res, ctx) {
+		def inputFactory = ctx.xmlInputFactory
+		if (inputFactory == null) {
+			inputFactory = XMLInputFactory.newInstance()
+			inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
+			inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+		}
 		inputFactory.createXMLStreamReader(res)
 	}
 }

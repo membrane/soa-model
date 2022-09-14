@@ -130,6 +130,11 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 				<artifactId>commons-cli</artifactId>
 				<version>1.3.1</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.12.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

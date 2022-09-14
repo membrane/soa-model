@@ -17,7 +17,10 @@ package com.predic8.soamodel
 import com.predic8.ParserImportedSchemaCache
 import com.predic8.schema.Import
 import com.predic8.schema.Schema
+import com.predic8.wsdl.ns.NSContext
 import com.predic8.xml.util.ResourceResolver
+
+import javax.xml.stream.XMLInputFactory
 
 abstract class AbstractParserContext {
 
@@ -31,6 +34,10 @@ abstract class AbstractParserContext {
   def wsiResults = []
 	def errors = []
 	def validated = []
+
+  def ns = new NSContext()
+
+  XMLInputFactory xmlInputFactory = null
 
   //TODO ITHENA what with Included schema's? (com.predic8.schema.Include & com.predic8.wadl.Include)
   ParserImportedSchemaCache importedSchemaCache = new ParserImportedSchemaCache()

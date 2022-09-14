@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+     sdoJava:package="oracle.apps.prc.poz.suppliers.supplierServiceV2" xmlns:ns0="http://xmlns.oracle.com/adf/svc/types/"
+     xmlns:ns1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
+     xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml"
+     xmlns="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xmlns:oer="http://xmlns.oracle.com/oer">
+            <name>Supplier</name>
+            <description>Supplier and child entities Information which are either going
+                to be created or updated</description>
+            <oer:category name="lba">
+                <value>PrcTop-Procurement</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model</value>
+                <value>PrcTop-Procurement : PrcPozTop-Supplier Model :
+                    PrcPozSuppliers-Suppliers</value>
+            </oer:category>
+            <oer:attributes>
+                <oer:attribute description="Supplier unique identifier. The value can be obtained from the VENDOR_ID column in the POZ_SUPPLIERS table."
+                     name="SupplierId"/>
+                <oer:attribute description="The name of the supplier." name="Supplier"/>
+                <oer:attribute description="New value provided for supplier name. Valid only for Update operation."
+                     name="SupplierNew"/>
+                <oer:attribute description="Supplier number. If you plan to use automatic supplier numbering then no value needs to be provided here."
+                     name="SupplierNumber"/>
+                <oer:attribute description="The alternate name of the supplier." name="AlternateName"/>
+                <oer:attribute description="The tax organization type for the supplier. Values include, Corporation, Foreign Corporation, Individual etc."
+                     name="TaxOrganizationType"/>
+                <oer:attribute description="Supplier type." name="SupplierType"/>
+                <oer:attribute description="Date on which the supplier ceases to be active." name="InactiveDate"/>
+                <oer:attribute description="Business relationship for the supplier. Valid values are Prospective and Spend Authorized."
+                     name="BusinessRelationship"/>
+                <oer:attribute description="Indicates whether the business classification is applicable for the supplier."
+                     name="BusinessClassificationNotApplicableFlag"/>
+                <oer:attribute description="Id of the parent supplier that is associated with the current supplier record."
+                     name="ParentSupplierId"/>
+                <oer:attribute description="Parent Supplier name that is associated with the current supplier record."
+                     name="ParentSupplierName"/>
+                <oer:attribute description="Additional name to identify the supplier for the buying organization."
+                     name="Alias"/>
+                <oer:attribute description="Additional name to identify the supplier for the buying organization."
+                     name="DUNSNumber"/>
+                <oer:attribute description="Indicates whether the supplier is identified as a one-time supplier."
+                     name="OneTimeSupplierFlag"/>
+                <oer:attribute description="An identifier used by the supplier to identify the buying organization."
+                     name="CustomerNumber"/>
+                <oer:attribute description="A code that uniquely identifies the supplier organization used in several countries to classify organizations based on industry areas. In the US, it is typically represented by a 4 digit code used primarily in government agencies."
+                     name="StandardIndustryClassification"/>
+                <oer:attribute description="A unique identifier typically representing suppilers that are individuals. The national identification number is used in several countries to track individuals for the purposes of work, taxation and government benefits."
+                     name="NationalInsuranceNumber"/>
+                <oer:attribute description="Website of the supplier." name="CorporateWebsite"/>
+                <oer:attribute description="Supplier profile information indicating the year the supplier was established."
+                     name="YearEstablished"/>
+                <oer:attribute description="Supplier profile information indicating the year the supplier was incorporated."
+                     name="YearIncorporated"/>
+                <oer:attribute description="Supplier profile information capturing the title of the Chief Executive Officer of the supplier organization."
+                     name="ChiefExecutiveTitle"/>
+                <oer:attribute description="Supplier profile information capturing the name of the Chief Executive Officer of the supplier organization."
+                     name="ChiefExecutiveName"/>
+                <oer:attribute description="Supplier profile information capturing the title of the principal officer of the supplier organization."
+                     name="PrincipalTitle"/>
+                <oer:attribute description="Supplier profile information capturing the name of the principal officer of the supplier organization."
+                     name="PrincipalName"/>
+                <oer:attribute description="Month in which the fiscal year ends in the supplier organization."
+                     name="FiscalYearEndMonth"/>
+                <oer:attribute description="The supplier organization&amp;apos;s potential revenue for the current fiscal year."
+                     name="CurrentFiscalYearPotentialRevenue"/>
+                <oer:attribute description="Organization&apos;s default currency code." name="Currency"/>
+                <oer:attribute description="Country of the supplier organization responsible for taxation."
+                     name="TaxPayerCountry"/>
+                <oer:attribute description="Unique tax identifier of the supplier organization." name="TaxpayerId"/>
+                <oer:attribute description="Indicates whether the supplier is reportable under federal taxation laws. Valid values are TRUE or FALSE."
+                     name="FederalReportableFlag"/>
+                <oer:attribute description="Represents the 1099 Type applicable to the supplier that is federal reportable and used for tax reporting."
+                     name="FederalIncomeTaxType"/>
+                <oer:attribute description="Indicates whether the supplier is reportable under state taxation laws. Valid values are TRUE or FALSE."
+                     name="StateReportableFlag"/>
+                <oer:attribute description="Name of the organization as displayed for 1099 reporting purposes."
+                     name="TaxReportingName"/>
+                <oer:attribute description="Name identifier for the supplier organization." name="NameControl"/>
+                <oer:attribute description="Indicates the date on which the 1099 Tax details were last received from the supplier."
+                     name="TaxVerificationDate"/>
+                <oer:attribute description="Indicates whether the withholding tax is applicable to the supplier."
+                     name="UseWithholdingTaxFlag"/>
+                <oer:attribute description="Unique withholding tax group identifier on a supplier record."
+                     name="WithholdingTaxGroupId"/>
+                <oer:attribute description="Identifies the withholding tax group assigned to the supplier record."
+                     name="WithholdingTaxGroup"/>
+                <oer:attribute description="A unique identifier of the supplier record from an external system. This is used to carry a reference from the source system for the supplier."
+                     name="ExternalSystemId"/>
+                <oer:attribute description="Original system reference details of the supplier record as stored in an external system. This is used to carry reference information from the source system for the supplier."
+                     name="ExternalSystem"/>
+                <oer:attribute description="Entity that captures the details of diversity classifications to which the supplier belongs."
+                     name="SupplierBusinessClassifications"/>
+                <oer:attribute description="Entity that captures the business relationship between a procurement business unit in a buying organization and the supplier. The site captures business terms and conditions as negotiated by the business unit with the supplier."
+                     name="SupplierSites"/>
+                <oer:attribute description="Entity that captures the products and services categories that the supplier agrees to supply to the buying organization."
+                     name="SupplierProductsandServicesCategory"/>
+                <oer:attribute description="Entity that captures the physical location of business that the supplier uses to conduct procurement activity."
+                     name="SupplierAddresses"/>
+                <oer:attribute description="An object that enables customers to extend the supplier information."
+                     name="SupplierFlexField"/>
+                <oer:attribute description="Entity that captures details of individuals that belong to the supplier organization who work with the buying organization."
+                     name="SupplierContacts"/>
+            </oer:attributes>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.oracle.com/adf/svc/types/" schemaLocation="BC4JService.xsd"/>
+    <xsd:import namespace="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
+         schemaLocation="PozSupplierIntDFF.xsd"/>
+    <xsd:import namespace="commonj.sdo/java" schemaLocation="sdoJava.xsd"/>
+    <xsd:import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd"/>
+    <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
+    <xsd:include schemaLocation="SupplierBusinessClassifications.xsd"/>
+    <xsd:include schemaLocation="SupplierSites.xsd"/>
+    <xsd:include schemaLocation="SupplierProductsandServicesCategory.xsd"/>
+    <xsd:include schemaLocation="SupplierAddresses.xsd"/>
+    <xsd:include schemaLocation="SupplierContacts.xsd"/>
+    <xsd:complexType name="Supplier">
+        <xsd:annotation>
+            <xsd:appinfo source="http://xmlns.oracle.com/adf/svc/metadata/">
+                <key xmlns="http://xmlns.oracle.com/adf/svc/metadata/">
+                    <attribute>VendorInterfaceId</attribute>
+                </key>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="SupplierId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="Supplier" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SupplierNew" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SupplierNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="AlternateName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="TaxOrganizationType" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="SupplierType" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="InactiveDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="BusinessRelationship" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="BusinessClassificationNotApplicableFlag" nillable="true"
+                 type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="ParentSupplierId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ParentSupplierName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="Alias" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="DUNSNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="OneTimeSupplierFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="CustomerNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="StandardIndustryClassification" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="NationalInsuranceNumber" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CorporateWebsite" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="YearEstablished" nillable="true" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="YearIncorporated" nillable="true" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="ChiefExecutiveTitle" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ChiefExecutiveName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PrincipalTitle" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="PrincipalName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FiscalYearEndMonth" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="CurrentFiscalYearPotentialRevenue" nillable="true" type="xsd:decimal"/>
+            <xsd:element minOccurs="0" name="Currency" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="TaxPayerCountry" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="TaxpayerId" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="FederalReportableFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="FederalIncomeTaxType" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="StateReportableFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="TaxReportingName" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="NameControl" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="TaxVerificationDate" nillable="true" type="ns0:date-Date"/>
+            <xsd:element minOccurs="0" name="UseWithholdingTaxFlag" nillable="true" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="WithholdingTaxGroupId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="WithholdingTaxGroup" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="ExternalSystemId" nillable="true" type="xsd:long"/>
+            <xsd:element minOccurs="0" name="ExternalSystem" nillable="true" type="xsd:string"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierBusinessClassifications"
+                 type="SupplierBusinessClassifications"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierSites" type="SupplierSites"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierProductsandServicesCategory"
+                 type="SupplierProductsandServicesCategory"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierAddresses" type="SupplierAddresses"/>
+            <xsd:element minOccurs="0" name="SupplierFlexField" type="ns1:PozSupplierIntDFF" sdoXML:dataType="sdo:DataObject"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SupplierContacts" type="SupplierContacts"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SupplierResult">
+        <xsd:complexContent>
+            <xsd:extension base="ns0:MethodResult">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Value" type="Supplier"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="supplierResult" type="SupplierResult"/>
+    <xsd:element name="supplier" type="Supplier"/>
+</xsd:schema>
