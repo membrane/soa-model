@@ -242,7 +242,10 @@ class RequestTemplateCreator extends AbstractSchemaCreator <RequestTemplateCreat
 		/*Only if the element is from the same namespace as the 
 		* top-level-element of the request, it doesn't need a prefix.
 		*/
-		if(!element.toplevel && element.schema.elementFormDefault=="unqualified" && ctx.elements[0].namespaceUri == element.namespaceUri)
+		if(!element.toplevel 
+                && element.schema.elementFormDefault == "unqualified"
+                && ctx.elements[0].namespaceUri == element.namespaceUri
+                && getNSPrefix(element, ctx) == '')
 			return element.name
 		else
 			return "${getNSPrefix(element, ctx)}:${element.name}"

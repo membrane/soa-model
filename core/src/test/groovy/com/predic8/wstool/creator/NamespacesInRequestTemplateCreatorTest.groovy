@@ -64,7 +64,7 @@ class NamespacesInRequestTemplateCreatorTest extends GroovyTestCase{
     wsdl.getInputElementForOperation('ArticleServicePT', 'create').create(creator, new RequestTemplateCreatorContext())
     def request = strWriter.toString()
     assert request =~ /<ns1:create/   
-    assert request =~ /<article/
+    assert request =~ /<ns1:article/
     assert request =~ /<ns2:name/
     assert request =~ /<ns2:description/
     assert request =~ /<ns2:price/

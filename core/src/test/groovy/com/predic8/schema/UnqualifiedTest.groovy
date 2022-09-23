@@ -79,11 +79,11 @@ class UnqualifiedTest extends GroovyTestCase{
     schema.getElement('address').create(creator, new RequestTemplateCreatorContext())
     def request = strWriter.toString()
     assert request =~ /<.*?:address/   
-    assert request =~ /<name/
-    assert request =~ /<location/
-    assert request =~ /<city/
-    assert request =~ /<phone/    
-    assert request =~ /<numbers/    
+    assert request =~ /<.*?:name/
+    assert request =~ /<.*?:location/
+    assert request =~ /<.*?:city/
+    assert request =~ /<.*?:phone/    
+    assert request =~ /<.*?:numbers/    
   }
   
 }
