@@ -69,7 +69,7 @@ abstract class XMLElement {
 
 	protected parseText(text){}
 
-	abstract protected getElementName()
+	abstract getElementName()
 
 	private isEndTagReached(token){
 		if(! token.endElement) return false
