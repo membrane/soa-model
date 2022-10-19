@@ -14,10 +14,12 @@
 
 package com.predic8.schema.restriction
 
-import com.predic8.wstool.creator.FormCreatorContext;
+import com.predic8.wstool.creator.FormCreatorContext
+import groovy.test.GroovyTestCase;
 import junit.framework.TestCase
 import javax.xml.stream.*
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.xml.util.*
 import com.predic8.schema.*

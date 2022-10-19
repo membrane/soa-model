@@ -50,6 +50,10 @@ class Types extends WSDLElement {
   void create(AbstractCreator creator, CreatorContext ctx){
     creator.createTypes(this, ctx)
   }
-	
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 

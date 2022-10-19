@@ -14,6 +14,8 @@
 
 package com.predic8.xml.namespace
 
+import groovy.test.GroovyTestCase
+
 import javax.xml.stream.*
 
 import com.predic8.soamodel.*

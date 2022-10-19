@@ -11,6 +11,7 @@
 
 package com.predic8.wsdl
 
+import groovy.test.GroovyTestCase
 import junit.framework.TestCase
 import javax.xml.stream.*
 

@@ -17,7 +17,7 @@ package com.predic8.schema;
 import java.util.List;
 import com.predic8.wstool.creator.*
 import com.predic8.xml.util.PrefixedName
-import groovy.xml.QName
+import groovy.namespace.QName
 import javax.xml.namespace.QName as JQName
 
 abstract class ModelGroup extends SchemaComponent{
@@ -94,6 +94,6 @@ abstract class ModelGroup extends SchemaComponent{
   }
   
   String toString(){
-    "$elementName[particles=$particles]"
+    "${getElementName()}[particles=$particles]"
   }
 }

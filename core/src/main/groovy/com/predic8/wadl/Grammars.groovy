@@ -51,4 +51,9 @@ class Grammars extends WADLElement {
 	String toString() {
 		"grammer[docs: $docs, includes: $includes]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

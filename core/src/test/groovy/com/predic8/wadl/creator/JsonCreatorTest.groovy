@@ -5,6 +5,7 @@ import groovy.json.JsonBuilder
 import com.predic8.schema.Schema
 import com.predic8.schema.SchemaParser
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class JsonCreatorTest extends GroovyTestCase {
 

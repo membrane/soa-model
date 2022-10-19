@@ -40,5 +40,10 @@ public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'bindin
   void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createHTTPBinding(this, ctx)
   }
+
+    JQName getElementName() {
+        ELEMENTNAME
+    }
+
 }
 

@@ -14,9 +14,11 @@
 
 package com.predic8.wstool.creator
 
-import com.predic8.schema.SchemaParser;
+import com.predic8.schema.SchemaParser
+import groovy.test.GroovyTestCase;
 import junit.framework.TestCase
 import groovy.xml.*
+import groovy.namespace.*
 import com.predic8.xml.util.*
 
 

@@ -15,8 +15,9 @@
 package com.predic8.wsdl
 
 import com.predic8.wsdl.creator.WSDLCreator 
-import com.predic8.wsdl.creator.WSDLCreatorContext 
-import groovy.xml.MarkupBuilder 
+import com.predic8.wsdl.creator.WSDLCreatorContext
+import groovy.test.GroovyTestCase
+import groovy.xml.MarkupBuilder
 import com.predic8.xml.util.*
 
 class ImportRelativeTest extends GroovyTestCase{

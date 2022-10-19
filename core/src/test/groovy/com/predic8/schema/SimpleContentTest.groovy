@@ -14,9 +14,11 @@
 
 package com.predic8.schema
 
-import groovy.xml.QName
+import groovy.namespace.QName
 import com.predic8.xml.util.*
-import com.predic8.schema.diff.SchemaDiffGenerator 
+import com.predic8.schema.diff.SchemaDiffGenerator
+import groovy.test.GroovyTestCase
+import groovy.xml.XmlSlurper
 
 class SimpleContentTest extends GroovyTestCase {
   

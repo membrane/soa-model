@@ -20,6 +20,7 @@ import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.WSDLParser
 import com.predic8.wsdl.WSDLParserContext
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class SchemaValidatorTest extends GroovyTestCase {
   

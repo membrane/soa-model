@@ -14,6 +14,8 @@
 
 package com.predic8.schema.creator
 
+import groovy.test.GroovyTestCase
+
 class SchemaCreatorContextTest extends GroovyTestCase{
   
   void testClone() {

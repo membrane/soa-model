@@ -14,7 +14,7 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import javax.xml.namespace.QName as JQName
 
@@ -69,4 +69,9 @@ class Message extends WSDLElement {
   String toString() {
     "message[qname:${getQname()}]"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

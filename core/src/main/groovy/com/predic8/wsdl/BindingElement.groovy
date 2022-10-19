@@ -14,7 +14,7 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import com.predic8.soamodel.*
 import com.predic8.wsi.*

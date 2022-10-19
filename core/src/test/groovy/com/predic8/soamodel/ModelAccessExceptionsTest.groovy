@@ -6,6 +6,7 @@ import com.predic8.wsdl.PortType;
 import com.predic8.wsdl.WSDLParser
 import com.predic8.wsdl.WSDLVersion2NotSupportedException;
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class ModelAccessExceptionsTest extends GroovyTestCase {
 	

@@ -30,4 +30,9 @@ class SOAPBinding extends AbstractSOAPBinding{
   String getProtocol(){
     "SOAP12"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

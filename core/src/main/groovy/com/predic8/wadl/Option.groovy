@@ -30,4 +30,9 @@ class Option extends WADLElement {
 	String toString() {
 		"option[]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

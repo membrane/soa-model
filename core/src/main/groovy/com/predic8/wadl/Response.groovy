@@ -52,4 +52,9 @@ class Response extends WADLElement {
 	String toString() {
 		"response[status: $status, params: $params, representations: $representations]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

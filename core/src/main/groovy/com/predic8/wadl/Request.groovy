@@ -41,4 +41,9 @@ class Request extends WADLElement {
 	String toString() {
 		"request[params: $params, representations: $representations]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

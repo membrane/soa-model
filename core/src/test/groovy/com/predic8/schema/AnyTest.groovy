@@ -14,6 +14,8 @@
 
 package com.predic8.schema
 
+import groovy.test.GroovyTestCase
+
 import javax.xml.stream.*
 
 import com.predic8.schema.creator.*
@@ -21,6 +23,7 @@ import com.predic8.wstool.creator.*
 import com.predic8.xml.util.*
 
 import groovy.xml.*
+import groovy.namespace.*
 class AnyTest extends GroovyTestCase{
   
   def schema

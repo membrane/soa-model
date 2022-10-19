@@ -21,6 +21,10 @@ class Fault extends AbstractPortTypeMessage {
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'fault')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 
 

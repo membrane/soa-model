@@ -88,4 +88,9 @@ class BindingOperation extends WSDLElement{
   String toString() {
     "bindingOperation[name=$name, operation=$operation, inputUse=${input?.bindingElements?.use.unique()},outputUse=${output?.bindingElements?.use}]"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

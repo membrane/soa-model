@@ -63,7 +63,7 @@ class PolicyCreator extends AbstractCreator {
 	}
 
 	void createPolicyItem(PolicyOperator pi, CreatorContext ctx){
-		builder."${pi.prefix}:${pi.ELEMENTNAME.localPart}"(getNamespaceAttributes(pi)) {
+		builder."${pi.prefix}:${pi.getElementName().localPart}"(getNamespaceAttributes(pi)) {
 			pi.policyItems.each {
 				it.create(this, ctx)
 			}

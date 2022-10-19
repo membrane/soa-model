@@ -14,9 +14,12 @@
 
 package com.predic8.schema
 
+import groovy.test.GroovyTestCase
+
 import javax.xml.stream.*
 
 import groovy.xml.*
+import groovy.namespace.*
 
 class SchemaTest extends GroovyTestCase{
   

@@ -46,4 +46,9 @@ class Resources extends WADLElement {
 	String toString() {
 		"resources[base: $base , resources: $resources]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

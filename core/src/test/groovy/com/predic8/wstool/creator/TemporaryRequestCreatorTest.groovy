@@ -20,7 +20,9 @@ import com.predic8.schema.*
 import com.predic8.wsdl.Definitions;
 import com.predic8.wsdl.WSDLParser
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 class TemporaryRequestCreatorTestTest extends GroovyTestCase{
 

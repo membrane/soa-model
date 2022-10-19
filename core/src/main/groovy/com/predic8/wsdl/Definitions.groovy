@@ -12,7 +12,7 @@
 package com.predic8.wsdl
 
 import groovy.xml.MarkupBuilder
-import groovy.xml.QName as GQName
+import groovy.namespace.QName as GQName
 
 import javax.xml.namespace.QName as JQName
 
@@ -350,5 +350,9 @@ class Definitions extends WSDLElement{
 
 	String toString() {
 		"defintions[ baseDir=$baseDir, targetNamespace=$targetNamespace, namespaces=$namespaceContext, services=$localServices, documentation=$documentation, schemas=$localSchemas, bindings=$localBindings, messages=$localMessages, portTypes=$localPortTypes]"
+	}
+
+	JQName getElementName() {
+		ELEMENTNAME
 	}
 }

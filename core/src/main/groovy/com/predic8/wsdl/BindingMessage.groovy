@@ -15,6 +15,7 @@
 package com.predic8.wsdl;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.policy.Policy
 import com.predic8.policy.PolicyReference
@@ -118,14 +119,14 @@ abstract class BindingMessage extends WSDLElement{
 			if(!pT)	throw new PortTypeAccessException("Could not find the portType definition for '${bindingOperation.binding.typePN}' in the binding'${bindingOperation.binding.name}'.", bindingOperation.binding)
 			pTOperation = pT.getOperation(bindingOperation.name)
 			if(!pTOperation) throw new OperationAccessException("Could not find the matching operation for '${bindingOperation.name}' in the portType '${pT.name}'.", pT)
-			if(!pTOperation."$ELEMENTNAME.localPart") throw new ModelAccessException("No ${ELEMENTNAME.localPart} declared for operation ${pTOperation.name}.", pTOperation)
-			definitions.getMessage(pTOperation."$ELEMENTNAME.localPart".message.qname) 
+			if(!pTOperation."${getElementName().localPart}") throw new ModelAccessException("No ${getElementName().localPart} declared for operation ${pTOperation.name}.", pTOperation)
+			definitions.getMessage(pTOperation."${getElementName().localPart}".message.qname)
 		} catch(ModelAccessException e) {
 			//OperationAccessException | PortTypeAccessException | ModelAccessException
 			throw e
     } catch (Exception e) {
-			def msgName = pTOperation."$ELEMENTNAME.localPart".messagePrefixedName.toString()
-	    throw new MessageAccessException("Could not find the message '$msgName', used in the $ELEMENTNAME.localPart of the operation '${bindingOperation.name}'.", pTOperation, msgName)
+			def msgName = pTOperation."${getElementName().localPart}".messagePrefixedName.toString()
+	    throw new MessageAccessException("Could not find the message '$msgName', used in the ${getElementName().localPart} of the operation '${bindingOperation.name}'.", pTOperation, msgName)
     }
   }
   

@@ -17,6 +17,7 @@ import com.predic8.schema.restriction.BaseRestriction;
 import com.predic8.xml.util.PrefixedName
 
 import groovy.xml.*
+import groovy.namespace.*
 
 abstract class TypeDefinition extends SchemaComponent {
 

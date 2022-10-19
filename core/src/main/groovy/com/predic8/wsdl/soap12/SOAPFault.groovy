@@ -20,5 +20,10 @@ import com.predic8.wsdl.*
 
 class SOAPFault extends AbstractSOAPFault{
 
-public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP12_NS, 'fault')
+    public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP12_NS, 'fault')
+
+    JQName getElementName() {
+        ELEMENTNAME
+    }
+
 }

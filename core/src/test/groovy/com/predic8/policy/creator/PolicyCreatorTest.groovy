@@ -1,6 +1,8 @@
 package com.predic8.policy.creator
 
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.wsdl.*
 import com.predic8.wsdl.creator.*

@@ -22,4 +22,8 @@ class Input extends AbstractPortTypeMessage {
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'input')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

@@ -17,6 +17,7 @@ package com.predic8.schema
 import com.predic8.wsdl.Definitions
 import com.predic8.wsdl.WSDLParser
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class SuperTypesTest extends GroovyTestCase {
   

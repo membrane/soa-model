@@ -1,5 +1,7 @@
 package com.predic8.xml.util
 
+import groovy.test.GroovyTestCase
+
 class UtfFixTest extends GroovyTestCase {
   byte[] combineArrays(foo, bar) {
     def tmp = new byte[foo.length + bar.length]

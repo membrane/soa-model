@@ -14,7 +14,7 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import javax.xml.namespace.QName as JQName
 
@@ -53,4 +53,9 @@ class Service extends WSDLElement{
   String toString() {
     "service[ ports=$ports ]"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

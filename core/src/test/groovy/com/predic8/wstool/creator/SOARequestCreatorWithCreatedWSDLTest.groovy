@@ -7,6 +7,7 @@ import com.predic8.schema.restriction.StringRestriction;
 import com.predic8.wsdl.*
 import com.predic8.wsdl.creator.WSDLCreator
 import com.predic8.wsdl.creator.WSDLCreatorContext
+import groovy.xml.XmlSlurper
 import org.junit.Assume
 import org.junit.Before
 import org.junit.Test

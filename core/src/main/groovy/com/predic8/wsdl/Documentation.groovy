@@ -61,4 +61,9 @@ class Documentation extends WSDLElement {
   String toString() {
     content
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

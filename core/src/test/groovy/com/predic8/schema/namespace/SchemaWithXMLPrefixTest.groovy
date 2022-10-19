@@ -14,9 +14,11 @@
 
 package com.predic8.schema.namespace
 
+import groovy.test.GroovyTestCase
 import junit.framework.TestCase
 import javax.xml.stream.*
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.schema.* 
 import com.predic8.schema.creator.SchemaCreator;

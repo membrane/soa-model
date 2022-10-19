@@ -11,7 +11,7 @@
 
 package com.predic8.wsdl;
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import javax.xml.namespace.QName as JQName
 
@@ -164,4 +164,9 @@ class Binding extends WSDLElement{
 	String toString() {
 		"binding[name=$name, portType=${getPortType()},type=${getType()},operations=$operations]"
 	}
+
+	JQName getElementName() {
+		ELEMENTNAME
+	}
+
 }

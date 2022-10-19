@@ -32,4 +32,9 @@ class Link extends WADLElement {
 	String toString() {
 		"link[]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

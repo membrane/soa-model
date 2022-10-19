@@ -21,5 +21,9 @@ import com.predic8.soamodel.Consts;
 class Address extends AbstractAddress {
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_HTTP_NS, 'address')
-  
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

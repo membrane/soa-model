@@ -21,4 +21,9 @@ import com.predic8.soamodel.Consts
 class SOAPFault extends AbstractSOAPFault{
   
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP11_NS, 'fault')
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

@@ -34,7 +34,7 @@ class Policy extends PolicyOperator{
 	}
 	
 	List<String> getAssertions() {
-		allPolicyItems.ELEMENTNAME.localPart
+		allPolicyItems.collect { it -> it.getElementName()}.localPart
 	}
 	
 	public String getAsString(){

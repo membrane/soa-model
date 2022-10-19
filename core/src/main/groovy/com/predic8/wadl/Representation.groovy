@@ -55,4 +55,9 @@ class Representation extends WADLElement {
 	String toString() {
 		"representation[id: $id, element: $elementName, href: $href]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

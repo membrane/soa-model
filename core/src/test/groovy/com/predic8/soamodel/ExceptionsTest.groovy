@@ -4,6 +4,7 @@ import com.predic8.wsdl.Definitions;
 import com.predic8.wsdl.WSDLParser
 import com.predic8.wsdl.WSDLVersion2NotSupportedException;
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class ExceptionsTest extends GroovyTestCase {
 	

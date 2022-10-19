@@ -15,6 +15,7 @@
 package com.predic8.wsdl
 
 import groovy.xml.*
+import groovy.namespace.*
 
 class ImportTransitivTest extends AbstractWSDLTest{
   

@@ -14,7 +14,7 @@
 
 package com.predic8.schema
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import javax.xml.namespace.QName as JQName
 import static com.predic8.soamodel.Consts.SCHEMA_NS

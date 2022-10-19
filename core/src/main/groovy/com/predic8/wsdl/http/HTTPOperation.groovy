@@ -32,5 +32,10 @@ class HTTPOperation extends ExtensibilityOperation{
   void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createHTTPOperation(this, ctx)
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 

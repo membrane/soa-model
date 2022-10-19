@@ -15,7 +15,7 @@
 package com.predic8.soamodel
 
 import java.util.Map;
-import groovy.xml.QName
+import groovy.namespace.QName
 import javax.xml.stream.*
 import javax.xml.namespace.QName as JQName
 

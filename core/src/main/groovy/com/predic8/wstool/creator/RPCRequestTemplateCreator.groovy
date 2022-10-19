@@ -17,6 +17,7 @@ package com.predic8.wstool.creator;
 import com.predic8.schema.BuiltInSchemaType;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 class RPCRequestTemplateCreator {
   

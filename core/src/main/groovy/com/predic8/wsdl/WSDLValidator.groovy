@@ -92,12 +92,12 @@ class WSDLValidator {
 			def err
 			try {
 				if(it && !it.message){
-					def e = new MessageAccessException("Could not find the message '${it.messagePrefixedName.toString()}', used in the ${it.ELEMENTNAME.localPart} of an operation.", it, it.messagePrefixedName.toString())
+					def e = new MessageAccessException("Could not find the message '${it.messagePrefixedName.toString()}', used in the ${it.getElementName().localPart} of an operation.", it, it.messagePrefixedName.toString())
 					err = new ValidationError(invalidElement : it, wsdlTNS: it.definitions.targetNamespace, cause: e,
-					message : "Message '${it.messagePrefixedName}' in the ${it.ELEMENTNAME.localPart} ${it.name} is not defined in this WSDL.")
+					message : "Message '${it.messagePrefixedName}' in the ${it.getElementName().localPart} ${it.name} is not defined in this WSDL.")
 				}
 			} catch (Exception e) {
-				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.ELEMENTNAME.localPart} ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace, cause: e)
+				err = new ValidationError(invalidElement : it, message : (e.message ?: "The ${it.getElementName().localPart} ${it.name} is invalid."), wsdlTNS: it.definitions.targetNamespace, cause: e)
 			}
 			if(err) {
 				ctx.errors << err

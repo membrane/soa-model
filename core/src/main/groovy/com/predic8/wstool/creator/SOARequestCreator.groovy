@@ -12,6 +12,7 @@
 package com.predic8.wstool.creator;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

@@ -1,5 +1,6 @@
 package com.predic8.wsdl
 
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
 
 import com.predic8.wsdl.creator.WSDLCreator

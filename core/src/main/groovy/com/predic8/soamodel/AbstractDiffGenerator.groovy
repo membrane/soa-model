@@ -14,7 +14,7 @@
 
 package com.predic8.soamodel
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import com.predic8.schema.*
 import com.predic8.schema.restriction.facet.*

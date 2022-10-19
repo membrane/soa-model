@@ -17,6 +17,7 @@ package com.predic8.schema.diff
 import com.predic8.schema.SchemaParser
 import com.predic8.xml.util.ClasspathResolver
 import com.predic8.soamodel.Difference
+import groovy.test.GroovyTestCase
 
 class AnyDiffGeneratorTest extends GroovyTestCase{
 

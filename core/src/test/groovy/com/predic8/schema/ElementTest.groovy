@@ -14,7 +14,9 @@
 
 package com.predic8.schema
 
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.schema.creator.SchemaCreator
 import com.predic8.schema.creator.SchemaCreatorContext

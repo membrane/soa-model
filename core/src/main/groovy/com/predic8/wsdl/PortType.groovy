@@ -62,4 +62,9 @@ class PortType extends WSDLElement{
   String toString() {
     "portType[name=$name,  operations=$operations, ping=$ping, documentation=$documentation ]"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

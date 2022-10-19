@@ -1,5 +1,6 @@
 package com.predic8.wsdl
 
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
 
 import com.predic8.wsdl.creator.WSDLCreator
@@ -20,7 +21,7 @@ class WSDLOrderTest extends GroovyTestCase {
 	}
 
 	void testUpsideDowParser() {
-		assert ctx1.wsdlElementOrder.ELEMENTNAME[1 .. -1] == ctx2.wsdlElementOrder.ELEMENTNAME[-1 .. 1]
+		assert ctx1.wsdlElementOrder.collect {it -> it.getElementName()}[1 .. -1] == ctx2.wsdlElementOrder.collect { it -> it.getElementName()}[-1 .. 1]
 	}
 	
 }

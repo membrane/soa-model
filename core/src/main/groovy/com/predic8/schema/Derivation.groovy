@@ -17,7 +17,7 @@ import javax.xml.namespace.QName as JQName
 
 import com.predic8.xml.util.PrefixedName;
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 abstract class Derivation extends SchemaComponent{
 

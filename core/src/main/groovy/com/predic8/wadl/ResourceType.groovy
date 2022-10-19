@@ -51,4 +51,9 @@ class ResourceType extends WADLElement {
 	String toString() {
 		"resource_type"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

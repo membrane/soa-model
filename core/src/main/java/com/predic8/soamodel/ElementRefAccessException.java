@@ -14,7 +14,7 @@
 
 package com.predic8.soamodel;
 
-import groovy.xml.QName;
+import groovy.namespace.QName;
 
 public class ElementRefAccessException extends ModelAccessException {
 

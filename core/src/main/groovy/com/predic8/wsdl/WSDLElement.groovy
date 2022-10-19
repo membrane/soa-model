@@ -12,6 +12,7 @@
 package com.predic8.wsdl
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import javax.xml.namespace.QName as JQName
 import javax.xml.stream.*
@@ -51,11 +52,7 @@ abstract class WSDLElement extends XMLElement {
 	 * Used in WSDLCreator.
 	 */
 	String getPrefix(){
-		getPrefix(ELEMENTNAME.namespaceURI)
-	}
-
-	JQName getElementName() {
-		ELEMENTNAME
+		getPrefix(getElementName().namespaceURI)
 	}
 
 	QName getQName() {

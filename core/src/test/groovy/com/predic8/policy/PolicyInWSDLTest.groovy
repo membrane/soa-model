@@ -3,6 +3,7 @@ package com.predic8.policy
 import com.predic8.wsdl.Definitions;
 import com.predic8.wsdl.WSDLParser
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class PolicyInWSDLTest extends GroovyTestCase {
 

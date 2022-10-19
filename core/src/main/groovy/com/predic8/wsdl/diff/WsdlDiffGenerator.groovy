@@ -11,7 +11,7 @@
 
 package com.predic8.wsdl.diff
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

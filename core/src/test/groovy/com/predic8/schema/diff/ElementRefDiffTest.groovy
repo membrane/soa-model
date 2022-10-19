@@ -13,6 +13,8 @@ package com.predic8.schema.diff
 
 import com.predic8.schema.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
+
 import javax.xml.stream.*
 import com.predic8.schema.creator.*
 import groovy.xml.MarkupBuilder

@@ -44,5 +44,10 @@ class Import extends WSDLElement {
   void create(AbstractCreator creator, CreatorContext ctx) {
     creator.createImport(this, ctx.clone())
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 

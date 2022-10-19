@@ -15,6 +15,7 @@
 package com.predic8.wstool.creator;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.schema.BuiltInSchemaType;
 

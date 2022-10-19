@@ -12,10 +12,11 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-package com.predic8.wsdl.creator;
+package com.predic8.wsdl.creator
 
-
+import groovy.test.GroovyTestCase;
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*

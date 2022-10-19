@@ -14,6 +14,8 @@
 
 package com.predic8.wstool.creator
 
+import groovy.test.GroovyTestCase
+
 class RequestCreatorContextTest extends GroovyTestCase{
 
   def rcc = new RequestCreatorContext()

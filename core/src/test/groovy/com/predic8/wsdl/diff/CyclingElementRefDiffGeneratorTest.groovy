@@ -15,6 +15,7 @@ import com.predic8.schema.SchemaParser
 import com.predic8.schema.diff.SchemaDiffGenerator
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class CyclingElementRefDiffGeneratorTest extends GroovyTestCase {
 

@@ -1,5 +1,6 @@
 package com.predic8.wadl
 
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput

@@ -1,6 +1,7 @@
 package com.predic8.schema.creator
 
 import com.predic8.soamodel.CreatorContext
+import groovy.test.GroovyTestCase
 
 class NamespacePrefixTest extends GroovyTestCase {
 	

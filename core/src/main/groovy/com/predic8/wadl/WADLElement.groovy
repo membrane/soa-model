@@ -33,10 +33,6 @@ abstract class WADLElement extends XMLElement {
 		}
 	}
 
-	public QName getElementName() {
-		ELEMENTNAME
-	}
-	
   public String getNamespaceUri() {
 	  // TODO Auto-generated method stub
 	  return null;

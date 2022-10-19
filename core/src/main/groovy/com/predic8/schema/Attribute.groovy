@@ -19,6 +19,7 @@ import com.predic8.soamodel.CreatorContext
 import com.predic8.soamodel.DiffGeneratorContext;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import javax.xml.namespace.QName as JQName
 

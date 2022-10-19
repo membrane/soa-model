@@ -22,4 +22,8 @@ class Address extends AbstractAddress {
   
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP12_NS, 'address')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

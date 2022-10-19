@@ -10,6 +10,8 @@
  limitations under the License. */
 package com.predic8.wsdl
 
+import groovy.test.GroovyTestCase
+
 import javax.xml.stream.*
 
 import com.predic8.soamodel.Difference

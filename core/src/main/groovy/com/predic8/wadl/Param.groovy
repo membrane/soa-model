@@ -72,4 +72,9 @@ class Param extends WADLElement {
 	String toString() {
 		"param[name: $name, style: $style, type: $typePN]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

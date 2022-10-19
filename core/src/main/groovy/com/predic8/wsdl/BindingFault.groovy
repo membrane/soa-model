@@ -30,5 +30,9 @@ class BindingFault extends BindingMessage {
 		}
 	}
 
+	JQName getElementName() {
+		ELEMENTNAME
+	}
+
 }
 

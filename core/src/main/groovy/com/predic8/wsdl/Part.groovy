@@ -15,6 +15,7 @@
 package com.predic8.wsdl;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import javax.xml.namespace.QName as JQName
 
@@ -58,4 +59,9 @@ class Part extends WSDLElement{
   String toString() {
     "part[name= $name, type= ${getType()}, element= ${getElement()}]"
   }
+
+	JQName getElementName() {
+		ELEMENTNAME
+	}
+
 }

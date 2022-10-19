@@ -15,6 +15,7 @@
 package com.predic8.soamodel
 
 import com.predic8.util.*
+import groovy.test.GroovyTestCase
 
 class UpdateBaseDirTest extends GroovyTestCase{
   void testUpdateBaseDir(){

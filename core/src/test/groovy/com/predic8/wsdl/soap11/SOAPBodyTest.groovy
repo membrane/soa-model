@@ -16,6 +16,7 @@ package com.predic8.wsdl.soap11
 
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class SOAPBodyTest extends GroovyTestCase{
 

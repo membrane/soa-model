@@ -21,4 +21,9 @@ import com.predic8.wsdl.*
 class SOAPBody extends AbstractSOAPBody{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP12_NS, 'body')
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

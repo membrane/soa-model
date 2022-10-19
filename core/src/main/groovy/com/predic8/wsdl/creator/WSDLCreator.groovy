@@ -179,7 +179,7 @@ class WSDLCreator extends AbstractWSDLCreator{
 
   def createSOAPBody(AbstractSOAPBody body, WSDLCreatorContext ctx){
     def attrs = [use : body.use]
-		def prefix = body.getPrefix(body.ELEMENTNAME.namespaceURI)
+		def prefix = body.getPrefix(body.getElementName().namespaceURI)
     if(body.parts) attrs['parts'] = body.parts.name.join(' ')
     if(body.encodingStyle) attrs['encodingStyle'] = body.encodingStyle
     if(body.namespace) attrs['namespace'] = body.namespace
@@ -187,7 +187,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
   
   def createSOAPHeader(AbstractSOAPHeader header, WSDLCreatorContext ctx){
-    def prefix = header.getPrefix(header.ELEMENTNAME.namespaceURI)
+    def prefix = header.getPrefix(header.getElementName().namespaceURI)
     def attrs = [message : "${header.message.definitions.targetNamespacePrefix}:${header.message.name}", use : header.use]
 		attrs['part'] = "${header.part.definitions.targetNamespacePrefix}:${header.part.name}"
     if(header.encodingStyle) attrs['encodingStyle'] = header.encodingStyle
@@ -196,7 +196,7 @@ class WSDLCreator extends AbstractWSDLCreator{
   }
 
   def createSOAPFault(fault, WSDLCreatorContext ctx){
-		def prefix = fault.getPrefix(fault.ELEMENTNAME.namespaceURI)
+		def prefix = fault.getPrefix(fault.getElementName().namespaceURI)
     builder."${prefix}:fault"(use: fault.use, name : fault.name)
   }
 

@@ -20,6 +20,7 @@ import com.predic8.soamodel.NamespaceNotDeclaredForReferenceException
 import com.predic8.soamodel.TypeRefAccessException;
 import com.predic8.soamodel.ValidationError
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class WSDLValidatorTest extends GroovyTestCase{
   

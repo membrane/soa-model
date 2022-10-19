@@ -22,5 +22,9 @@ class SOAPOperation extends ExtensibilityOperation{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP11_NS, 'operation')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 

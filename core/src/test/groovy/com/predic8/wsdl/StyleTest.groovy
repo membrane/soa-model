@@ -1,6 +1,7 @@
 package com.predic8.wsdl
 
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class StyleTest extends GroovyTestCase {
 	

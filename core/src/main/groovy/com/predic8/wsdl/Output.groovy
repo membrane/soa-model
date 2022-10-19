@@ -22,5 +22,9 @@ class Output extends AbstractPortTypeMessage {
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL11_NS, 'output')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }
 

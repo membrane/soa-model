@@ -1,6 +1,7 @@
 package com.predic8.wsdl
 
 import com.predic8.xml.util.ExternalResolver
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
 
 import com.predic8.wsdl.creator.WSDLCreator

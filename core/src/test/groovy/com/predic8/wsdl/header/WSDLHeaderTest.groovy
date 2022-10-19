@@ -14,7 +14,9 @@
 
 package com.predic8.wsdl.header
 
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 import com.predic8.wsdl.*
 import com.predic8.wsdl.creator.*
 import com.predic8.wstool.creator.*

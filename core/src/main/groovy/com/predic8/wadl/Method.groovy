@@ -49,4 +49,9 @@ class Method extends WADLElement {
 	String toString() {
 		"method[name: $name, request: $request, response: $response]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

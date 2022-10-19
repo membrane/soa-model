@@ -23,4 +23,8 @@ class SOAPHeader extends AbstractSOAPHeader{
 
   public static final JQName ELEMENTNAME = new JQName(Consts.WSDL_SOAP12_NS, 'header')
 
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

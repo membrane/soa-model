@@ -50,4 +50,9 @@ class Include extends WADLElement {
 	String toString() {
 		"include[docs: $docs, href: $href]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

@@ -14,7 +14,9 @@
 
 package com.predic8.wsdl.usage
 
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.schema.*
 import com.predic8.wsdl.Definitions

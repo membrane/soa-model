@@ -14,6 +14,7 @@
 
 package com.predic8.xml.util
 
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
 
 import com.predic8.schema.SchemaParser

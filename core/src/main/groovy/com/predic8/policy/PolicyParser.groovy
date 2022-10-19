@@ -37,7 +37,7 @@ class PolicyParser extends AbstractParser{
       if (token.startElement) {
       	if(token.name.namespaceURI in Consts.POLICY_NAMESPACES && token.name.localPart == 'Policy') {
           policy = new Policy(ELEMENTNAME: token.name)
-          policy.parse(token, , ctx)
+          policy.parse(token, ctx)
         }
       }
       if(token.hasNext()) token.next()

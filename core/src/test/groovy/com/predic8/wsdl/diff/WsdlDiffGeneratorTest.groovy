@@ -17,6 +17,7 @@ package com.predic8.wsdl.diff
 import com.predic8.schema.Element
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class WsdlDiffGeneratorTest extends GroovyTestCase {
   

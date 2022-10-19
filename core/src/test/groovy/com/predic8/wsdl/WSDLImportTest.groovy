@@ -14,10 +14,12 @@
 
 package com.predic8.wsdl
 
-import groovy.xml.QName as GQName
+import groovy.namespace.QName as GQName
 import com.predic8.xml.util.*
 import com.predic8.wsdl.creator.*
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
+import groovy.xml.XmlSlurper
 
 class WSDLImportTest extends GroovyTestCase{
 

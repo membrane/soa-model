@@ -14,6 +14,7 @@
 
 package com.predic8.xml.util
 
+import groovy.test.GroovyTestCase
 import junit.framework.TestCase
 
 class QNameTest extends GroovyTestCase {

@@ -63,4 +63,9 @@ class Application extends WADLElement {
 		def str = "application[" + (docs? "docs: $docs , " : '') + (grammars? "grammars: $grammars , " : '') + (rscss? "resources: $rscss]" : ']') 
 		str
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

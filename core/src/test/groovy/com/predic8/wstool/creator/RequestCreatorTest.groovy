@@ -16,7 +16,9 @@ package com.predic8.wstool.creator
 
 import com.predic8.schema.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 class RequestCreatorTest extends GroovyTestCase{
 

@@ -17,7 +17,9 @@ package com.predic8.schema
 import com.predic8.xml.util.*
 import com.predic8.schema.creator.*
 import com.predic8.wstool.creator.*
+import groovy.test.GroovyTestCase
 import groovy.xml.MarkupBuilder
+import groovy.xml.XmlSlurper
 
 class UnionTest extends GroovyTestCase{
 

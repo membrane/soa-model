@@ -68,4 +68,9 @@ class Operation extends WSDLElement{
   String toString() {
     "operation[ name=$name, input=$input, output=$output, faults=$faults, documentation=$documentation ]"
   }
+
+  JQName getElementName() {
+    ELEMENTNAME
+  }
+
 }

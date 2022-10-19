@@ -19,13 +19,14 @@ package com.predic8.schema
 import com.predic8.schema.restriction.QNameRestriction;
 import com.predic8.soamodel.AbstractDiffGenerator;
 import com.predic8.soamodel.CreatorContext;
-import com.predic8.soamodel.DiffGeneratorContext;
+import com.predic8.soamodel.DiffGeneratorContext
 
-import groovy.xml.QName
+import groovy.namespace.QName
 
 class BuiltInSchemaType extends TypeDefinition {
 
-	String type	String namespace
+	String type
+	String namespace
 	QName qname
 	
   protected getElementName() {

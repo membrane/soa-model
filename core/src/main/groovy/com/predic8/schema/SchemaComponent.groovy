@@ -15,6 +15,7 @@
 package com.predic8.schema;
 
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.schema.creator.*
 import com.predic8.wstool.creator.*
@@ -70,7 +71,7 @@ abstract class SchemaComponent extends XMLElement{
   }
 
   def create(creator,CreatorContext ctx){
-    throw new RuntimeException("missing method create(creator,CreatorContext ctx) for class $elementName !")
+    throw new RuntimeException("missing method create(creator,CreatorContext ctx) for class ${getElementName()} !")
   }
   
   String getAsString(){

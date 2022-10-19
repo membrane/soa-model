@@ -2,6 +2,7 @@ package com.predic8.wadl
 
 import com.predic8.soamodel.Consts
 import com.predic8.xml.util.ClasspathResolver
+import groovy.test.GroovyTestCase
 
 class WADLParserTest extends GroovyTestCase {
 	

@@ -16,6 +16,7 @@ package com.predic8.wsi
 
 import com.predic8.wsdl.*
 import com.predic8.xml.util.*
+import groovy.test.GroovyTestCase
 
 class WSITest extends GroovyTestCase {
 

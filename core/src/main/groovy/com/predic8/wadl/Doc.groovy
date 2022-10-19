@@ -66,4 +66,9 @@ class Doc extends WADLElement {
 	String toString() {
 		"doc[lang: $lang, title: $title, content: $content]"
 	}
+
+	public QName getElementName() {
+		ELEMENTNAME
+	}
+
 }

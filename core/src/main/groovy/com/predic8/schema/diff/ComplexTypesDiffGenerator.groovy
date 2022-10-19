@@ -16,7 +16,7 @@ package com.predic8.schema.diff
 
 import com.predic8.soamodel.*
 import com.predic8.schema.*
-import groovy.xml.QName
+import groovy.namespace.QName
 
 class ComplexTypesDiffGenerator extends ListDiffGenerator {
 	

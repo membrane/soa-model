@@ -16,6 +16,7 @@ package com.predic8.wstool.creator;
 
 import junit.framework.TestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 import com.predic8.wsdl.AbstractWSDLTest
 

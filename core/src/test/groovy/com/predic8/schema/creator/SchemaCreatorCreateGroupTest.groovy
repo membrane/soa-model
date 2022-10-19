@@ -14,7 +14,9 @@
 
 package com.predic8.schema.creator
 
+import groovy.test.GroovyTestCase
 import groovy.xml.*
+import groovy.namespace.*
 
 import javax.xml.stream.*
 
@@ -36,7 +38,7 @@ class SchemaCreatorCreateWSDLSchemaTest extends GroovyTestCase{
     def strWriter = new StringWriter()
     schema.create(new SchemaCreator(builder : new MarkupBuilder(strWriter)), new SchemaCreatorContext())
 		def result = new SchemaParser().parse(new ByteArrayInputStream(strWriter.toString().bytes))
-		assert 3 == result.groups.size
+		assert 3 == result.groups.size()
   }
 	
 	void testCreatorWithUnique() {
