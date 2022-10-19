@@ -1,6 +1,6 @@
 FROM ubuntu:jammy
 
-RUN apt-get update && apt-get install -y openjdk-8-jdk-headless curl
+RUN apt-get update && apt-get install -y openjdk-11-jdk-headless curl
 
 RUN  rm -rf /var/lib/apt/lists/* && rm -rf /var/cache/oracle-jdk7-installer
 
