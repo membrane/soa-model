@@ -133,7 +133,7 @@ class Schema extends SchemaComponent{
     }
   }
 
-  protected getElementName(){
+  public getElementName(){
     'schema'
   }
   

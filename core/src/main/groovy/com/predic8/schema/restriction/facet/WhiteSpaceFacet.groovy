@@ -22,7 +22,7 @@ class WhiteSpaceFacet extends Facet{
     creator.createWhiteSpaceFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'whiteSpace'
   }
   

@@ -23,7 +23,7 @@ class EnumerationFacet extends Facet {
     creator.createEnumerationFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
 	'enumeration'
   }
 

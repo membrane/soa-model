@@ -26,7 +26,7 @@ class LengthFacet extends Facet{
     creator.createLengthFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'length'
   }
 

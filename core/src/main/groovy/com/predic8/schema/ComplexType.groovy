@@ -64,7 +64,7 @@ class ComplexType extends TypeDefinition {
     }
   }
 
-  protected getElementName(){
+  public getElementName(){
     'complexType'
   }
 

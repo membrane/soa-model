@@ -57,7 +57,7 @@ class Group extends SchemaComponent{
     }
   }
 
-  protected getElementName(){
+  public getElementName(){
     // If changed to QName, SchemaDiffGenerator has to be modified.
     'group'
   }

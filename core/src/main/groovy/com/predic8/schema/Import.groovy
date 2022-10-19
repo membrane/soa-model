@@ -64,7 +64,7 @@ class Import extends SchemaComponent {
 		creator.createImport(this, ctx.clone())
 	}
 
-	protected getElementName(){
+	public getElementName(){
 		new JQName(SCHEMA_NS, 'import')
 	}
 

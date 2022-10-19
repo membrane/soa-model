@@ -63,7 +63,7 @@ class AttributeGroup extends SchemaComponent{
     res.flatten()
   }
 
-  protected getElementName(){
+  public getElementName(){
     'attributeGroup'
   }
 

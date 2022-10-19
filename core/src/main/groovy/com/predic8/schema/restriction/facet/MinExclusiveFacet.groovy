@@ -22,7 +22,7 @@ class MinExclusiveFacet extends Facet {
     creator.createMinExclusiveFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'minExclusive'
   }
   

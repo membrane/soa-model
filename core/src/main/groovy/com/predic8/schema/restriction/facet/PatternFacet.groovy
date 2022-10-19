@@ -22,7 +22,7 @@ class PatternFacet extends Facet {
     creator.createPatternFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'pattern'
   }
   

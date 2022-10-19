@@ -90,7 +90,7 @@ class Element extends Declaration {
     log.debug "child [$child] of element [$name] parsed!"
   }
   
-  protected getElementName(){
+  public getElementName(){
     'element'
   }
   

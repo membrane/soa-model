@@ -26,7 +26,7 @@ class TotalDigitsFacet extends Facet {
     creator.createTotalDigitsFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'totalDigits'
   }
   

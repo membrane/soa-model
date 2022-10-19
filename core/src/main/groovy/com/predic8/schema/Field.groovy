@@ -34,7 +34,7 @@ class Field extends SchemaComponent {
 		xpath = token.getAttributeValue( null , 'xpath')
 	}
 	
-	protected getElementName(){
+	public getElementName(){
 		'field'
 	}
 	

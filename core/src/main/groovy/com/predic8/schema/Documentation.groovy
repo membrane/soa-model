@@ -42,7 +42,7 @@ class Documentation extends SchemaComponent {
     creator.createDocumentation(this, ctx)
   }
 
-  protected getElementName(){
+  public getElementName(){
     'documentation'
   }
 

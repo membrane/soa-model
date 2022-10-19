@@ -57,7 +57,7 @@ class SimpleContent extends SchemaComponent {
     return extension ?: restriction
   }
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'simpleContent')
   }
 

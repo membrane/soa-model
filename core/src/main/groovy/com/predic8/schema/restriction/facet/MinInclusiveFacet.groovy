@@ -22,7 +22,7 @@ class MinInclusiveFacet extends Facet {
     creator.createMinInclusiveFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'minInclusive'
   }
   

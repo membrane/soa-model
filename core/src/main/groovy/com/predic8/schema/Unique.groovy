@@ -42,7 +42,7 @@ class Unique extends SchemaComponent {
 		}
 	}
 
-  protected getElementName(){
+  public getElementName(){
     'unique'
   }
 	

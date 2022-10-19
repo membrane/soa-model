@@ -73,7 +73,7 @@ class SimpleType extends TypeDefinition {
 				list == obj.list )
 	}
 
-	protected getElementName(){
+	public getElementName(){
 		'simpleType'
 	}
 

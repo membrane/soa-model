@@ -22,7 +22,7 @@ class MaxInclusiveFacet extends Facet {
     creator.createMaxInclusiveFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'maxInclusive'
   }
   

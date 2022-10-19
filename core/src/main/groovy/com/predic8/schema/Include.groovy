@@ -58,7 +58,7 @@ class Include extends SchemaComponent {
     schema.baseDir = origBaseDir
   }
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'include')
   }
 

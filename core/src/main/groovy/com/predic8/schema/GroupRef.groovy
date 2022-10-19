@@ -47,7 +47,7 @@ class GroupRef extends SchemaComponent{
     obj && getClass() == obj.getClass() && ref == obj.ref
   }
   
-  protected getElementName(){
+  public getElementName(){
     'group'
   }
   

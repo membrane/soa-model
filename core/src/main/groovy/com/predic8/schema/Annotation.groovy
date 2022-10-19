@@ -41,7 +41,7 @@ class Annotation extends SchemaComponent {
     }
   }
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'annotation')
   }
 

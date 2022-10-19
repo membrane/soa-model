@@ -34,7 +34,7 @@ class Selector extends SchemaComponent {
 		xpath = token.getAttributeValue( null , 'xpath')
 	}
 	
-  protected getElementName() {
+  public getElementName() {
     'selector'
   }
 	

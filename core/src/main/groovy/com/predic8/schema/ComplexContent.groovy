@@ -86,7 +86,7 @@ class ComplexContent extends SchemaComponent {
     derivation instanceof Restriction
   }
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'complexContent')
   }
 

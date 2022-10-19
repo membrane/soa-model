@@ -28,7 +28,7 @@ class MinLengthFacet extends Facet {
     creator.createMinLengthFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'minLength'
   }
   

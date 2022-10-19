@@ -22,7 +22,7 @@ import static com.predic8.soamodel.Consts.SCHEMA_NS
 
 class Restriction extends Derivation {
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'restriction')
   }
 

@@ -22,7 +22,7 @@ class MaxExclusiveFacet extends Facet {
     creator.createMaxExclusiveFacet(this, ctx)
   }
   
-  protected getElementName(){
+  public getElementName(){
     'maxExclusive'
   }
   

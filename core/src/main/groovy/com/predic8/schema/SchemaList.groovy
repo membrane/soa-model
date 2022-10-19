@@ -43,7 +43,7 @@ class SchemaList extends SchemaComponent {
              simpleType == obj.simpleType )
   }
 
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'list')
   }
   

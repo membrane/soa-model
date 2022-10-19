@@ -100,7 +100,7 @@ class BaseRestriction  extends SchemaComponent {
     obj && getClass() == obj.getClass() && facets == obj.facets && base == obj.base &&  childSimpleType == obj.childSimpleType
   }
   
-  protected getElementName(){
+  public getElementName(){
     new JQName(SCHEMA_NS, 'restriction')
   }
   

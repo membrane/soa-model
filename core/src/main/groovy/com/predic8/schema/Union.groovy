@@ -45,7 +45,7 @@ class Union extends SchemaComponent{
              simpleTypes == obj.simpleTypes )
   }
   
-  protected getElementName(){
+  public getElementName(){
     'union'
   }
   

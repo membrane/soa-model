@@ -29,7 +29,7 @@ class BuiltInSchemaType extends TypeDefinition {
 	String namespace
 	QName qname
 	
-  protected getElementName() {
+  public getElementName() {
 	  'built-in-schema-type'
   }
 	

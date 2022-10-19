@@ -38,7 +38,7 @@ class Appinfo extends SchemaComponent {
     creator.createAppinfo(this, ctx)
   }
 
-  protected getElementName(){
+  public getElementName(){
     'appinfo'
   }
 
