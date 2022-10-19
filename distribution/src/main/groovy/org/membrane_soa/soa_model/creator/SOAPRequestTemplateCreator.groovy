@@ -14,6 +14,7 @@
 
 package org.membrane_soa.soa_model.creator;
 
+import groovy.cli.commons.CliBuilder;
 import groovy.xml.MarkupBuilder;
 import java.io.StringWriter;
 import com.predic8.wsdl.Definitions;

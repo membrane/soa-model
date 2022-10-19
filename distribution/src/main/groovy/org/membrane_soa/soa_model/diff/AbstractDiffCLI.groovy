@@ -14,6 +14,8 @@
 
 package org.membrane_soa.soa_model.diff
 
+import groovy.cli.commons.CliBuilder;
+
 import javax.xml.transform.Result
 import javax.xml.transform.Source
 import javax.xml.transform.Transformer

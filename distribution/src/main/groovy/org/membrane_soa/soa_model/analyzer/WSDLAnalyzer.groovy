@@ -14,6 +14,7 @@
 
 package org.membrane_soa.soa_model.analyzer
 
+import groovy.cli.commons.CliBuilder
 import groovy.xml.MarkupBuilder
 
 import com.predic8.wsdl.Definitions
