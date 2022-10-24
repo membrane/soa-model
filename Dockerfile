@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y openjdk-11-jdk-headless curl
 
 RUN  rm -rf /var/lib/apt/lists/* && rm -rf /var/cache/oracle-jdk7-installer
 
-RUN curl -o /maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz && \
+RUN curl -o /maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz && \
   mkdir /maven && \
   cd /maven && \
   tar -xvf /maven.tar.gz && \

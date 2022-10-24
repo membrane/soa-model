@@ -133,6 +133,13 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 		</dependencies>
 	</dependencyManagement>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jfrog-plugins-release</id>
+			<url>https://groovy.jfrog.io/artifactory/plugins-release</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<profiles>
 		<profile>
 			<id>ossrh</id>
