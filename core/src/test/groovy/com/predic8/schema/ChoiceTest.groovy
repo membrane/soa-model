@@ -62,6 +62,18 @@ class ChoiceTest extends GroovyTestCase{
   assertEquals('+49 228 2402099', inf.phone.toString())
   }
 
+  void testChoiceAnnotation() {
+    def employee = schema.getType(CONT_INF)
+    def contactInfo = employee.model
+    assertNotNull(contactInfo)
+    def annotation = contactInfo.getAnnotation()
+    assertNotNull( annotation );
+    def documentation = annotation.getDocumentations().first();
+    assertNotNull( documentation );
+    def documentationContent = documentation.content;
+    assertEquals( "Hello world", documentationContent );
+  }
+
   /*void testRequestTemplateCreator() {
   def strWriter = new StringWriter()
   def creator = new RequestTemplateCreator(builder : new MarkupBuilder(strWriter))
@@ -71,4 +83,3 @@ class ChoiceTest extends GroovyTestCase{
   assertEquals('?XXX?', emp.person.lastName.toString())
   }*/
 }
-

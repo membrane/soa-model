@@ -21,7 +21,8 @@ import groovy.namespace.QName
 import javax.xml.namespace.QName as JQName
 
 abstract class ModelGroup extends SchemaComponent{
-  
+
+  Annotation annotation
   List<SchemaComponent> particles = []
   def minOccurs = 1
   def maxOccurs = 1
@@ -33,6 +34,10 @@ abstract class ModelGroup extends SchemaComponent{
 
   protected parseChildren(token, child, params) {
     switch (child ){
+      case 'annotation' :
+        annotation = new Annotation(schema: schema)
+        annotation.parse(token, params) ; break
+
       case 'element' : def element = new Element(schema:schema)
       element.parse(token, params)
       particles << element ; break
