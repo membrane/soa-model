@@ -26,7 +26,7 @@ class SimpleTypeDiffGenerator extends UnitDiffGenerator {
 	
   def removed = {new Difference(description:"${labelSimpleType} ${a?.name} ${labelRemoved}.", type: 'simpleType', breaks: ctx.exchange ? true: null, exchange: a.exchange)}
   def added = { new Difference(description:"${labelSimpleType} ${a?.name} ${labelAdded}.", type: 'simpleType', breaks: ctx.exchange ? true: null, exchange: b.exchange)}
-  def changed = { new Difference(description:"${labelSimpleType} ${a?.name}:", type: 'simpleType', diffs:compareUnit(), exchange: a.exchange)}
+  def changed = { new Difference(description:"${labelSimpleType} ${"{" + a.schema.targetNamespace + "}"}${a?.name}:", type: 'simpleType', diffs:compareUnit(), exchange: a.exchange)}
 
   List<Difference> compareUnit(){
     def lDiffs = []
