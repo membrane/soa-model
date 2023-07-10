@@ -42,7 +42,7 @@ class ElementRefDiffTest extends GroovyTestCase {
 	
 	void testSequnceDiff() {
 		def diffs = compare(schemaWithRef, schemaWithName)
-		assert diffs[7].description == 'ComplexType CT4:'
+		assert diffs[7].description == 'ComplexType {http://predic8.com/Ref2Name/}CT4:'
 		assert diffs[7].diffs[0].type == 'sequence'
 		assert diffs[7].diffs[0].diffs[0].description == 'Element E1 with minOccurs 1 removed.'
 		assert diffs[7].diffs[0].diffs[1].description == 'Element E2 with minOccurs 1 removed.'

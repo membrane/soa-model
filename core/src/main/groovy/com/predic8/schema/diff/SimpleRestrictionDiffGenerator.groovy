@@ -40,7 +40,7 @@ class SimpleRestrictionDiffGenerator extends AbstractDiffGenerator{
   List<Difference> compareFacets(){
     def diffs = []
     if ( a.facets.isEmpty() && b.facets.isEmpty() ) return []
-    diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"Enumerartion with value: ${it.value} removed.", type: 'facet', warning: true)}, {new Difference(description:"Enumerartion with value: ${it.value} added.", type: 'facet', warning: true)})
+    diffs << compare(a.enumerationFacets, b.enumerationFacets, {new Difference(description:"Enumeration with value: ${it.value} removed.", type: 'facet', warning: true)}, {new Difference(description:"Enumeration with value: ${it.value} added.", type: 'facet', warning: true)})
     
 //    def aNotEnums = a.facets - a.enumerationFacets
     def aNotEnums = a.facets.findAll { f -> !a.enumerationFacets.find { ef -> f == ef } }
