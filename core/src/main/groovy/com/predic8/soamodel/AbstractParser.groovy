@@ -49,6 +49,7 @@ abstract class AbstractParser{
 
 	private getToken(res) {
 		def inputFactory = XMLInputFactory.newInstance()
+		inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false)
 		inputFactory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false)
 		inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false)
 		inputFactory.createXMLStreamReader(res)
