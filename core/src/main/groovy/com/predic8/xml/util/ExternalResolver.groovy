@@ -118,7 +118,7 @@ class ExternalResolver extends ResourceResolver {
 		HttpResponse response = client.execute(method)
 		if(response.statusLine.statusCode != 200) {
 			def rde = new ResourceDownloadException("could not get resource $url by HTTP")
-			rde.status = status
+			rde.status = response.statusLine.statusCode
 			rde.url = url
 			method.releaseConnection()
 			throw rde

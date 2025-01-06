@@ -22,6 +22,8 @@ import com.predic8.schema.Include;
 import com.predic8.wsdl.Import as WsdlImport
 import com.predic8.util.*
 
+import java.nio.file.Paths
+
 class ClasspathResolver extends ResourceResolver {
 
 
@@ -60,7 +62,7 @@ class ClasspathResolver extends ResourceResolver {
         if (input.startsWith('/') || input.startsWith('\\')) {
             return input
         }
-        HTTPUtil.normalize("/$baseDir/$input")
+        HTTPUtil.normalize(Paths.get(HTTPUtil.normalize("/$baseDir/$input")).normalize().toString())
     }
 
 }
