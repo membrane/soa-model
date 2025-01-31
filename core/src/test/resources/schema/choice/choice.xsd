@@ -15,7 +15,11 @@
 
   <xsd:complexType name="ContactInfoType">
     <xsd:choice>
-      <xsd:sequence>
+        <xsd:annotation>
+            <xsd:documentation>Hello world</xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
         <xsd:element name="city" type="xsd:string" />
         <xsd:element name="zip" type="xsd:string" />
       </xsd:sequence>

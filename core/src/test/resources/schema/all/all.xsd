@@ -14,6 +14,9 @@
 
   <xsd:complexType name="EmployeeType">
     <xsd:all minOccurs="1">
+      <xsd:annotation>
+        <xsd:documentation>Hello world</xsd:documentation>
+      </xsd:annotation>
       <xsd:element name="person">
         <xsd:complexType>
           <xsd:group ref="tns:PersonGroup" />
