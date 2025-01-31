@@ -30,7 +30,8 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         run: |
-          export GPG_TTY=$(tty)
+          export GPG_TTY=$TTY
+          echo "TTY: $TTY"
           mvn \
             --no-transfer-progress \
             --batch-mode \
