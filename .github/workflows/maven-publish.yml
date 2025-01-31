@@ -31,8 +31,6 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         run: |
           export GPG_TTY=$TTY
-          echo "TTY: $TTY"
-          cd core
           mvn \
             --no-transfer-progress \
             --batch-mode \
