@@ -50,7 +50,7 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 	<modules>
 		<module>core</module>
 		<!--
-		<module>distribution</module>
+			<module>distribution</module>
 		-->
 	</modules>
 
