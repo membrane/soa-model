@@ -32,6 +32,7 @@ jobs:
         run: |
           export GPG_TTY=$TTY
           echo "TTY: $TTY"
+          cd core
           mvn \
             --no-transfer-progress \
             --batch-mode \
