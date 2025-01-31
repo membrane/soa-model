@@ -13,6 +13,10 @@
 		<version>2.1.0</version>
 	</parent>
 
+	<properties>
+		<gpg.keyname>5B8A65F6</gpg.keyname>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
