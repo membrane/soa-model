@@ -26,7 +26,7 @@ class ExternalResolverTest {
     @Before
 	void setUp() {
 	  resolver = new ExternalResolver()
-	  url = 'http://www.thomas-bayer.com/axis2/services/BLZService?wsdl'
+	  url = 'https://www.predic8.de/city-service?wsdl'
 	}
 
    @Test

@@ -22,7 +22,7 @@ class SOARequestCreatorWithCreatedWSDLTest {
   void setUp(){
     Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
     WSDLParser parser = new WSDLParser()
-    wsdl = parser.parse("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl")
+    wsdl = parser.parse("src/test/resources/BLZService with space.wsdl")
     addOperation()
   }
 
