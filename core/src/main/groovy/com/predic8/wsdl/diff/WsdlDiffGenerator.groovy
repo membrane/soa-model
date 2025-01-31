@@ -11,17 +11,13 @@
 
 package com.predic8.wsdl.diff
 
-import groovy.namespace.QName
-
+import com.predic8.schema.diff.ElementDiffGenerator
+import com.predic8.schema.diff.SchemaDiffGenerator
+import com.predic8.soamodel.AbstractDiffGenerator
+import com.predic8.soamodel.Difference
+import com.predic8.wsdl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import com.predic8.schema.ComplexType;
-import com.predic8.schema.Element;
-import com.predic8.schema.diff.*
-import com.predic8.soamodel.*
-import com.predic8.wsdl.*
-import com.sun.org.apache.bcel.internal.generic.LDIV;
 
 class WsdlDiffGenerator extends AbstractDiffGenerator{
 
