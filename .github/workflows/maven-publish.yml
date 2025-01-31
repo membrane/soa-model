@@ -27,6 +27,7 @@ jobs:
       - id: publish-to-central
         name: Publish to Central Repository
         env:
+          GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         run: |
