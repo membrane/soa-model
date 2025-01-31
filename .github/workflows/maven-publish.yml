@@ -31,7 +31,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         run: |
           export GPG_TTY=$TTY
-          mvn -X \
+          mvn \
             --no-transfer-progress \
             --batch-mode \
             -Possrh \
