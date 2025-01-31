@@ -19,7 +19,7 @@ import com.predic8.wsdl.Import as WsdlImport
 
 class HTTPUtil {
   
-  public static String updateBaseDir(input,oldBaseDir) {
+  static String updateBaseDir(input,oldBaseDir) {
     if(input instanceof SchemaImport) input = input.schemaLocation
 		if(input instanceof WsdlImport) input = input.location
     if(! (input instanceof String)) return oldBaseDir
@@ -35,14 +35,14 @@ class HTTPUtil {
     def path = oldBaseDir + comps[0..-2].join('/')+'/'
     normalize(path)
   }
-  
-  public static String getLocation(baseDir, location) {
+
+  static String getLocation(baseDir, location) {
     if(location.startsWith('http') || location.startsWith('https') || location.startsWith('/') || location.startsWith('\\') )
       return location
     baseDir+location
   }
   
-  protected static normalize(path){
+  protected static String normalize(String path){
     path.replaceAll('\\\\', '/').replaceAll('/+',"/").replaceAll(':/','://')    // beim Verwenden von /pattern/ gab es Compilerfehler
   }
   
