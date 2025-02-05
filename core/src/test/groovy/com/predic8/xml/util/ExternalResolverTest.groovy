@@ -18,20 +18,34 @@ import org.junit.Assume
 import org.junit.Before
 import org.junit.Test
 
+import java.nio.charset.StandardCharsets
+import java.util.stream.Collectors
+
 class ExternalResolverTest {
-  
-	def resolver
-	def url
+
+    def resolver
+    def url
 
     @Before
-	void setUp() {
-	  resolver = new ExternalResolver()
-	  url = 'https://www.predic8.de/city-service?wsdl'
-	}
+    void setUp() {
+        resolver = new ExternalResolver()
+        url = 'https://www.predic8.de/city-service?wsdl'
+    }
 
-   @Test
-   void testResolveAsString() {
-     Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
-     assert resolver.resolveAsString(url) != null
-   }
+    @Test
+    void testResolveAsString() {
+        Assume.assumeTrue(!System.getenv('OFFLINETESTING'))
+        assert resolver.resolveAsString(url) != null
+    }
+
+    @Test
+    void fileUriWithSpaces() {
+        def is = resolver.resolve(this.getClass().getResource("/").toString() + "resource with spaces.xml", "")
+        assert readFromInputStream(is).equals("<foo/>")
+    }
+
+    private String readFromInputStream(is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
+        reader.lines().collect(Collectors.joining(System.lineSeparator()))
+    }
 }

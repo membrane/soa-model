@@ -11,6 +11,7 @@
 
 package com.predic8.xml.util
 
+import com.predic8.util.URIUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.apache.http.HttpHost;
@@ -63,7 +64,7 @@ class ExternalResolver extends ResourceResolver {
 			throw new RuntimeException("Do not know how to resolve $input")
 
 		if(input.startsWith('file')) {
-			return fixUtf(new FileInputStream(new URL(input).getPath()))
+			return fixUtf(new FileInputStream(URIUtil.pathFromFileURI(input)))
 		}
 
 		if(input.startsWith('http:') || input.startsWith('https:')) {
@@ -80,7 +81,7 @@ class ExternalResolver extends ResourceResolver {
 		resolveAsFile(input, baseDir)
 	}
 
-	public InputStream resolveAsFile(java.lang.String filename, java.lang.String baseDir) {
+	InputStream resolveAsFile(java.lang.String filename, java.lang.String baseDir) {
 		if(baseDir) {
 			return fixUtf(new FileInputStream(new File(baseDir,filename)))
 		}
