@@ -161,7 +161,7 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.4.1</version>
+						<version>3.11.1</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -173,6 +173,11 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 								</configuration>
 							</execution>
 						</executions>
+						<configuration>
+							<subpackages>com.predic8.util</subpackages>
+							<excludePackageNames>com.predic8.schema.*</excludePackageNames>
+							<sourcepath>src/main/dummy</sourcepath>
+						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
