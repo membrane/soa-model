@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.membrane-soa</groupId>
+	<groupId>com.predic8</groupId>
 	<artifactId>soa-model-parent</artifactId>
 	<version>2.1.0</version>
 	<packaging>pom</packaging>
@@ -200,12 +200,14 @@ Analyze a WSDL or Schema document and generate an HMTL report</description>
 						</configuration>
 					</plugin>
 					<plugin>
-						<groupId>org.sonatype.central</groupId>
-						<artifactId>central-publishing-maven-plugin</artifactId>
-						<version>0.7.0</version>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.7.0</version>
 						<extensions>true</extensions>
 						<configuration>
-							<publishingServerId>central</publishingServerId>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
 				</plugins>
