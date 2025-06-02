@@ -41,7 +41,7 @@ public class URIUtil {
         if (path.charAt(0) != '/')
             return path;
         String p = removeLocalhost(removeLeadingSlashes(path));
-        return getPossibleDriveLetter(p).map(driveLetter -> driveLetter + ":" + slashToBackslash(removeDriveLetterAndSlash(p))).orElseGet(() -> "/" + p);
+        return getPossibleDriveLetter(p).map(driveLetter -> driveLetter + ":\\" + slashToBackslash(removeDriveLetterAndSlash(p))).orElseGet(() -> "/" + p);
     }
 
     static String removeDriveLetterAndSlash(String path) {
